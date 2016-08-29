@@ -72,7 +72,8 @@ public class ImageLoading {
         options = new DisplayImageOptions.Builder()
                 .showImageOnFail(R.drawable.noimage)
                 .showStubImage(R.drawable.noimage)
-                .showImageForEmptyUri(R.drawable.noimage).displayer(new RoundedBitmapDisplayer(radius)).build();
+                .showImageForEmptyUri(R.drawable.noimage).displayer(new RoundedBitmapDisplayer(radius)).cacheInMemory()
+                .cacheOnDisc().build();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 
         imageListener = new ImageDisplayListener();

@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.divyanshu.smyt.Adapters.OtherAllVideoAdapter;
+import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
 import com.example.divyanshu.smyt.Adapters.TopRatedVideosAdapter;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
@@ -30,7 +30,7 @@ public class AllVideosFragment extends BaseFragment {
     RecyclerView otherVideosRV;
 
     TopRatedVideosAdapter topRatedVideosAdapter;
-    OtherAllVideoAdapter otherAllVideoAdapter;
+    UploadedAllVideoAdapter otherAllVideoAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class AllVideosFragment extends BaseFragment {
         topRatedVideosRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         topRatedVideosAdapter = new TopRatedVideosAdapter(getContext(), new ArrayList<VideoModel>());
-        otherAllVideoAdapter = new OtherAllVideoAdapter(getContext(), new ArrayList<VideoModel>());
+        otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), new ArrayList<VideoModel>());
 
         topRatedVideosRV.setAdapter(topRatedVideosAdapter);
         otherVideosRV.setAdapter(otherAllVideoAdapter);

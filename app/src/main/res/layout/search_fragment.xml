@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EBEDED"
+    android:padding="@dimen/ten_dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty_four_dp"
+        android:background="@drawable/rounded_corner_white_full"
+        android:foregroundGravity="center_vertical">
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/searchET"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/ten_dp" />
+
+        <ImageView
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/fourty_dp"
+            android:layout_gravity="right|center_vertical"
+
+            android:layout_marginRight="@dimen/ten_dp"
+            android:src="@drawable/icon_search" />
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/usersRV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

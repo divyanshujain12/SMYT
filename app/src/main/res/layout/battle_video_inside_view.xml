@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/videoFL"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/one_hundred_twenty_dp"
+    android:background="@drawable/black_border"
+    tools:showIn="@layout/battle_video_item">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/videoThumbOneIV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitXY" />
+
+        <include layout="@layout/vertical_black_line" />
+
+        <ImageView
+            android:id="@+id/videoThumbTwoIV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitXY" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".5"
+        android:background="#000000" />
+
+    <ImageView
+        android:id="@+id/playVideoIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/play" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/firstUserNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:alpha=".6"
+        android:background="#88000000"
+        android:maxLines="2"
+        android:padding="@dimen/eight_dp"
+        android:text="Raghav"
+        android:textColor="@color/white"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/secondUserNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:alpha=".6"
+        android:background="#88000000"
+        android:maxLines="2"
+        android:padding="@dimen/eight_dp"
+        android:text="Raghav"
+        android:textColor="@color/white"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+</FrameLayout>

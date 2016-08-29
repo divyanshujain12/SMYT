@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/commentAndVotingTimeRL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:showIn="@layout/battle_video_item">
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/commentsTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:alpha=".6"
+        android:maxLines="2"
+        android:paddingBottom="@dimen/eight_dp"
+        android:paddingTop="@dimen/eight_dp"
+        android:text="35 comments"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/uploadedTimeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:alpha=".6"
+        android:paddingBottom="@dimen/eight_dp"
+        android:paddingTop="@dimen/eight_dp"
+        android:text="Voting end in 12h"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+</RelativeLayout>
