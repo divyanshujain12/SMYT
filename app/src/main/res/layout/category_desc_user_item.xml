@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="7dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/five_dp">
+
+        <ImageView
+            android:id="@+id/userIV"
+            android:layout_width="@dimen/one_hundred_twenty_dp"
+            android:layout_height="@dimen/one_hundred_twenty_dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/user" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/userNameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".65"
+                android:maxLines="2"
+                android:text="Neanda"
+                android:textSize="@dimen/eighteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/ageAndGenderTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".65"
+                android:maxLines="2"
+                android:text="25 F"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/winsCountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".65"
+                android:maxLines="2"
+                android:text="Wins: 24"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/followersCountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".65"
+                android:maxLines="2"
+                android:text="Followers: 2145"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/aboutTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:alpha=".65"
+                android:maxLines="2"
+                android:text="@string/about_dummy"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

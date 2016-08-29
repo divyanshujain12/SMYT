@@ -38,7 +38,16 @@
             android:text="APPOINTMENT"
             android:textAllCaps="true"
             android:textColor="#ffffff"
-            android:textSize="20sp"
+            android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
+
+        <ImageView
+            android:id="@+id/userIV"
+            android:layout_width="@dimen/fourty_five_dp"
+            android:layout_height="@dimen/fourty_five_dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/five_dp"
+            android:src="@drawable/icon_user" />
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

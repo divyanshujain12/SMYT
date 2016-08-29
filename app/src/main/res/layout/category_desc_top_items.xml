@@ -3,8 +3,10 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/ten_dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="@dimen/twenty_dp"
+    android:paddingBottom="@dimen/twenty_dp"
     android:orientation="vertical"
     tools:showIn="@layout/category_description">
 
@@ -17,16 +19,16 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="@dimen/one_hundred_fourty_five_dp"
-            android:layout_height="@dimen/one_hundred_fourty_five_dp"
+            android:layout_width="@dimen/one_hundred_dp"
+            android:layout_height="@dimen/one_hundred_dp"
             android:background="@drawable/genre_container"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/categoryIV"
-                android:layout_width="@dimen/one_hundred_dp"
-                android:layout_height="@dimen/one_hundred_dp"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:src="@drawable/genre_icon_electronics" />
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -43,15 +45,27 @@
             android:id="@+id/joinTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fifteen_dp"
-            android:text="Join"
+            android:layout_marginTop="@dimen/ten_dp"
             android:background="@drawable/rounder_corner_yellow_border"
+            android:paddingBottom="@dimen/eight_dp"
+            android:paddingLeft="@dimen/twenty_eight_dp"
+            android:paddingRight="@dimen/twenty_eight_dp"
+            android:paddingTop="@dimen/eight_dp"
+            android:text="Join"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/twenty_sp"
-            android:paddingLeft="@dimen/thirty_six_dp"
-            android:paddingRight="@dimen/thirty_six_dp"
-            android:paddingTop="@dimen/ten_dp"
-            android:paddingBottom="@dimen/ten_dp"
+            android:textSize="@dimen/eighteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/categoryDescTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:padding="@dimen/ten_dp"
+        android:text="@string/cat_desc"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sixteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
 </RelativeLayout>

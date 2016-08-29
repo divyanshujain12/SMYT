@@ -8,6 +8,8 @@ public class CategoryModel {
     String id;
     String imageurl;
     int icon;
+    String description;
+    String usersCount;
 
     public String getName() {
         return name;
@@ -39,5 +41,21 @@ public class CategoryModel {
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUsersCount() {
+        return usersCount;
+    }
+
+    public void setUsersCount(String usersCount) {
+        this.usersCount = usersCount;
     }
 }

@@ -9,6 +9,11 @@ public class UserModel {
     String name;
     String agoTime;
     int imageResource;
+    String age;
+    String gender;
+    String wins;
+    String followers;
+    String about;
 
     public String getId() {
         return id;
@@ -48,5 +53,45 @@ public class UserModel {
 
     public void setImageResource(int imageResource) {
         this.imageResource = imageResource;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getWins() {
+        return wins;
+    }
+
+    public void setWins(String wins) {
+        this.wins = wins;
+    }
+
+    public String getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(String followers) {
+        this.followers = followers;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 }

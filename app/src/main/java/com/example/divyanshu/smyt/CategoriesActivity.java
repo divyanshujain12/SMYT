@@ -10,11 +10,11 @@ import com.example.divyanshu.smyt.Adapters.CategoryRvAdapter;
 import com.example.divyanshu.smyt.Adapters.CategoryUserRvAdapter;
 import com.example.divyanshu.smyt.CustomViews.ToolbarWithBackButton;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Utils.GenerateDummyData;
 import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,13 +32,8 @@ public class CategoriesActivity extends BaseActivity {
     CardView categoriesCV;
     @InjectView(R.id.backButtonTB)
     ToolbarWithBackButton backButtonTB;
-
-    String[] categoryNames = {"Rock", "DJ", "Rap", "Indie", "Electronic"};
-    int[] categoriesImages = {R.drawable.genre_container_rock, R.drawable.genre_container_dj, R.drawable.genre_container_rap, R.drawable.genre_container_indie, R.drawable.genre_icon_electronics};
     private CategoryUserRvAdapter categoryUserRvAdapter;
     private CategoryRvAdapter categoryRvAdapter;
-    private ArrayList<CategoryModel> categoryModels;
-    private ArrayList<UserModel> userModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,35 +45,23 @@ public class CategoriesActivity extends BaseActivity {
     }
 
     private void InitViews() {
-        backButtonTB.InitToolbar(this, "Categories");
-        categoryModels = new ArrayList<>();
-        userModels = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            CategoryModel categoryModel = new CategoryModel();
-            categoryModel.setIcon(categoriesImages[i]);
-            categoryModel.setName(categoryNames[i]);
+        backButtonTB.InitToolbar(this, getString(R.string.categories));
 
-            UserModel userModel = new UserModel();
-            userModel.setName("Neanda");
-            userModel.setImageResource(R.drawable.user);
-            userModel.setAgoTime("22 min ago");
-
-            categoryModels.add(categoryModel);
-            userModels.add(userModel);
-        }
+        GenerateDummyData.createUserAndCategoryData(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.ten_dp);
         categoryRV.addItemDecoration(itemDecoration);
-
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
 
-        categoryRvAdapter = new CategoryRvAdapter(this, categoryModels);
-        categoryUserRvAdapter = new CategoryUserRvAdapter(this, userModels);
+        categoryRvAdapter = new CategoryRvAdapter(this, SingletonClass.getInstance().categoriesModels);
+        categoryUserRvAdapter = new CategoryUserRvAdapter(this, SingletonClass.getInstance().userModels);
 
         categoryRV.setAdapter(categoryRvAdapter);
         userRV.setAdapter(categoryUserRvAdapter);
     }
+
+
 }

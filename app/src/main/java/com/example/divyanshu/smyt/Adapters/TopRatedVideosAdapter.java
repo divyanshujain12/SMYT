@@ -1,9 +1,5 @@
 package com.example.divyanshu.smyt.Adapters;
 
-/**
- * Created by divyanshu on 8/26/2016.
- */
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,16 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
 
-public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAdapter.MyViewHolder> {
+/**
+ * Created by divyanshu.jain on 8/29/2016.
+ */
+public class TopRatedVideosAdapter extends RecyclerView.Adapter<TopRatedVideosAdapter.MyViewHolder> {
 
-    private ArrayList<UserModel> userList;
+    private ArrayList<VideoModel> videoList;
     private Context context;
     private ImageLoading imageLoading;
 
@@ -38,8 +37,8 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
         }
     }
 
-    public CategoryUserRvAdapter(Context context, ArrayList<UserModel> userList) {
-        this.userList = userList;
+    public TopRatedVideosAdapter(Context context, ArrayList<VideoModel> videoList) {
+        this.videoList = videoList;
         this.context = context;
         imageLoading = new ImageLoading(context, 5);
     }
@@ -47,29 +46,28 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_user_rv_item, parent, false);
+                .inflate(R.layout.all_video_top_rated_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        UserModel userModel = userList.get(position);
+        //VideoModel userModel = videoList.get(position);
 
-        holder.userNameTV.setText(userModel.getName());
-        imageLoading.LoadImage(userModel.getImageUrl(), holder.userIV, null);
-        //holder.userIV.setImageResource(userModel.getImageResource());
-        holder.userTimeTV.setText(userModel.getAgoTime());
+      /*  holder.userNameTV.setText(userModel.getName());
+        imageLoading.LoadImage(userModel.getThumb(), holder.userIV, null);
+        holder.userTimeTV.setText(userModel.getTime());
         holder.userIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, String.valueOf(position), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return 5;
     }
 }
