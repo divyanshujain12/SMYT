@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ECC11C</color>
+    <color name="colorPrimaryDark">#404041</color>
+    <color name="colorAccent">#ECC11C</color>
+    <color name="navigation_bar_color">#404041</color>
+    <color name="darker_grey">#CCCCCC</color>
+    <color name="unselected_text_yellow_color">#937E2F</color>
+    <color name="black_with_ninety_nine">#99000000</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+
+</resources>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/eighty_dp"
+        android:gravity="center"
+        android:text="@string/sign_in_top_text"
+        android:textColor="@color/white"
+        android:textSize="@dimen/twenty_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/twenty_dp"
+        android:orientation="vertical">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/usernameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/password"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.button.Button
+            android:id="@+id/signInBT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:background="@drawable/rounded_corner_yellow"
+            android:text="@string/sign_in"
+            android:textAllCaps="false"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="4"
+                android:background="@color/colorPrimary" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/or"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/twenty_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="4"
+                android:background="@color/colorPrimary" />
+        </LinearLayout>
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/signUpTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:gravity="center"
+            android:padding="@dimen/ten_dp"
+            android:text="Don't have a account? Sign Up"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+    </LinearLayout>
+</LinearLayout>

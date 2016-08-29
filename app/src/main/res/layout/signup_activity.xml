@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/twenty_dp"
+        android:orientation="vertical">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/first_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/firstnameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/last_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/lastnameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/phone_number"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/phoneNumberET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/dob"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/dobET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/email_address"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/emailET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/password"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/re_enter_password"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/reEnterPasswordET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.button.Button
+            android:id="@+id/signUpBT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:background="@drawable/rounded_corner_yellow"
+            android:text="@string/sign_up"
+            android:textAllCaps="false"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+    </LinearLayout>
+</ScrollView>
