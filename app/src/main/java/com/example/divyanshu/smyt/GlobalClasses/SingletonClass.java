@@ -1,7 +1,10 @@
 package com.example.divyanshu.smyt.GlobalClasses;
 
+import android.content.Context;
+
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Utils.GenerateDummyData;
 
 import java.util.ArrayList;
 
@@ -30,7 +33,9 @@ public class SingletonClass {
         this.selectedCategoryPos = selectedCategoryPos;
     }
 
-    public CategoryModel getSelectedCategoryData() {
+    public CategoryModel getSelectedCategoryData(Context context) {
+        if (categoriesModels.size() == 0)
+            GenerateDummyData.createUserAndCategoryData(context);
         return categoriesModels.get(selectedCategoryPos);
     }
 }

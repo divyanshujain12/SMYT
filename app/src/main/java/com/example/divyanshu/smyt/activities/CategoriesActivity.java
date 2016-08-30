@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt;
+package com.example.divyanshu.smyt.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -13,6 +13,7 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.GenerateDummyData;
 import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
 

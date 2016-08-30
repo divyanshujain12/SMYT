@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt;
+package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.CategoryDescUsersRvAdapter;
-import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ToolbarWithBackButton;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
+import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import butterknife.ButterKnife;
@@ -46,7 +46,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
 
     private void InitViews() {
         backToolbar.InitToolbar(this, getString(R.string.description));
-        CategoryModel categoriesModel = SingletonClass.getInstance().getSelectedCategoryData();
+        CategoryModel categoriesModel = SingletonClass.getInstance().getSelectedCategoryData(this);
 
         categoryIV.setImageResource(categoriesModel.getIcon());
         categoryNameTV.setText(categoriesModel.getName());

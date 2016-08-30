@@ -1,10 +1,11 @@
-package com.example.divyanshu.smyt;
+package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;

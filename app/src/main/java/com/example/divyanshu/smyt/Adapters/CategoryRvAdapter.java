@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.CategoryDescriptionActivity;
-import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.activities.CategoryDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;

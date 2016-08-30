@@ -1,9 +1,10 @@
-package com.example.divyanshu.smyt;
+package com.example.divyanshu.smyt.activities;
 
 import android.os.Bundle;
 
 import com.example.divyanshu.smyt.CustomViews.ToolbarWithBackButton;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 

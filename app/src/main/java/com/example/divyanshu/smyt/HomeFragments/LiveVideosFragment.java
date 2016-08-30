@@ -27,6 +27,10 @@ public class LiveVideosFragment extends BaseFragment {
     RecyclerView liveVideosRV;
     private LiveVideosAdapter liveVideosAdapter;
 
+    public static LiveVideosFragment getInstance(){
+        LiveVideosFragment liveVideosFragment = new LiveVideosFragment();
+        return liveVideosFragment;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

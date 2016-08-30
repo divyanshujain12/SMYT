@@ -32,7 +32,10 @@ public class AllVideosFragment extends BaseFragment {
     TopRatedVideosAdapter topRatedVideosAdapter;
     UploadedAllVideoAdapter otherAllVideoAdapter;
 
-
+    public static AllVideosFragment getInstance(){
+        AllVideosFragment allVideosFragment = new AllVideosFragment();
+        return allVideosFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

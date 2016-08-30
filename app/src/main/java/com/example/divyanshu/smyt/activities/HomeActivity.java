@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt;
+package com.example.divyanshu.smyt.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,6 +12,7 @@ import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
+import com.example.divyanshu.smyt.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,16 +38,17 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initViews() {
-        CategoryModel categoryModel = SingletonClass.getInstance().getSelectedCategoryData();
+
+        CategoryModel categoryModel = SingletonClass.getInstance().getSelectedCategoryData(this);
         homeHeader.initHeader(this, categoryModel.getName(), categoryModel.getUsersCount());
 
         viewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new AllVideosFragment(), getString(R.string.tab_all_videos));
-        viewPagerAdapter.addFragment(new LiveVideosFragment(), getString(R.string.tab_live_videos));
-        viewPagerAdapter.addFragment(new SearchFragment(), getString(R.string.tab_search));
+        viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.tab_all_videos));
+        viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
+        viewPagerAdapter.addFragment(SearchFragment.getInstance(), getString(R.string.tab_search));
 
         homeViewPager.setAdapter(viewPagerAdapter);
-
+        homeViewPager.setOffscreenPageLimit(3);
         homeTabLayout.setupWithViewPager(homeViewPager);
     }
 }

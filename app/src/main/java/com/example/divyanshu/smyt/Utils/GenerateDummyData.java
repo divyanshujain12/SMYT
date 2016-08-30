@@ -13,8 +13,10 @@ import com.example.divyanshu.smyt.R;
 public class GenerateDummyData {
 
     public static void createUserAndCategoryData(Context context) {
+
         SingletonClass.getInstance().categoriesModels.clear();
         SingletonClass.getInstance().userModels.clear();
+
         String[] categoryNames = {"Rock", "DJ", "Rap", "Indie", "Electronic"};
         int[] categoriesImages = {R.drawable.genre_container_rock, R.drawable.genre_container_dj, R.drawable.genre_container_rap, R.drawable.genre_container_indie, R.drawable.genre_icon_electronics};
         for (int i = 0; i < 5; i++) {

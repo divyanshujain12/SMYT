@@ -27,6 +27,11 @@ public class SearchFragment extends BaseFragment {
     RecyclerView usersRV;
     private SearchUserRvAdapter searchUserRvAdapter;
 
+    public static SearchFragment getInstance() {
+        SearchFragment searchFragment = new SearchFragment();
+        return searchFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
