@@ -1,6 +1,9 @@
 package com.example.divyanshu.smyt.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -17,10 +21,11 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private ArrayList<VideoModel> categoryModels;
     private Context context;
+
 
     public class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
@@ -40,6 +45,8 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             videoThumbTwoIV = (ImageView) view.findViewById(R.id.videoThumbTwoIV);
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
+
+            view.setOnClickListener(LiveVideosAdapter.this);
         }
     }
 
@@ -51,9 +58,9 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = null;
-                itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.live_battle_video_item, parent, false);
-                return new BattleVideoHolder(itemView);
+        itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.live_battle_video_item, parent, false);
+        return new BattleVideoHolder(itemView);
 
     }
 
@@ -83,6 +90,14 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemViewType(int position) {
         return position % 2;
     }
+
+    @Override
+    public void onClick(View v) {
+        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+        PlaySingleVideoFragment dialogFragment = new PlaySingleVideoFragment();
+        dialogFragment.show(fm, "Sample Fragment");
+    }
+
 }
 
 

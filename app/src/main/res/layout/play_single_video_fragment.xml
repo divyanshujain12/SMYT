@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:minWidth="1000dp"
     android:padding="@dimen/ten_dp">
 
-    <include layout="@layout/video_title_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/sixty_dp"
+        android:orientation="vertical">
 
-    <include layout="@layout/single_video_inside_item" />
+        <include layout="@layout/video_title_bar" />
 
-    <include layout="@layout/uploaded_video_comment_bar" />
+        <include layout="@layout/single_video_inside_item" />
 
-    <include layout="@layout/left_side_voting_view" />
-</LinearLayout>
+        <include layout="@layout/uploaded_video_comment_bar" />
+
+        <include layout="@layout/left_side_voting_view" />
+
+        <include layout="@layout/comments_rv" />
+
+    </LinearLayout>
+
+    <include layout="@layout/add_comment_bar" />
+
+</RelativeLayout>
