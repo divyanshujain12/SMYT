@@ -5,21 +5,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.example.divyanshu.smyt.CustomViews.ToolbarWithBackButton
+        android:id="@+id/backToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4.5"
+        android:layout_height="wrap_content"
         android:background="@color/navigation_bar_color">
 
-        <include layout="@layout/category_desc_top_right" />
+        <include layout="@layout/category_desc_top_items" />
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5.5"
-        >
-        
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/usersRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
