@@ -19,8 +19,15 @@
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.CategoriesActivity" />
-        <activity android:name=".activities.CategoryDescriptionActivity" />
-        <activity android:name=".activities.HomeActivity" />
+        <activity
+            android:name=".activities.CategoryDescriptionActivity"
+            android:parentActivityName=".activities.CategoriesActivity" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:parentActivityName=".activities.CategoriesActivity" />
+        <activity
+            android:name=".activities.UserProfileActivity"
+            android:parentActivityName=".activities.HomeActivity" />
     </application>
 
 </manifest>

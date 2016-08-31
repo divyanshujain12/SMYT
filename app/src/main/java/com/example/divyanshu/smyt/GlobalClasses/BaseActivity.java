@@ -35,4 +35,15 @@ public class BaseActivity extends AppCompatActivity implements CallBackInterface
     public void updateUi(String string) {
 
     }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level > TRIM_MEMORY_MODERATE) {
+            // Restart app so data is reloaded
+            android.os.Process.killProcess(android.os.Process.myPid());
+
+        }
+
+    }
 }

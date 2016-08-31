@@ -20,7 +20,7 @@
         android:paddingTop="@dimen/eight_dp"
         android:text="35 comments"
         android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Medium.ttf" />
+        pixlui:typeface="Roboto-Regular.ttf" />
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/uploadedTimeTV"
@@ -33,6 +33,6 @@
         android:paddingTop="@dimen/eight_dp"
         android:text="Voting end in 12h"
         android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Medium.ttf" />
+        pixlui:typeface="Roboto-Regular.ttf" />
 
 </RelativeLayout>

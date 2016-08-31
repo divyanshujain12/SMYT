@@ -46,4 +46,5 @@ public class BaseFragment extends Fragment implements CallBackInterface, SnackBa
     public void onClickItem(int position, View view) {
 
     }
+
 }

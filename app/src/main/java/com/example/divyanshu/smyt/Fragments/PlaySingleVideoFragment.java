@@ -35,12 +35,9 @@ public class PlaySingleVideoFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(getDialog().getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes(lp);
+
         View view = inflater.inflate(R.layout.play_single_video_fragment, null);
+
         ButterKnife.inject(this, view);
         return view;
     }
@@ -59,5 +56,11 @@ public class PlaySingleVideoFragment extends DialogFragment {
 
     private void initViews() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDialog().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
     }
 }

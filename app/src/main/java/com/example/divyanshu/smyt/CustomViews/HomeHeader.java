@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.CustomViews;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.activities.UserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 /**
@@ -64,7 +66,8 @@ public class HomeHeader extends LinearLayout implements View.OnClickListener {
                 context.onBackPressed();
                 break;
             case R.id.userIV:
-
+                Intent intent = new Intent(context, UserProfileActivity.class);
+                context.startActivity(intent);
                 break;
         }
 

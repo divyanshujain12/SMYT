@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:id="@+id/toolbarView"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/navigation_bar_color"
+    app:contentInsetEnd="0dp"
+    app:contentInsetLeft="0dp"
+    app:contentInsetRight="0dp"
+    app:contentInsetStart="0dp"
+    app:elevation="8dp"
+    app:layout_scrollFlags="scroll|enterAlways"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/classNameRL"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/backIV"
+                android:layout_width="@dimen/fourty_five_dp"
+                android:layout_height="@dimen/fourty_five_dp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/ten_dp"
+                android:src="@drawable/back" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/backIV"
+                android:singleLine="true"
+                android:text="APPOINTMENT"
+                android:textAllCaps="true"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/eighteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+        </RelativeLayout>
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/followTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/ten_dp"
+            android:singleLine="true"
+            android:text="@string/follow"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>

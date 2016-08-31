@@ -1,10 +1,10 @@
 package com.example.divyanshu.smyt.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
-import com.example.divyanshu.smyt.Adapters.HomeViewPagerAdapter;
+import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
+import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.CustomViews.HomeHeader;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
@@ -24,10 +24,10 @@ public class HomeActivity extends BaseActivity {
     @InjectView(R.id.homeHeader)
     HomeHeader homeHeader;
     @InjectView(R.id.homeTabLayout)
-    TabLayout homeTabLayout;
+    CustomTabLayout homeTabLayout;
     @InjectView(R.id.homeViewPager)
     ViewPager homeViewPager;
-    HomeViewPagerAdapter viewPagerAdapter;
+    ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +42,18 @@ public class HomeActivity extends BaseActivity {
         CategoryModel categoryModel = SingletonClass.getInstance().getSelectedCategoryData(this);
         homeHeader.initHeader(this, categoryModel.getName(), categoryModel.getUsersCount());
 
-        viewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
+        configViewPager();
+
+        homeViewPager.setOffscreenPageLimit(3);
+        homeTabLayout.setupWithViewPager(homeViewPager);
+        homeTabLayout.setTabTextColors(getResources().getColor(R.color.color_primary_with_eight_eight), getResources().getColor(R.color.colorPrimary));
+    }
+
+    private void configViewPager() {
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.tab_all_videos));
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
         viewPagerAdapter.addFragment(SearchFragment.getInstance(), getString(R.string.tab_search));
-
         homeViewPager.setAdapter(viewPagerAdapter);
-        homeViewPager.setOffscreenPageLimit(3);
-        homeTabLayout.setupWithViewPager(homeViewPager);
     }
 }

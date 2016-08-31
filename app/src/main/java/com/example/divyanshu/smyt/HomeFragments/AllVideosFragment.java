@@ -24,8 +24,8 @@ import butterknife.InjectView;
  * Created by divyanshu.jain on 8/29/2016.
  */
 public class AllVideosFragment extends BaseFragment {
-    @InjectView(R.id.topRatedVideosRV)
-    RecyclerView topRatedVideosRV;
+    /*@InjectView(R.id.topRatedVideosRV)
+    RecyclerView topRatedVideosRV;*/
     @InjectView(R.id.otherVideosRV)
     RecyclerView otherVideosRV;
 
@@ -63,12 +63,12 @@ public class AllVideosFragment extends BaseFragment {
     }
 
     private void initViews() {
-        topRatedVideosRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        //topRatedVideosRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         topRatedVideosAdapter = new TopRatedVideosAdapter(getContext(), new ArrayList<VideoModel>());
         otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), new ArrayList<VideoModel>());
 
-        topRatedVideosRV.setAdapter(topRatedVideosAdapter);
+      //  topRatedVideosRV.setAdapter(topRatedVideosAdapter);
         otherVideosRV.setAdapter(otherAllVideoAdapter);
     }
 

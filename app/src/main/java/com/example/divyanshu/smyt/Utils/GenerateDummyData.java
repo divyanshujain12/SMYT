@@ -27,10 +27,10 @@ public class GenerateDummyData {
             categoryModel.setUsersCount("476922");
 
             UserModel userModel = new UserModel();
-            userModel.setName(context.getString(R.string.name));
+            userModel.setName(context.getString(R.string.dummy_name));
             userModel.setImageResource(R.drawable.user);
-            userModel.setAgoTime(context.getString(R.string.time_ago));
-            userModel.setFollowers(context.getString(R.string.followers));
+            userModel.setAgoTime(context.getString(R.string.dummy_time_ago));
+            userModel.setFollowers(context.getString(R.string.dummy_followers_count));
             userModel.setGender(context.getString(R.string.gender_male));
             userModel.setAge(context.getString(R.string.age));
             userModel.setAbout(context.getString(R.string.about_dummy));

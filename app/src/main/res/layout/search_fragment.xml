@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#EBEDED"
+    android:orientation="vertical"
     android:padding="@dimen/ten_dp">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/fifty_four_dp"
+        android:layout_height="@dimen/fourty_dp"
         android:background="@drawable/rounded_corner_white_full"
         android:foregroundGravity="center_vertical">
 
@@ -23,13 +23,14 @@
             android:layout_width="@dimen/fourty_dp"
             android:layout_height="@dimen/fourty_dp"
             android:layout_gravity="right|center_vertical"
-
-            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/five_dp"
+            android:padding="@dimen/five_dp"
             android:src="@drawable/icon_search" />
     </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/usersRV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten_dp" />
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -61,6 +63,18 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
+    public class TopRatedVideoHolder extends RecyclerView.ViewHolder {
+        public RecyclerView topRatedVideosRV;
+
+        public TopRatedVideoHolder(View itemView) {
+            super(itemView);
+            topRatedVideosRV = (RecyclerView) itemView.findViewById(R.id.topRatedVideosRV);
+            topRatedVideosRV.setLayoutManager(new CustomLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            TopRatedVideosAdapter topRatedVideosAdapter = new TopRatedVideosAdapter(context, new ArrayList<VideoModel>());
+            topRatedVideosRV.setAdapter(topRatedVideosAdapter);
+        }
+    }
+
     public UploadedAllVideoAdapter(Context context, ArrayList<VideoModel> categoryModels) {
         this.categoryModels = categoryModels;
         this.context = context;
@@ -69,6 +83,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = null;
+
+
         switch (viewType) {
             case 0:
                 itemView = LayoutInflater.from(parent.getContext())
@@ -80,6 +96,10 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                         .inflate(R.layout.uploaded_battle_video_item, parent, false);
                 return new BattleVideoHolder(itemView);
 
+            case 3:
+                itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.top_rated_videos_rv, parent, false);
+                return new TopRatedVideoHolder(itemView);
             default:
                 return null;
         }
@@ -110,6 +130,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
+        if (position == 0)
+            return 3;
         return position % 2;
     }
 }
