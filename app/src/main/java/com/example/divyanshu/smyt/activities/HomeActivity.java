@@ -1,11 +1,16 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
-import com.example.divyanshu.smyt.CustomViews.HomeHeader;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
@@ -13,6 +18,7 @@ import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.Utils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,13 +27,13 @@ import butterknife.InjectView;
  * Created by divyanshu.jain on 8/29/2016.
  */
 public class HomeActivity extends BaseActivity {
-    @InjectView(R.id.homeHeader)
-    HomeHeader homeHeader;
     @InjectView(R.id.homeTabLayout)
     CustomTabLayout homeTabLayout;
     @InjectView(R.id.homeViewPager)
     ViewPager homeViewPager;
     ViewPagerAdapter viewPagerAdapter;
+    @InjectView(R.id.toolbarView)
+    Toolbar toolbarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +46,12 @@ public class HomeActivity extends BaseActivity {
     private void initViews() {
 
         CategoryModel categoryModel = SingletonClass.getInstance().getSelectedCategoryData(this);
-        homeHeader.initHeader(this, categoryModel.getName(), categoryModel.getUsersCount());
+        Utils.configureToolbarWithBackButton(this,toolbarView,categoryModel.getName() + "(" + categoryModel.getUsersCount() + ")");
 
         configViewPager();
-
-        homeViewPager.setOffscreenPageLimit(3);
-        homeTabLayout.setupWithViewPager(homeViewPager);
-        homeTabLayout.setTabTextColors(getResources().getColor(R.color.color_primary_with_eight_eight), getResources().getColor(R.color.colorPrimary));
     }
+
+
 
     private void configViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -55,5 +59,29 @@ public class HomeActivity extends BaseActivity {
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
         viewPagerAdapter.addFragment(SearchFragment.getInstance(), getString(R.string.tab_search));
         homeViewPager.setAdapter(viewPagerAdapter);
+        homeViewPager.setOffscreenPageLimit(3);
+        homeTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                homeTabLayout.setupWithViewPager(homeViewPager);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.home_activity, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_user_profile:
+                Intent intent = new Intent(this, UserProfileActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }

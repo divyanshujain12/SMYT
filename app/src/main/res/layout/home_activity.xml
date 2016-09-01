@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.example.divyanshu.smyt.CustomViews.HomeHeader
+    <!--<com.example.divyanshu.smyt.CustomViews.HomeHeader
         android:id="@+id/homeHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
+    <include layout="@layout/custom_toolbar"/>
 
     <com.example.divyanshu.smyt.CustomViews.CustomTabLayout
         style="@style/TabLayoutStyle"

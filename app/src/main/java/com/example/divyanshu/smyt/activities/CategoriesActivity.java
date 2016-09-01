@@ -5,17 +5,15 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.example.divyanshu.smyt.Adapters.CategoryRvAdapter;
 import com.example.divyanshu.smyt.Adapters.CategoryUserRvAdapter;
-import com.example.divyanshu.smyt.CustomViews.ToolbarWithBackButton;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
-import com.example.divyanshu.smyt.Models.CategoryModel;
-import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.GenerateDummyData;
-import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
+import com.example.divyanshu.smyt.Utils.Utils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -31,8 +29,8 @@ public class CategoriesActivity extends BaseActivity {
     RecyclerView categoryRV;
     @InjectView(R.id.categoriesCV)
     CardView categoriesCV;
-    @InjectView(R.id.backButtonTB)
-    ToolbarWithBackButton backButtonTB;
+    @InjectView(R.id.toolbarView)
+    Toolbar toolbarView;
     private CategoryUserRvAdapter categoryUserRvAdapter;
     private CategoryRvAdapter categoryRvAdapter;
 
@@ -46,14 +44,14 @@ public class CategoriesActivity extends BaseActivity {
     }
 
     private void InitViews() {
-        backButtonTB.InitToolbar(this, getString(R.string.categories));
 
+        Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.categories));
         GenerateDummyData.createUserAndCategoryData(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.ten_dp);
-        categoryRV.addItemDecoration(itemDecoration);
+        // ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.ten_dp);
+        //categoryRV.addItemDecoration(itemDecoration);
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
 

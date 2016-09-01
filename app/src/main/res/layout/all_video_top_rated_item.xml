@@ -10,7 +10,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="@dimen/one_hundred_fifty_five_dp"
         android:layout_height="@dimen/one_hundred_fourty_five_dp"
-        card_view:cardCornerRadius="7dp"
+        card_view:cardCornerRadius="2dp"
         card_view:cardElevation="4dp"
         card_view:cardUseCompatPadding="true">
 
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/play" />
+                android:src="@drawable/icon_play" />
         </FrameLayout>
 
         <LinearLayout

@@ -5,10 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.example.divyanshu.smyt.CustomViews.ToolbarWithBackButton
-        android:id="@+id/backToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <include layout="@layout/custom_toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

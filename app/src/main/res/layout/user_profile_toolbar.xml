@@ -26,11 +26,11 @@
 
             <ImageView
                 android:id="@+id/backIV"
-                android:layout_width="@dimen/fourty_five_dp"
-                android:layout_height="@dimen/fourty_five_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/ten_dp"
-                android:src="@drawable/back" />
+                android:src="@drawable/icon_back" />
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/toolbar_title"

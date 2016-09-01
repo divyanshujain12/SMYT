@@ -4,19 +4,24 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
-import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserChallengesFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
+import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import butterknife.ButterKnife;
@@ -25,7 +30,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserProfileActivity extends BaseActivity {
+public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener {
     @InjectView(R.id.profileImage)
     ImageView profileImage;
     @InjectView(R.id.nameInImgTV)
@@ -52,8 +57,6 @@ public class UserProfileActivity extends BaseActivity {
     FrameLayout followingFL;
     @InjectView(R.id.tabs)
     CustomTabLayout tabs;
-    /* @InjectView(R.id.backToolbar)
-     ToolbarWithBackButton backToolbar;*/
     @InjectView(R.id.appbar)
     AppBarLayout appbar;
     @InjectView(R.id.viewPager)
@@ -64,8 +67,11 @@ public class UserProfileActivity extends BaseActivity {
     Toolbar toolbar;
     @InjectView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
+    @InjectView(R.id.fab)
+    FloatingActionButton fab;
 
     private ViewPagerAdapter viewPagerAdapter;
+    private Animation fabIn, fabOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,22 +82,75 @@ public class UserProfileActivity extends BaseActivity {
     }
 
     private void initViews() {
-        //backToolbar.InitToolbar(this,getString(R.string.user_profile));
+        createAnimation();
         ConfigViewPager();
-
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        Utils.configureToolbarWithBackButton(this, toolbar, "");
     }
 
     private void ConfigViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.videos));
+        viewPagerAdapter.addFragment(UserVideosFragment.getInstance(), getString(R.string.videos));
         viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(), getString(R.string.followers));
         viewPagerAdapter.addFragment(UserChallengesFragment.getInstance(), getString(R.string.challenges));
         viewPager.setAdapter(viewPagerAdapter);
-        tabs.setupWithViewPager(viewPager);
+        viewPager.setOnPageChangeListener(this);
+
+        tabs.post(new Runnable() {
+            @Override
+            public void run() {
+                tabs.setupWithViewPager(viewPager);
+            }
+        });
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                fab.setImageResource(R.drawable.fav_icon_postvideo);
+                fab.startAnimation(fabIn);
+                break;
+            case 1:
+                fab.startAnimation(fabOut);
+                break;
+            case 2:
+                fab.setImageResource(R.drawable.fav_icon_record);
+                fab.startAnimation(fabIn);
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private void createAnimation() {
+        fabIn = AnimationUtils.loadAnimation(this, R.anim.fab_in);
+        fabIn.setAnimationListener(this);
+        fabOut = AnimationUtils.loadAnimation(this, R.anim.fab_out);
+        fabOut.setAnimationListener(this);
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+        if (animation == fabIn)
+            fab.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if (animation == fabOut)
+            fab.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 }

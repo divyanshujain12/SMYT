@@ -61,6 +61,7 @@
     <dimen name="fourty_sp">30sp</dimen>
     <dimen name="eighty_sp">60sp</dimen>
     <dimen name="one_hundred_twenty_sp">90sp</dimen>
-    
-    
+    <dimen name="three_hundred">225dp</dimen>
+
+
 </resources>

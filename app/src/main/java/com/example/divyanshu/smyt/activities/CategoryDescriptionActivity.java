@@ -4,14 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.CategoryDescUsersRvAdapter;
-import com.example.divyanshu.smyt.CustomViews.ToolbarWithBackButton;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import butterknife.ButterKnife;
@@ -22,8 +24,6 @@ import butterknife.OnClick;
  * Created by divyanshu.jain on 8/29/2016.
  */
 public class CategoryDescriptionActivity extends BaseActivity {
-    @InjectView(R.id.backToolbar)
-    ToolbarWithBackButton backToolbar;
     @InjectView(R.id.categoryIV)
     ImageView categoryIV;
     @InjectView(R.id.categoryNameTV)
@@ -34,6 +34,8 @@ public class CategoryDescriptionActivity extends BaseActivity {
     TextView categoryDescTV;
     @InjectView(R.id.usersRV)
     RecyclerView usersRV;
+    @InjectView(R.id.toolbarView)
+    Toolbar toolbarView;
     private CategoryDescUsersRvAdapter categoryDescUsersRvAdapter;
 
     @Override
@@ -45,7 +47,9 @@ public class CategoryDescriptionActivity extends BaseActivity {
     }
 
     private void InitViews() {
-        backToolbar.InitToolbar(this, getString(R.string.description));
+
+        Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.description));
+
         CategoryModel categoriesModel = SingletonClass.getInstance().getSelectedCategoryData(this);
 
         categoryIV.setImageResource(categoriesModel.getIcon());
