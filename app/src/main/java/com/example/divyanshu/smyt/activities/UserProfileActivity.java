@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -10,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -26,6 +26,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by divyanshu.jain on 8/31/2016.
@@ -69,6 +70,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     CollapsingToolbarLayout collapsingToolbar;
     @InjectView(R.id.fab)
     FloatingActionButton fab;
+    private int viewPagerPos = 0;
 
     private ViewPagerAdapter viewPagerAdapter;
     private Animation fabIn, fabOut;
@@ -82,6 +84,8 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     private void initViews() {
+
+
         createAnimation();
         ConfigViewPager();
         Utils.configureToolbarWithBackButton(this, toolbar, "");
@@ -110,6 +114,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
+        viewPagerPos = position;
         switch (position) {
             case 0:
                 fab.setImageResource(R.drawable.fav_icon_postvideo);
@@ -119,7 +124,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 fab.startAnimation(fabOut);
                 break;
             case 2:
-                fab.setImageResource(R.drawable.fav_icon_record);
+                fab.setImageResource(R.drawable.fav_icon_broadcast);
                 fab.startAnimation(fabIn);
                 break;
         }
@@ -152,5 +157,18 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void onAnimationRepeat(Animation animation) {
 
+    }
+
+    @OnClick(R.id.fab)
+    public void onClick() {
+        switch (viewPagerPos) {
+            case 0:
+                Intent intent = new Intent(this, RecordVideoActivity.class);
+                startActivity(intent);
+                break;
+            case 2:
+                break;
+
+        }
     }
 }

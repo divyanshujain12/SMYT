@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/challange_fragment">
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="@dimen/one_hundred_twenty_dp"
+        android:layout_height="@dimen/one_hundred_twenty_dp"
+        android:layout_gravity="right"
+        android:scaleType="centerCrop"
+        android:src="@drawable/user" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/challengerNameTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/five_dp"
+            android:text="Challenge"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <LinearLayout
+            android:id="@+id/totalRoundLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/five_dp">
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/total_round"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/totalRoundsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/challengeTypeLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/five_dp">
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/challange"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/challengeTypeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:gravity="center"
+                android:text="Public"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

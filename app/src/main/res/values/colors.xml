@@ -10,5 +10,6 @@
     <color name="white">#FFF</color>
     <color name="black">#000</color>
     <color name="color_primary_with_eight_eight">#88ECC11C</color>
+    <color name="black_with_fifity_five">#55000000</color>
 
 </resources>

@@ -29,10 +29,10 @@
             android:layout_gravity="bottom"
             android:background="@color/color_primary_with_eight_eight"
             android:gravity="center"
-            android:padding="@dimen/ten_dp"
+            android:padding="@dimen/five_dp"
             android:text="@string/dummy_name"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/eighteen_sp"
+            android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Regular.ttf" />
     </FrameLayout>
 

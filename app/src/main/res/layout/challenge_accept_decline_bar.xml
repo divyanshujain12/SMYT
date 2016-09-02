@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/acceptAndDeclineLL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/eight_dp"
+    android:gravity="left"
+    android:orientation="horizontal"
+    tools:showIn="@layout/user_challenge_rv_item">
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/declineTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp"
+        android:paddingBottom="@dimen/five_dp"
+        android:background="@drawable/button_bg"
+        android:maxLines="2"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/decline"
+        android:textSize="@dimen/sixteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/acceptTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/eight_dp"
+        android:maxLines="2"
+        android:text="@string/accept"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp"
+        android:paddingBottom="@dimen/five_dp"
+        android:background="@drawable/button_bg"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sixteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+</LinearLayout>

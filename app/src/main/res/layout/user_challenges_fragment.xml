@@ -14,15 +14,15 @@
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/ten_dp"
-            android:text="Complete"
+            android:padding="@dimen/seven_dp"
+            android:text="@string/complete"
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <ToggleButton
             android:id="@+id/challengesTB"
-            android:layout_width="@dimen/fourty_five_dp"
-            android:layout_height="@dimen/twenty_dp"
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/twenty_two_dp"
             android:background="@drawable/toggle_widget_background"
             android:textOff=""
             android:textOn="" />
@@ -30,8 +30,8 @@
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/ten_dp"
-            android:text="Complete"
+            android:padding="@dimen/seven_dp"
+            android:text="@string/ongoing"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
@@ -40,6 +40,5 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/challengesRV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_dp" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
