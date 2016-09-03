@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
 import com.example.divyanshu.smyt.R;
 
 import butterknife.ButterKnife;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class PlayLiveBattleVideoFragment extends DialogFragment {
+public class PlayLiveBattleVideoFragment extends BaseDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

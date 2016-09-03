@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.divyanshu.smyt.Adapters.ChallengeRoundDescRvAdapter;
+import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -23,9 +25,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * Created by divyanshu.jain on 9/2/2016.
+ * Created by divyanshu on 9/3/2016.
  */
-public class ChallangeDescriptionFragment extends DialogFragment {
+public class UserCompletedChallengeDescFragment extends BaseDialogFragment {
     @InjectView(R.id.challengeHeaderTV)
     TextView challengeHeaderTV;
     @InjectView(R.id.profileImage)
@@ -42,10 +44,9 @@ public class ChallangeDescriptionFragment extends DialogFragment {
     LinearLayout challengeTypeLL;
     @InjectView(R.id.challengesRoundRV)
     RecyclerView challengesRoundRV;
-    @InjectView(R.id.acceptBT)
-    Button acceptBT;
-    @InjectView(R.id.declineBT)
-    Button declineBT;
+
+
+    private ChallengeRoundDescRvAdapter challengeRoundDescRvAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class ChallangeDescriptionFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.challange_fragment, null);
+        View view = inflater.inflate(R.layout.completed_challenge_desc_fragment, null);
 
         ButterKnife.inject(this, view);
         return view;
@@ -83,7 +84,9 @@ public class ChallangeDescriptionFragment extends DialogFragment {
     }
 
     private void initViews() {
-
+        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(getActivity(), null);
+        challengesRoundRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        challengesRoundRV.setAdapter(challengeRoundDescRvAdapter);
     }
 
     @Override
@@ -98,15 +101,6 @@ public class ChallangeDescriptionFragment extends DialogFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.acceptBT, R.id.declineBT})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.acceptBT:
-                break;
-            case R.id.declineBT:
-                break;
-        }
-    }
 }
 
 

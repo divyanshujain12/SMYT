@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/ten_dp">
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/roundNumberTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:maxLines="2"
+        android:text="Round"
+        android:textSize="@dimen/sixteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/eight_dp"
+        android:orientation="horizontal">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".6"
+            android:text="Genre:"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/genreNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:alpha=".6"
+            android:text="Rock"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+    </LinearLayout>
+
+    <include layout="@layout/user_challenge_time_bar" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/five_dp"
+        android:orientation="horizontal">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".6"
+            android:text="@string/date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/dateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:alpha=".6"
+            android:text="12-8-2016"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+    </LinearLayout>
+</LinearLayout>

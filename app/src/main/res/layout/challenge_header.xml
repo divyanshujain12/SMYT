@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:showIn="@layout/challange_fragment">
+    tools:showIn="@layout/ongoing_challange_desc_fragment">
 
     <ImageView
         android:id="@+id/profileImage"

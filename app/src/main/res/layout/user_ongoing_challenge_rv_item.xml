@@ -21,7 +21,7 @@
 
         <include layout="@layout/challenge_round_bar" />
 
-        <include layout="@layout/challenge_time_bar" />
+        <include layout="@layout/user_challenge_time_bar" />
 
         <include layout="@layout/challenge_accept_decline_bar" />
     </LinearLayout>

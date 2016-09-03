@@ -14,7 +14,7 @@ import android.widget.ToggleButton;
 
 import com.example.divyanshu.smyt.Adapters.UserCompletedChallengesAdapter;
 import com.example.divyanshu.smyt.Adapters.UserOngoingChallengesAdapter;
-import com.example.divyanshu.smyt.Fragments.ChallangeDescriptionFragment;
+import com.example.divyanshu.smyt.Fragments.OngoingChallengeDescriptionFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.RecyclerItemClickListener;
@@ -91,9 +91,7 @@ public class UserChallengesFragment extends BaseFragment implements CompoundButt
 
     @Override
     public void onItemClick(View view, int position) {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        ChallangeDescriptionFragment challangeFragment = new ChallangeDescriptionFragment();
-        challangeFragment.show(fragmentManager, challangeFragment.getClass().getName());
+
     }
 }
 

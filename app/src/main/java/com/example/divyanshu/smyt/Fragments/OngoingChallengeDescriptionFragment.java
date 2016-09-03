@@ -4,19 +4,20 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 
+import com.example.divyanshu.smyt.Adapters.ChallengeRoundDescRvAdapter;
 import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.button.Button;
-import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import butterknife.ButterKnife;
@@ -26,24 +27,29 @@ import butterknife.OnClick;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class UploadVideoFragment extends BaseDialogFragment {
+public class OngoingChallengeDescriptionFragment extends BaseDialogFragment {
+    @InjectView(R.id.challengeHeaderTV)
+    TextView challengeHeaderTV;
+    @InjectView(R.id.profileImage)
+    ImageView profileImage;
+    @InjectView(R.id.challengerNameTV)
+    TextView challengerNameTV;
+    @InjectView(R.id.totalRoundsTV)
+    TextView totalRoundsTV;
+    @InjectView(R.id.totalRoundLL)
+    LinearLayout totalRoundLL;
+    @InjectView(R.id.challengeTypeTV)
+    TextView challengeTypeTV;
+    @InjectView(R.id.challengeTypeLL)
+    LinearLayout challengeTypeLL;
+    @InjectView(R.id.challengesRoundRV)
+    RecyclerView challengesRoundRV;
+    @InjectView(R.id.acceptBT)
+    Button acceptBT;
+    @InjectView(R.id.declineBT)
+    Button declineBT;
 
-    @InjectView(R.id.declineTV)
-    TextView declineTV;
-    @InjectView(R.id.videoThumbIV)
-    ImageView videoThumbIV;
-    @InjectView(R.id.discardAndRecordTV)
-    TextView discardAndRecordTV;
-    @InjectView(R.id.videoTitleET)
-    EditText videoTitleET;
-    @InjectView(R.id.genreTypeSP)
-    Spinner genreTypeSP;
-    @InjectView(R.id.shareWithSP)
-    Spinner shareWithSP;
-    @InjectView(R.id.friendET)
-    EditText friendET;
-    @InjectView(R.id.postVideoBT)
-    Button postVideoBT;
+    private ChallengeRoundDescRvAdapter challengeRoundDescRvAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +68,7 @@ public class UploadVideoFragment extends BaseDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.upload_new_video_fragment, null);
+        View view = inflater.inflate(R.layout.ongoing_challange_desc_fragment, null);
 
         ButterKnife.inject(this, view);
         return view;
@@ -81,7 +87,9 @@ public class UploadVideoFragment extends BaseDialogFragment {
     }
 
     private void initViews() {
-
+        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(getActivity(), null);
+        challengesRoundRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        challengesRoundRV.setAdapter(challengeRoundDescRvAdapter);
     }
 
     @Override
@@ -96,8 +104,15 @@ public class UploadVideoFragment extends BaseDialogFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick(R.id.postVideoBT)
-    public void onClick() {
-        getDialog().dismiss();
+    @OnClick({R.id.acceptBT, R.id.declineBT})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.acceptBT:
+                break;
+            case R.id.declineBT:
+                break;
+        }
     }
 }
+
+

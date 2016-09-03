@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
 import com.example.divyanshu.smyt.R;
 
 import butterknife.ButterKnife;
@@ -18,13 +19,13 @@ import butterknife.ButterKnife;
 /**
  * Created by divyanshu.jain on 8/30/2016.
  */
-public class PlaySingleVideoFragment extends DialogFragment {
+public class PlaySingleVideoFragment extends BaseDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
+     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title

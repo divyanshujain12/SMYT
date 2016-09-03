@@ -5,35 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/three_dp"
-    android:orientation="horizontal"
-    tools:showIn="@layout/user_challenge_rv_item">
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="5">
-
-        <com.neopixl.pixlui.components.textview.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha=".6"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Genre:"
-            android:textSize="@dimen/fourteen_sp"
-            pixlui:typeface="Roboto-Medium.ttf" />
-
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/genreNameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/five_dp"
-            android:alpha=".6"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Rock"
-            android:textSize="@dimen/fourteen_sp"
-            pixlui:typeface="Roboto-Medium.ttf" />
-    </LinearLayout>
+    <include layout="@layout/genre_type_bar" />
 
     <LinearLayout
         android:layout_width="0dp"

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timeLL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/three_dp"
+    android:orientation="horizontal">
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha=".6"
+        android:textColor="@color/colorPrimaryDark"
+        android:maxLines="2"
+        android:text="@string/time"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/challengeTimeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/five_dp"
+        android:alpha=".6"
+        android:textColor="@color/colorPrimaryDark"
+        android:maxLines="2"
+        android:text="04:00pm (Challenge in 2 hrs)"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+</LinearLayout>
