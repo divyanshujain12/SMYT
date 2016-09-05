@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="rounds_count">
+        <item>1 Round</item>
+        <item>3 Round</item>
+        <item>5 Round</item>
+    </string-array>
+
+    <string-array name="genre_type">
+        <item>Rock</item>
+        <item>DJ</item>
+        <item>Rap</item>
+        <item>Indie</item>
+        <item>Electronic</item>
+    </string-array>
+    <string-array name="share_with">
+        <item>Public</item>
+        <item>Friend</item>
+
+    </string-array>
+</resources>

@@ -39,8 +39,7 @@ public class RecordVideoActivity extends BaseActivity {
 
     @OnClick(R.id.startRecordingIV)
     public void onClick() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        UploadVideoFragment uploadVideoFragment = new UploadVideoFragment();
-        uploadVideoFragment.show(fragmentManager, uploadVideoFragment.getClass().getName());
+        showDialogFragment(new UploadVideoFragment());
+
     }
 }

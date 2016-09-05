@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/ten_dp"
-    tools:showIn="@layout/user_profile_activity">
+    tools:showIn="@layout/other_user_profile_activity">
 
     <include layout="@layout/user_profile_image"/>
 
@@ -34,12 +34,6 @@
                 android:textSize="@dimen/twenty_sp"
                 pixlui:typeface="Roboto-Regular.ttf" />
 
-            <ImageView
-                android:id="@+id/editNameIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:src="@drawable/icon_edit" />
         </FrameLayout>
 
         <FrameLayout
@@ -58,12 +52,6 @@
                 android:textSize="@dimen/sixteen_sp"
                 pixlui:typeface="Roboto-Regular.ttf" />
 
-            <ImageView
-                android:id="@+id/editPhoneNumberIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:src="@drawable/icon_edit" />
         </FrameLayout>
 
         <include layout="@layout/user_follower_bar" />

@@ -57,7 +57,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
         categoryDescTV.setText(categoriesModel.getDescription());
 
         usersRV.setLayoutManager(new LinearLayoutManager(this));
-        categoryDescUsersRvAdapter = new CategoryDescUsersRvAdapter(this);
+        categoryDescUsersRvAdapter = new CategoryDescUsersRvAdapter(this,this);
 
         usersRV.setAdapter(categoryDescUsersRvAdapter);
     }
@@ -69,4 +69,10 @@ public class CategoryDescriptionActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        Intent intent = new Intent(this, OtherUserProfileActivity.class);
+        startActivity(intent);
+    }
 }

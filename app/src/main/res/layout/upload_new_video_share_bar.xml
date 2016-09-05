@@ -3,11 +3,11 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/shareWithLL"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/ten_dp"
     android:orientation="vertical"
-    tools:showIn="@layout/upload_video_fragment">
+    tools:showIn="@layout/upload_new_video_fragment">
 
     <com.neopixl.pixlui.components.textview.TextView
         android:layout_width="wrap_content"

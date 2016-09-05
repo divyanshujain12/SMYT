@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.LiveVideosAdapter;
+import com.example.divyanshu.smyt.Fragments.PlayLiveBattleVideoFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
@@ -57,7 +58,7 @@ public class LiveVideosFragment extends BaseFragment {
     }
 
     private void initViews() {
-        liveVideosAdapter = new LiveVideosAdapter(getContext(), new ArrayList<VideoModel>());
+        liveVideosAdapter = new LiveVideosAdapter(getContext(), new ArrayList<VideoModel>(),this);
         liveVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         liveVideosRV.setAdapter(liveVideosAdapter);
     }
@@ -66,5 +67,11 @@ public class LiveVideosFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        showDialogFragment(new PlayLiveBattleVideoFragment());
     }
 }

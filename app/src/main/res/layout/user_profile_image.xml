@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="@dimen/one_hundred_fifty_five_dp"
+    android:layout_height="@dimen/one_hundred_fifty_five_dp"
+    android:layout_alignParentRight="true"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/user" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/nameInImgTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/color_primary_with_eight_eight"
+        android:gravity="center"
+        android:padding="@dimen/five_dp"
+        android:text="@string/dummy_name"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sixteen_sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+</FrameLayout>

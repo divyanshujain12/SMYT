@@ -51,4 +51,7 @@
     <string name="details">Details</string>
     <string name="challange">Challenge:</string>
     <string name="date">Date:</string>
+    <string name="rounds">Rounds</string>
+    <string name="post_challenge">Post Challenge</string>
+    <string name="friend_name">Friend Name</string>
 </resources>

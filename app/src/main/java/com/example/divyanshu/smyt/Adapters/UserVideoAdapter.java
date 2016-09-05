@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -21,6 +22,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private ArrayList<VideoModel> categoryModels;
     private Context context;
+    private RecyclerViewClick recyclerViewClick;
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
@@ -41,7 +43,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public UserVideoAdapter(Context context, ArrayList<VideoModel> categoryModels) {
+    public UserVideoAdapter(Context context, ArrayList<VideoModel> categoryModels,RecyclerViewClick recyclerViewClick) {
+        this.recyclerViewClick = recyclerViewClick;
         this.categoryModels = categoryModels;
         this.context = context;
     }
@@ -70,6 +73,12 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 context.startActivity(intent);
             }
         });*/
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(position,v);
+            }
+        });
     }
 
     @Override

@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
 import com.example.divyanshu.smyt.Adapters.TopRatedVideosAdapter;
+import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
+import com.example.divyanshu.smyt.Fragments.PlayUploadedBattleVideoFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 
@@ -24,15 +27,13 @@ import butterknife.InjectView;
  * Created by divyanshu.jain on 8/29/2016.
  */
 public class AllVideosFragment extends BaseFragment {
-    /*@InjectView(R.id.topRatedVideosRV)
-    RecyclerView topRatedVideosRV;*/
     @InjectView(R.id.videosRV)
     RecyclerView otherVideosRV;
 
     TopRatedVideosAdapter topRatedVideosAdapter;
     UploadedAllVideoAdapter otherAllVideoAdapter;
 
-    public static AllVideosFragment getInstance(){
+    public static AllVideosFragment getInstance() {
         AllVideosFragment allVideosFragment = new AllVideosFragment();
         return allVideosFragment;
     }
@@ -63,12 +64,9 @@ public class AllVideosFragment extends BaseFragment {
     }
 
     private void initViews() {
-        //topRatedVideosRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         topRatedVideosAdapter = new TopRatedVideosAdapter(getContext(), new ArrayList<VideoModel>());
-        otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), new ArrayList<VideoModel>());
-
-      //  topRatedVideosRV.setAdapter(topRatedVideosAdapter);
+        otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), new ArrayList<VideoModel>(),this);
         otherVideosRV.setAdapter(otherAllVideoAdapter);
     }
 
@@ -76,5 +74,20 @@ public class AllVideosFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        switch (position)
+        {
+            case 0:
+                showDialogFragment(new PlaySingleVideoFragment());
+                break;
+            case 1:
+                showDialogFragment(new PlayUploadedBattleVideoFragment());
+                break;
+        }
+
     }
 }

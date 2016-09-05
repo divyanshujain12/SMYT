@@ -1,7 +1,9 @@
 package com.example.divyanshu.smyt.GlobalClasses;
 
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.example.divyanshu.smyt.Interfaces.CallBackInterface;
@@ -44,6 +46,12 @@ public class BaseFragment extends Fragment implements CallBackInterface, SnackBa
 
     @Override
     public void onClickItem(int position, View view) {
+
+    }
+
+    public void showDialogFragment(DialogFragment fragment) {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragment.show(fragmentManager, fragment.getClass().getName());
 
     }
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
@@ -23,6 +24,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private ArrayList<VideoModel> categoryModels;
     private Context context;
+    private RecyclerViewClick recyclerViewClick;
+
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
@@ -75,7 +78,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public UploadedAllVideoAdapter(Context context, ArrayList<VideoModel> categoryModels) {
+    public UploadedAllVideoAdapter(Context context, ArrayList<VideoModel> categoryModels, RecyclerViewClick recyclerViewClick) {
+        this.recyclerViewClick = recyclerViewClick;
         this.categoryModels = categoryModels;
         this.context = context;
     }
@@ -109,6 +113,13 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(getItemViewType(position), v);
+            }
+        });
         //  VideoModel userModel = categoryModels.get(position);
 
        /* holder.categoryNameTV.setText(userModel.getName());
@@ -134,5 +145,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             return 3;
         return position % 2;
     }
+
+
 }
 

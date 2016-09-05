@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/five_dp"
+        android:orientation="vertical">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".4"
+            android:maxLines="2"
+            android:text="Round 1 Timing"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:maxLines="2"
+            android:padding="@dimen/five_dp"
+            android:text="01:30 pm"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sixteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <include layout="@layout/horizontal_yellow_line" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/five_dp"
+        android:orientation="vertical">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".4"
+            android:maxLines="2"
+
+            android:text="Round 1 Date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:maxLines="2"
+            android:padding="@dimen/five_dp"
+            android:text="21-08-2016"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sixteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <include layout="@layout/horizontal_yellow_line" />
+    </LinearLayout>
+</LinearLayout>

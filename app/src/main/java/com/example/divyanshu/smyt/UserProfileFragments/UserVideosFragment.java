@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
+import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.R;
 
@@ -57,7 +58,7 @@ public class UserVideosFragment extends BaseFragment {
 
     private void initViews() {
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        userVideoAdapter = new UserVideoAdapter(getContext(), null);
+        userVideoAdapter = new UserVideoAdapter(getContext(), null, this);
         videosRV.setAdapter(userVideoAdapter);
     }
 
@@ -65,5 +66,12 @@ public class UserVideosFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+
+        showDialogFragment(new PlaySingleVideoFragment());
     }
 }

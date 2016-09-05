@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:background="#EBEDED"
     android:orientation="vertical"
-    android:padding="@dimen/ten_dp">
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/fourty_dp"
+        android:layout_margin="@dimen/ten_dp"
         android:background="@drawable/rounded_corner_white_full"
         android:foregroundGravity="center_vertical">
 
@@ -32,5 +33,5 @@
         android:id="@+id/usersRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_dp" />
+        />
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -21,11 +22,11 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<VideoModel> categoryModels;
     private Context context;
-
+    private RecyclerViewClick recyclerViewClick;
 
     public class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
@@ -46,11 +47,11 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
 
-            view.setOnClickListener(LiveVideosAdapter.this);
         }
     }
 
-    public LiveVideosAdapter(Context context, ArrayList<VideoModel> categoryModels) {
+    public LiveVideosAdapter(Context context, ArrayList<VideoModel> categoryModels, RecyclerViewClick recyclerViewClick) {
+        this.recyclerViewClick = recyclerViewClick;
         this.categoryModels = categoryModels;
         this.context = context;
     }
@@ -68,17 +69,12 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         //  VideoModel userModel = categoryModels.get(position);
-
-       /* holder.categoryNameTV.setText(userModel.getName());
-        holder.categoryIV.setImageResource(userModel.getIcon());
-        holder.categoryIV.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SingletonClass.getInstance().setSelectedCategoryPos(position);
-                Intent intent = new Intent(context, CategoryDescriptionActivity.class);
-                context.startActivity(intent);
+                recyclerViewClick.onClickItem(position, v);
             }
-        });*/
+        });
     }
 
     @Override
@@ -89,13 +85,6 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
         return position % 2;
-    }
-
-    @Override
-    public void onClick(View v) {
-        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-        PlaySingleVideoFragment dialogFragment = new PlaySingleVideoFragment();
-        dialogFragment.show(fm, "Sample Fragment");
     }
 
 }

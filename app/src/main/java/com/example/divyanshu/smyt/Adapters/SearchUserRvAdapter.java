@@ -1,6 +1,8 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -19,11 +23,12 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class SearchUserRvAdapter  extends RecyclerView.Adapter<SearchUserRvAdapter.MyViewHolder> {
+public class SearchUserRvAdapter extends RecyclerView.Adapter<SearchUserRvAdapter.MyViewHolder> {
 
     private ArrayList<UserModel> userList;
     private Context context;
     private ImageLoading imageLoading;
+    private RecyclerViewClick recyclerViewClick;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, ageAndGenderTV, winsCountTV, followersCountTV, aboutTV;
@@ -41,7 +46,8 @@ public class SearchUserRvAdapter  extends RecyclerView.Adapter<SearchUserRvAdapt
         }
     }
 
-    public SearchUserRvAdapter(Context context) {
+    public SearchUserRvAdapter(Context context, RecyclerViewClick recyclerViewClick) {
+        this.recyclerViewClick = recyclerViewClick;
         this.userList = SingletonClass.getInstance().userModels;
         this.context = context;
         imageLoading = new ImageLoading(context, 5);
@@ -61,16 +67,15 @@ public class SearchUserRvAdapter  extends RecyclerView.Adapter<SearchUserRvAdapt
 
         holder.userNameTV.setText(userModel.getName());
         imageLoading.LoadImage(userModel.getImageUrl(), holder.userIV, null);
-        // holder.userIV.setImageResource(userModel.getImageResource());
         holder.ageAndGenderTV.setText(userModel.getAge() + " " + userModel.getGender());
         holder.winsCountTV.setText("Wins: " + userModel.getWins());
         holder.followersCountTV.setText("Followers: " + userModel.getFollowers());
         holder.aboutTV.setText(userModel.getAbout());
 
-        holder.userIV.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                recyclerViewClick.onClickItem(position, v);
             }
         });
     }
@@ -79,5 +84,6 @@ public class SearchUserRvAdapter  extends RecyclerView.Adapter<SearchUserRvAdapt
     public int getItemCount() {
         return userList.size();
     }
+
 }
 

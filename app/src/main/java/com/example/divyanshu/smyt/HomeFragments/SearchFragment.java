@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.HomeFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.divyanshu.smyt.Adapters.SearchUserRvAdapter;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.edittext.EditText;
 
 import butterknife.ButterKnife;
@@ -58,7 +60,7 @@ public class SearchFragment extends BaseFragment {
     }
 
     private void iniViews() {
-        searchUserRvAdapter = new SearchUserRvAdapter(getContext());
+        searchUserRvAdapter = new SearchUserRvAdapter(getContext(), this);
         usersRV.setLayoutManager(new LinearLayoutManager(getContext()));
 
         usersRV.setAdapter(searchUserRvAdapter);
@@ -68,5 +70,12 @@ public class SearchFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        Intent intent = new Intent(getActivity(), OtherUserProfileActivity.class);
+        startActivity(intent);
     }
 }

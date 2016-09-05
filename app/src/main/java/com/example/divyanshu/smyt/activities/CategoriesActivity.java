@@ -1,11 +1,13 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.example.divyanshu.smyt.Adapters.CategoryRvAdapter;
 import com.example.divyanshu.smyt.Adapters.CategoryUserRvAdapter;
@@ -13,6 +15,7 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.GenerateDummyData;
+import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
 import com.example.divyanshu.smyt.Utils.Utils;
 
 import butterknife.ButterKnife;
@@ -50,17 +53,22 @@ public class CategoriesActivity extends BaseActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        // ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.ten_dp);
-        //categoryRV.addItemDecoration(itemDecoration);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.eight_dp);
+        categoryRV.addItemDecoration(itemDecoration);
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
 
         categoryRvAdapter = new CategoryRvAdapter(this, SingletonClass.getInstance().categoriesModels);
-        categoryUserRvAdapter = new CategoryUserRvAdapter(this, SingletonClass.getInstance().userModels);
+        categoryUserRvAdapter = new CategoryUserRvAdapter(this, SingletonClass.getInstance().userModels, this);
 
         categoryRV.setAdapter(categoryRvAdapter);
         userRV.setAdapter(categoryUserRvAdapter);
     }
 
-
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        Intent intent = new Intent(this, OtherUserProfileActivity.class);
+        startActivity(intent);
+    }
 }

@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <include layout="@layout/user_profile_header_view" />
+            <include layout="@layout/other_user_profile_header" />
 
             <com.example.divyanshu.smyt.CustomViews.CustomTabLayout
                 style="@style/TabLayoutStyle"
@@ -69,7 +69,7 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
         android:background="@color/colorPrimary"
-        android:src="@drawable/fav_icon_postvideo"
+        android:src="@drawable/fav_icon_challenge"
         app:backgroundTint="@color/colorPrimary"
         app:elevation="@dimen/ten_dp"
         app:fabSize="normal" />

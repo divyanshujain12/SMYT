@@ -22,7 +22,10 @@
         <activity android:name=".activities.CategoryDescriptionActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileActivity" />
-        <activity android:name=".activities.RecordVideoActivity"/>
+        <activity android:name=".activities.RecordVideoActivity" />
+        <activity
+            android:name=".activities.OtherUserProfileActivity"
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

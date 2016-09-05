@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
@@ -18,9 +17,9 @@ import com.neopixl.pixlui.components.textview.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by divyanshu.jain on 8/29/2016.
+ * Created by divyanshu on 9/3/2016.
  */
-public class CategoryDescUsersRvAdapter extends RecyclerView.Adapter<CategoryDescUsersRvAdapter.MyViewHolder> {
+public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapter.MyViewHolder> {
 
     private ArrayList<UserModel> userList;
     private Context context;
@@ -43,7 +42,7 @@ public class CategoryDescUsersRvAdapter extends RecyclerView.Adapter<CategoryDes
         }
     }
 
-    public CategoryDescUsersRvAdapter(Context context, RecyclerViewClick recyclerViewClick) {
+    public UserFollowerAdapter(Context context, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
         this.userList = SingletonClass.getInstance().userModels;
         this.context = context;
@@ -81,4 +80,6 @@ public class CategoryDescUsersRvAdapter extends RecyclerView.Adapter<CategoryDes
     public int getItemCount() {
         return userList.size();
     }
+
 }
+

@@ -17,7 +17,7 @@ public class GenerateDummyData {
         SingletonClass.getInstance().categoriesModels.clear();
         SingletonClass.getInstance().userModels.clear();
 
-        String[] categoryNames = {"Rock", "DJ", "Rap", "Indie", "Electronic"};
+        String[] categoryNames = context.getResources().getStringArray(R.array.genre_type);
         int[] categoriesImages = {R.drawable.genre_container_rock, R.drawable.genre_container_dj, R.drawable.genre_container_rap, R.drawable.genre_container_indie, R.drawable.genre_icon_electronics};
         for (int i = 0; i < 5; i++) {
             CategoryModel categoryModel = new CategoryModel();
