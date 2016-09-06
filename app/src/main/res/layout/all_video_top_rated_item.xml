@@ -5,9 +5,9 @@
     android:layout_width="@dimen/one_hundred_fifty_five_dp"
     android:layout_height="@dimen/one_hundred_fourty_five_dp"
     android:layout_margin="@dimen/five_dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="4dp"
-    card_view:cardUseCompatPadding="true">
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    card_view:cardElevation="@dimen/card_elevation_size"
+   >
 
     <FrameLayout
         android:id="@+id/videoFL"
