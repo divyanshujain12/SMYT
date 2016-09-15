@@ -5,4 +5,5 @@ package com.example.divyanshu.smyt.Constants;
  */
 public interface Constants {
     String POSITION = "position";
+    int REQUEST_TIMEOUT_TIME = 30000;
 }
