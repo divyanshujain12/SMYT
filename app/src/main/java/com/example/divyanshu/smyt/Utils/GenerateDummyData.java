@@ -22,7 +22,7 @@ public class GenerateDummyData {
         for (int i = 0; i < 5; i++) {
             CategoryModel categoryModel = new CategoryModel();
             categoryModel.setIcon(categoriesImages[i]);
-            categoryModel.setName(categoryNames[i]);
+            categoryModel.setcategory_name(categoryNames[i]);
             categoryModel.setDescription(context.getString(R.string.cat_desc));
             categoryModel.setUsersCount("476922");
 
@@ -36,7 +36,7 @@ public class GenerateDummyData {
             userModel.setAbout(context.getString(R.string.about_dummy));
             userModel.setImageUrl(context.getString(R.string.dummy_image));
 
-            SingletonClass.getInstance().categoriesModels.add(categoryModel);
+           // SingletonClass.getInstance().categoriesModels.add(categoryModel);
             SingletonClass.getInstance().userModels.add(userModel);
         }
     }

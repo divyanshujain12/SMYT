@@ -1,10 +1,22 @@
 package com.example.divyanshu.smyt.Utils;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
+import android.text.Html;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 
+import com.androidadvance.topsnackbar.TSnackbar;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.ValidationModel;
+import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.edittext.EditText;
 
 import java.util.ArrayList;
@@ -26,8 +38,8 @@ public class Validation {
         validationModels.add(validationModel);
     }
 
-    public HashMap<EditText, String> validate() {
-
+    public HashMap<EditText, String> validate(Activity activity) {
+        TSnackbar snackbar = CommonFunctions.getInstance().getErrorSnackbar(activity);
         HashMap<EditText, String> valueMap = new HashMap<>();
 
         for (ValidationModel validationModel : validationModels) {
@@ -51,8 +63,7 @@ public class Validation {
                     break;
             }
             if (!status) {
-                validationModel.editText.setError(validationModel.errorMessage);
-                validationModel.editText.requestFocus();
+                snackbar.setText(validationModel.errorMessage).show();
                 return null;
 
             }
@@ -69,14 +80,14 @@ public class Validation {
     }
 
     private boolean validateEmail(String editTextValue) {
-        if (editTextValue.length() == 0 && !Patterns.EMAIL_ADDRESS.matcher(editTextValue).matches())
+        if (editTextValue.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(editTextValue).matches())
             return false;
         else
             return true;
     }
 
     private boolean validatePhone(String editTextValue) {
-        if (editTextValue.length() == 0 && !Patterns.PHONE.matcher(editTextValue).matches())
+        if (editTextValue.length() == 0 || !Patterns.PHONE.matcher(editTextValue).matches())
             return false;
         else
             return true;

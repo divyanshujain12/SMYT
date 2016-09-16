@@ -5,7 +5,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="F:\android_sdk_and_studio\Android Studio\gradle\gradle-2.8" />
+        <option name="gradleHome" value="C:\Users\divyanshu.jain\AppData\Local\Temp\Rar$EXa0.704\android-studio\gradle\gradle-2.14.1" />
         <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/validator" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

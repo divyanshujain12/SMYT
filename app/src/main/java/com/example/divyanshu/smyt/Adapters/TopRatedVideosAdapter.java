@@ -62,7 +62,7 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<TopRatedVideosAd
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         //VideoModel userModel = videoList.get(position);
 
-      /*  holder.userNameTV.setText(userModel.getName());
+      /*  holder.userNameTV.setText(userModel.getcategory_name());
         imageLoading.LoadImage(userModel.getThumb(), holder.userIV, null);
         holder.userTimeTV.setText(userModel.getTime());
         holder.userIV.setOnClickListener(new View.OnClickListener() {

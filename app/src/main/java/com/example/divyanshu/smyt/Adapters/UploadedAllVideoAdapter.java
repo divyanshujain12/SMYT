@@ -122,7 +122,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
         //  VideoModel userModel = categoryModels.get(position);
 
-       /* holder.categoryNameTV.setText(userModel.getName());
+       /* holder.categoryNameTV.setText(userModel.getcategory_name());
         holder.categoryIV.setImageResource(userModel.getIcon());
         holder.categoryIV.setOnClickListener(new View.OnClickListener() {
             @Override

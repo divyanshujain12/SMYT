@@ -55,6 +55,13 @@
     <string name="post_challenge">Post Challenge</string>
     <string name="friend_name">Friend Name</string>
     <string name="err_enter_name">Enter Your Name!</string>
-    <string name="err_enter_pass">Enter Your Password!</string>
-    <string name="err_enter_your_email">Enter Your Email</string>
+    <string name="err_pass">Enter Your Password!</string>
+    <string name="err_email">Enter Your Email</string>
+    <string name="err_first_name">Enter First Name!</string>
+    <string name="err_last_name">Enter Last Name!</string>
+    <string name="err_phone_number">Enter Your Phone Number!</string>
+    <string name="err_dob">Enter Date Of Birth!</string>
+    <string name="err_re_enter_pass">Enter Second Password</string>
+    <string name="err_password_mismatch">Password Mismatch!</string>
+    <string name="success_signup">Successfully SignUp</string>
 </resources>

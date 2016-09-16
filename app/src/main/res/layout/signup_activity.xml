@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/twenty_dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
@@ -52,7 +53,8 @@
             android:padding="@dimen/ten_dp"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:layout_weight="0.21" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
@@ -69,7 +71,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_white_full"
             android:ems="10"
-            android:inputType="textPassword"
+            android:inputType="phone"
             android:padding="@dimen/ten_dp"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp"

@@ -7,16 +7,26 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
 import android.view.View;
 
 import com.example.divyanshu.smyt.Adapters.CategoryRvAdapter;
 import com.example.divyanshu.smyt.Adapters.CategoryUserRvAdapter;
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
+import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.GenerateDummyData;
 import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
+import com.example.divyanshu.smyt.Utils.UniversalParser;
 import com.example.divyanshu.smyt.Utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,12 +67,11 @@ public class CategoriesActivity extends BaseActivity {
         categoryRV.addItemDecoration(itemDecoration);
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
-
-        categoryRvAdapter = new CategoryRvAdapter(this, SingletonClass.getInstance().categoriesModels);
+        setCategoryAdapter();
         categoryUserRvAdapter = new CategoryUserRvAdapter(this, SingletonClass.getInstance().userModels, this);
-
-        categoryRV.setAdapter(categoryRvAdapter);
         userRV.setAdapter(categoryUserRvAdapter);
+
+
     }
 
     @Override
@@ -70,5 +79,29 @@ public class CategoriesActivity extends BaseActivity {
         super.onClickItem(position, view);
         Intent intent = new Intent(this, OtherUserProfileActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        switch (apiType) {
+            case ApiCodes.CATEGORIES:
+                SingletonClass.getInstance().categoriesModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), CategoryModel.class);
+                setCategoryAdapter();
+                break;
+        }
+
+    }
+
+    private void setCategoryAdapter() {
+        categoryRvAdapter = new CategoryRvAdapter(this, SingletonClass.getInstance().getCategoriesModels());
+        categoryRV.setAdapter(categoryRvAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SingletonClass.getInstance().getCategoriesModels() == null || SingletonClass.getInstance().getCategoriesModels().isEmpty())
+            CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, null, this);
     }
 }

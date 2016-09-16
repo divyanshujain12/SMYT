@@ -38,4 +38,12 @@ public class SingletonClass {
             GenerateDummyData.createUserAndCategoryData(context);
         return categoriesModels.get(selectedCategoryPos);
     }
+
+    public ArrayList<CategoryModel> getCategoriesModels() {
+        return categoriesModels;
+    }
+
+    public void setCategoriesModels(ArrayList<CategoryModel> categoriesModels) {
+        this.categoriesModels = categoriesModels;
+    }
 }

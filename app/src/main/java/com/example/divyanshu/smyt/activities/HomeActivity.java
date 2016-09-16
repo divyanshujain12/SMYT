@@ -3,11 +3,9 @@ package com.example.divyanshu.smyt.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
@@ -46,7 +44,7 @@ public class HomeActivity extends BaseActivity {
     private void initViews() {
 
         CategoryModel categoryModel = SingletonClass.getInstance().getSelectedCategoryData(this);
-        Utils.configureToolbarWithBackButton(this,toolbarView,categoryModel.getName() + "(" + categoryModel.getUsersCount() + ")");
+        Utils.configureToolbarWithBackButton(this,toolbarView,categoryModel.getcategory_name() + "(" + categoryModel.getUsersCount() + ")");
 
         configViewPager();
     }

@@ -53,7 +53,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
         CategoryModel categoriesModel = SingletonClass.getInstance().getSelectedCategoryData(this);
 
         categoryIV.setImageResource(categoriesModel.getIcon());
-        categoryNameTV.setText(categoriesModel.getName());
+        categoryNameTV.setText(categoriesModel.getcategory_name());
         categoryDescTV.setText(categoriesModel.getDescription());
 
         usersRV.setLayoutManager(new LinearLayoutManager(this));

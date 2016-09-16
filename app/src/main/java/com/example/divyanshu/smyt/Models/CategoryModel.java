@@ -4,35 +4,38 @@ package com.example.divyanshu.smyt.Models;
  * Created by divyanshu on 8/26/2016.
  */
 public class CategoryModel {
-    String name;
-    String id;
-    String imageurl;
+    String category_name;
+    String category_id;
+    String thumbnail;
     int icon;
     String description;
     String usersCount;
+    String status;
+    String edate;
 
-    public String getName() {
-        return name;
+
+    public String getcategory_name() {
+        return category_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setcategory_name(String name) {
+        this.category_name = name;
     }
 
     public String getId() {
-        return id;
+        return category_id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.category_id = id;
     }
 
-    public String getImageurl() {
-        return imageurl;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public int getIcon() {
@@ -57,5 +60,21 @@ public class CategoryModel {
 
     public void setUsersCount(String usersCount) {
         this.usersCount = usersCount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getEdate() {
+        return edate;
+    }
+
+    public void setEdate(String edate) {
+        this.edate = edate;
     }
 }

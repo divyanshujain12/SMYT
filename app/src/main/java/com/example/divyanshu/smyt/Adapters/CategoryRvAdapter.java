@@ -53,9 +53,9 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         CategoryModel userModel = categoryModels.get(position);
 
-        holder.categoryNameTV.setText(userModel.getName());
+        holder.categoryNameTV.setText(userModel.getcategory_name());
         holder.categoryIV.setImageResource(userModel.getIcon());
-        holder.categoryIV.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SingletonClass.getInstance().setSelectedCategoryPos(position);

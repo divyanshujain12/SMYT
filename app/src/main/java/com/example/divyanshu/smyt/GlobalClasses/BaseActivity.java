@@ -10,28 +10,16 @@ import com.example.divyanshu.smyt.Interfaces.CallBackInterface;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Interfaces.UpdateUiCallback;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by divyanshu on 5/29/2016.
  */
-public class BaseActivity extends AppCompatActivity implements CallBackInterface, SnackBarCallback, UpdateUiCallback,RecyclerViewClick {
-    @Override
-    public void onJsonObjectSuccess(JSONObject object) {
-
-    }
-
-    @Override
-    public void onJsonArrarSuccess(JSONArray array) {
-
-    }
-
-    @Override
-    public void onFailure(String str) {
-
-    }
+public class BaseActivity extends AppCompatActivity implements CallWebService.ObjectResponseCallBack, SnackBarCallback, UpdateUiCallback,RecyclerViewClick {
 
     @Override
     public void doAction() {
@@ -61,6 +49,16 @@ public class BaseActivity extends AppCompatActivity implements CallBackInterface
 
     @Override
     public void onClickItem(int position, View view) {
+
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
 
     }
 }

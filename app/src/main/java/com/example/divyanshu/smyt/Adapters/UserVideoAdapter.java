@@ -63,7 +63,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         //  VideoModel userModel = categoryModels.get(position);
 
-       /* holder.categoryNameTV.setText(userModel.getName());
+       /* holder.categoryNameTV.setText(userModel.getcategory_name());
         holder.categoryIV.setImageResource(userModel.getIcon());
         holder.categoryIV.setOnClickListener(new View.OnClickListener() {
             @Override
