@@ -8,6 +8,7 @@ import com.example.divyanshu.smyt.Interfaces.CallBackInterface;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Interfaces.UpdateUiCallback;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,21 +17,7 @@ import org.json.JSONObject;
 /**
  * Created by divyanshu on 9/3/2016.
  */
-public class BaseDialogFragment extends DialogFragment implements CallBackInterface, SnackBarCallback, UpdateUiCallback, RecyclerViewClick {
-    @Override
-    public void onJsonObjectSuccess(JSONObject object) throws JSONException {
-
-    }
-
-    @Override
-    public void onJsonArrarSuccess(JSONArray array) {
-
-    }
-
-    @Override
-    public void onFailure(String str) {
-
-    }
+public class BaseDialogFragment extends DialogFragment implements CallWebService.ObjectResponseCallBack, SnackBarCallback, UpdateUiCallback, RecyclerViewClick {
 
     @Override
     public void doAction() {
@@ -47,4 +34,13 @@ public class BaseDialogFragment extends DialogFragment implements CallBackInterf
 
     }
 
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+
+    }
 }

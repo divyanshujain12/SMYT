@@ -13,5 +13,6 @@ public interface Constants {
     String PHONE_NUMBER= "phonenumber";
     String DATE_OF_BIRTH = "date_of_birth";
     String DATA = "data";
+    String MESSAGE = "message";
     int REQUEST_TIMEOUT_TIME = 30000;
 }

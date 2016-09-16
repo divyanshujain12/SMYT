@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Utils.LruBitmapCache;
 
 /**
@@ -22,7 +23,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        SingletonClass.initInstance();
         mInstance = this;
     }
 

@@ -10,6 +10,7 @@ import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.CustomAlertDialogs;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -78,7 +79,8 @@ public class SignUpActivity extends BaseActivity {
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        CommonFunctions.getInstance().getSuccessSnackbar(this).setText(R.string.success_signup).show();
+        CustomAlertDialogs.showAlertDialog(this, getString(R.string.congratulation), response.getString(Constants.MESSAGE), this);
+
     }
 
     private void addValidation() {
@@ -109,4 +111,9 @@ public class SignUpActivity extends BaseActivity {
         return jsonObject;
     }
 
+    @Override
+    public void doAction() {
+        super.doAction();
+        onBackPressed();
+    }
 }

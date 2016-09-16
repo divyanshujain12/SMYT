@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.GlobalClasses;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.example.divyanshu.smyt.Models.CategoryModel;
@@ -14,9 +15,17 @@ import java.util.ArrayList;
 public class SingletonClass {
 
     public ArrayList<CategoryModel> categoriesModels = new ArrayList<>();
+
     public ArrayList<UserModel> userModels = new ArrayList<>();
-    private static SingletonClass ourInstance = new SingletonClass();
+
+    private static SingletonClass ourInstance;
+
     private int selectedCategoryPos = 0;
+
+    public static void initInstance(){
+        if(ourInstance == null)
+            ourInstance = new SingletonClass();
+    }
 
     public static SingletonClass getInstance() {
         return ourInstance;
@@ -34,9 +43,10 @@ public class SingletonClass {
     }
 
     public CategoryModel getSelectedCategoryData(Context context) {
-        if (categoriesModels.size() == 0)
-            GenerateDummyData.createUserAndCategoryData(context);
-        return categoriesModels.get(selectedCategoryPos);
+        if (categoriesModels != null && categoriesModels.size() > 0)
+            return categoriesModels.get(selectedCategoryPos);
+        else
+            return null;
     }
 
     public ArrayList<CategoryModel> getCategoriesModels() {

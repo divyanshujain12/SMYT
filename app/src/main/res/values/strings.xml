@@ -64,4 +64,5 @@
     <string name="err_re_enter_pass">Enter Second Password</string>
     <string name="err_password_mismatch">Password Mismatch!</string>
     <string name="success_signup">Successfully SignUp</string>
+    <string name="congratulation">Congratulations</string>
 </resources>
