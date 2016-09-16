@@ -4,11 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -19,8 +27,8 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends BaseActivity {
 
-    @InjectView(R.id.usernameET)
-    EditText usernameET;
+    @InjectView(R.id.emailET)
+    EditText emailET;
     @InjectView(R.id.passwordET)
     EditText passwordET;
     @InjectView(R.id.signInBT)
@@ -28,11 +36,27 @@ public class LoginActivity extends BaseActivity {
     @InjectView(R.id.signUpTV)
     TextView signUpTV;
 
+    private Validation validation;
+    private HashMap<EditText, String> validationMap = new HashMap<>();
+
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         ButterKnife.inject(this);
+        validation = new Validation();
+        validation.addValidationField(new ValidationModel(emailET, Validation.TYPE_EMAIL_VALIDATION, getString(R.string.err_enter_your_email)));
+        validation.addValidationField(new ValidationModel(passwordET, Validation.TYPE_PASSWORD_VALIDATION, getString(R.string.err_enter_pass)));
+        validateFields();
+    }
+
+    private void validateFields() {
+
+        validationMap = validation.validate();
+        if (validationMap != null) {
+
+        }
     }
 
     @OnClick({R.id.signInBT, R.id.signUpTV})
@@ -47,5 +71,16 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
                 break;
         }
+    }
+
+    private JSONObject createJsonForSignIn() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.EMAIl, validationMap.get(emailET));
+            jsonObject.put(Constants.PASSWORD, validationMap.get(passwordET));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

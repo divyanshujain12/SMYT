@@ -54,4 +54,7 @@
     <string name="rounds">Rounds</string>
     <string name="post_challenge">Post Challenge</string>
     <string name="friend_name">Friend Name</string>
+    <string name="err_enter_name">Enter Your Name!</string>
+    <string name="err_enter_pass">Enter Your Password!</string>
+    <string name="err_enter_your_email">Enter Your Email</string>
 </resources>

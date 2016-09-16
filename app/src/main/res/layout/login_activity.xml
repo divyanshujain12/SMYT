@@ -27,13 +27,13 @@
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/username"
+            android:text="@string/email_address"
             android:textColor="@color/white"
             android:textSize="@dimen/fifteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <com.neopixl.pixlui.components.edittext.EditText
-            android:id="@+id/usernameET"
+            android:id="@+id/emailET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_white_full"
