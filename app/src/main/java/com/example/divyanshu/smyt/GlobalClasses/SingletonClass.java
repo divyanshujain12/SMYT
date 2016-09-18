@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class SingletonClass {
 
-    public ArrayList<CategoryModel> categoriesModels = new ArrayList<>();
+
 
     public ArrayList<UserModel> userModels = new ArrayList<>();
 
@@ -38,22 +38,4 @@ public class SingletonClass {
         return selectedCategoryPos;
     }
 
-    public void setSelectedCategoryPos(int selectedCategoryPos) {
-        this.selectedCategoryPos = selectedCategoryPos;
-    }
-
-    public CategoryModel getSelectedCategoryData(Context context) {
-        if (categoriesModels != null && categoriesModels.size() > 0)
-            return categoriesModels.get(selectedCategoryPos);
-        else
-            return null;
-    }
-
-    public ArrayList<CategoryModel> getCategoriesModels() {
-        return categoriesModels;
-    }
-
-    public void setCategoriesModels(ArrayList<CategoryModel> categoriesModels) {
-        this.categoriesModels = categoriesModels;
-    }
 }

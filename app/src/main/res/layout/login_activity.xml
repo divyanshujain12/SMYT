@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_white_full"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:padding="@dimen/ten_dp"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp"
@@ -76,46 +76,29 @@
             android:textSize="@dimen/eighteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="4"
-                android:background="@color/colorPrimary" />
-
-            <com.neopixl.pixlui.components.textview.TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="@string/or"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/twenty_sp"
-                pixlui:typeface="Roboto-Medium.ttf" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="4"
-                android:background="@color/colorPrimary" />
-        </LinearLayout>
-
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/signUpTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
             android:gravity="center"
+            android:background="@drawable/flat_yellow_thick_border"
             android:padding="@dimen/ten_dp"
-            android:text="Don't have a account? Sign Up"
+            android:text="@string/sign_up"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/eighteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/forgotPassTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:gravity="center"
+        android:padding="@dimen/ten_dp"
+        android:text="@string/forgot_password"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/eighteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
 </LinearLayout>

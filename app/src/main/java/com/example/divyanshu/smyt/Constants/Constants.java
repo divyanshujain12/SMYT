@@ -14,5 +14,10 @@ public interface Constants {
     String DATE_OF_BIRTH = "date_of_birth";
     String DATA = "data";
     String MESSAGE = "message";
+    String THUMB = "thumb";
+    String ID = "id";
+    String NAME = "name";
+    String DESC = "description";
+    String COUNT = "count";
     int REQUEST_TIMEOUT_TIME = 30000;
 }

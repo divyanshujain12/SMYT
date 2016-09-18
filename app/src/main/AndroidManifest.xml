@@ -3,6 +3,7 @@
     package="com.example.divyanshu.smyt">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".activities.MyApp"
         android:allowBackup="true"
@@ -24,9 +25,11 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.RecordVideoActivity" />
+
         <activity
             android:name=".activities.OtherUserProfileActivity"
             android:launchMode="singleInstance" />
+        <activity android:name=".activities.ForgotPassword"/>
     </application>
 
 </manifest>

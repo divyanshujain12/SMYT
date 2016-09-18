@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.CategoryDescUsersRvAdapter;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
@@ -37,6 +38,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
     @InjectView(R.id.toolbarView)
     Toolbar toolbarView;
     private CategoryDescUsersRvAdapter categoryDescUsersRvAdapter;
+    private CategoryModel categoriesModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +52,14 @@ public class CategoryDescriptionActivity extends BaseActivity {
 
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.description));
 
-        CategoryModel categoriesModel = SingletonClass.getInstance().getSelectedCategoryData(this);
+        categoriesModel = getIntent().getExtras().getParcelable(Constants.DATA);
 
         categoryIV.setImageResource(categoriesModel.getIcon());
         categoryNameTV.setText(categoriesModel.getcategory_name());
         categoryDescTV.setText(categoriesModel.getDescription());
 
         usersRV.setLayoutManager(new LinearLayoutManager(this));
-        categoryDescUsersRvAdapter = new CategoryDescUsersRvAdapter(this,this);
+        categoryDescUsersRvAdapter = new CategoryDescUsersRvAdapter(this, this);
 
         usersRV.setAdapter(categoryDescUsersRvAdapter);
     }
@@ -66,6 +68,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
     public void onClick() {
 
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra(Constants.DATA, categoriesModel);
         startActivity(intent);
     }
 

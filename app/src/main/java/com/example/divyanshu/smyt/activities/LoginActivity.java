@@ -42,6 +42,8 @@ public class LoginActivity extends BaseActivity {
     Button signInBT;
     @InjectView(R.id.signUpTV)
     TextView signUpTV;
+    @InjectView(R.id.forgotPassTV)
+    TextView forgotPassTV;
 
     private Validation validation;
     private HashMap<EditText, String> validationMap = new HashMap<>();
@@ -63,7 +65,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.signInBT, R.id.signUpTV})
+    @OnClick({R.id.signInBT, R.id.signUpTV,R.id.forgotPassTV})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signInBT:
@@ -73,6 +75,10 @@ public class LoginActivity extends BaseActivity {
             case R.id.signUpTV:
                 Intent intent = new Intent(this, SignUpActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.forgotPassTV:
+                Intent forgotPasswordIntent = new Intent(this, ForgotPassword.class);
+                startActivity(forgotPasswordIntent);
                 break;
         }
     }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.activities.CategoryDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
@@ -58,8 +59,9 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SingletonClass.getInstance().setSelectedCategoryPos(position);
+
                 Intent intent = new Intent(context, CategoryDescriptionActivity.class);
+                intent.putExtra(Constants.DATA, categoryModels.get(position));
                 context.startActivity(intent);
             }
         });

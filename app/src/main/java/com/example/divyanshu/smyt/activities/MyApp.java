@@ -68,6 +68,7 @@ public class MyApp extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
+        System.gc();
         Log.w(TAG, "Low Memory");
     }
 

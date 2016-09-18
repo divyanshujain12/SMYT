@@ -14,18 +14,12 @@ public class GenerateDummyData {
 
     public static void createUserAndCategoryData(Context context) {
 
-        SingletonClass.getInstance().categoriesModels.clear();
+
         SingletonClass.getInstance().userModels.clear();
 
         String[] categoryNames = context.getResources().getStringArray(R.array.genre_type);
         int[] categoriesImages = {R.drawable.genre_container_rock, R.drawable.genre_container_dj, R.drawable.genre_container_rap, R.drawable.genre_container_indie, R.drawable.genre_icon_electronics};
         for (int i = 0; i < 5; i++) {
-            CategoryModel categoryModel = new CategoryModel();
-            categoryModel.setIcon(categoriesImages[i]);
-            categoryModel.setcategory_name(categoryNames[i]);
-            categoryModel.setDescription(context.getString(R.string.cat_desc));
-            categoryModel.setUsersCount("476922");
-
             UserModel userModel = new UserModel();
             userModel.setName(context.getString(R.string.dummy_name));
             userModel.setImageResource(R.drawable.user);

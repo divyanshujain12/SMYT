@@ -1,6 +1,10 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.DatePicker;
 
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
@@ -18,11 +22,17 @@ import com.neopixl.pixlui.components.edittext.EditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+
+import static com.example.divyanshu.smyt.R.styleable.View;
 
 /**
  * Created by divyanshu on 8/26/2016.
@@ -59,6 +69,16 @@ public class SignUpActivity extends BaseActivity {
 
     private void InitViews() {
         addValidation();
+        dobET.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    new DatePickerDialog(SignUpActivity.this, date, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                return false;
+            }
+        });
     }
 
 
@@ -116,4 +136,31 @@ public class SignUpActivity extends BaseActivity {
         super.doAction();
         onBackPressed();
     }
+
+    Calendar myCalendar = Calendar.getInstance();
+
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            dobET.setText(String.valueOf(year) + "-" + String.valueOf(monthOfYear + 1) + "-" + String.valueOf(dayOfMonth));
+            // updateLabel();
+        }
+
+    };
+
+
+    private void updateLabel() {
+
+        String myFormat = "yyyy-mm-dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        dobET.setText(sdf.format(myCalendar.getTime()));
+    }
+
 }

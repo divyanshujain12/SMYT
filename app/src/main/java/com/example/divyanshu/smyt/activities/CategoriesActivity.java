@@ -28,6 +28,8 @@ import com.example.divyanshu.smyt.Utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -46,6 +48,7 @@ public class CategoriesActivity extends BaseActivity {
     Toolbar toolbarView;
     private CategoryUserRvAdapter categoryUserRvAdapter;
     private CategoryRvAdapter categoryRvAdapter;
+    private ArrayList<CategoryModel> categoriesModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class CategoriesActivity extends BaseActivity {
         super.onJsonObjectSuccess(response, apiType);
         switch (apiType) {
             case ApiCodes.CATEGORIES:
-                SingletonClass.getInstance().categoriesModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), CategoryModel.class);
+                categoriesModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), CategoryModel.class);
                 setCategoryAdapter();
                 break;
         }
@@ -94,14 +97,14 @@ public class CategoriesActivity extends BaseActivity {
     }
 
     private void setCategoryAdapter() {
-        categoryRvAdapter = new CategoryRvAdapter(this, SingletonClass.getInstance().getCategoriesModels());
+        categoryRvAdapter = new CategoryRvAdapter(this, categoriesModels);
         categoryRV.setAdapter(categoryRvAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (SingletonClass.getInstance().getCategoriesModels() == null || SingletonClass.getInstance().getCategoriesModels().isEmpty())
+        if (categoriesModels == null || categoriesModels.isEmpty())
             CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, null, this);
     }
 }

@@ -7,5 +7,6 @@ public interface ApiCodes {
     int SIGN_IN = 101;
     int SIGN_UP = 102;
     int CATEGORIES = 103;
+    int FORGOT_PASSWORD = 104;
 
 }

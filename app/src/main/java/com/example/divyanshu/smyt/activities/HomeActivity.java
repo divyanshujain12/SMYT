@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
@@ -43,12 +44,11 @@ public class HomeActivity extends BaseActivity {
 
     private void initViews() {
 
-        CategoryModel categoryModel = SingletonClass.getInstance().getSelectedCategoryData(this);
-        Utils.configureToolbarWithBackButton(this,toolbarView,categoryModel.getcategory_name() + "(" + categoryModel.getUsersCount() + ")");
+        CategoryModel categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
+        Utils.configureToolbarWithBackButton(this, toolbarView, categoryModel.getcategory_name() + "(" + categoryModel.getUsersCount() + ")");
 
         configViewPager();
     }
-
 
 
     private void configViewPager() {
