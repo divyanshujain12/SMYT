@@ -16,8 +16,7 @@ public class CategoryModel implements Parcelable {
     String status;
     String edate;
 
-    public CategoryModel() {
-    }
+    public CategoryModel() {}
 
     protected CategoryModel(Parcel in) {
         category_name = in.readString();
