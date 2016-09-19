@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.signInBT, R.id.signUpTV,R.id.forgotPassTV})
+    @OnClick({R.id.signInBT, R.id.signUpTV, R.id.forgotPassTV})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signInBT:
@@ -112,6 +112,7 @@ public class LoginActivity extends BaseActivity {
         MySharedPereference.getInstance().setString(this, Constants.PHONE_NUMBER, userModel.getPhonenumber());
         MySharedPereference.getInstance().setString(this, Constants.EMAIl, userModel.getEmail());
         MySharedPereference.getInstance().setString(this, Constants.DATE_OF_BIRTH, userModel.getDate_of_birth());
+        MySharedPereference.getInstance().setBoolean(this, Constants.IS_LOGGED_IN, true);
 
         Intent categoryIntent = new Intent(this, CategoriesActivity.class);
         startActivity(categoryIntent);

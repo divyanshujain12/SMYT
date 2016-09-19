@@ -5,7 +5,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -18,12 +20,12 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i = null;
-                //if (MySharedPereference.getInstance().getBoolean(SplashActivity.this, Constants.LOGGED_IN)) {
-                i = new Intent(SplashActivity.this, LoginActivity.class);
+                if (!MySharedPereference.getInstance().getBoolean(SplashActivity.this, Constants.IS_LOGGED_IN)) {
+                    i = new Intent(SplashActivity.this, LoginActivity.class);
 
-               /* } else {
-                    i = new Intent(SplashActivity.this, AppIntroActivity.class);
-                }*/
+                } else {
+                    i = new Intent(SplashActivity.this, CategoriesActivity.class);
+                }
                 startActivity(i);
                 finish();
             }

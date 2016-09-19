@@ -19,5 +19,6 @@ public interface Constants {
     String NAME = "name";
     String DESC = "description";
     String COUNT = "count";
+    String IS_LOGGED_IN = "is_logged_in";
     int REQUEST_TIMEOUT_TIME = 30000;
 }
