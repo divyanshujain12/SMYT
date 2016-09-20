@@ -29,6 +29,10 @@ public class CommonFunctions {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
+    public void showErrorSnackBar(Activity activity, String errorText) {
+        getErrorSnackbar(activity).setText(errorText).show();
+    }
+
     public TSnackbar getErrorSnackbar(Activity activity) {
         if (customErrorSnackbar == null)
             customErrorSnackbar = createErrorCustomSnackBar(activity);

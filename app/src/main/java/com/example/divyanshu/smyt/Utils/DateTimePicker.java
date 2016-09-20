@@ -1,14 +1,11 @@
 package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Context;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 
 import com.neopixl.pixlui.components.textview.TextView;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,8 +17,8 @@ import java.util.Locale;
 /**
  * Created by divyanshu.jain on 9/20/2016.
  */
-public class DateTimePicker implements com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener,
-        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
+public class DateTimePicker implements TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener {
 
 
     public static DateTimePicker getInstance(){
@@ -33,47 +30,52 @@ public class DateTimePicker implements com.wdullaer.materialdatetimepicker.time.
     private static Calendar mcurrentDate = Calendar.getInstance();
     private String DateFormat = "";
 
-    public static void showDateDialog(Context context, final TextView textView, final String DateFormat, String selectedDate) {
 
+
+    public void showDateDialog1(Activity context, final TextView textView, final String DateFormat, String selectedDate) {
+        this.DateFormat = DateFormat;
+        dateTimeTV = textView;
+        mcurrentDate = Calendar.getInstance();
         mcurrentDate.setTime(getCurrentSelectedDate(selectedDate, DateFormat));
-        int mYear = mcurrentDate.get(Calendar.YEAR);
-        int mMonth = mcurrentDate.get(Calendar.MONTH);
-        int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog mDatePicker = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                // TODO Auto-generated method stub
-                    /*      Your code   to get date and time    */
-                mcurrentDate.set(Calendar.YEAR, selectedyear);
-                mcurrentDate.set(Calendar.MONTH, selectedmonth);
-                mcurrentDate.set(Calendar.DAY_OF_MONTH, selectedday);
-                textView.setText(formatDateAndTime(mcurrentDate.getTimeInMillis(), DateFormat));
-            }
-        }, mYear, mMonth, mDay);
-        mDatePicker.setTitle("Select Date");
-        mDatePicker.getDatePicker().setMinDate(mcurrentDate.getTimeInMillis());
-        mDatePicker.show();
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                this,
+                mcurrentDate.get(Calendar.YEAR),
+                mcurrentDate.get(Calendar.MONTH),
+                mcurrentDate.get(Calendar.DAY_OF_MONTH)
+        );
+        dpd.setMinDate(mcurrentDate);
+        dpd.show(context.getFragmentManager(), "DatePickerDialog");
     }
 
+    public void showTimeDialog1(Activity context, final TextView textView) {
+        dateTimeTV = textView;
+        mcurrentDate = Calendar.getInstance();
+       TimePickerDialog tpd = TimePickerDialog.newInstance(
+                this,
+                mcurrentDate.get(Calendar.HOUR_OF_DAY),
+                mcurrentDate.get(Calendar.MINUTE),
+                false
+        );
+        tpd.show(context.getFragmentManager(), "TimePickerDialog");
+    }
 
-    public static void showTimeDialog(Context context, final TextView textView) {
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        mcurrentDate.set(Calendar.YEAR, year);
+        mcurrentDate.set(Calendar.MONTH, monthOfYear);
+        mcurrentDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        dateTimeTV.setText(formatDateAndTime(mcurrentDate.getTimeInMillis(), DateFormat));
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
         final Calendar myCalendar = Calendar.getInstance();
+        myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        myCalendar.set(Calendar.MINUTE, minute);
 
-        TimePickerDialog mTimePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
-                myCalendar.set(Calendar.HOUR_OF_DAY, selectedHour);
-                myCalendar.set(Calendar.MINUTE, selectedMinute);
-
-                textView.setText(formatDateAndTime(myCalendar.getTimeInMillis(), "hh:mm aa"));
-            }
-        }, Calendar.HOUR_OF_DAY, Calendar.MINUTE, false);//Yes 24 hour time
-        mTimePicker.setTitle("Select Time");
-
-        mTimePicker.show();
+        dateTimeTV.setText(formatDateAndTime(myCalendar.getTimeInMillis(), "hh:mm aa"));
     }
-
     public static String formatDateAndTime(long date, String format) {
         Date dt = new Date(date);
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
@@ -90,49 +92,4 @@ public class DateTimePicker implements com.wdullaer.materialdatetimepicker.time.
         return null;
     }
 
-
-    public void showDateDialog1(Activity context, final TextView textView, final String DateFormat, String selectedDate) {
-        this.DateFormat = DateFormat;
-        dateTimeTV = textView;
-        mcurrentDate = Calendar.getInstance();
-        mcurrentDate.setTime(getCurrentSelectedDate(selectedDate, DateFormat));
-
-        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
-                this,
-                mcurrentDate.get(Calendar.YEAR),
-                mcurrentDate.get(Calendar.MONTH),
-                mcurrentDate.get(Calendar.DAY_OF_MONTH)
-        );
-        dpd.setMinDate(mcurrentDate);
-        dpd.show(context.getFragmentManager(), "DatePickerDialog");
-    }
-
-    public void showTimeDialog1(Activity context, final TextView textView) {
-        dateTimeTV = textView;
-        mcurrentDate = Calendar.getInstance();
-        com.wdullaer.materialdatetimepicker.time.TimePickerDialog tpd = com.wdullaer.materialdatetimepicker.time.TimePickerDialog.newInstance(
-                this,
-                mcurrentDate.get(Calendar.HOUR_OF_DAY),
-                mcurrentDate.get(Calendar.MINUTE),
-                false
-        );
-        tpd.show(context.getFragmentManager(), "TimePickerDialog");
-    }
-
-    @Override
-    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        mcurrentDate.set(Calendar.YEAR, year);
-        mcurrentDate.set(Calendar.MONTH, monthOfYear);
-        mcurrentDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        dateTimeTV.setText(formatDateAndTime(mcurrentDate.getTimeInMillis(), DateFormat));
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-        final Calendar myCalendar = Calendar.getInstance();
-        myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        myCalendar.set(Calendar.MINUTE, minute);
-
-        dateTimeTV.setText(formatDateAndTime(myCalendar.getTimeInMillis(), "hh:mm aa"));
-    }
 }

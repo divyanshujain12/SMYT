@@ -16,12 +16,17 @@ import android.widget.Spinner;
 
 import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.DateTimePicker;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
@@ -142,7 +147,41 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
     @OnClick(R.id.postChallengeBT)
     public void onClick() {
+
+        createJsonArrayForChallengeTimeAndDate();
         getDialog().dismiss();
+    }
+
+    private void createJsonArrayForChallengeTimeAndDate() {
+        Date previousDate = null;
+        for (int i = 0; i < roundInfoLL.getChildCount(); i++) {
+            View view = roundInfoLL.getChildAt(i);
+            roundTimeValueTV = (TextView) view.findViewById(R.id.roundTimeValueTV);
+            roundDateValueTV = (TextView) view.findViewById(R.id.roundDateValueTV);
+            String dateValue = roundDateValueTV.getText().toString().trim();
+            String timeValue = roundTimeValueTV.getText().toString().trim();
+            Date date = null;
+            try {
+                date = getDateFromDateTmeString(dateValue, timeValue);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if (i > 0) {
+                long diff = (date.getTime() - previousDate.getTime()) / (60 * 60 * 1000);
+                if (diff > 24) {
+                    CommonFunctions.getInstance().showErrorSnackBar(getActivity(), String.format(getString(R.string.time_difference_error_msg), String.valueOf(i + 1)));
+                    break;
+                }
+            }
+            previousDate = date;
+        }
+    }
+
+    private Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm aa", Locale.ENGLISH);
+        dateValue = dateValue + " " + timeValue;
+        return simpleDateFormat.parse(dateValue);
     }
 
     @Override
@@ -171,6 +210,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         roundInfoLL.removeAllViews();
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         for (int i = 0; i < roundCount; i++) {
+
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             View customView = layoutInflater.inflate(R.layout.post_challenge_round_info_bar, null);
             TextView roundTimeTV = (TextView) customView.findViewById(R.id.roundTimeTV);
@@ -198,7 +238,6 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
     @Override
     public void onClick(View v) {
-
         TextView dateTimeTV = (TextView) v;
         switch (v.getId()) {
             case R.id.roundTimeValueTV:

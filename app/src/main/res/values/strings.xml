@@ -71,4 +71,5 @@
     <string name="send_password">Send Password</string>
     <string name="round_timing">Round %s Timing</string>
     <string name="round_date">Round %s Date</string>
+    <string name="time_difference_error_msg">Time difference must be greater than 24 hours in %s round</string>
 </resources>
