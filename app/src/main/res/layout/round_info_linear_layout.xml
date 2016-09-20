@@ -6,7 +6,6 @@
     android:id="@+id/roundInfoLL"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/ten_dp"
     android:orientation="vertical"
     tools:showIn="@layout/post_challenge_fragment">
 

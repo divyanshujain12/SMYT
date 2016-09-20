@@ -3,26 +3,29 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/eight_dp"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="@dimen/five_dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/roundTimeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha=".4"
             android:maxLines="2"
-            android:text="Round 1 Timing"
+            android:text="@string/round_timing"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
-        <com.neopixl.pixlui.components.edittext.EditText
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/roundTimeValueTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -40,22 +43,23 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="@dimen/five_dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/roundDateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha=".4"
             android:maxLines="2"
-
-            android:text="Round 1 Date"
+            android:text="@string/round_date"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
-        <com.neopixl.pixlui.components.edittext.EditText
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/roundDateValueTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
