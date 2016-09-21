@@ -20,5 +20,7 @@ public interface Constants {
     String DESC = "description";
     String COUNT = "count";
     String IS_LOGGED_IN = "is_logged_in";
+    String ROUND_TIME = "round_time";
+    String ROUND_DATE = "round_date";
     int REQUEST_TIMEOUT_TIME = 30000;
 }

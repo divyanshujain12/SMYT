@@ -21,8 +21,8 @@
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 
-    <com.neopixl.pixlui.components.edittext.EditText
-        android:id="@+id/friendET"
+    <AutoCompleteTextView
+        android:id="@+id/friendAC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -33,8 +33,7 @@
         android:drawableRight="@drawable/icon_search"
         android:textColor="@color/colorPrimary"
         android:textColorHint="@color/color_primary_with_eight_eight"
-        android:textSize="@dimen/sixteen_sp"
-        pixlui:typeface="Roboto-Medium.ttf" />
+        android:textSize="@dimen/sixteen_sp" />
 
     <View
         android:layout_width="match_parent"

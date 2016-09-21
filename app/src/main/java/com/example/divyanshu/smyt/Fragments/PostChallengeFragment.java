@@ -11,17 +11,23 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
+import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
-import com.example.divyanshu.smyt.Utils.DateTimePicker;
-import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.Utils.CustomDateTimePicker;
+import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,8 +62,8 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     Spinner shareWithSP;
     @InjectView(R.id.shareWithLL)
     LinearLayout shareWithLL;
-    @InjectView(R.id.friendET)
-    EditText friendET;
+    @InjectView(R.id.friendAC)
+    AutoCompleteTextView friendAC;
     @InjectView(R.id.searchFriendLL)
     LinearLayout searchFriendLL;
     @InjectView(R.id.postChallengeBT)
@@ -72,10 +78,11 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     TextView roundTimeValueTV;
     @InjectView(R.id.roundDateValueTV)
     TextView roundDateValueTV;
-    private int roundCount = 0;
     private String[] genreTypesArray = null, roundsCountArray = null, shareWithArray = null;
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String TIME_FORMAT = "hh:mm aa";
+    private Validation validation;
+    private String genreTypeStr, roundCountStr, shareWithStr;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +120,9 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     }
 
     private void initViews() {
-        addRoundNumberToTV(roundDateTV, roundTimeTV, 1);
+
+        validation = new Validation();
+        validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getActivity().getString(R.string.err_post_challenge_title)));
 
         genreTypesArray = getResources().getStringArray(R.array.genre_type);
         roundsCountArray = getResources().getStringArray(R.array.rounds_count);
@@ -149,33 +158,12 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     public void onClick() {
 
         createJsonArrayForChallengeTimeAndDate();
-        getDialog().dismiss();
+        // getDialog().dismiss();
     }
 
-    private void createJsonArrayForChallengeTimeAndDate() {
-        Date previousDate = null;
-        for (int i = 0; i < roundInfoLL.getChildCount(); i++) {
-            View view = roundInfoLL.getChildAt(i);
-            roundTimeValueTV = (TextView) view.findViewById(R.id.roundTimeValueTV);
-            roundDateValueTV = (TextView) view.findViewById(R.id.roundDateValueTV);
-            String dateValue = roundDateValueTV.getText().toString().trim();
-            String timeValue = roundTimeValueTV.getText().toString().trim();
-            Date date = null;
-            try {
-                date = getDateFromDateTmeString(dateValue, timeValue);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
 
-            if (i > 0) {
-                long diff = (date.getTime() - previousDate.getTime()) / (60 * 60 * 1000);
-                if (diff > 24) {
-                    CommonFunctions.getInstance().showErrorSnackBar(getActivity(), String.format(getString(R.string.time_difference_error_msg), String.valueOf(i + 1)));
-                    break;
-                }
-            }
-            previousDate = date;
-        }
+    private void showErrorMessage(int i) {
+        CommonFunctions.getInstance().showErrorSnackBar(declineTV, String.format(getString(R.string.time_difference_error_msg), String.valueOf(i + 1)));
     }
 
     private Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
@@ -189,15 +177,30 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         int parentId = parent.getId();
         switch (parentId) {
             case R.id.genreTypeSP:
+                genreTypeStr = genreTypesArray[position];
                 break;
             case R.id.roundsCountSP:
-                roundCount = Integer.parseInt(roundsCountArray[position].substring(0, 1).trim());
-                addRoundDateTimeLayouts(roundCount);
+                roundCountStr = roundsCountArray[position].substring(0, 1).trim();
+                addRoundDateTimeLayouts(Integer.parseInt(roundCountStr));
                 break;
             case R.id.shareWithSP:
+                shareWith(position);
                 break;
 
         }
+    }
+
+    private void shareWith(int position) {
+        switch (position) {
+            case 0:
+                searchFriendLL.setVisibility(View.GONE);
+                break;
+
+            case 1:
+                searchFriendLL.setVisibility(View.VISIBLE);
+                break;
+        }
+        shareWithStr = shareWithArray[position];
     }
 
     @Override
@@ -206,7 +209,6 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     }
 
     private void addRoundDateTimeLayouts(int roundCount) {
-
         roundInfoLL.removeAllViews();
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         for (int i = 0; i < roundCount; i++) {
@@ -221,8 +223,8 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
             calendar.add(Calendar.DATE, +1);
 
-            roundDateValueTV.setText(DateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), DATE_FORMAT));
-            roundTimeValueTV.setText(DateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), TIME_FORMAT));
+            roundDateValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), DATE_FORMAT));
+            roundTimeValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), TIME_FORMAT));
 
             roundTimeValueTV.setOnClickListener(PostChallengeFragment.this);
             roundDateValueTV.setOnClickListener(PostChallengeFragment.this);
@@ -241,11 +243,46 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         TextView dateTimeTV = (TextView) v;
         switch (v.getId()) {
             case R.id.roundTimeValueTV:
-                DateTimePicker.getInstance().showTimeDialog1(getActivity(), dateTimeTV);
+                CustomDateTimePicker.getInstance().showTimeDialog1(getActivity(), dateTimeTV);
                 break;
             case R.id.roundDateValueTV:
-                DateTimePicker.getInstance().showDateDialog1(getActivity(), dateTimeTV, DATE_FORMAT, dateTimeTV.getText().toString().trim());
+                CustomDateTimePicker.getInstance().showDateDialog1(getActivity(), dateTimeTV, DATE_FORMAT, dateTimeTV.getText().toString().trim());
                 break;
         }
     }
+
+    private void createJsonArrayForChallengeTimeAndDate() {
+
+        JSONArray jsonArray = new JSONArray();
+        Date previousDate = Calendar.getInstance(Locale.getDefault()).getTime();
+        for (int i = 0; i < roundInfoLL.getChildCount(); i++) {
+            JSONObject jsonObject = new JSONObject();
+
+            View view = roundInfoLL.getChildAt(i);
+            roundTimeValueTV = (TextView) view.findViewById(R.id.roundTimeValueTV);
+            roundDateValueTV = (TextView) view.findViewById(R.id.roundDateValueTV);
+            String dateValue = roundDateValueTV.getText().toString().trim();
+            String timeValue = roundTimeValueTV.getText().toString().trim();
+            Date date;
+            try {
+                date = getDateFromDateTmeString(dateValue, timeValue);
+                long diff = (date.getTime() - previousDate.getTime()) / (60 * 60 * 1000);
+                if (diff < 24) {
+                    showErrorMessage(i);
+                    break;
+                }
+
+                previousDate = date;
+
+                jsonObject.put(Constants.ROUND_TIME, timeValue);
+                jsonObject.put(Constants.ROUND_DATE, dateValue);
+
+                jsonArray.put(jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 }

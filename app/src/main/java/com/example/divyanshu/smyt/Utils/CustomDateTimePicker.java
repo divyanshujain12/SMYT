@@ -17,12 +17,12 @@ import java.util.Locale;
 /**
  * Created by divyanshu.jain on 9/20/2016.
  */
-public class DateTimePicker implements TimePickerDialog.OnTimeSetListener,
+public class CustomDateTimePicker implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
 
 
-    public static DateTimePicker getInstance(){
-        return new DateTimePicker();
+    public static CustomDateTimePicker getInstance(){
+        return new CustomDateTimePicker();
     }
 
 

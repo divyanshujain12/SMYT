@@ -72,4 +72,5 @@
     <string name="round_timing">Round %s Timing</string>
     <string name="round_date">Round %s Date</string>
     <string name="time_difference_error_msg">Time difference must be greater than 24 hours in %s round</string>
+    <string name="err_post_challenge_title">Title Cant Left Blank!</string>
 </resources>
