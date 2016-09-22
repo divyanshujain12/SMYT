@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.Utils;
+package com.example.divyanshu.smyt.CustomViews;
 
 import android.app.Activity;
 
@@ -20,8 +20,11 @@ import java.util.Locale;
 public class CustomDateTimePicker implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
 
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String TIME_FORMAT = "hh:mm aa";
+    public static final String DEFAULT_DATE = "1900-01-01";
 
-    public static CustomDateTimePicker getInstance(){
+    public static CustomDateTimePicker getInstance() {
         return new CustomDateTimePicker();
     }
 
@@ -30,9 +33,11 @@ public class CustomDateTimePicker implements TimePickerDialog.OnTimeSetListener,
     private static Calendar mcurrentDate = Calendar.getInstance();
     private String DateFormat = "";
 
+ /*
+       Custom Date Picker
+     */
 
-
-    public void showDateDialog1(Activity context, final TextView textView, final String DateFormat, String selectedDate) {
+    public void showDateDialog(Activity context, final TextView textView, final String DateFormat, String selectedDate) {
         this.DateFormat = DateFormat;
         dateTimeTV = textView;
         mcurrentDate = Calendar.getInstance();
@@ -48,10 +53,13 @@ public class CustomDateTimePicker implements TimePickerDialog.OnTimeSetListener,
         dpd.show(context.getFragmentManager(), "DatePickerDialog");
     }
 
-    public void showTimeDialog1(Activity context, final TextView textView) {
+    /*
+      Custom Time Picker
+    */
+    public void showTimeDialog(Activity context, final TextView textView) {
         dateTimeTV = textView;
         mcurrentDate = Calendar.getInstance();
-       TimePickerDialog tpd = TimePickerDialog.newInstance(
+        TimePickerDialog tpd = TimePickerDialog.newInstance(
                 this,
                 mcurrentDate.get(Calendar.HOUR_OF_DAY),
                 mcurrentDate.get(Calendar.MINUTE),
@@ -74,8 +82,9 @@ public class CustomDateTimePicker implements TimePickerDialog.OnTimeSetListener,
         myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         myCalendar.set(Calendar.MINUTE, minute);
 
-        dateTimeTV.setText(formatDateAndTime(myCalendar.getTimeInMillis(), "hh:mm aa"));
+        dateTimeTV.setText(formatDateAndTime(myCalendar.getTimeInMillis(), TIME_FORMAT));
     }
+
     public static String formatDateAndTime(long date, String format) {
         Date dt = new Date(date);
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());

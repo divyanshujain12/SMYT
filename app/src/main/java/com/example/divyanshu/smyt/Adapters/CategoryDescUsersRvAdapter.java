@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  */
 public class CategoryDescUsersRvAdapter extends RecyclerView.Adapter<CategoryDescUsersRvAdapter.MyViewHolder> {
 
-    private ArrayList<UserModel> userList;
+    private ArrayList<UserModel> userList = new ArrayList<>();
     private Context context;
     private ImageLoading imageLoading;
     private RecyclerViewClick recyclerViewClick;
@@ -45,7 +44,6 @@ public class CategoryDescUsersRvAdapter extends RecyclerView.Adapter<CategoryDes
 
     public CategoryDescUsersRvAdapter(Context context, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
-        this.userList = SingletonClass.getInstance().userModels;
         this.context = context;
         imageLoading = new ImageLoading(context, 5);
     }
@@ -62,12 +60,12 @@ public class CategoryDescUsersRvAdapter extends RecyclerView.Adapter<CategoryDes
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         UserModel userModel = userList.get(position);
 
-        holder.userNameTV.setText(userModel.getName());
-        imageLoading.LoadImage(userModel.getImageUrl(), holder.userIV, null);
-        holder.ageAndGenderTV.setText(userModel.getAge() + " " + userModel.getGender());
-        holder.winsCountTV.setText("Wins: " + userModel.getWins());
+        holder.userNameTV.setText(userModel.getUsername());
+        imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
+        holder.ageAndGenderTV.setText(userModel.getDate_of_birth() + " " + userModel.getGender());
+        holder.winsCountTV.setText("Wins: " + userModel.getTotal_wins());
         holder.followersCountTV.setText("Followers: " + userModel.getFollowers());
-        holder.aboutTV.setText(userModel.getAbout());
+        holder.aboutTV.setText(userModel.getTimeline_msg());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,5 +78,10 @@ public class CategoryDescUsersRvAdapter extends RecyclerView.Adapter<CategoryDes
     @Override
     public int getItemCount() {
         return userList.size();
+    }
+
+    public void addData(ArrayList<UserModel> userModels) {
+        this.userList = userModels;
+        notifyDataSetChanged();
     }
 }

@@ -41,8 +41,8 @@ public class UploadVideoFragment extends BaseDialogFragment {
     Spinner genreTypeSP;
     @InjectView(R.id.shareWithSP)
     Spinner shareWithSP;
-    @InjectView(R.id.friendET)
-    EditText friendET;
+    @InjectView(R.id.friendAC)
+    EditText friendAC;
     @InjectView(R.id.postVideoBT)
     Button postVideoBT;
     ArrayAdapter<String> arrayAdapter;

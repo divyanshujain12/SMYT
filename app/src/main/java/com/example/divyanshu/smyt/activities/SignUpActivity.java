@@ -1,10 +1,9 @@
 package com.example.divyanshu.smyt.activities;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
@@ -14,30 +13,29 @@ import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
-import com.example.divyanshu.smyt.Utils.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
+import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.StringTokenizer;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static com.example.divyanshu.smyt.R.styleable.View;
+import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker.DATE_FORMAT;
+import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker.DEFAULT_DATE;
 
 /**
  * Created by divyanshu on 8/26/2016.
  */
-public class SignUpActivity extends BaseActivity {
+public class SignUpActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
 
     @InjectView(R.id.firstnameET)
     EditText firstnameET;
@@ -45,8 +43,8 @@ public class SignUpActivity extends BaseActivity {
     EditText lastnameET;
     @InjectView(R.id.phoneNumberET)
     EditText phoneNumberET;
-    @InjectView(R.id.dobET)
-    EditText dobET;
+    @InjectView(R.id.dobTV)
+    TextView dobTV;
     @InjectView(R.id.emailET)
     EditText emailET;
     @InjectView(R.id.passwordET)
@@ -55,8 +53,17 @@ public class SignUpActivity extends BaseActivity {
     EditText reEnterPasswordET;
     @InjectView(R.id.signUpBT)
     Button signUpBT;
+    @InjectView(R.id.userNameET)
+    EditText userNameET;
+    @InjectView(R.id.radioM)
+    RadioButton radioM;
+    @InjectView(R.id.radioF)
+    RadioButton radioF;
+    @InjectView(R.id.radioGrp)
+    RadioGroup radioGrp;
     private Validation validation;
-    private HashMap<EditText, String> formValues;
+    private HashMap<View, String> formValues;
+    private String genderStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,23 +75,26 @@ public class SignUpActivity extends BaseActivity {
     }
 
     private void InitViews() {
+
+        genderStr = getString(R.string.gender_male);
         addValidation();
-        dobET.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN)
-                    new DatePickerDialog(SignUpActivity.this, date, myCalendar
-                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                return false;
-            }
-        });
+        radioGrp.setOnCheckedChangeListener(this);
     }
 
 
-    @OnClick(R.id.signUpBT)
-    public void onClick() {
+    @OnClick({R.id.signUpBT, R.id.dobTV})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.signUpBT:
+                hitWebService();
+                break;
+            case R.id.dobTV:
+                CustomDateTimePicker.getInstance().showDateDialog(this, dobTV, DATE_FORMAT, DEFAULT_DATE);
+                break;
+        }
+    }
 
+    private void hitWebService() {
         formValues = validation.validate(this);
         if (formValues != null) {
             if (!formValues.get(passwordET).equals(formValues.get(reEnterPasswordET))) {
@@ -107,8 +117,9 @@ public class SignUpActivity extends BaseActivity {
         validation = new Validation();
         validation.addValidationField(new ValidationModel(firstnameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_first_name)));
         validation.addValidationField(new ValidationModel(lastnameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_last_name)));
+        validation.addValidationField(new ValidationModel(userNameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_user_name)));
         validation.addValidationField(new ValidationModel(phoneNumberET, Validation.TYPE_PHONE_VALIDATION, getString(R.string.err_phone_number)));
-        validation.addValidationField(new ValidationModel(dobET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_dob)));
+        validation.addValidationField(new ValidationModel(dobTV, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_dob)));
         validation.addValidationField(new ValidationModel(emailET, Validation.TYPE_EMAIL_VALIDATION, getString(R.string.err_email)));
         validation.addValidationField(new ValidationModel(passwordET, Validation.TYPE_PASSWORD_VALIDATION, getString(R.string.err_pass)));
         validation.addValidationField(new ValidationModel(reEnterPasswordET, Validation.TYPE_PASSWORD_VALIDATION, getString(R.string.err_re_enter_pass)));
@@ -119,11 +130,12 @@ public class SignUpActivity extends BaseActivity {
         try {
             jsonObject.put(Constants.FIRST_NAME, formValues.get(firstnameET));
             jsonObject.put(Constants.LAST_NAME, formValues.get(lastnameET));
+            jsonObject.put(Constants.USER_NAME, formValues.get(userNameET));
             jsonObject.put(Constants.PHONE_NUMBER, formValues.get(phoneNumberET));
-            jsonObject.put(Constants.DATE_OF_BIRTH, formValues.get(dobET));
+            jsonObject.put(Constants.DATE_OF_BIRTH, formValues.get(dobTV));
+            jsonObject.put(Constants.GENDER,genderStr);
             jsonObject.put(Constants.EMAIl, formValues.get(emailET));
             jsonObject.put(Constants.PASSWORD, formValues.get(passwordET));
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -136,31 +148,15 @@ public class SignUpActivity extends BaseActivity {
         super.doAction();
         onBackPressed();
     }
-
-    Calendar myCalendar = Calendar.getInstance();
-
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            dobET.setText(String.valueOf(year) + "-" + String.valueOf(monthOfYear + 1) + "-" + String.valueOf(dayOfMonth));
-            // updateLabel();
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.radioM:
+                genderStr = getString(R.string.gender_male);
+                break;
+            case R.id.radioF:
+                genderStr = getString(R.string.gender_female);
+                break;
         }
-
-    };
-
-
-    private void updateLabel() {
-
-        String myFormat = "yyyy-mm-dd"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        dobET.setText(sdf.format(myCalendar.getTime()));
     }
-
 }

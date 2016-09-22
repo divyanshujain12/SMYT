@@ -2,22 +2,13 @@ package com.example.divyanshu.smyt.Utils;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.support.design.widget.Snackbar;
-import android.text.Html;
 import android.util.Patterns;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
 
 import com.androidadvance.topsnackbar.TSnackbar;
-import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.ValidationModel;
-import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.edittext.EditText;
+import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +22,8 @@ public class Validation {
     public final static int TYPE_PHONE_VALIDATION = 2;
     public final static int TYPE_PASSWORD_VALIDATION = 3;
     public final static int TYPE_EMPTY_FIELD_VALIDATION = 4;
+    private EditText editText = null;
+    private TextView textView = null;
 
     private ArrayList<ValidationModel> validationModels = new ArrayList<>();
 
@@ -38,12 +31,21 @@ public class Validation {
         validationModels.add(validationModel);
     }
 
-    public HashMap<EditText, String> validate(Activity activity) {
+    public HashMap<View, String> validate(Activity activity) {
         TSnackbar snackbar = CommonFunctions.getInstance().getErrorSnackbar(activity);
-        HashMap<EditText, String> valueMap = new HashMap<>();
+        HashMap<View, String> valueMap = new HashMap<>();
 
         for (ValidationModel validationModel : validationModels) {
-            String editTextValue = validationModel.editText.getText().toString();
+            if (validationModel.getView() instanceof EditText) {
+                editText = (EditText) validationModel.getView();
+                textView = null;
+            } else if (validationModel.getView() instanceof TextView) {
+                textView = (TextView) validationModel.getView();
+                editText = null;
+            }
+
+
+            String editTextValue = (editText == null ? textView : editText).getText().toString();
             boolean status = false;
             switch (validationModel.validationType) {
                 case TYPE_NAME_VALIDATION:
@@ -67,7 +69,7 @@ public class Validation {
                 return null;
 
             }
-            valueMap.put(validationModel.editText, editTextValue);
+            valueMap.put((editText == null ? textView : editText), editTextValue);
         }
         return valueMap;
     }

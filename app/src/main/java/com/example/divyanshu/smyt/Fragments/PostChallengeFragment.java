@@ -20,7 +20,7 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
-import com.example.divyanshu.smyt.Utils.CustomDateTimePicker;
+import com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -79,8 +79,6 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     @InjectView(R.id.roundDateValueTV)
     TextView roundDateValueTV;
     private String[] genreTypesArray = null, roundsCountArray = null, shareWithArray = null;
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-    private static final String TIME_FORMAT = "hh:mm aa";
     private Validation validation;
     private String genreTypeStr, roundCountStr, shareWithStr;
 
@@ -223,8 +221,8 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
             calendar.add(Calendar.DATE, +1);
 
-            roundDateValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), DATE_FORMAT));
-            roundTimeValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), TIME_FORMAT));
+            roundDateValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), CustomDateTimePicker.DATE_FORMAT));
+            roundTimeValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), CustomDateTimePicker.TIME_FORMAT));
 
             roundTimeValueTV.setOnClickListener(PostChallengeFragment.this);
             roundDateValueTV.setOnClickListener(PostChallengeFragment.this);
@@ -243,10 +241,10 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         TextView dateTimeTV = (TextView) v;
         switch (v.getId()) {
             case R.id.roundTimeValueTV:
-                CustomDateTimePicker.getInstance().showTimeDialog1(getActivity(), dateTimeTV);
+                CustomDateTimePicker.getInstance().showTimeDialog(getActivity(), dateTimeTV);
                 break;
             case R.id.roundDateValueTV:
-                CustomDateTimePicker.getInstance().showDateDialog1(getActivity(), dateTimeTV, DATE_FORMAT, dateTimeTV.getText().toString().trim());
+                CustomDateTimePicker.getInstance().showDateDialog(getActivity(), dateTimeTV, CustomDateTimePicker.DATE_FORMAT, dateTimeTV.getText().toString().trim());
                 break;
         }
     }

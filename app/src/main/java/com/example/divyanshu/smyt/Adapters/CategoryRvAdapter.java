@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.activities.CategoryDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
@@ -24,6 +25,7 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
 
     private ArrayList<CategoryModel> categoryModels;
     private Context context;
+    private ImageLoading imageLoading;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView categoryNameTV, userTimeTV;
@@ -40,6 +42,7 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
     public CategoryRvAdapter(Context context, ArrayList<CategoryModel> categoryModels) {
         this.categoryModels = categoryModels;
         this.context = context;
+        imageLoading = new ImageLoading(context);
     }
 
     @Override
@@ -52,10 +55,10 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        CategoryModel userModel = categoryModels.get(position);
+        CategoryModel categoryModel = categoryModels.get(position);
 
-        holder.categoryNameTV.setText(userModel.getcategory_name());
-        holder.categoryIV.setImageResource(userModel.getIcon());
+        holder.categoryNameTV.setText(categoryModel.getcategory_name());
+        imageLoading.LoadImage(categoryModel.getThumbnail(), holder.categoryIV, null);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

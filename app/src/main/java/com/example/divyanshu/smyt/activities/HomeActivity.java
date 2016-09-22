@@ -11,7 +11,6 @@ import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
-import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
@@ -45,7 +44,7 @@ public class HomeActivity extends BaseActivity {
     private void initViews() {
 
         CategoryModel categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
-        Utils.configureToolbarWithBackButton(this, toolbarView, categoryModel.getcategory_name() + "(" + categoryModel.getUsersCount() + ")");
+        Utils.configureToolbarWithBackButton(this, toolbarView, categoryModel.getcategory_name() + "(" + categoryModel.getUsercount() + ")");
 
         configViewPager();
     }

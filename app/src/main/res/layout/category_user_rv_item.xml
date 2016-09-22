@@ -39,7 +39,7 @@
                 android:alpha=".65"
                 android:maxLines="2"
                 android:text="Neanda"
-                android:textSize="@dimen/eighteen_sp"
+                android:textSize="@dimen/fifteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -49,7 +49,7 @@
                 android:layout_weight="6"
                 android:gravity="right"
                 android:text="22 min ago"
-                android:textSize="@dimen/fourteen_sp"
+                android:textSize="@dimen/thirteen_sp"
                 pixlui:typeface="Roboto-Regular.ttf" />
 
         </LinearLayout>

@@ -7,26 +7,23 @@ import android.os.Parcelable;
  * Created by divyanshu on 8/26/2016.
  */
 public class CategoryModel implements Parcelable {
-    String category_name;
     String category_id;
-    String thumbnail;
-    int icon;
+    String category_name;
     String description;
-    String usersCount;
-    String status;
-    String edate;
+    String thumbnail;
+    int usercount;
+    int join_status;
 
-    public CategoryModel() {}
+    public CategoryModel() {
+    }
 
     protected CategoryModel(Parcel in) {
         category_name = in.readString();
         category_id = in.readString();
         thumbnail = in.readString();
-        icon = in.readInt();
         description = in.readString();
-        usersCount = in.readString();
-        status = in.readString();
-        edate = in.readString();
+        usercount = in.readInt();
+        join_status = in.readInt();
     }
 
     public static final Creator<CategoryModel> CREATOR = new Creator<CategoryModel>() {
@@ -65,14 +62,6 @@ public class CategoryModel implements Parcelable {
         this.thumbnail = thumbnail;
     }
 
-    public int getIcon() {
-        return icon;
-    }
-
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -81,28 +70,20 @@ public class CategoryModel implements Parcelable {
         this.description = description;
     }
 
-    public String getUsersCount() {
-        return usersCount;
+    public int getUsercount() {
+        return usercount;
     }
 
-    public void setUsersCount(String usersCount) {
-        this.usersCount = usersCount;
+    public void setUsercount(int usercount) {
+        this.usercount = usercount;
     }
 
-    public String getStatus() {
-        return status;
+    public int getJoin_status() {
+        return join_status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getEdate() {
-        return edate;
-    }
-
-    public void setEdate(String edate) {
-        this.edate = edate;
+    public void setJoin_status(int join_status) {
+        this.join_status = join_status;
     }
 
     @Override
@@ -115,10 +96,8 @@ public class CategoryModel implements Parcelable {
         dest.writeString(category_name);
         dest.writeString(category_id);
         dest.writeString(thumbnail);
-        dest.writeInt(icon);
         dest.writeString(description);
-        dest.writeString(usersCount);
-        dest.writeString(status);
-        dest.writeString(edate);
+        dest.writeInt(usercount);
+        dest.writeInt(join_status);
     }
 }

@@ -7,7 +7,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.telecom.Call;
 import android.view.View;
 
 import com.example.divyanshu.smyt.Adapters.CategoryRvAdapter;
@@ -16,13 +15,14 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
-import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Models.CategoryModel;
+import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Parser.UserParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
-import com.example.divyanshu.smyt.Utils.GenerateDummyData;
 import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
-import com.example.divyanshu.smyt.Utils.UniversalParser;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.Utils.Utils;
 
 import org.json.JSONException;
@@ -49,6 +49,7 @@ public class CategoriesActivity extends BaseActivity {
     private CategoryUserRvAdapter categoryUserRvAdapter;
     private CategoryRvAdapter categoryRvAdapter;
     private ArrayList<CategoryModel> categoriesModels = new ArrayList<>();
+    private ArrayList<UserModel> userModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +63,14 @@ public class CategoriesActivity extends BaseActivity {
     private void InitViews() {
 
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.categories));
-        GenerateDummyData.createUserAndCategoryData(this);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.eight_dp);
         categoryRV.addItemDecoration(itemDecoration);
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
-        setCategoryAdapter();
-        categoryUserRvAdapter = new CategoryUserRvAdapter(this, SingletonClass.getInstance().userModels, this);
+        setUserAndCategoryAdapter();
+        categoryUserRvAdapter = new CategoryUserRvAdapter(this, userModels, this);
         userRV.setAdapter(categoryUserRvAdapter);
 
 
@@ -89,22 +88,37 @@ public class CategoriesActivity extends BaseActivity {
         super.onJsonObjectSuccess(response, apiType);
         switch (apiType) {
             case ApiCodes.CATEGORIES:
-                categoriesModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), CategoryModel.class);
-                setCategoryAdapter();
+                JSONObject data = response.getJSONObject(Constants.DATA);
+                categoriesModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(data.optJSONArray(Constants.CATEGORY), CategoryModel.class);
+                userModels = UserParser.getParsedUserData(data.optJSONArray(Constants.CUSTOMERS));
+                setUserAndCategoryAdapter();
                 break;
         }
 
     }
 
-    private void setCategoryAdapter() {
+    private void setUserAndCategoryAdapter() {
         categoryRvAdapter = new CategoryRvAdapter(this, categoriesModels);
+        categoryUserRvAdapter = new CategoryUserRvAdapter(this, userModels, this);
         categoryRV.setAdapter(categoryRvAdapter);
+        userRV.setAdapter(categoryUserRvAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (categoriesModels == null || categoriesModels.isEmpty())
-            CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, null, this);
+            CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, createJsonForGetCatAndUser(), this);
+    }
+
+    private JSONObject createJsonForGetCatAndUser() {
+        String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : customerID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

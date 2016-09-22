@@ -1,25 +1,25 @@
 package com.example.divyanshu.smyt.Models;
 
-import com.neopixl.pixlui.components.edittext.EditText;
+import android.view.View;
 
 public class ValidationModel {
-        public EditText editText;
+        public View view;
         public int validationType;
         public String errorMessage;
 
 
-        public ValidationModel(EditText editText, int validationType, String errorMessage) {
-            this.editText = editText;
+        public ValidationModel(View view, int validationType, String errorMessage) {
+            this.view = view;
             this.validationType = validationType;
             this.errorMessage = errorMessage;
         }
 
-        public EditText getEditText() {
-            return editText;
+        public View getView() {
+            return view;
         }
 
-        public void setEditText(EditText editText) {
-            this.editText = editText;
+        public void setView(View editText) {
+            this.view = editText;
         }
 
         public int getValidationType() {

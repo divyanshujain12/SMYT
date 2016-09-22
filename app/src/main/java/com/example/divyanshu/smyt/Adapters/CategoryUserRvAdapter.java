@@ -5,19 +5,16 @@ package com.example.divyanshu.smyt.Adapters;
  */
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -52,7 +49,6 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.category_user_rv_item, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
@@ -60,9 +56,9 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         UserModel userModel = userList.get(position);
 
-        holder.userNameTV.setText(userModel.getName());
-        imageLoading.LoadImage(userModel.getImageUrl(), holder.userIV, null);
-        holder.userTimeTV.setText(userModel.getAgoTime());
+        holder.userNameTV.setText(userModel.getFirst_name());
+        imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
+        holder.userTimeTV.setText(userModel.getActive_before() + " " + context.getString(R.string.ago));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

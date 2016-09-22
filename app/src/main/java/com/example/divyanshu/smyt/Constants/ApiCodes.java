@@ -8,5 +8,7 @@ public interface ApiCodes {
     int SIGN_UP = 102;
     int CATEGORIES = 103;
     int FORGOT_PASSWORD = 104;
+    int CATEGORY_DESC_USERS = 105;
+    int JOIN_CATEGORY = 106;
 
 }

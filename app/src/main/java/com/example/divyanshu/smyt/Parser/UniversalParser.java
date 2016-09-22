@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.Utils;
+package com.example.divyanshu.smyt.Parser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

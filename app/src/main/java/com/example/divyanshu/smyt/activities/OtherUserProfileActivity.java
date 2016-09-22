@@ -17,9 +17,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
@@ -74,6 +76,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     private ViewPagerAdapter viewPagerAdapter;
     private Animation fabIn, fabOut;
+    private UserModel userModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +88,18 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     private void initViews() {
 
-
+        updateUi();
         createAnimation();
         ConfigViewPager();
         Utils.configureToolbarWithBackButton(this, toolbar, "");
+    }
+
+    private void updateUi() {
+        userModel = getIntent().getExtras().getParcelable(Constants.USER_DATA);
+        txtName.setText(userModel.getFirst_name());
+        phoneNumberTV.setText(userModel.getPhonenumber());
+        followersCountTV.setText(userModel.getFollowers());
+        followingCountTV.setText(userModel.getFollowing());
     }
 
     private void ConfigViewPager() {

@@ -11,6 +11,7 @@ import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Interfaces.UpdateUiCallback;
 import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,7 @@ import org.json.JSONObject;
 /**
  * Created by divyanshu on 5/29/2016.
  */
-public class BaseActivity extends AppCompatActivity implements CallWebService.ObjectResponseCallBack, SnackBarCallback, UpdateUiCallback,RecyclerViewClick {
+public class BaseActivity extends AppCompatActivity implements CallWebService.ObjectResponseCallBack, SnackBarCallback, UpdateUiCallback, RecyclerViewClick {
 
     @Override
     public void doAction() {
@@ -59,6 +60,6 @@ public class BaseActivity extends AppCompatActivity implements CallWebService.Ob
 
     @Override
     public void onFailure(String str, int apiType) {
-
+        CommonFunctions.getInstance().showErrorSnackBar(this, str);
     }
 }

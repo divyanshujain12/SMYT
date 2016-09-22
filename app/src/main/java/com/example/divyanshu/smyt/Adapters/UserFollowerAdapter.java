@@ -61,12 +61,12 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         UserModel userModel = userList.get(position);
 
-        holder.userNameTV.setText(userModel.getName());
-        imageLoading.LoadImage(userModel.getImageUrl(), holder.userIV, null);
-        holder.ageAndGenderTV.setText(userModel.getAge() + " " + userModel.getGender());
-        holder.winsCountTV.setText("Wins: " + userModel.getWins());
+        holder.userNameTV.setText(userModel.getUsername());
+        imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
+        holder.ageAndGenderTV.setText(userModel.getDate_of_birth() + " " + userModel.getGender());
+        holder.winsCountTV.setText("Wins: " + userModel.getTotal_wins());
         holder.followersCountTV.setText("Followers: " + userModel.getFollowers());
-        holder.aboutTV.setText(userModel.getAbout());
+        holder.aboutTV.setText(userModel.getTimeline_msg());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

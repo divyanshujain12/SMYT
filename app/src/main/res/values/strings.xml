@@ -73,4 +73,7 @@
     <string name="round_date">Round %s Date</string>
     <string name="time_difference_error_msg">Time difference must be greater than 24 hours in %s round</string>
     <string name="err_post_challenge_title">Title Cant Left Blank!</string>
+    <string name="err_user_name">Enter user name</string>
+    <string name="gender">Gender</string>
+    <string name="ago">ago</string>
 </resources>

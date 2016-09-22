@@ -12,9 +12,8 @@ import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
-import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
-import com.example.divyanshu.smyt.Utils.UniversalParser;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -46,7 +45,7 @@ public class LoginActivity extends BaseActivity {
     TextView forgotPassTV;
 
     private Validation validation;
-    private HashMap<EditText, String> validationMap = new HashMap<>();
+    private HashMap<View, String> validationMap = new HashMap<>();
 
     @Override
 
@@ -112,16 +111,12 @@ public class LoginActivity extends BaseActivity {
         MySharedPereference.getInstance().setString(this, Constants.PHONE_NUMBER, userModel.getPhonenumber());
         MySharedPereference.getInstance().setString(this, Constants.EMAIl, userModel.getEmail());
         MySharedPereference.getInstance().setString(this, Constants.DATE_OF_BIRTH, userModel.getDate_of_birth());
+        MySharedPereference.getInstance().setString(this, Constants.PASSWORD, validationMap.get(passwordET));
+        MySharedPereference.getInstance().setString(this, Constants.CUSTOMER_ID, userModel.getCustomer_id());
         MySharedPereference.getInstance().setBoolean(this, Constants.IS_LOGGED_IN, true);
 
         Intent categoryIntent = new Intent(this, CategoriesActivity.class);
         startActivity(categoryIntent);
     }
 
-    @Override
-    public void onFailure(String str, int apiType) {
-        super.onFailure(str, apiType);
-        CommonFunctions.getInstance().getErrorSnackbar(this).setText(str).show();
-
-    }
 }

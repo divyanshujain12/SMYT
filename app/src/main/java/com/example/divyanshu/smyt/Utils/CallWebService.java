@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomProgressDialog;
 import com.example.divyanshu.smyt.activities.MyApp;
 
 import org.json.JSONArray;
@@ -103,7 +104,12 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
 
     private void onJsonObjectResponse(JSONObject response) {
         try {
-            objectCallBackInterface.onJsonObjectSuccess(response, apiCode);
+            if(response.getBoolean(Constants.STATUS_CODE)) {
+                objectCallBackInterface.onJsonObjectSuccess(response, apiCode);
+            }
+            else {
+                onError(response.getString(Constants.MESSAGE));
+            }
         } catch (final JSONException e) {
             onError(e.getMessage());
             e.printStackTrace();

@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/twenty_dp"
         android:orientation="vertical"
+        android:padding="@dimen/twenty_dp"
         android:weightSum="1">
 
         <com.neopixl.pixlui.components.textview.TextView
@@ -47,14 +47,37 @@
             android:id="@+id/lastnameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.21"
             android:background="@drawable/rounded_corner_white_full"
             android:ems="10"
             android:inputType="text"
             android:padding="@dimen/ten_dp"
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp"
-            pixlui:typeface="Roboto-Regular.ttf"
-            android:layout_weight="0.21" />
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/username"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/userNameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.21"
+            android:background="@drawable/rounded_corner_white_full"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
@@ -86,8 +109,8 @@
             android:textSize="@dimen/fifteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
-        <com.neopixl.pixlui.components.edittext.EditText
-            android:id="@+id/dobET"
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/dobTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_white_full"
@@ -97,6 +120,53 @@
             android:textColor="@color/black"
             android:textSize="@dimen/eighteen_sp"
             pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/gender"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <RadioGroup
+            android:id="@+id/radioGrp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioM"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/radio_group_selector"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:padding="@dimen/five_dp"
+                android:text="@string/gender_male"
+                android:textColor="@color/white"
+                android:textSize="@dimen/eighteen_sp" />
+
+            <RadioButton
+                android:id="@+id/radioF"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/radio_group_selector"
+                android:button="@android:color/transparent"
+                android:checked="false"
+                android:gravity="center"
+                android:padding="@dimen/five_dp"
+                android:text="@string/gender_female"
+                android:textColor="@color/white"
+                android:textSize="@dimen/eighteen_sp" />
+        </RadioGroup>
 
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
