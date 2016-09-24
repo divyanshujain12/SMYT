@@ -72,7 +72,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
 
 
     @Override
-    public void onBindViewHolder(UserVideoAdapter.SingleVideoHolder holder, final int position) {
+    public void onBindViewHolder(final UserVideoAdapter.SingleVideoHolder holder, final int position) {
 
         VideoModel userModel = videoModels.get(position);
         holder.titleTV.setText(userModel.getTitle());
@@ -95,7 +95,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewClick.onClickItem(position, v);
+                holder.firstVideoPlayer.startWindowTiny();
+                //recyclerViewClick.onClickItem(position, v);
             }
         });
     }
