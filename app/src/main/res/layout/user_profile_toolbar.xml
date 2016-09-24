@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/ten_dp"
-                android:src="@drawable/icon_back" />
+                android:src="@drawable/jc_back" />
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/toolbar_title"

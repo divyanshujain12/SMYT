@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.example.divyanshu.smyt.Adapters.UserFollowerAdapter;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
+import com.example.divyanshu.smyt.Activities.OtherUserProfileActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

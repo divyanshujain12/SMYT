@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.activities;
+package com.example.divyanshu.smyt.Activities;
 
 import android.app.Application;
 import android.text.TextUtils;

@@ -19,6 +19,9 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
@@ -28,11 +31,12 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Context context;
     private RecyclerViewClick recyclerViewClick;
 
+
     public class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
-        public ImageView videoThumbOneIV, videoThumbTwoIV, moreIV;
+        public ImageView  moreIV;
         public FrameLayout videoFL;
-
+        private JCVideoPlayerStandard firstVideoPlayer, secondVideoPlayer;
         public BattleVideoHolder(View view) {
             super(view);
 
@@ -42,10 +46,10 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             secondUserNameTV = (TextView) view.findViewById(R.id.secondUserNameTV);
             commentsTV = (TextView) view.findViewById(R.id.commentsTV);
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
-            videoThumbOneIV = (ImageView) view.findViewById(R.id.videoThumbOneIV);
-            videoThumbTwoIV = (ImageView) view.findViewById(R.id.videoThumbTwoIV);
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
+            firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
+            secondVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.secondVideoPlayer);
 
         }
     }

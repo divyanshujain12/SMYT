@@ -1,1 +1,1 @@
-include ':app', ':awesomeValidation', ':validation', ':validator'
+include ':app', ':awesomeValidation', ':validation', ':validator', ':jcvideoplayer-lib', ':jcvideoplayer'

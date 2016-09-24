@@ -1,7 +1,6 @@
-package com.example.divyanshu.smyt.activities;
+package com.example.divyanshu.smyt.Activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Fragments.UploadVideoFragment;

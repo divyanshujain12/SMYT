@@ -76,4 +76,11 @@
     <string name="err_user_name">Enter user name</string>
     <string name="gender">Gender</string>
     <string name="ago">ago</string>
+    <string name="comments">%d Comments</string>
+    <plurals name="numberOfComments">
+        <item quantity="zero">%d comment</item>
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
+    <string name="delete_video">Delete Video</string>
 </resources>

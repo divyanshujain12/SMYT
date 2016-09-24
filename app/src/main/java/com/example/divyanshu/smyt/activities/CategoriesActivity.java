@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.activities;
+package com.example.divyanshu.smyt.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UserParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -108,17 +109,6 @@ public class CategoriesActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (categoriesModels == null || categoriesModels.isEmpty())
-            CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, createJsonForGetCatAndUser(), this);
-    }
-
-    private JSONObject createJsonForGetCatAndUser() {
-        String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : customerID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
+            CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, CommonFunctions.customerIdJsonObject(this), this);
     }
 }

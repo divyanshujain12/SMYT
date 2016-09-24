@@ -1,12 +1,22 @@
 package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
+import com.example.divyanshu.smyt.Constants.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -90,5 +100,35 @@ public class CommonFunctions {
         textView.setTextColor(Color.WHITE);
 
         return snackbar;
+    }
+
+    public static JSONObject customerIdJsonObject(Context context) {
+        String customerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : "1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static void stopVideoOnScroll(RecyclerView recyclerView) {
+        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
+
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(View view) {
+                if (JCVideoPlayerManager.getFirst() != null) {
+                    JCVideoPlayer videoPlayer = (JCVideoPlayer) JCVideoPlayerManager.getCurrentScrollPlayerListener();
+                    if (videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PREPARING) {
+                        JCVideoPlayer.releaseAllVideos();
+                    }
+                }
+            }
+        });
     }
 }

@@ -10,5 +10,6 @@ public interface ApiCodes {
     int FORGOT_PASSWORD = 104;
     int CATEGORY_DESC_USERS = 105;
     int JOIN_CATEGORY = 106;
+    int USER_VIDEOS = 107;
 
 }

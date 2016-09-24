@@ -8,11 +8,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Models.VideoModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,6 +38,10 @@ public class UserVideosFragment extends BaseFragment {
     UserVideoAdapter userVideoAdapter;
     @InjectView(R.id.videosRV)
     RecyclerView videosRV;
+    ArrayList<VideoModel> userVideoModels = new ArrayList<>();
+    @InjectView(R.id.loadingPB)
+    ProgressBar loadingPB;
+
 
     public static UserVideosFragment getInstance() {
         UserVideosFragment userVideosFragment = new UserVideosFragment();
@@ -34,6 +51,13 @@ public class UserVideosFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        registerForContextMenu(videosRV);
     }
 
     @Nullable
@@ -58,9 +82,14 @@ public class UserVideosFragment extends BaseFragment {
 
     private void initViews() {
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        userVideoAdapter = new UserVideoAdapter(getContext(), null, this);
+        userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);
         videosRV.setAdapter(userVideoAdapter);
+
+        CallWebService.getInstance(getContext(), false, ApiCodes.USER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO, CommonFunctions.customerIdJsonObject(getContext()), this);
+
+        CommonFunctions.stopVideoOnScroll(videosRV);
     }
+
 
     @Override
     public void onDestroyView() {
@@ -69,9 +98,25 @@ public class UserVideosFragment extends BaseFragment {
     }
 
     @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
+        userVideoAdapter.addUserVideoData(userVideoModels);
+        loadingPB.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
+        loadingPB.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
 
         showDialogFragment(new PlaySingleVideoFragment());
     }
+
+
 }

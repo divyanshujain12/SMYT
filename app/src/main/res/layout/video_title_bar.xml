@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:src="@drawable/icon_more"
+        android:padding="@dimen/five_dp"
         android:scaleType="fitXY"/>
 
 </RelativeLayout>

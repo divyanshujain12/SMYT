@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.activities;
+package com.example.divyanshu.smyt.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,6 +92,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.putExtra(Constants.DATA, categoriesModel);
                 startActivity(intent);
+                finish();
                 break;
         }
     }

@@ -5,29 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/videoFL"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/one_hundred_twenty_dp"
+    android:layout_height="@dimen/one_hundred_fourty_five_dp"
     android:background="@drawable/black_border"
     tools:showIn="@layout/single_video_item">
+
+    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+        android:id="@+id/firstVideoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/videoThumbIV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="3dp"
-        android:scaleType="fitXY" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha=".5"
-        android:background="#000000" />
+        android:scaleType="fitXY"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/playVideoIV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/icon_play" />
+        android:src="@drawable/icon_play"
+        android:visibility="gone" />
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/firstUserNameTV"

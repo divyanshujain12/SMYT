@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Activities.HomeActivity;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.activities.CategoryDescriptionActivity;
-import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
+import com.example.divyanshu.smyt.Activities.CategoryDescriptionActivity;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -55,17 +55,22 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        CategoryModel categoryModel = categoryModels.get(position);
+        final CategoryModel categoryModel = categoryModels.get(position);
 
         holder.categoryNameTV.setText(categoryModel.getcategory_name());
         imageLoading.LoadImage(categoryModel.getThumbnail(), holder.categoryIV, null);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(context, CategoryDescriptionActivity.class);
-                intent.putExtra(Constants.DATA, categoryModels.get(position));
-                context.startActivity(intent);
+                if (categoryModel.getJoin_status() == 0) {
+                    Intent intent = new Intent(context, CategoryDescriptionActivity.class);
+                    intent.putExtra(Constants.DATA, categoryModel);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, HomeActivity.class);
+                    intent.putExtra(Constants.DATA, categoryModel);
+                    context.startActivity(intent);
+                }
             }
         });
     }

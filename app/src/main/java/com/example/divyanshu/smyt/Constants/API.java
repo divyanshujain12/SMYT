@@ -14,4 +14,10 @@ public interface API {
     String RESET_PASSWORD = BASE + "changepassword";
     String GET_CATEGORY_USER = BASE + "getcategoryUsers";
     String JOIN_CATEGORY = BASE + "join_category";
+    String GET_CUSTOMER_VIDEO = BASE + "getCustomerVideos";
+    String DELETE_CUSTOMER_VIDEO = BASE + "deleteCustomerVideos";
+    String GET_CUSTOMER_VIDEO_DETAIL = BASE + "getCustomerVideoDetail";
+    String ADD_COMMENT = BASE + "addComment";
+    String DELETE_COMMENT = BASE + "deleteCustomerComment";
+    String LIKE_UNLIKE_VIDEO = BASE+"actionLikesDislike"; 	/* 1 for Like & 0 for Remove Like */
 }
