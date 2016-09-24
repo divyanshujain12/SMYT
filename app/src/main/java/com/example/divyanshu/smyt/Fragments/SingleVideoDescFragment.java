@@ -118,7 +118,7 @@ public class SingleVideoDescFragment extends BaseDialogFragment {
     private void initViews() {
         String videoID = getArguments().getString(Constants.CUSTOMERS_VIDEO_ID);
         commentsRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        CallWebService.getInstance(getContext(), true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(videoID), this);
+        CallWebService.getInstance(getActivity(), true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(videoID), this);
     }
 
     private JSONObject createJsonForGettingVideoInfo(String videoId) {
@@ -146,6 +146,7 @@ public class SingleVideoDescFragment extends BaseDialogFragment {
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
 
         boolean popUp = firstVideoPlayer.setUp(videoDetailModel.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
+
         if (popUp)
             new ImageLoading(getContext()).LoadImage(videoDetailModel.getThumbnail(), firstVideoPlayer.thumbImageView, null);
         commentsAdapter = new CommentsAdapter(getContext(), videoDetailModel.getCommentArray(), this);
