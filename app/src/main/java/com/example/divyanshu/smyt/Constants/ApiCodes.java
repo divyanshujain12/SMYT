@@ -11,5 +11,5 @@ public interface ApiCodes {
     int CATEGORY_DESC_USERS = 105;
     int JOIN_CATEGORY = 106;
     int USER_VIDEOS = 107;
-
+    int SINGLE_VIDEO_DATA = 108;
 }

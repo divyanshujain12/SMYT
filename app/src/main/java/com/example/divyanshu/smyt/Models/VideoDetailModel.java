@@ -1,12 +1,12 @@
 package com.example.divyanshu.smyt.Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.ArrayList;
 
 /**
- * Created by divyanshu.jain on 8/29/2016.
+ * Created by divyanshu on 9/24/2016.
  */
-public class VideoModel implements Parcelable {
+
+public class VideoDetailModel {
     String customer_id;
     String first_name;
     String last_name;
@@ -19,51 +19,8 @@ public class VideoModel implements Parcelable {
     String share_status;
     int video_comment_count;
     String likes;
-    public VideoModel() {
-    }
-
-    public String getLikes() {
-        return likes;
-    }
-
-    public void setLikes(String likes) {
-        this.likes = likes;
-    }
-
-    protected VideoModel(Parcel in) {
-        customer_id = in.readString();
-        first_name = in.readString();
-        last_name = in.readString();
-        profileimage = in.readString();
-        customers_videos_id = in.readString();
-        title = in.readString();
-        thumbnail = in.readString();
-        video_url = in.readString();
-        genre = in.readString();
-        share_status = in.readString();
-        video_comment_count = in.readInt();
-        edate = in.readInt();
-    }
-
-    public static final Creator<VideoModel> CREATOR = new Creator<VideoModel>() {
-        @Override
-        public VideoModel createFromParcel(Parcel in) {
-            return new VideoModel(in);
-        }
-
-        @Override
-        public VideoModel[] newArray(int size) {
-            return new VideoModel[size];
-        }
-    };
-
-    public int getEdate() {
-        return edate;
-    }
-
-    public void setEdate(int edate) {
-        this.edate = edate;
-    }
+    ArrayList<CommentModel> commentArray;
+    ArrayList<LikeModel> likesArray;
 
     public String getCustomer_id() {
         return customer_id;
@@ -153,26 +110,27 @@ public class VideoModel implements Parcelable {
         this.video_comment_count = video_comment_count;
     }
 
-    int edate;
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getLikes() {
+        return likes;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(customer_id);
-        dest.writeString(first_name);
-        dest.writeString(last_name);
-        dest.writeString(profileimage);
-        dest.writeString(customers_videos_id);
-        dest.writeString(title);
-        dest.writeString(thumbnail);
-        dest.writeString(video_url);
-        dest.writeString(genre);
-        dest.writeString(share_status);
-        dest.writeInt(video_comment_count);
-        dest.writeInt(edate);
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
+
+    public ArrayList<CommentModel> getCommentArray() {
+        return commentArray;
+    }
+
+    public void setCommentArray(ArrayList<CommentModel> commentArray) {
+        this.commentArray = commentArray;
+    }
+
+    public ArrayList<LikeModel> getLikesArray() {
+        return likesArray;
+    }
+
+    public void setLikesArray(ArrayList<LikeModel> likesArray) {
+        this.likesArray = likesArray;
     }
 }

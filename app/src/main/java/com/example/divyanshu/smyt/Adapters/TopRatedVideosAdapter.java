@@ -1,6 +1,5 @@
 package com.example.divyanshu.smyt.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
+import com.example.divyanshu.smyt.Fragments.SingleVideoDescFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -64,7 +62,7 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<TopRatedVideosAd
 
       /*  holder.userNameTV.setText(userModel.getcategory_name());
         imageLoading.LoadImage(userModel.getThumb(), holder.userIV, null);
-        holder.userTimeTV.setText(userModel.getTime());
+        holder.commentTV.setText(userModel.getTime());
         holder.userIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +73,7 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<TopRatedVideosAd
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                PlaySingleVideoFragment playSingleVideoFragment = new PlaySingleVideoFragment();
+                SingleVideoDescFragment playSingleVideoFragment = new SingleVideoDescFragment();
                 playSingleVideoFragment.show(fragmentManager, playSingleVideoFragment.getClass().getName());
             }
         });

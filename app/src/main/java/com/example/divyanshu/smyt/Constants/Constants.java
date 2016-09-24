@@ -27,6 +27,7 @@ public interface Constants {
     String GENDER = "gender";
     String ROUND_TIME = "round_time";
     String ROUND_DATE = "round_date";
+    String CUSTOMERS_VIDEO_ID = "customers_videos_id";
 
     int REQUEST_TIMEOUT_TIME = 30000;
 }

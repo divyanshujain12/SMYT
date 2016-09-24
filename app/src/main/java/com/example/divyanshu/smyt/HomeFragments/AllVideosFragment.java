@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
 import com.example.divyanshu.smyt.Adapters.TopRatedVideosAdapter;
-import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
+import com.example.divyanshu.smyt.Fragments.SingleVideoDescFragment;
 import com.example.divyanshu.smyt.Fragments.PlayUploadedBattleVideoFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
-import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 
@@ -82,7 +81,7 @@ public class AllVideosFragment extends BaseFragment {
         switch (position)
         {
             case 0:
-                showDialogFragment(new PlaySingleVideoFragment());
+                showDialogFragment(new SingleVideoDescFragment());
                 break;
             case 1:
                 showDialogFragment(new PlayUploadedBattleVideoFragment());

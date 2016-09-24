@@ -14,7 +14,7 @@ import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.Fragments.PlaySingleVideoFragment;
+import com.example.divyanshu.smyt.Fragments.SingleVideoDescFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -115,7 +115,7 @@ public class UserVideosFragment extends BaseFragment {
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
 
-        showDialogFragment(new PlaySingleVideoFragment());
+        showDialogFragment(SingleVideoDescFragment.getInstance(userVideoModels.get(position).getCustomers_videos_id()));
     }
 
 
