@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,8 +96,9 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.firstVideoPlayer.startWindowTiny();
-                //recyclerViewClick.onClickItem(position, v);
+             /*   holder.firstVideoPlayer.startWindowTiny(Gravity.BOTTOM);
+                holder.firstVideoPlayer.startWindowTiny(Gravity.TOP);*/
+                recyclerViewClick.onClickItem(position, v);
             }
         });
     }

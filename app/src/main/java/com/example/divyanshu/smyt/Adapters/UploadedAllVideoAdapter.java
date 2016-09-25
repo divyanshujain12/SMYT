@@ -3,6 +3,7 @@ package com.example.divyanshu.smyt.Adapters;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
-        public ImageView  moreIV;
+        public ImageView moreIV;
         public FrameLayout videoFL;
         private JCVideoPlayerStandard firstVideoPlayer, secondVideoPlayer;
 
@@ -135,6 +136,17 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 context.startActivity(intent);
             }
         });*/
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder instanceof BattleVideoHolder) {
+                    BattleVideoHolder battleVideoHolder = (BattleVideoHolder) holder;
+                    battleVideoHolder.firstVideoPlayer.startWindowTiny(Gravity.BOTTOM);
+                    battleVideoHolder.secondVideoPlayer.startWindowTiny(Gravity.TOP);
+                }
+            }
+        });
     }
 
     @Override
