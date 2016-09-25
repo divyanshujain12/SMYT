@@ -16,6 +16,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 import java.util.ArrayList;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -29,9 +30,11 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
-        public ImageView  moreIV;
+        public ImageView moreIV;
         public FrameLayout videoFL;
-        private JCVideoPlayerStandard firstVideoPlayer, secondVideoPlayer;
+        private JCVideoPlayerStandard firstVideoPlayer;
+        JCVideoPlayerStandardTwo secondVideoPlayer;
+
         public BattleVideoHolder(View view) {
             super(view);
 
@@ -44,7 +47,7 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
-            secondVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.secondVideoPlayer);
+            secondVideoPlayer = (JCVideoPlayerStandardTwo) view.findViewById(R.id.secondVideoPlayer);
 
         }
     }

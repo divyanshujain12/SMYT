@@ -14,11 +14,14 @@ import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -28,6 +31,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ArrayList<VideoModel> categoryModels;
     private Context context;
     private RecyclerViewClick recyclerViewClick;
+    private ImageLoading imageLoading;
 
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
@@ -52,7 +56,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
         public ImageView moreIV;
         public FrameLayout videoFL;
-        private JCVideoPlayerStandard firstVideoPlayer, secondVideoPlayer;
+        private JCVideoPlayerStandard firstVideoPlayer;
+        public JCVideoPlayerStandardTwo secondVideoPlayer;
 
         public BattleVideoHolder(View view) {
             super(view);
@@ -66,7 +71,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
-            secondVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.secondVideoPlayer);
+            secondVideoPlayer = (JCVideoPlayerStandardTwo) view.findViewById(R.id.secondVideoPlayer);
         }
     }
 
@@ -86,6 +91,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.recyclerViewClick = recyclerViewClick;
         this.categoryModels = categoryModels;
         this.context = context;
+        imageLoading = new ImageLoading(context);
     }
 
     @Override
@@ -136,6 +142,17 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 context.startActivity(intent);
             }
         });*/
+        if (holder instanceof BattleVideoHolder) {
+            BattleVideoHolder battleVideoHolder = (BattleVideoHolder) holder;
+            boolean firstVideoSetup = battleVideoHolder.firstVideoPlayer.setUp("http://www.whatsupguys.in/demo/smyt/videos/video2.mp4", JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
+            if (firstVideoSetup)
+                imageLoading.LoadImage("http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png", battleVideoHolder.firstVideoPlayer.thumbImageView, null);
+
+            boolean seconVideoSetup = battleVideoHolder.secondVideoPlayer.setUp("http://www.whatsupguys.in/demo/smyt/videos/video2.mp4", JCVideoPlayerStandardTwo.SCREEN_LAYOUT_NORMAL, "");
+            if (seconVideoSetup)
+                imageLoading.LoadImage("http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png", battleVideoHolder.secondVideoPlayer.thumbImageView, null);
+
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

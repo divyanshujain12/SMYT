@@ -22,7 +22,7 @@
 
         <include layout="@layout/vertical_black_line" />
 
-        <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+        <fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo
             android:id="@+id/secondVideoPlayer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
