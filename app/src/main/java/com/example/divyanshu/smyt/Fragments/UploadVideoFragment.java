@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -42,7 +43,7 @@ public class UploadVideoFragment extends BaseDialogFragment {
     @InjectView(R.id.shareWithSP)
     Spinner shareWithSP;
     @InjectView(R.id.friendAC)
-    EditText friendAC;
+    AutoCompleteTextView friendAC;
     @InjectView(R.id.postVideoBT)
     Button postVideoBT;
     ArrayAdapter<String> arrayAdapter;

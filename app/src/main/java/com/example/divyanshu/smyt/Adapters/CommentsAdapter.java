@@ -1,18 +1,27 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -30,6 +39,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, commentTV;
         public ImageView userIV, deleteVideoIV;
+        public ProgressBar deleteCommentPB;
 
         public MyViewHolder(View view) {
             super(view);
@@ -37,6 +47,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
             commentTV = (TextView) view.findViewById(R.id.commentTV);
             userIV = (ImageView) view.findViewById(R.id.userIV);
             deleteVideoIV = (ImageView) view.findViewById(R.id.deleteVideoIV);
+            deleteCommentPB = (ProgressBar) view.findViewById(R.id.deleteCommentPB);
         }
     }
 
@@ -64,9 +75,37 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.deleteVideoIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // recyclerViewClick.onClickItem(position, v);
+                holder.deleteCommentPB.setVisibility(View.VISIBLE);
+                deleteComment(position);
+                // recyclerViewClick.onClickItem(position, v);
             }
         });
+    }
+
+    private void deleteComment(final int position) {
+        CallWebService.getInstance(context, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), new CallWebService.ObjectResponseCallBack() {
+            @Override
+            public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+                commentModels.remove(position);
+                notifyItemRemoved(position);
+
+            }
+
+            @Override
+            public void onFailure(String str, int apiType) {
+
+            }
+        });
+    }
+
+    private JSONObject createJsonForDeleteComment(int pos) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMER_VIDEO_COMMENT_ID, commentModels.get(pos).getCustomers_videos_comment_id());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     @Override
@@ -74,4 +113,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         return commentModels.size();
     }
 
+    public void sendLocalBroadCastForCommentCount(VideoDetailModel videoDetailModel) {
+        Intent intent = new Intent();
+        intent.setAction(Constants.UPDATE_COMMENT_COUNT);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, videoDetailModel.getCustomers_videos_id());
+        intent.putExtra(Constants.COUNT, videoDetailModel.getVideo_comment_count() + 1);
+        context.sendBroadcast(intent);
+    }
 }

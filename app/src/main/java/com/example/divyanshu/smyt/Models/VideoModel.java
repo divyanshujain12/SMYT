@@ -19,6 +19,7 @@ public class VideoModel implements Parcelable {
     String share_status;
     int video_comment_count;
     String likes;
+
     public VideoModel() {
     }
 
@@ -174,5 +175,10 @@ public class VideoModel implements Parcelable {
         dest.writeString(share_status);
         dest.writeInt(video_comment_count);
         dest.writeInt(edate);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.getCustomers_videos_id().equals(((VideoModel) o).getCustomers_videos_id());
     }
 }

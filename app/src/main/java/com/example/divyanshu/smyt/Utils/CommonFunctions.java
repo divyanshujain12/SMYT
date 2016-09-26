@@ -44,6 +44,9 @@ public class CommonFunctions {
     public void showErrorSnackBar(Activity activity, String errorText) {
         getErrorSnackbar(activity).setText(errorText).setDuration(TSnackbar.LENGTH_SHORT).show();
     }
+    public void showSuccessSnackBar(Activity activity, String errorText) {
+        getSuccessSnackbar(activity).setText(errorText).setDuration(TSnackbar.LENGTH_SHORT).show();
+    }
 
     public void showErrorSnackBar(View view, String errorText) {
         getErrorSnackbar(view).setText(errorText).setDuration(TSnackbar.LENGTH_SHORT).show();

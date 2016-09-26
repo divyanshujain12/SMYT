@@ -3,8 +3,8 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/five_dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/five_dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,11 +48,22 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/deleteVideoIV"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:scaleType="centerCrop"
-        android:src="@drawable/delete_video_icon" />
+        android:layout_gravity="right">
+
+        <ImageView
+            android:id="@+id/deleteVideoIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/delete_video_icon" />
+
+        <ProgressBar
+            android:id="@+id/deleteCommentPB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </FrameLayout>
 </FrameLayout>

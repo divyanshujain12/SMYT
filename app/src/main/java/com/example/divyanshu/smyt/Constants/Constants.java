@@ -23,11 +23,14 @@ public interface Constants {
     String NAME = "name";
     String DESC = "description";
     String COUNT = "count";
+    String CUSTOMER_VIDEO_COMMENT_ID = "customers_videos_comment_id";
+    String COMMENT = "comment";
     String IS_LOGGED_IN = "is_logged_in";
     String GENDER = "gender";
     String ROUND_TIME = "round_time";
     String ROUND_DATE = "round_date";
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
+    String UPDATE_COMMENT_COUNT = "update_comment_count";
 
     int REQUEST_TIMEOUT_TIME = 30000;
 }

@@ -29,7 +29,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  */
 public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.SingleVideoHolder> {
 
-    private ArrayList<VideoModel> videoModels;
+    public ArrayList<VideoModel> videoModels;
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;

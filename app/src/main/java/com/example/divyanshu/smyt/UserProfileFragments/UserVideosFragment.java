@@ -1,8 +1,14 @@
 package com.example.divyanshu.smyt.UserProfileFragments;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.divyanshu.smyt.Activities.UserProfileActivity;
 import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.Fragments.SingleVideoDescFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
@@ -33,7 +41,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserVideosFragment extends BaseFragment {
+public class UserVideosFragment extends BaseFragment implements UserProfileActivity.OnBackPressedListener {
 
     UserVideoAdapter userVideoAdapter;
     @InjectView(R.id.videosRV)
@@ -115,8 +123,44 @@ public class UserVideosFragment extends BaseFragment {
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
 
-        showDialogFragment(SingleVideoDescFragment.getInstance(userVideoModels.get(position).getCustomers_videos_id()));
+        // showDialogFragment(SingleVideoDescFragment.getInstance(userVideoModels.get(position).getCustomers_videos_id()));
+        Intent intent = new Intent(getActivity(), UserVideoDescActivity.class);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoModels.get(position).getCustomers_videos_id());
+        startActivity(intent);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((UserProfileActivity) activity).setOnBackPressedListener(this);
+    }
 
+    @Override
+    public void doBack() {
+
+    }
+
+    private BroadcastReceiver updateVideoCommentCountReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
+            int commentCount = intent.getIntExtra(Constants.COUNT, 0);
+            VideoModel videoModel = new VideoModel();
+            videoModel.setCustomers_videos_id(customerVideoID);
+            userVideoModels.get(userVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
+            userVideoAdapter.addUserVideoData(userVideoModels);
+        }
+    };
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateVideoCommentCountReceiver, new IntentFilter(Constants.UPDATE_COMMENT_COUNT));
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateVideoCommentCountReceiver);
+    }
 }

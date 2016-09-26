@@ -12,4 +12,6 @@ public interface ApiCodes {
     int JOIN_CATEGORY = 106;
     int USER_VIDEOS = 107;
     int SINGLE_VIDEO_DATA = 108;
+    int POST_COMMENT  = 109;
+    int DELETE_COMMENT = 110;
 }

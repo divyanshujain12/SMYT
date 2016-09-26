@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.divyanshu.smyt.Activities.UserProfileActivity;
 import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
@@ -33,14 +35,14 @@ import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by divyanshu.jain on 8/30/2016.
  */
-public class SingleVideoDescFragment extends BaseDialogFragment {
+public class SingleVideoDescFragment extends BaseDialogFragment implements View.OnClickListener, UserProfileActivity.OnBackPressedListener, DialogInterface.OnDismissListener {
 
     @InjectView(R.id.titleTV)
     TextView titleTV;
@@ -98,7 +100,7 @@ public class SingleVideoDescFragment extends BaseDialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.play_single_video_fragment, null);
+        View view = inflater.inflate(R.layout.single_video_desc, null);
         ButterKnife.inject(this, view);
         return view;
     }
@@ -111,11 +113,12 @@ public class SingleVideoDescFragment extends BaseDialogFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        ((UserProfileActivity) getActivity()).setOnBackPressedListener(this);
         initViews();
     }
 
     private void initViews() {
+
         String videoID = getArguments().getString(Constants.CUSTOMERS_VIDEO_ID);
         commentsRV.setLayoutManager(new LinearLayoutManager(getContext()));
         CallWebService.getInstance(getActivity(), true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(videoID), this);
@@ -135,10 +138,12 @@ public class SingleVideoDescFragment extends BaseDialogFragment {
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         videoDetailModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS).getJSONObject(0), VideoDetailModel.class);
-        updateUI();
+        if (getUserVisibleHint())
+            updateUI();
     }
 
     private void updateUI() {
+
         titleTV.setText(videoDetailModel.getTitle());
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, videoDetailModel.getVideo_comment_count(), videoDetailModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
@@ -149,8 +154,12 @@ public class SingleVideoDescFragment extends BaseDialogFragment {
 
         if (popUp)
             new ImageLoading(getContext()).LoadImage(videoDetailModel.getThumbnail(), firstVideoPlayer.thumbImageView, null);
+
+        firstVideoPlayer.fullscreenButton.setOnClickListener(this);
+        firstVideoPlayer.backButton.setOnClickListener(this);
         commentsAdapter = new CommentsAdapter(getContext(), videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
+
     }
 
     @Override
@@ -164,4 +173,28 @@ public class SingleVideoDescFragment extends BaseDialogFragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v == firstVideoPlayer.fullscreenButton) {
+            firstVideoPlayer.startWindowFullscreen();
+            getDialog().hide();
+        }
+
+    }
+
+    @Override
+    public void doBack() {
+        getDialog().show();
+        firstVideoPlayer.backPress();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        ((UserProfileActivity) getActivity()).setOnBackPressedListener(null);
+        JCVideoPlayer.releaseAllVideos();
+    }
+
+
 }
