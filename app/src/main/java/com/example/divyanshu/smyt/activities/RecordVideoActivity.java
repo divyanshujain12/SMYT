@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.Activities;
+package com.example.divyanshu.smyt.activities;
 
 import android.os.Bundle;
 import android.widget.ImageView;

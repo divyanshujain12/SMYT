@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.Activities;
+package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +32,7 @@ public class HomeActivity extends BaseActivity {
     ViewPagerAdapter viewPagerAdapter;
     @InjectView(R.id.toolbarView)
     Toolbar toolbarView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class HomeActivity extends BaseActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_user_profile:
                 Intent intent = new Intent(this, UserProfileActivity.class);
                 startActivity(intent);
@@ -81,4 +83,6 @@ public class HomeActivity extends BaseActivity {
         }
         return true;
     }
+
+
 }

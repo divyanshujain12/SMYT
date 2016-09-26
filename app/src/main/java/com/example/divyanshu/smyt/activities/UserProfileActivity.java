@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.Activities;
+package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,6 +75,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     private ViewPagerAdapter viewPagerAdapter;
     private Animation fabIn, fabOut;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,5 +173,25 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 break;
 
         }
+    }
+
+    protected OnBackPressedListener onBackPressedListener;
+
+    public interface OnBackPressedListener {
+        void doBack();
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+      /*  if (onBackPressedListener != null)
+            onBackPressedListener.doBack();
+        else*/
+            super.onBackPressed();
+
     }
 }

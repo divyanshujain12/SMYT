@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.Activities.HomeActivity;
+import com.example.divyanshu.smyt.activities.HomeActivity;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Activities.CategoryDescriptionActivity;
+import com.example.divyanshu.smyt.activities.CategoryDescriptionActivity;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;

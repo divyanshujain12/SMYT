@@ -11,7 +11,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomProgressDialog;
-import com.example.divyanshu.smyt.Activities.MyApp;
+import com.example.divyanshu.smyt.activities.MyApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
