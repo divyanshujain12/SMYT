@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/five_dp">
 
@@ -61,9 +61,12 @@
             android:src="@drawable/delete_video_icon" />
 
         <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
             android:id="@+id/deleteCommentPB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:visibility="gone" />
     </FrameLayout>
+
 </FrameLayout>

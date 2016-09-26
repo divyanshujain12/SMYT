@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -72,7 +73,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     ProgressBar commentPB;
     private Validation validation;
     private HashMap<View, String> validationMap;
-
+    private int deletedCommentPos = -1;
 
     private VideoDetailModel videoDetailModel;
     private CommentsAdapter commentsAdapter;
@@ -92,15 +93,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     }
 
-    private JSONObject createJsonForGettingVideoInfo(String videoId) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
-    }
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
@@ -111,15 +103,16 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 updateUI();
                 break;
             case ApiCodes.POST_COMMENT:
-
-                setCommentPBVisibility(View.GONE);
+                CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
-                commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel);
+                addNewCommentToList(commentModel);
+                break;
+            case ApiCodes.DELETE_COMMENT:
+                commentsAdapter.updateUi(deletedCommentPos);
+                commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count() - 1);
                 break;
         }
     }
-
-
     @Override
     public void onFailure(String str, int apiType) {
         super.onFailure(str, apiType);
@@ -127,6 +120,12 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             setCommentPBVisibility(View.GONE);
     }
 
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        deletedCommentPos = position;
+        CallWebService.getInstance(this, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), this);
+    }
 
     private void updateUI() {
         titleTV.setText(videoDetailModel.getTitle());
@@ -137,6 +136,12 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         setupVideo();
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
+    }
+
+    private void addNewCommentToList(CommentModel commentModel) {
+        setCommentPBVisibility(View.GONE);
+        commentsAdapter.addNewComment(commentModel);
+        commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count() + 1);
     }
 
     private void setupVideo() {
@@ -170,6 +175,20 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
 
+    private void setCommentPBVisibility(int visibility) {
+        commentPB.setVisibility(visibility);
+    }
+
+    private JSONObject createJsonForGettingVideoInfo(String videoId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     private JSONObject createJsonForPostComment() {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
@@ -181,8 +200,13 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         return jsonObject;
     }
 
-    private void setCommentPBVisibility(int visibility) {
-        commentPB.setVisibility(visibility);
+    private JSONObject createJsonForDeleteComment(int pos) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMER_VIDEO_COMMENT_ID, commentsAdapter.getCommentModel(pos).getCustomers_videos_comment_id());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,36 +77,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
             @Override
             public void onClick(View v) {
                 holder.deleteCommentPB.setVisibility(View.VISIBLE);
-                deleteComment(position);
-                // recyclerViewClick.onClickItem(position, v);
+                recyclerViewClick.onClickItem(position, v);
             }
         });
     }
 
-    private void deleteComment(final int position) {
-        CallWebService.getInstance(context, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), new CallWebService.ObjectResponseCallBack() {
-            @Override
-            public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
-                commentModels.remove(position);
-                notifyItemRemoved(position);
 
-            }
-
-            @Override
-            public void onFailure(String str, int apiType) {
-
-            }
-        });
+    public void updateUi(int position) {
+        commentModels.remove(position);
+        notifyItemRemoved(position);
     }
 
-    private JSONObject createJsonForDeleteComment(int pos) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(Constants.CUSTOMER_VIDEO_COMMENT_ID, commentModels.get(pos).getCustomers_videos_comment_id());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
+    public CommentModel getCommentModel(int position) {
+        return commentModels.get(position);
     }
 
     @Override
@@ -113,11 +97,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         return commentModels.size();
     }
 
-    public void sendLocalBroadCastForCommentCount(VideoDetailModel videoDetailModel) {
+    public void sendLocalBroadCastForCommentCount(String customer_video_id, int commentCount) {
         Intent intent = new Intent();
         intent.setAction(Constants.UPDATE_COMMENT_COUNT);
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, videoDetailModel.getCustomers_videos_id());
-        intent.putExtra(Constants.COUNT, videoDetailModel.getVideo_comment_count() + 1);
-        context.sendBroadcast(intent);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
+        intent.putExtra(Constants.COUNT, commentCount);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
+    public void addNewComment(CommentModel commentModel) {
+        commentModels.add(commentModels.size(), commentModel);
+        notifyItemInserted(commentModels.size());
     }
 }

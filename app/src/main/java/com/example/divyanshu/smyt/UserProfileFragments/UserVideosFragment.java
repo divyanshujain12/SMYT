@@ -131,6 +131,7 @@ public class UserVideosFragment extends BaseFragment implements UserProfileActiv
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateVideoCommentCountReceiver, new IntentFilter(Constants.UPDATE_COMMENT_COUNT));
         ((UserProfileActivity) activity).setOnBackPressedListener(this);
     }
 
@@ -151,11 +152,7 @@ public class UserVideosFragment extends BaseFragment implements UserProfileActiv
         }
     };
 
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        super.onAttachFragment(childFragment);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateVideoCommentCountReceiver, new IntentFilter(Constants.UPDATE_COMMENT_COUNT));
-    }
+
 
     @Override
     public void onDetach() {
