@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyViewHolder> {
 
-    private ArrayList<CommentModel> commentModels;
+    private ArrayList<CommentModel> commentModels = new ArrayList<>();
     private Context context;
     private ImageLoading imageLoading;
     private RecyclerViewClick recyclerViewClick;
@@ -83,7 +83,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     }
 
 
-    public void updateUi(int position) {
+    public void removeComment(CommentModel deleteCommentModel) {
+        int position = commentModels.indexOf(deleteCommentModel);
         commentModels.remove(position);
         notifyItemRemoved(position);
     }

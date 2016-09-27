@@ -17,7 +17,7 @@
         android:maxLines="2"
         android:paddingBottom="@dimen/eight_dp"
         android:paddingTop="@dimen/eight_dp"
-        android:text="35 comments"
+        android:text="0 comment"
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
 
@@ -30,7 +30,7 @@
         android:alpha=".6"
         android:paddingBottom="@dimen/eight_dp"
         android:paddingTop="@dimen/eight_dp"
-        android:text="Uploaded 2 hours ago"
+        android:text=""
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
 

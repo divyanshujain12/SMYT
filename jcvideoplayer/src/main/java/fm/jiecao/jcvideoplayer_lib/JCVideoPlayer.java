@@ -93,6 +93,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     protected Handler mHandler;
     protected ProgressTimerTask mProgressTimerTask;
 
+
     protected boolean mTouchingProgressBar;
     protected float mDownX;
     protected float mDownY;
@@ -101,6 +102,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     protected int mDownPosition;
     protected int mGestureDownVolume;
     protected int mSeekTimePosition;
+
 
     public JCVideoPlayer(Context context) {
         super(context);
@@ -113,8 +115,6 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public void init(Context context) {
-
-
         View.inflate(context, getLayoutId(), this);
         startButton = (ImageView) findViewById(R.id.start);
         fullscreenButton = (ImageView) findViewById(R.id.fullscreen);
@@ -147,11 +147,11 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         this.currentScreen = screen;
         //如果是从tinyWindow返回的，那么就不进入normal状态，不进入任何状态
         if (JCVideoPlayerManager.LISTENERLIST.size() > 1) {
-            if (JCVideoPlayerManager.LISTENERLIST.getFirst().get().getScreenType() == SCREEN_WINDOW_TINY) {
+           /* if (JCVideoPlayerManager.LISTENERLIST.getFirst().get().getScreenType() == SCREEN_WINDOW_TINY) {
                 if (JCMediaManager.instance().mediaPlayer.getDataSource().equals(url)) {
                     return true;
                 }
-            }
+            }*/
         }
         setUiWitStateAndScreen(CURRENT_STATE_NORMAL);
         return true;
@@ -666,6 +666,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public void startWindowTiny(int gravity) {
+        hideSupportActionBar(getContext());
         Log.i(TAG, "startWindowTiny " + " [" + this.hashCode() + "] ");
         onEvent(JCBuriedPoint.ON_ENTER_TINYSCREEN);
         ViewGroup vp = (ViewGroup) (JCUtils.scanForActivity(getContext())).getWindow().getDecorView();
@@ -683,11 +684,11 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
             int h = wm.getDefaultDisplay().getHeight();
             Constructor<JCVideoPlayer> constructor = (Constructor<JCVideoPlayer>) JCVideoPlayer.this.getClass().getConstructor(Context.class);
             JCVideoPlayer mJcVideoPlayer = constructor.newInstance(getContext());
-            mJcVideoPlayer.setId(FULLSCREEN_ID);
+            mJcVideoPlayer.setId(TINY_ID);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h / 2, gravity);
             //lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             vp.addView(mJcVideoPlayer, lp);
-            mJcVideoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN, objects);
+            mJcVideoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_WINDOW_TINY, objects);
             mJcVideoPlayer.setUiWitStateAndScreen(currentState);
             mJcVideoPlayer.addTextureView();
             JCVideoPlayerManager.putListener(mJcVideoPlayer);
@@ -698,6 +699,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         }
 
     }
+
     public class ProgressTimerTask extends TimerTask {
         @Override
         public void run() {

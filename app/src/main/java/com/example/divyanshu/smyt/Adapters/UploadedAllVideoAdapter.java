@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.VideoSetupUtils;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
-
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
@@ -58,6 +58,9 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         public FrameLayout videoFL;
         private JCVideoPlayerStandard firstVideoPlayer;
         public JCVideoPlayerStandardTwo secondVideoPlayer;
+        private ImageView playVideosIV;
+        private FrameLayout fullscreenFL;
+        private ImageView fullscreenIV;
 
         public BattleVideoHolder(View view) {
             super(view);
@@ -69,9 +72,13 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             commentsTV = (TextView) view.findViewById(R.id.commentsTV);
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
+            playVideosIV = (ImageView) view.findViewById(R.id.playVideosIV);
+            fullscreenFL = (FrameLayout) view.findViewById(R.id.fullscreenFL);
+            fullscreenIV = (ImageView) view.findViewById(R.id.fullscreenIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
             secondVideoPlayer = (JCVideoPlayerStandardTwo) view.findViewById(R.id.secondVideoPlayer);
+            //  setVideoPlayerPlayButtonVisibility(false, this);
         }
     }
 
@@ -127,43 +134,50 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewClick.onClickItem(getItemViewType(position), v);
+                //      recyclerViewClick.onClickItem(getItemViewType(position), v);
             }
         });
-        //  VideoModel userModel = categoryModels.get(position);
 
-       /* holder.categoryNameTV.setText(userModel.getcategory_name());
-        holder.categoryIV.setImageResource(userModel.getIcon());
-        holder.categoryIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SingletonClass.getInstance().setSelectedCategoryPos(position);
-                Intent intent = new Intent(context, CategoryDescriptionActivity.class);
-                context.startActivity(intent);
-            }
-        });*/
         if (holder instanceof BattleVideoHolder) {
             BattleVideoHolder battleVideoHolder = (BattleVideoHolder) holder;
-            boolean firstVideoSetup = battleVideoHolder.firstVideoPlayer.setUp("http://www.whatsupguys.in/demo/smyt/videos/video2.mp4", JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
-            if (firstVideoSetup)
-                imageLoading.LoadImage("http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png", battleVideoHolder.firstVideoPlayer.thumbImageView, null);
-
-            boolean seconVideoSetup = battleVideoHolder.secondVideoPlayer.setUp("http://www.whatsupguys.in/demo/smyt/videos/video2.mp4", JCVideoPlayerStandardTwo.SCREEN_LAYOUT_NORMAL, "");
-            if (seconVideoSetup)
-                imageLoading.LoadImage("http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png", battleVideoHolder.secondVideoPlayer.thumbImageView, null);
+            setupBattleViewHolder(battleVideoHolder);
 
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void setupBattleViewHolder(final BattleVideoHolder battleVideoHolder) {
+        JCVideoPlayerStandard firstVideoPlayer = battleVideoHolder.firstVideoPlayer;
+        JCVideoPlayerStandardTwo secondVideoPlayer = battleVideoHolder.secondVideoPlayer;
+
+        VideoSetupUtils.getInstance(context).setUpFirstVideoPlayer(firstVideoPlayer, context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url));
+        VideoSetupUtils.getInstance(context).setUpSecondVideoPlayer(secondVideoPlayer, context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url));
+
+
+        battleVideoHolder.fullscreenIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder instanceof BattleVideoHolder) {
-                    BattleVideoHolder battleVideoHolder = (BattleVideoHolder) holder;
-                    battleVideoHolder.firstVideoPlayer.startWindowTiny(Gravity.BOTTOM);
-                    battleVideoHolder.secondVideoPlayer.startWindowTiny(Gravity.TOP);
-                }
+                //VideoSetupUtils.getInstance(context).onBackButtonClick(battleVideoHolder.firstVideoPlayer, battleVideoHolder.secondVideoPlayer);
+                fullScreenClicked(battleVideoHolder);
             }
         });
+
+        battleVideoHolder.playVideosIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VideoSetupUtils.getInstance(context).playMusic(battleVideoHolder.firstVideoPlayer, battleVideoHolder.secondVideoPlayer);
+            }
+        });
+    }
+
+    private void fullScreenClicked(BattleVideoHolder battleVideoHolder) {
+        JCVideoPlayerStandard firstVideoPlayer = battleVideoHolder.firstVideoPlayer;
+        JCVideoPlayerStandardTwo secondVideoPlayer = battleVideoHolder.secondVideoPlayer;
+
+        VideoSetupUtils.getInstance(context).playMusic(firstVideoPlayer, secondVideoPlayer);
+
+        firstVideoPlayer.startWindowTiny(Gravity.TOP);
+        secondVideoPlayer.startWindowTiny(Gravity.BOTTOM);
     }
 
     @Override

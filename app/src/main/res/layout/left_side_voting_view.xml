@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="@dimen/thirty_dp"
         android:layout_height="@dimen/thirty_dp"
-        android:src="@drawable/icon_heart_on" />
+        android:src="@drawable/thumb_on" />
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/userOneVoteCountTV"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/ten_dp"
         android:alpha=".6"
-        android:text="120"
+        android:text="0"
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 </LinearLayout>

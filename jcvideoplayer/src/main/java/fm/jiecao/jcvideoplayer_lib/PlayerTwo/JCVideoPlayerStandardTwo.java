@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import fm.jiecao.jcvideoplayer_lib.JCBuriedPointStandard;
 import fm.jiecao.jcvideoplayer_lib.JCResizeImageView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.R;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -85,7 +87,7 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
             titleTextView.setText(objects[0].toString());
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 fullscreenButton.setImageResource(R.drawable.jc_shrink);
-                backButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.GONE);
                 tinyBackImageView.setVisibility(View.INVISIBLE);
             } else if (currentScreen == SCREEN_LAYOUT_NORMAL
                     || currentScreen == SCREEN_LAYOUT_LIST) {
@@ -93,10 +95,15 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 backButton.setVisibility(View.GONE);
                 tinyBackImageView.setVisibility(View.INVISIBLE);
             } else if (currentScreen == SCREEN_WINDOW_TINY) {
-                tinyBackImageView.setVisibility(View.VISIBLE);
+                fullscreenButton.setImageResource(R.drawable.jc_shrink);
+                backButton.setVisibility(View.GONE);
+                tinyBackImageView.setVisibility(View.INVISIBLE);
+                fullscreenButton.setVisibility(View.GONE);
+
+              /*  tinyBackImageView.setVisibility(View.VISIBLE);
                 setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
-                        View.INVISIBLE);
+                        View.INVISIBLE);*/
             }
             return true;
         }
@@ -406,6 +413,9 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
+                        View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE,
+                        View.VISIBLE);
                 break;
         }
     }
@@ -424,6 +434,9 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                         View.VISIBLE);
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.INVISIBLE,
+                        View.VISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE,
+                        View.VISIBLE);
                 break;
         }
 
@@ -443,6 +456,9 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                         View.VISIBLE);
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        View.VISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE,
+                        View.VISIBLE);
                 break;
         }
 
@@ -464,6 +480,10 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+                        View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        cacheImageView.getVisibility());
+                updateStartImage();
                 break;
         }
 
@@ -483,6 +503,9 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                         cacheImageView.getVisibility());
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
+                        cacheImageView.getVisibility());
                 break;
         }
 
@@ -504,6 +527,10 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+                        View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        cacheImageView.getVisibility());
+                updateStartImage();
                 break;
         }
 
@@ -523,6 +550,9 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                         cacheImageView.getVisibility());
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        cacheImageView.getVisibility());
                 break;
         }
 
@@ -542,6 +572,9 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                         cacheImageView.getVisibility());
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.INVISIBLE,
+                        View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        cacheImageView.getVisibility());
                 break;
         }
 
@@ -563,6 +596,10 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
+                        cacheImageView.getVisibility());
+                updateStartImage();
                 break;
         }
 
@@ -584,6 +621,10 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+                        View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE,
+                        View.INVISIBLE);
+                updateStartImage();
                 break;
         }
 
@@ -605,6 +646,10 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
+                        View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.VISIBLE,
+                        View.INVISIBLE);
+                updateStartImage();
                 break;
         }
 
@@ -627,6 +672,10 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
+                        View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE,
+                        View.INVISIBLE);
+                updateStartImage();
                 break;
         }
 
@@ -783,9 +832,9 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
                             bottomContainer.setVisibility(View.INVISIBLE);
                             topContainer.setVisibility(View.INVISIBLE);
                             startButton.setVisibility(View.INVISIBLE);
-                            if (currentScreen != SCREEN_WINDOW_TINY) {
+                           /* if (currentScreen != SCREEN_WINDOW_TINY) {
                                 bottomProgressBar.setVisibility(View.VISIBLE);
-                            }
+                            }*/
                         }
                     });
                 }

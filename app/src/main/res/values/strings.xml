@@ -83,4 +83,6 @@
         <item quantity="other">%d comments</item>
     </plurals>
     <string name="delete_video">Delete Video</string>
+    <string name="dummy_video_url">http://www.whatsupguys.in/demo/smyt/videos/video2.mp4</string>
+    <string name="dummy_image_url">http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png</string>
 </resources>

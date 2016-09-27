@@ -40,7 +40,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserVideosFragment extends BaseFragment implements UserProfileActivity.OnBackPressedListener {
+public class UserVideosFragment extends BaseFragment {
 
     UserVideoAdapter userVideoAdapter;
     @InjectView(R.id.videosRV)
@@ -132,13 +132,9 @@ public class UserVideosFragment extends BaseFragment implements UserProfileActiv
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateVideoCommentCountReceiver, new IntentFilter(Constants.UPDATE_COMMENT_COUNT));
-        ((UserProfileActivity) activity).setOnBackPressedListener(this);
-    }
-
-    @Override
-    public void doBack() {
 
     }
+
 
     private BroadcastReceiver updateVideoCommentCountReceiver = new BroadcastReceiver() {
         @Override
@@ -151,7 +147,6 @@ public class UserVideosFragment extends BaseFragment implements UserProfileActiv
             userVideoAdapter.addUserVideoData(userVideoModels);
         }
     };
-
 
 
     @Override

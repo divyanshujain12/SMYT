@@ -30,8 +30,6 @@ import butterknife.InjectView;
 public class AllVideosFragment extends BaseFragment {
     @InjectView(R.id.videosRV)
     RecyclerView otherVideosRV;
-
-    TopRatedVideosAdapter topRatedVideosAdapter;
     UploadedAllVideoAdapter otherAllVideoAdapter;
 
     public static AllVideosFragment getInstance() {
@@ -66,7 +64,6 @@ public class AllVideosFragment extends BaseFragment {
 
     private void initViews() {
         otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        topRatedVideosAdapter = new TopRatedVideosAdapter(getContext(), new ArrayList<VideoModel>());
         otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), new ArrayList<VideoModel>(), this);
         otherVideosRV.setAdapter(otherAllVideoAdapter);
         CommonFunctions.stopVideoOnScroll(otherVideosRV);

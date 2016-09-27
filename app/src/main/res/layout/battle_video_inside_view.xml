@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/videoFL"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/one_hundred_fourty_five_dp"
+    android:layout_height="@dimen/one_hundred_fifty_five_dp"
     android:background="@drawable/black_border"
     tools:showIn="@layout/live_battle_video_item">
 
@@ -65,5 +65,27 @@
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
 
+    <FrameLayout
+        android:id="@+id/fullscreenFL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible">
 
+        <ImageView
+            android:id="@+id/fullscreenIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/five_dp"
+            android:src="@drawable/full_screen_videos" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/playVideosIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/icon_play"
+        android:visibility="gone" />
 </FrameLayout>

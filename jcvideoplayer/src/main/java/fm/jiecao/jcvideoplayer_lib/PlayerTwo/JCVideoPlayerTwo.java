@@ -152,11 +152,11 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
         this.currentScreen = screen;
         //如果是从tinyWindow返回的，那么就不进入normal状态，不进入任何状态
         if (JCVideoPlayerManagerTwo.LISTENERLIST.size() > 1) {
-            if (JCVideoPlayerManagerTwo.LISTENERLIST.getFirst().get().getScreenType() == SCREEN_WINDOW_TINY) {
+            /*if (JCVideoPlayerManagerTwo.LISTENERLIST.getFirst().get().getScreenType() == SCREEN_WINDOW_TINY) {
                 if (JCMediaManagerTwo.instance().mediaPlayer.getDataSource().equals(url)) {
                     return true;
                 }
-            }
+            }*/
         }
         setUiWitStateAndScreen(CURRENT_STATE_NORMAL);
         return true;
@@ -686,11 +686,11 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
             int h = wm.getDefaultDisplay().getHeight();
             Constructor<JCVideoPlayerTwo> constructor = (Constructor<JCVideoPlayerTwo>) JCVideoPlayerTwo.this.getClass().getConstructor(Context.class);
             JCVideoPlayerTwo mJcVideoPlayer = constructor.newInstance(getContext());
-            mJcVideoPlayer.setId(FULLSCREEN_ID);
+            mJcVideoPlayer.setId(TINY_ID);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h/2,gravity);
             //lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             vp.addView(mJcVideoPlayer, lp);
-            mJcVideoPlayer.setUp(url, JCVideoPlayerStandardTwo.SCREEN_WINDOW_FULLSCREEN, objects);
+            mJcVideoPlayer.setUp(url, JCVideoPlayerStandardTwo.SCREEN_WINDOW_TINY, objects);
             mJcVideoPlayer.setUiWitStateAndScreen(currentState);
             mJcVideoPlayer.addTextureView();
             JCVideoPlayerManagerTwo.putListener(mJcVideoPlayer);
@@ -836,15 +836,15 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
         }
     }
 
-    public static void onScroll() {//这里就应该保证,listener的正确的完整的赋值,调用非播放的控件
+    public static void onScroll() {
         if (JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener() != null &&
-                JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener() == JCVideoPlayerManagerTwo.getFirst()) {//正在列表播放,检测是否进入小窗
+                JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener() == JCVideoPlayerManagerTwo.getFirst()) {
             Log.i(JCVideoPlayerTwo.TAG, "onScroll if");
             JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener().onScrollChange();
         } else if (JCVideoPlayerManagerTwo.LISTENERLIST.size() > 1 &&
                 ((JCVideoPlayerTwo) JCVideoPlayerManagerTwo.getFirst()).currentScreen == SCREEN_WINDOW_TINY &&
-                JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener() == JCVideoPlayerManagerTwo.LISTENERLIST.get(1).get()) {//没在列表播放,小窗正在播放,随时退回来
-//            在currentScrollPlayer为第二个listener的时候，全屏的时候不scroll,,tiny的时候才scroll，，
+                JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener() == JCVideoPlayerManagerTwo.LISTENERLIST.get(1).get()) {
+//
             Log.i(JCVideoPlayerTwo.TAG, "onScroll else if");
             JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener().onScrollChange();
         }

@@ -21,7 +21,7 @@ import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LiveVideosAdapter extends RecyclerView.Adapter<LiveVideosAdapter.BattleVideoHolder> {
 
     private ArrayList<VideoModel> categoryModels;
     private Context context;
@@ -32,6 +32,9 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
         public ImageView moreIV;
         public FrameLayout videoFL;
+        private ImageView playVideosIV;
+        private FrameLayout fullscreenFL;
+        private ImageView fullscreenIV;
         private JCVideoPlayerStandard firstVideoPlayer;
         JCVideoPlayerStandardTwo secondVideoPlayer;
 
@@ -45,6 +48,9 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             commentsTV = (TextView) view.findViewById(R.id.commentsTV);
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
+            playVideosIV = (ImageView) view.findViewById(R.id.playVideosIV);
+            fullscreenFL = (FrameLayout) view.findViewById(R.id.fullscreenFL);
+            fullscreenIV = (ImageView) view.findViewById(R.id.fullscreenIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
             secondVideoPlayer = (JCVideoPlayerStandardTwo) view.findViewById(R.id.secondVideoPlayer);
@@ -59,7 +65,7 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BattleVideoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = null;
         itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.live_battle_video_item, parent, false);
@@ -69,14 +75,27 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final BattleVideoHolder holder, final int position) {
         //  VideoModel userModel = categoryModels.get(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.playVideosIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewClick.onClickItem(position, v);
+                playVideos(holder);
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {recyclerViewClick.onClickItem(position, v);
+            }
+        });
+
+    }
+
+    private void playVideos(BattleVideoHolder holder) {
+        holder.firstVideoPlayer.startPlayLogic();
+        holder.secondVideoPlayer.startPlayLogic();
+        holder.fullscreenFL.setVisibility(View.VISIBLE);
+        holder.playVideosIV.setVisibility(View.GONE);
     }
 
     @Override

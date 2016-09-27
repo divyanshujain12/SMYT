@@ -41,7 +41,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 /**
  * Created by divyanshu.jain on 8/30/2016.
  */
-public class SingleVideoDescFragment extends BaseDialogFragment implements View.OnClickListener, UserProfileActivity.OnBackPressedListener, DialogInterface.OnDismissListener {
+public class SingleVideoDescFragment extends BaseDialogFragment implements View.OnClickListener, DialogInterface.OnDismissListener {
 
     @InjectView(R.id.titleTV)
     TextView titleTV;
@@ -112,7 +112,6 @@ public class SingleVideoDescFragment extends BaseDialogFragment implements View.
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((UserProfileActivity) getActivity()).setOnBackPressedListener(this);
         initViews();
     }
 
@@ -179,21 +178,5 @@ public class SingleVideoDescFragment extends BaseDialogFragment implements View.
             firstVideoPlayer.startWindowFullscreen();
             getDialog().hide();
         }
-
     }
-
-    @Override
-    public void doBack() {
-        getDialog().show();
-        firstVideoPlayer.backPress();
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        ((UserProfileActivity) getActivity()).setOnBackPressedListener(null);
-        JCVideoPlayer.releaseAllVideos();
-    }
-
-
 }

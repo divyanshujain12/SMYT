@@ -1,6 +1,5 @@
 package com.example.divyanshu.smyt.DialogActivities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,10 +72,10 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     ProgressBar commentPB;
     private Validation validation;
     private HashMap<View, String> validationMap;
-    private int deletedCommentPos = -1;
 
     private VideoDetailModel videoDetailModel;
     private CommentsAdapter commentsAdapter;
+    private CommentModel deleteCommentModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,16 +102,20 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 updateUI();
                 break;
             case ApiCodes.POST_COMMENT:
-                CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
+                setCommentPBVisibility(View.GONE);
+                //  CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
-                addNewCommentToList(commentModel);
+                //addNewCommentToList(commentModel);
+                updateCommentsCount();
                 break;
             case ApiCodes.DELETE_COMMENT:
-                commentsAdapter.updateUi(deletedCommentPos);
-                commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count() - 1);
+                videoDetailModel.setVideo_comment_count(videoDetailModel.getVideo_comment_count() - 1);
+                commentsAdapter.removeComment(deleteCommentModel);
+                updateCommentsCount();
                 break;
         }
     }
+
     @Override
     public void onFailure(String str, int apiType) {
         super.onFailure(str, apiType);
@@ -123,25 +126,30 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        deletedCommentPos = position;
         CallWebService.getInstance(this, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), this);
     }
 
     private void updateUI() {
         titleTV.setText(videoDetailModel.getTitle());
-        String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, videoDetailModel.getVideo_comment_count(), videoDetailModel.getVideo_comment_count());
-        commentsTV.setText(commentsFound);
         userOneVoteCountTV.setText(String.valueOf(videoDetailModel.getLikes()));
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
         setupVideo();
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
+        updateCommentsCount();
+    }
+
+    private void updateCommentsCount() {
+        commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
+        String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, videoDetailModel.getVideo_comment_count(), videoDetailModel.getVideo_comment_count());
+        commentsTV.setText(commentsFound);
     }
 
     private void addNewCommentToList(CommentModel commentModel) {
-        setCommentPBVisibility(View.GONE);
+
         commentsAdapter.addNewComment(commentModel);
-        commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count() + 1);
+        videoDetailModel.setVideo_comment_count(videoDetailModel.getVideo_comment_count() + 1);
+        updateCommentsCount();
     }
 
     private void setupVideo() {
@@ -203,7 +211,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private JSONObject createJsonForDeleteComment(int pos) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(Constants.CUSTOMER_VIDEO_COMMENT_ID, commentsAdapter.getCommentModel(pos).getCustomers_videos_comment_id());
+            deleteCommentModel = commentsAdapter.getCommentModel(pos);
+            jsonObject.put(Constants.CUSTOMER_VIDEO_COMMENT_ID, deleteCommentModel.getCustomers_videos_comment_id());
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -174,23 +174,8 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
         }
     }
-
-    protected OnBackPressedListener onBackPressedListener;
-
-    public interface OnBackPressedListener {
-        void doBack();
-    }
-
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.onBackPressedListener = onBackPressedListener;
-    }
-
     @Override
     public void onBackPressed() {
-
-      /*  if (onBackPressedListener != null)
-            onBackPressedListener.doBack();
-        else*/
             super.onBackPressed();
 
     }

@@ -23,5 +23,5 @@
     <ImageView
         android:layout_width="@dimen/thirty_dp"
         android:layout_height="@dimen/thirty_dp"
-        android:src="@drawable/icon_heart_off" />
+        android:src="@drawable/thumb_off" />
 </LinearLayout>
