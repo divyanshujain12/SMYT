@@ -1020,6 +1020,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
             wm.getDefaultDisplay().getRealMetrics(metrics);
             int realHeight = metrics.heightPixels;
             if (realHeight > usableHeight)
+
                 return (realHeight - usableHeight);
             else
                 return 0;
