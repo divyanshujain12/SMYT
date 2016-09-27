@@ -1,5 +1,6 @@
 package fm.jiecao.jcvideoplayer_lib;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -8,10 +9,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -679,14 +682,18 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
             textureViewContainer.removeAllViews();
         }
         try {
+            DisplayMetrics displaymetrics = new DisplayMetrics();
             WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-            int w = wm.getDefaultDisplay().getWidth();
-            int h = wm.getDefaultDisplay().getHeight();
+            wm.getDefaultDisplay().getMetrics(displaymetrics);
+            int w = displaymetrics.widthPixels;
+            int h = displaymetrics.heightPixels;
             Constructor<JCVideoPlayer> constructor = (Constructor<JCVideoPlayer>) JCVideoPlayer.this.getClass().getConstructor(Context.class);
             JCVideoPlayer mJcVideoPlayer = constructor.newInstance(getContext());
+
             mJcVideoPlayer.setId(TINY_ID);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h / 2, gravity);
             //lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+
             vp.addView(mJcVideoPlayer, lp);
             mJcVideoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_WINDOW_TINY, objects);
             mJcVideoPlayer.setUiWitStateAndScreen(currentState);
@@ -1000,5 +1007,21 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
 
     public abstract int getLayoutId();
 
-
+    @SuppressLint("NewApi")
+    public int getBottomBarHeight() {
+        // getRealMetrics is only available with API 17 and +
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            int usableHeight = metrics.heightPixels;
+            wm.getDefaultDisplay().getRealMetrics(metrics);
+            int realHeight = metrics.heightPixels;
+            if (realHeight > usableHeight)
+                return (realHeight - usableHeight);
+            else
+                return 0;
+        }
+        return 0;
+    }
 }

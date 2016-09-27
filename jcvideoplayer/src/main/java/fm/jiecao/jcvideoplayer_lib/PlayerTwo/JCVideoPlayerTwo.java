@@ -1,5 +1,6 @@
 package fm.jiecao.jcvideoplayer_lib.PlayerTwo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Sensor;
@@ -7,10 +8,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -51,40 +54,40 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
     public static final String TAG = "JieCaoVideoPlayer";
 
     public static final int FULLSCREEN_ID = 33797;
-    public static final int TINY_ID       = 33798;
-    public static final int THRESHOLD     = 80;
+    public static final int TINY_ID = 33798;
+    public static final int THRESHOLD = 80;
 //    public static final int FULL_SCREEN_NORMAL_DELAY = 500;
 
-    public static boolean ACTION_BAR_EXIST       = true;
-    public static boolean TOOL_BAR_EXIST         = true;
+    public static boolean ACTION_BAR_EXIST = true;
+    public static boolean TOOL_BAR_EXIST = true;
     public static boolean WIFI_TIP_DIALOG_SHOWED = false;
 //    public static long    CLICK_QUIT_FULLSCREEN_TIME = 0;
 
-    public static final int SCREEN_LAYOUT_NORMAL     = 0;
-    public static final int SCREEN_LAYOUT_LIST       = 1;
+    public static final int SCREEN_LAYOUT_NORMAL = 0;
+    public static final int SCREEN_LAYOUT_LIST = 1;
     public static final int SCREEN_WINDOW_FULLSCREEN = 2;
-    public static final int SCREEN_WINDOW_TINY       = 3;
+    public static final int SCREEN_WINDOW_TINY = 3;
 
-    public static final int CURRENT_STATE_NORMAL                  = 0;
-    public static final int CURRENT_STATE_PREPARING               = 1;
-    public static final int CURRENT_STATE_PLAYING                 = 2;
+    public static final int CURRENT_STATE_NORMAL = 0;
+    public static final int CURRENT_STATE_PREPARING = 1;
+    public static final int CURRENT_STATE_PLAYING = 2;
     public static final int CURRENT_STATE_PLAYING_BUFFERING_START = 3;
-    public static final int CURRENT_STATE_PAUSE                   = 5;
-    public static final int CURRENT_STATE_AUTO_COMPLETE           = 6;
-    public static final int CURRENT_STATE_ERROR                   = 7;
+    public static final int CURRENT_STATE_PAUSE = 5;
+    public static final int CURRENT_STATE_AUTO_COMPLETE = 6;
+    public static final int CURRENT_STATE_ERROR = 7;
 
-    public int currentState  = -1;
+    public int currentState = -1;
     public int currentScreen = -1;
 
 
-    public String              url             = "";
-    public Object[]            objects         = null;
-    public boolean             looping         = false;
-    public Map<String, String> mapHeadData     = new HashMap<>();
-    public int                 seekToInAdvance = -1;
+    public String url = "";
+    public Object[] objects = null;
+    public boolean looping = false;
+    public Map<String, String> mapHeadData = new HashMap<>();
+    public int seekToInAdvance = -1;
 
     public ImageView startButton;
-    public SeekBar   progressBar;
+    public SeekBar progressBar;
     public ImageView fullscreenButton;
     public TextView currentTimeTextView, totalTimeTextView;
     public ViewGroup textureViewContainer;
@@ -94,20 +97,20 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
     protected static JCBuriedPoint JC_BURIED_POINT;
     protected static Timer UPDATE_PROGRESS_TIMER;
 
-    protected int               mScreenWidth;
-    protected int               mScreenHeight;
+    protected int mScreenWidth;
+    protected int mScreenHeight;
     protected AudioManager mAudioManager;
     protected Handler mHandler;
     protected JCVideoPlayerTwo.ProgressTimerTask mProgressTimerTask;
 
     protected boolean mTouchingProgressBar;
-    protected float   mDownX;
-    protected float   mDownY;
+    protected float mDownX;
+    protected float mDownY;
     protected boolean mChangeVolume;
     protected boolean mChangePosition;
-    protected int     mDownPosition;
-    protected int     mGestureDownVolume;
-    protected int     mSeekTimePosition;
+    protected int mDownPosition;
+    protected int mGestureDownVolume;
+    protected int mSeekTimePosition;
 
     public JCVideoPlayerTwo(Context context) {
         super(context);
@@ -646,7 +649,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
             int w = wm.getDefaultDisplay().getWidth();
             int h = wm.getDefaultDisplay().getHeight();
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(h, w);
-            lp.setMargins((w - h)/2 , -(w - h)/2 , 0, 0);
+            lp.setMargins((w - h) / 2, -(w - h) / 2, 0, 0);
             vp.addView(jcVideoPlayer, lp);
             jcVideoPlayer.setUp(url, JCVideoPlayerStandardTwo.SCREEN_WINDOW_FULLSCREEN, objects);
             jcVideoPlayer.setUiWitStateAndScreen(currentState);
@@ -681,14 +684,18 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
             textureViewContainer.removeAllViews();
         }
         try {
+            DisplayMetrics displaymetrics = new DisplayMetrics();
             WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-            int w = wm.getDefaultDisplay().getWidth();
-            int h = wm.getDefaultDisplay().getHeight();
+            wm.getDefaultDisplay().getMetrics(displaymetrics);
+            int w = displaymetrics.widthPixels;
+            int h = displaymetrics.heightPixels;
+
             Constructor<JCVideoPlayerTwo> constructor = (Constructor<JCVideoPlayerTwo>) JCVideoPlayerTwo.this.getClass().getConstructor(Context.class);
             JCVideoPlayerTwo mJcVideoPlayer = constructor.newInstance(getContext());
             mJcVideoPlayer.setId(TINY_ID);
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h/2,gravity);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(w, h / 2, gravity);
             //lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+            lp.bottomMargin = getBottomBarHeight();
             vp.addView(mJcVideoPlayer, lp);
             mJcVideoPlayer.setUp(url, JCVideoPlayerStandardTwo.SCREEN_WINDOW_TINY, objects);
             mJcVideoPlayer.setUiWitStateAndScreen(currentState);
@@ -870,7 +877,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             int w = wm.getDefaultDisplay().getWidth();
             int h = wm.getDefaultDisplay().getHeight();
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(h/2, w/2);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(h / 2, w / 2);
             lp.setMargins((w - h) / 2, -(w - h) / 2, 0, 0);
             vp.addView(jcVideoPlayer, lp);
 
@@ -1002,5 +1009,21 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
 
     public abstract int getLayoutId();
 
-
+    @SuppressLint("NewApi")
+    public int getBottomBarHeight() {
+        // getRealMetrics is only available with API 17 and +
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            int usableHeight = metrics.heightPixels;
+            wm.getDefaultDisplay().getRealMetrics(metrics);
+            int realHeight = metrics.heightPixels;
+            if (realHeight > usableHeight)
+                return (realHeight - usableHeight);
+            else
+                return 0;
+        }
+        return 0;
+    }
 }
