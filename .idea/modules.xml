@@ -4,11 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SMYT.iml" filepath="$PROJECT_DIR$/SMYT.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/awesomeValidation/awesomeValidation.iml" filepath="$PROJECT_DIR$/awesomeValidation/awesomeValidation.iml" />
       <module fileurl="file://$PROJECT_DIR$/jcvideoplayer/jcvideoplayer.iml" filepath="$PROJECT_DIR$/jcvideoplayer/jcvideoplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jcvideoplayer-lib/jcvideoplayer-lib.iml" filepath="$PROJECT_DIR$/jcvideoplayer-lib/jcvideoplayer-lib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/validation/validation.iml" filepath="$PROJECT_DIR$/validation/validation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/validator/validator.iml" filepath="$PROJECT_DIR$/validator/validator.iml" />
     </modules>
   </component>
 </project>

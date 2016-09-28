@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.smytex.livestream"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -22,6 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -40,4 +41,6 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'
     compile files('libs/joda-time-2.0.jar')
     compile project(':jcvideoplayer')
+    compile 'com.wowza.gocoder.sdk.android:com.wowza.gocoder.sdk:1.0@aar'
+
 }
