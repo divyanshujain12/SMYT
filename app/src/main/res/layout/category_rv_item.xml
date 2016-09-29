@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="@dimen/one_hundred_twenty_dp"
     android:layout_height="wrap_content"
@@ -9,19 +9,39 @@
     android:background="@color/colorPrimary"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/ten_dp">
+    >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp">
+
+        <ImageView
+            android:id="@+id/categoryIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/genre_icon_electronics" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/categoryNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:text="RAPH"
+            pixlui:typeface="Roboto-Medium.ttf" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
+        android:layout_gravity="right|bottom">
     <ImageView
-        android:id="@+id/categoryIV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/genre_icon_electronics" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/categoryNameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/five_dp"
-        android:text="RAPH"
-        pixlui:typeface="Roboto-Medium.ttf" />
-</LinearLayout>
+        android:src="@drawable/right_triangle"
+        />
+    </FrameLayout>
+</FrameLayout>

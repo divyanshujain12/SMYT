@@ -91,6 +91,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
             case ApiCodes.JOIN_CATEGORY:
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.putExtra(Constants.DATA, categoriesModel);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
                 break;
@@ -106,7 +107,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
         Intent intent = new Intent(this, OtherUserProfileActivity.class);
-        intent.putExtra(Constants.USER_DATA,userModels.get(position));
+        intent.putExtra(Constants.USER_DATA, userModels.get(position));
         startActivity(intent);
     }
 

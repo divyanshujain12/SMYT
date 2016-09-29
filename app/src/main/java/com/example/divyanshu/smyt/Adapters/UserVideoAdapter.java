@@ -13,12 +13,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
+import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -28,7 +38,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 /**
  * Created by divyanshu.jain on 9/1/2016.
  */
-public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.SingleVideoHolder> implements View.OnClickListener {
+public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.SingleVideoHolder> implements View.OnClickListener, SnackBarCallback {
 
     public ArrayList<VideoModel> videoModels;
     private Context context;
@@ -40,6 +50,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
 
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
+
         public ImageView videoThumbIV, moreIV;
         public FrameLayout videoFL;
         private JCVideoPlayerStandard firstVideoPlayer;
@@ -67,7 +78,6 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         createPopupWindow();
     }
 
-
     @Override
     public UserVideoAdapter.SingleVideoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -76,6 +86,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
 
 
     }
+
 
     @Override
     public void onBindViewHolder(final UserVideoAdapter.SingleVideoHolder holder, final int position) {
@@ -107,23 +118,15 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         });
     }
 
-
     private void onMoreIvClick(View view, final int position) {
         deleteVideoPos = position;
         if (popupWindow != null && popupWindow.isShowing())
             popupWindow.dismiss();
         else
             popupWindow.showAsDropDown(view);
-        /*PopupMenu popup = new PopupMenu(view.getContext(), view);
-        popup.inflate(R.menu.video_menu);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                CommonFunctions.getInstance().showErrorSnackBar((Activity) context, String.valueOf(position));
-                return true;
-            }
-        });
-        popup.show();*/
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -154,12 +157,39 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     @Override
     public void onClick(View v) {
         dismissPopupWindow();
-        CommonFunctions.getInstance().showErrorSnackBar((Activity) context, String.valueOf(deleteVideoPos));
+        CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_video_alert_msg), this);
     }
 
     private void dismissPopupWindow() {
         if (popupWindow != null && popupWindow.isShowing())
             popupWindow.dismiss();
+    }
+
+    @Override
+    public void doAction() {
+        CallWebService.getInstance(context, true, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(), new CallWebService.ObjectResponseCallBack() {
+            @Override
+            public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+                videoModels.remove(deleteVideoPos);
+                notifyItemRemoved(deleteVideoPos);
+            }
+
+            @Override
+            public void onFailure(String str, int apiType) {
+
+            }
+        });
+    }
+
+    private JSONObject createJsonForDeleteVideo() {
+        String videoId = videoModels.get(deleteVideoPos).getCustomers_videos_id();
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
+        try {
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
 
