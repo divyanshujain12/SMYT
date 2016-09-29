@@ -859,41 +859,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         JCVideoPlayerManager.setCurrentScrollPlayerListener(listener);
     }
 
-    public static void startHalfscreen(Context context, Class _class, String url, Object... objects) {
 
-        hideSupportActionBar(context);
-        ViewGroup vp = (ViewGroup) (JCUtils.scanForActivity(context)).getWindow().getDecorView();
-//                .findViewById(Window.ID_ANDROID_CONTENT);
-        View old = vp.findViewById(JCVideoPlayer.FULLSCREEN_ID);
-        if (old != null) {
-            vp.removeView(old);
-        }
-        try {
-            Constructor<JCVideoPlayer> constructor = _class.getConstructor(Context.class);
-            JCVideoPlayer jcVideoPlayer = constructor.newInstance(context);
-            jcVideoPlayer.setId(JCVideoPlayerStandard.FULLSCREEN_ID);
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            int w = wm.getDefaultDisplay().getWidth();
-            int h = wm.getDefaultDisplay().getHeight();
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(h / 2, w / 2);
-            lp.setMargins((w - h) / 2, -(w - h) / 2, 0, 0);
-            vp.addView(jcVideoPlayer, lp);
-
-//            final Animation ra = AnimationUtils.loadAnimation(context, R.anim.start_fullscreen);
-//            jcVideoPlayer.setAnimation(ra);
-
-            jcVideoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_WINDOW_FULLSCREEN, objects);
-            jcVideoPlayer.addTextureView();
-            jcVideoPlayer.setRotation(90);
-
-            jcVideoPlayer.startButton.performClick();
-
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void startFullscreen(Context context, Class _class, String url, Object... objects) {
 

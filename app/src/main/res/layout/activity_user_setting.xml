@@ -1,49 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
 
+    android:orientation="vertical">
 
-    <FrameLayout
+    <include layout="@layout/custom_toolbar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="@dimen/one_hundred_fifty_five_dp"
-            android:layout_height="@dimen/one_hundred_fifty_five_dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_dp">
 
-            <ImageView
-                android:id="@+id/userIV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <RelativeLayout
+                android:layout_width="@dimen/one_hundred_fifty_five_dp"
+                android:layout_height="@dimen/one_hundred_fifty_five_dp"
                 android:layout_gravity="center_horizontal"
-                android:scaleType="centerCrop"
-                android:src="@drawable/user" />
+                android:orientation="vertical">
 
-            <View
+                <ImageView
+                    android:id="@+id/userIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_primary_with_eight_eight" />
+
+                <ImageView
+                    android:id="@+id/changeUserImageIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_change_profile" />
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/changeUserImageIV"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:text="@string/change_picture"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fourteen_sp"
+                    pixlui:typeface="Roboto-Medium.ttf" />
+            </RelativeLayout>
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/personal_detail"
+                android:textColor="@color/white"
+                android:textSize="@dimen/eighteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_primary_with_eight_eight" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp">
 
-            <ImageView
-                android:id="@+id/changeUserImageIV"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent">
+
+                    <com.neopixl.pixlui.components.edittext.EditText
+                        android:id="@+id/firstNameET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="@dimen/ten_dp"
+                        android:drawableStart="@drawable/icon_username"
+                        android:hint="@string/first_name"
+                        android:maxLines="1"
+                        android:padding="@dimen/ten_dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sixteen_sp"
+                        pixlui:typeface="Roboto-Medium.ttf" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@drawable/icon_edit" />
+            </FrameLayout>
+
+            <include layout="@layout/horizontal_yellow_line" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent">
+
+                    <com.neopixl.pixlui.components.edittext.EditText
+                        android:id="@+id/lastNameET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="@dimen/ten_dp"
+                        android:drawableStart="@drawable/icon_username"
+                        android:hint="@string/last_name"
+                        android:maxLines="1"
+                        android:padding="@dimen/ten_dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sixteen_sp"
+                        pixlui:typeface="Roboto-Medium.ttf" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@drawable/icon_edit" />
+            </FrameLayout>
+
+            <include layout="@layout/horizontal_yellow_line" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.neopixl.pixlui.components.edittext.EditText
+                        android:id="@+id/mobileET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="@dimen/ten_dp"
+                        android:drawableStart="@drawable/icon_mobile"
+                        android:hint="@string/phone_number"
+                        android:maxLines="1"
+                        android:padding="@dimen/ten_dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sixteen_sp"
+                        pixlui:typeface="Roboto-Medium.ttf" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@drawable/icon_edit" />
+            </FrameLayout>
+
+            <include layout="@layout/horizontal_yellow_line" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.neopixl.pixlui.components.edittext.EditText
+                        android:id="@+id/statusET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="@dimen/ten_dp"
+                        android:drawableStart="@drawable/icon_status"
+                        android:hint="@string/status"
+                        android:maxLines="1"
+                        android:padding="@dimen/ten_dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sixteen_sp"
+                        pixlui:typeface="Roboto-Medium.ttf" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@drawable/icon_edit" />
+            </FrameLayout>
+
+            <include layout="@layout/horizontal_yellow_line" />
+
+            <com.neopixl.pixlui.components.textview.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_change_profile" />
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:text="@string/application"
+                android:textColor="@color/white"
+                android:textSize="@dimen/eighteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
 
-            <TextView
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/aboutUsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/changeUserImageIV"
-                android:layout_centerHorizontal="true"
-                android:text="Change Picture"
-                android:textColor="@color/white" />
-        </RelativeLayout>
-    </FrameLayout>
-</ScrollView>
+                android:layout_marginTop="@dimen/five_dp"
+                android:drawableLeft="@drawable/icon_about_us"
+                android:drawablePadding="@dimen/five_dp"
+                android:padding="@dimen/five_dp"
+                android:text="@string/about_us"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/contactUsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:drawableLeft="@drawable/icon_contact_us"
+                android:drawablePadding="@dimen/five_dp"
+                android:padding="@dimen/five_dp"
+                android:text="@string/contact_us"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

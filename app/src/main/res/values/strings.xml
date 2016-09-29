@@ -85,4 +85,11 @@
     <string name="delete_video">Delete Video</string>
     <string name="dummy_video_url">http://www.whatsupguys.in/demo/smyt/videos/video2.mp4</string>
     <string name="dummy_image_url">http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png</string>
+    <string name="change_picture">Change Picture</string>
+    <string name="status">Status</string>
+    <string name="personal_detail">Personal Detail</string>
+    <string name="application">Application</string>
+    <string name="about_us">About Us</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="setting">Setting</string>
 </resources>

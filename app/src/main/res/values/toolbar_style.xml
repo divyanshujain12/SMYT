@@ -6,6 +6,6 @@
         <item name="actionMenuTextColor">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="android:homeAsUpIndicator">@drawable/jc_back</item>
-<item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 </resources>

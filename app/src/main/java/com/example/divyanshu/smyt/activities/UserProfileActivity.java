@@ -8,6 +8,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
@@ -22,12 +25,14 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserChallengesFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /**
  * Created by divyanshu.jain on 8/31/2016.
@@ -87,7 +92,9 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     private void initViews() {
 
-
+        txtName.setText(MySharedPereference.getInstance().getString(this, Constants.FIRST_NAME));
+        phoneNumberTV.setText(MySharedPereference.getInstance().getString(this, Constants.PHONE_NUMBER));
+        nameInImgTV.setText(MySharedPereference.getInstance().getString(this, Constants.FIRST_NAME));
         createAnimation();
         ConfigViewPager();
         Utils.configureToolbarWithBackButton(this, toolbar, "");
@@ -174,9 +181,37 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
         }
     }
+
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.user_profile_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_user_setting:
+                Intent intent = new Intent(this, UserSettingActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }

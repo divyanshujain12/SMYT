@@ -87,7 +87,6 @@ public class JCVideoPlayerStandardTwo extends JCVideoPlayerTwo {
             titleTextView.setText(objects[0].toString());
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 fullscreenButton.setImageResource(R.drawable.jc_shrink);
-                backButton.setVisibility(View.GONE);
                 tinyBackImageView.setVisibility(View.INVISIBLE);
             } else if (currentScreen == SCREEN_LAYOUT_NORMAL
                     || currentScreen == SCREEN_LAYOUT_LIST) {

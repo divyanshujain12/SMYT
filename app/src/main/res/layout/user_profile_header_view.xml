@@ -10,7 +10,7 @@
     android:padding="@dimen/ten_dp"
     tools:showIn="@layout/user_profile_activity">
 
-    <include layout="@layout/user_profile_image"/>
+    <include layout="@layout/user_profile_image" />
 
 
     <LinearLayout
@@ -20,9 +20,9 @@
 
         <FrameLayout
             android:id="@+id/nameFL"
-            android:padding="@dimen/five_dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/five_dp">
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/txtName"
@@ -39,14 +39,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:src="@drawable/icon_edit" />
+                android:src="@drawable/icon_edit"
+                android:visibility="gone" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/phoneNumberFL"
             android:layout_width="match_parent"
-            android:padding="@dimen/five_dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/five_dp">
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/phoneNumberTV"
@@ -63,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:src="@drawable/icon_edit" />
+                android:src="@drawable/icon_edit"
+                android:visibility="gone" />
         </FrameLayout>
 
         <include layout="@layout/user_follower_bar" />

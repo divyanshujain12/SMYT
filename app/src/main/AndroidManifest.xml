@@ -29,7 +29,8 @@
             android:name=".activities.OtherUserProfileActivity"
             android:launchMode="singleInstance" />
         <activity android:name=".activities.ForgotPassword" />
-        <activity android:name=".DialogActivities.UserVideoDescActivity"/>
+        <activity android:name=".DialogActivities.UserVideoDescActivity" />
+        <activity android:name=".activities.UserSettingActivity" />
     </application>
 
 </manifest>
