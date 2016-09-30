@@ -32,6 +32,7 @@ public interface Constants {
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
     String UPDATE_COMMENT_COUNT = "update_comment_count";
     String STATUS = "status";
+    String LIKES = "likes";
 
     int REQUEST_TIMEOUT_TIME = 30000;
 }

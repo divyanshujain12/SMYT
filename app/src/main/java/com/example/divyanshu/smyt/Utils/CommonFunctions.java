@@ -7,10 +7,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,6 +144,27 @@ public class CommonFunctions {
                         JCVideoPlayerTwo.releaseAllVideos();
                     }
                 }
+            }
+        });
+    }
+
+    public static void changeImageWithAnimation(final Context context, final ImageView imageView, final int secondImageResourceID) {
+        Animation fadeIn = AnimationUtils.loadAnimation(context, R.anim.fab_in);
+        imageView.startAnimation(fadeIn);
+
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //   Animation fadeOut = AnimationUtils.loadAnimation(context, R.anim.fa);
+                imageView.setImageResource(secondImageResourceID);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
             }
         });
     }

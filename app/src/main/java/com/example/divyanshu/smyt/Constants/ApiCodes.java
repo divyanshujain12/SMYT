@@ -15,4 +15,5 @@ public interface ApiCodes {
     int POST_COMMENT  = 109;
     int DELETE_COMMENT = 110;
     int DELETE_VIDEO = 111;
+    int ADD_REMOVE_LIKE = 112;
 }
