@@ -8,8 +8,7 @@
     android:layout_marginRight="@dimen/five_dp"
     android:background="@color/colorPrimary"
     android:gravity="center"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,16 +31,24 @@
             android:text="RAPH"
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
-    <FrameLayout
-        android:layout_width="@dimen/thirty_dp"
-        android:layout_height="@dimen/thirty_dp"
-        android:layout_gravity="right|bottom">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
 
-        android:src="@drawable/right_triangle"
-        />
+    <FrameLayout
+        android:id="@+id/joinedCatFL"
+        android:layout_width="@dimen/thirty_six_dp"
+        android:layout_height="@dimen/fourty_dp"
+        android:layout_gravity="right|bottom">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/joined_cat_back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_right" />
     </FrameLayout>
 </FrameLayout>

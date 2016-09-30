@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.activities.HomeActivity;
@@ -30,12 +31,13 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView categoryNameTV, userTimeTV;
         public ImageView categoryIV;
+        public FrameLayout joinedCatFL;
 
         public MyViewHolder(View view) {
             super(view);
             categoryNameTV = (TextView) view.findViewById(R.id.categoryNameTV);
             categoryIV = (ImageView) view.findViewById(R.id.categoryIV);
-
+            joinedCatFL = (FrameLayout) view.findViewById(R.id.joinedCatFL);
         }
     }
 
@@ -59,20 +61,28 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
 
         holder.categoryNameTV.setText(categoryModel.getcategory_name());
         imageLoading.LoadImage(categoryModel.getThumbnail(), holder.categoryIV, null);
+        if (categoryModel.getJoin_status() == 0)
+            holder.joinedCatFL.setVisibility(View.GONE);
+        else
+            holder.joinedCatFL.setVisibility(View.VISIBLE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (categoryModel.getJoin_status() == 0) {
-                    Intent intent = new Intent(context, CategoryDescriptionActivity.class);
-                    intent.putExtra(Constants.DATA, categoryModel);
-                    context.startActivity(intent);
-                } else {
-                    Intent intent = new Intent(context, HomeActivity.class);
-                    intent.putExtra(Constants.DATA, categoryModel);
-                    context.startActivity(intent);
-                }
+                nextActivityIntent(categoryModel);
             }
         });
+    }
+
+    private void nextActivityIntent(CategoryModel categoryModel) {
+        if (categoryModel.getJoin_status() == 0) {
+            Intent intent = new Intent(context, CategoryDescriptionActivity.class);
+            intent.putExtra(Constants.DATA, categoryModel);
+            context.startActivity(intent);
+        } else {
+            Intent intent = new Intent(context, HomeActivity.class);
+            intent.putExtra(Constants.DATA, categoryModel);
+            context.startActivity(intent);
+        }
     }
 
     @Override

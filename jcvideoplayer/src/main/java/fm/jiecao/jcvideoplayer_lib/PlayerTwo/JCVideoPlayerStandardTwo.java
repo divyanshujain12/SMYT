@@ -27,7 +27,6 @@ import java.util.TimerTask;
 
 import fm.jiecao.jcvideoplayer_lib.JCBuriedPointStandard;
 import fm.jiecao.jcvideoplayer_lib.JCResizeImageView;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.R;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 

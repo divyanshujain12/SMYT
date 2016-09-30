@@ -48,24 +48,4 @@ public class VideoSetupUtils {
             secondVideoPlayer.startPlayLogic();
     }
 
-    public void onBackButtonClick(final JCVideoPlayerStandard firstVideoPlayer, final JCVideoPlayerStandardTwo secondVideoPlayer) {
-        firstVideoPlayer.fullscreenButton.setVisibility(View.GONE);
-        secondVideoPlayer.fullscreenButton.setVisibility(View.GONE);
-        firstVideoPlayer.backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firstVideoPlayer.backPress();
-                secondVideoPlayer.backPress();
-            }
-        });
-
-        secondVideoPlayer.backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firstVideoPlayer.backPress();
-                secondVideoPlayer.backPress();
-            }
-        });
-
-    }
 }

@@ -675,7 +675,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
 
         ViewGroup vp = (ViewGroup) (JCUtils.scanForActivity(getContext())).getWindow().getDecorView();
 //                .findViewById(Window.ID_ANDROID_CONTENT);
-       /* View old = vp.findViewById(TINY_ID);
+        /*View old = vp.findViewById(TINY_ID);
         if (old != null) {
             vp.removeView(old);
         }*/

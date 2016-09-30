@@ -61,7 +61,7 @@
             <com.neopixl.pixlui.components.textview.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
                 android:text="@string/personal_detail"
                 android:textColor="@color/white"
                 android:textSize="@dimen/eighteen_sp"
