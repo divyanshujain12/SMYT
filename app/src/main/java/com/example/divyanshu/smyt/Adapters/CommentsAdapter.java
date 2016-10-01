@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -18,7 +19,9 @@ import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
@@ -40,7 +43,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, commentTV;
         public ImageView userIV, deleteVideoIV;
-        public ProgressBar deleteCommentPB;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -48,7 +51,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
             commentTV = (TextView) view.findViewById(R.id.commentTV);
             userIV = (ImageView) view.findViewById(R.id.userIV);
             deleteVideoIV = (ImageView) view.findViewById(R.id.deleteVideoIV);
-            deleteCommentPB = (ProgressBar) view.findViewById(R.id.deleteCommentPB);
         }
     }
 
@@ -68,7 +70,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
 
     @Override
     public void onBindViewHolder(final CommentsAdapter.MyViewHolder holder, final int position) {
-        CommentModel commentModel = commentModels.get(position);
+        final CommentModel commentModel = commentModels.get(position);
 
         holder.userNameTV.setText(commentModel.getFirst_name());
         imageLoading.LoadImage(commentModel.getProfileimage(), holder.userIV, null);
@@ -76,15 +78,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.deleteVideoIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.deleteCommentPB.setVisibility(View.VISIBLE);
-                recyclerViewClick.onClickItem(position, v);
+                if (InternetCheck.isInternetOn(context)) {
+                    recyclerViewClick.onClickItem(position, v);
+                    removeComment(position);
+                } else {
+                    CommonFunctions.getInstance().showErrorSnackBar((Activity) context, context.getString(R.string.no_internet_connection));
+                }
             }
         });
     }
 
 
-    public void removeComment(CommentModel deleteCommentModel) {
-        int position = commentModels.indexOf(deleteCommentModel);
+    public void removeComment(int position) {
         commentModels.remove(position);
         notifyItemRemoved(position);
     }

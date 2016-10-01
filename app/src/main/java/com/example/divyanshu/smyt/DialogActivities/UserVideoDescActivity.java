@@ -22,6 +22,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -100,7 +101,10 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         if (v.getId() == R.id.sendCommentIV) {
             sendComment();
         } else {
-            checkAndSendLike();
+            if (InternetCheck.isInternetOn(this))
+                checkAndSendLike();
+            else
+                CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
         }
     }
 
@@ -108,6 +112,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
         CallWebService.getInstance(this, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), this);
+        setCommentCount();
     }
 
     @Override
@@ -120,19 +125,22 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 break;
             case ApiCodes.POST_COMMENT:
                 setCommentPBVisibility(View.GONE);
-                //  CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
+                  CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
-                //addNewCommentToList(commentModel);
+                addNewCommentToList(commentModel);
                 updateCommentsCount();
                 break;
             case ApiCodes.DELETE_COMMENT:
-                videoDetailModel.setVideo_comment_count(videoDetailModel.getVideo_comment_count() - 1);
-                commentsAdapter.removeComment(deleteCommentModel);
-                updateCommentsCount();
+                //setCommentCount();
                 break;
             case ApiCodes.ADD_REMOVE_LIKE:
                 break;
         }
+    }
+
+    private void setCommentCount() {
+        videoDetailModel.setVideo_comment_count(videoDetailModel.getVideo_comment_count() - 1);
+        updateCommentsCount();
     }
 
     @Override
@@ -175,13 +183,21 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void checkAndSendLike() {
-        int likesCount = Integer.parseInt(videoDetailModel.getLikes());
-        likesCount = likesCount + 1;
-        videoDetailModel.setLikes(String.valueOf(likesCount));
-        CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_on);
-       // videoLikeIV.setImageResource(R.drawable.thumb_on);
+        updateModelForLikesCount();
         setLikeCount();
         CallWebService.getInstance(this, false, ApiCodes.ADD_REMOVE_LIKE).hitJsonObjectRequestAPI(CallWebService.POST, API.LIKE_UNLIKE_VIDEO, createJsonForAddRemoveLike(), this);
+    }
+
+    private void updateModelForLikesCount() {
+        int likesCount = Integer.parseInt(videoDetailModel.getLikes());
+        if (videoDetailModel.getLikestatus() == 0) {
+            likesCount = likesCount + 1;
+            CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_on);
+        } else {
+            likesCount = likesCount - 1;
+            CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_off);
+        }
+        videoDetailModel.setLikes(String.valueOf(likesCount));
     }
 
     private void updateUI() {

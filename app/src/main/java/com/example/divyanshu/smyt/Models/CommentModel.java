@@ -11,6 +11,7 @@ public class CommentModel {
     String profileimage;
     String customers_videos_comment_id;
     String comment;
+
     long edate;
 
     public String getCustomer_id() {
@@ -68,4 +69,6 @@ public class CommentModel {
     public void setEdate(long edate) {
         this.edate = edate;
     }
+
+
 }

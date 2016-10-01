@@ -59,14 +59,6 @@
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/delete_video_icon" />
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
-            android:id="@+id/deleteCommentPB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
     </FrameLayout>
 
 </FrameLayout>

@@ -19,6 +19,7 @@ public class VideoDetailModel {
     String share_status;
     int video_comment_count;
     String likes;
+    int likestatus;
     ArrayList<CommentModel> commentArray;
     ArrayList<LikeModel> likesArray;
 
@@ -132,5 +133,12 @@ public class VideoDetailModel {
 
     public void setLikesArray(ArrayList<LikeModel> likesArray) {
         this.likesArray = likesArray;
+    }
+    public int getLikestatus() {
+        return likestatus;
+    }
+
+    public void setLikestatus(int likestatus) {
+        this.likestatus = likestatus;
     }
 }
