@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -16,7 +17,6 @@ import com.example.divyanshu.smyt.activities.MyApp;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 
 /**
@@ -104,10 +104,10 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
 
     private void onJsonObjectResponse(JSONObject response) {
         try {
-            if(response.getBoolean(Constants.STATUS_CODE)) {
-                objectCallBackInterface.onJsonObjectSuccess(response, apiCode);
-            }
-            else {
+            if (response.getBoolean(Constants.STATUS_CODE)) {
+                if (objectCallBackInterface != null)
+                    objectCallBackInterface.onJsonObjectSuccess(response, apiCode);
+            } else {
                 onError(response.getString(Constants.MESSAGE));
             }
         } catch (final JSONException e) {
@@ -140,7 +140,10 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
     private void onError(String error) {
         if (progressDialog != null)
             progressDialog.dismiss();
-        objectCallBackInterface.onFailure(error, apiCode);
+        if (objectCallBackInterface != null)
+            objectCallBackInterface.onFailure(error, apiCode);
+        else
+            CommonFunctions.getInstance().showErrorSnackBar((Activity) context, error);
     }
    /*  public interface StringResponseCallback {
         void onStringSuccess(String array) throws JSONException;

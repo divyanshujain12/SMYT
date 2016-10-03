@@ -121,10 +121,8 @@ public class UserVideosFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-
-        // showDialogFragment(SingleVideoDescFragment.getInstance(userVideoModels.get(position).getCustomers_videos_id()));
         Intent intent = new Intent(getActivity(), UserVideoDescActivity.class);
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoModels.get(position).getCustomers_videos_id());
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoAdapter.videoModels.get(position).getCustomers_videos_id());
         startActivity(intent);
     }
 

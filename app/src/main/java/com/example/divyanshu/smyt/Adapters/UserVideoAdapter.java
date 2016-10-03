@@ -17,6 +17,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.CustomViewsHandler;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.VideoModel;
@@ -24,6 +25,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -75,7 +77,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         this.videoModels = videoModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
-        createPopupWindow();
+        popupWindow = CustomViewsHandler.createPopupWindow(context, this);
     }
 
     @Override
@@ -138,26 +140,11 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         notifyDataSetChanged();
     }
 
-    private void createPopupWindow() {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_text_view_in_cardview, null);
-        TextView textView = (TextView) view.findViewById(R.id.singleTV);
-        textView.setText(context.getString(R.string.delete_video));
-        textView.setOnClickListener(this);
-        textView.setBackgroundColor(context.getResources().getColor(R.color.white));
-        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        if (Build.VERSION.SDK_INT >= 21) {
-            popupWindow.setElevation(5.0f);
-        }
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(true);
-    }
-
     @Override
     public void onClick(View v) {
         dismissPopupWindow();
         CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_video_alert_msg), this);
+
     }
 
     private void dismissPopupWindow() {
@@ -167,18 +154,18 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
 
     @Override
     public void doAction() {
-        CallWebService.getInstance(context, true, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(), new CallWebService.ObjectResponseCallBack() {
-            @Override
-            public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
-                videoModels.remove(deleteVideoPos);
-                notifyItemRemoved(deleteVideoPos);
-            }
+        if (InternetCheck.isInternetOn(context)) {
+            removeItem();
+            CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(), null);
+        } else {
+            CommonFunctions.getInstance().showErrorSnackBar((Activity) context, context.getString(R.string.no_internet_connection));
+        }
+    }
 
-            @Override
-            public void onFailure(String str, int apiType) {
-
-            }
-        });
+    private void removeItem() {
+        videoModels.remove(deleteVideoPos);
+        notifyItemRemoved(deleteVideoPos);
+        notifyItemRangeChanged(deleteVideoPos, getItemCount());
     }
 
     private JSONObject createJsonForDeleteVideo() {

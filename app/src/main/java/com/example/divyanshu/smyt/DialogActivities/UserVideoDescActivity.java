@@ -90,16 +90,18 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void initViews() {
         validation = new Validation();
+
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, "Please Enter Comment First!"));
         commentsRV.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
-
     @OnClick({R.id.sendCommentIV, R.id.leftSideVotingView})
     public void onClick(View v) {
         if (v.getId() == R.id.sendCommentIV) {
-            sendComment();
+            if (InternetCheck.isInternetOn(this))
+                sendComment();
+            CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
         } else {
             if (InternetCheck.isInternetOn(this))
                 checkAndSendLike();
@@ -107,6 +109,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
         }
     }
+
 
     @Override
     public void onClickItem(int position, View view) {
@@ -125,7 +128,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 break;
             case ApiCodes.POST_COMMENT:
                 setCommentPBVisibility(View.GONE);
-                  CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
+                CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
                 addNewCommentToList(commentModel);
                 updateCommentsCount();
@@ -172,7 +175,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-
     private void sendComment() {
         validationMap = validation.validate(this);
         commentsET.setText("");
@@ -182,6 +184,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+
     private void checkAndSendLike() {
         updateModelForLikesCount();
         setLikeCount();
@@ -190,14 +193,24 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void updateModelForLikesCount() {
         int likesCount = Integer.parseInt(videoDetailModel.getLikes());
+
         if (videoDetailModel.getLikestatus() == 0) {
             likesCount = likesCount + 1;
-            CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_on);
+            videoDetailModel.setLikestatus(1);
         } else {
             likesCount = likesCount - 1;
+            videoDetailModel.setLikestatus(0);
+        }
+        setLikeIV();
+        videoDetailModel.setLikes(String.valueOf(likesCount));
+    }
+
+    private void setLikeIV() {
+        if (videoDetailModel.getLikestatus() == 1) {
+            CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_on);
+        } else {
             CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_off);
         }
-        videoDetailModel.setLikes(String.valueOf(likesCount));
     }
 
     private void updateUI() {
@@ -208,6 +221,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
         updateCommentsCount();
+        setLikeIV();
     }
 
     private void setLikeCount() {

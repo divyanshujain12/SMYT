@@ -88,10 +88,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         });
     }
 
-
     public void removeComment(int position) {
         commentModels.remove(position);
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 
     public CommentModel getCommentModel(int position) {
