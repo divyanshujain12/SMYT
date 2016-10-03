@@ -75,6 +75,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.userNameTV.setText(commentModel.getFirst_name());
         imageLoading.LoadImage(commentModel.getProfileimage(), holder.userIV, null);
         holder.commentTV.setText(commentModel.getComment());
+
         holder.deleteVideoIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
