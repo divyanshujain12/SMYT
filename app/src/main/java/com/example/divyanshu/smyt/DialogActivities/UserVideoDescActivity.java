@@ -90,7 +90,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void initViews() {
         validation = new Validation();
-
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, "Please Enter Comment First!"));
         commentsRV.setLayoutManager(new LinearLayoutManager(this));
 

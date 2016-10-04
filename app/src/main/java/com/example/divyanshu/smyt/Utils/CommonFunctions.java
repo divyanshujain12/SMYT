@@ -78,24 +78,33 @@ public class CommonFunctions {
     private TSnackbar createSuccessCustomSnackBar(Activity context) {
         TSnackbar snackbar = TSnackbar
                 .make(context.findViewById(android.R.id.content), "", TSnackbar.LENGTH_LONG);
-        snackbar.setActionTextColor(Color.WHITE);
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(Color.parseColor("#00FF00"));
-        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
+        setUpCustomSnackBar(snackbar, Color.parseColor("#00FF00"));
+
+        return snackbar;
+    }
+
+    public TSnackbar createLoadingSnackBarWithActivity(Activity context) {
+        TSnackbar snackbar = TSnackbar
+                .make(context.findViewById(android.R.id.content), "", TSnackbar.LENGTH_LONG);
+        setUpCustomSnackBar(snackbar, context.getResources().getColor(R.color.colorPrimary));
 
         return snackbar;
     }
 
 
+
+    public TSnackbar createLoadingSnackBarWithView(View view) {
+        TSnackbar snackbar = TSnackbar
+                .make(view, "", TSnackbar.LENGTH_LONG);
+        setUpCustomSnackBar(snackbar, Color.parseColor("#ECC11C"));
+
+        return snackbar;
+    }
+
     private TSnackbar createErrorCustomSnackBar(Activity context) {
         TSnackbar snackbar = TSnackbar
                 .make(context.findViewById(android.R.id.content), "", TSnackbar.LENGTH_LONG);
-        snackbar.setActionTextColor(Color.WHITE);
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(Color.parseColor("#FF0000"));
-        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
+        setUpCustomSnackBar(snackbar, Color.parseColor("#FF0000"));
 
         return snackbar;
     }
@@ -103,20 +112,22 @@ public class CommonFunctions {
     private TSnackbar createErrorCustomSnackBar(View view) {
         TSnackbar snackbar = TSnackbar
                 .make(view, "", TSnackbar.LENGTH_LONG);
-        snackbar.setActionTextColor(Color.WHITE);
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(Color.parseColor("#FF0000"));
-        android.widget.TextView textView = (android.widget.TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
+        setUpCustomSnackBar(snackbar, Color.parseColor("#FF0000"));
 
         return snackbar;
     }
-
+    private void setUpCustomSnackBar(TSnackbar snackbar, int color) {
+        snackbar.setActionTextColor(Color.WHITE);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(color);
+        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+    }
     public static JSONObject customerIdJsonObject(Context context) {
         String customerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : "1");
+            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : customerID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -167,5 +178,13 @@ public class CommonFunctions {
             public void onAnimationRepeat(Animation animation) {
             }
         });
+    }
+
+    public static void showContinuousSB(TSnackbar continuousSB) {
+        continuousSB.setText(R.string.loading_data).setDuration(TSnackbar.LENGTH_INDEFINITE).show();
+    }
+
+    public static void hideContinuousSB(TSnackbar continuousSB) {
+        continuousSB.dismiss();
     }
 }

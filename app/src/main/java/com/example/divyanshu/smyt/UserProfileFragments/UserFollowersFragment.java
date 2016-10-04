@@ -11,9 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.UserFollowerAdapter;
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,9 +39,14 @@ public class UserFollowersFragment extends BaseFragment {
     @InjectView(R.id.followersRV)
     RecyclerView followersRV;
     private UserFollowerAdapter userFollowerAdapter;
+    private String customerID = "";
+    private ArrayList<UserModel> userModels;
 
-    public static UserFollowersFragment getInstance() {
+    public static UserFollowersFragment getInstance(String customerID) {
         UserFollowersFragment userFollowersFragment = new UserFollowersFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.CUSTOMER_ID, customerID);
+        userFollowersFragment.setArguments(bundle);
         return userFollowersFragment;
     }
 
@@ -59,10 +77,31 @@ public class UserFollowersFragment extends BaseFragment {
     }
 
     private void initViews() {
-
-        userFollowerAdapter = new UserFollowerAdapter(getActivity(), this);
+        userModels = new ArrayList<>();
+        customerID = getArguments().getString(Constants.CUSTOMER_ID);
+        userFollowerAdapter = new UserFollowerAdapter(getActivity(), this, userModels);
         followersRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         followersRV.setAdapter(userFollowerAdapter);
+        new CallWebService().getInstance(getContext(), false, ApiCodes.GET_FOLLOWERS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_FOLLOWERS, createJsonForGetFollowers(), this);
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
+        userFollowerAdapter.addItems(userModels);
+
+    }
+
+    private JSONObject createJsonForGetFollowers() {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMER_ID, customerID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomProgressDialog;
 import com.example.divyanshu.smyt.activities.MyApp;
@@ -24,11 +25,7 @@ import org.json.JSONObject;
  */
 public class CallWebService implements Response.ErrorListener, Response.Listener {
 
-    private static Context context = null;
-
-    private static CallWebService instance = null;
-
-    private static CustomProgressDialog progressDialog = null;
+    private Context context = null;
 
     public static int GET = Request.Method.GET;
     public static int POST = Request.Method.POST;
@@ -36,28 +33,28 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
     public static int DELETE = Request.Method.DELETE;
     private ObjectResponseCallBack objectCallBackInterface;
     private ArrayResponseCallback arrayCallBackInterface;
-    private static int apiCode = 0;
-    private String url;
+    private int apiCode = 0;
+    private String url = "";
+    private TSnackbar continuousSB;
 
     public static CallWebService getInstance(Context context, boolean showProgressBar, int apiCode) {
+        CallWebService instance = new CallWebService();
         instance.context = context;
-        if (context != null && showProgressBar)
-            progressDialog = new CustomProgressDialog(context);
-        else
-            progressDialog = null;
+        instance.apiCode = apiCode;
 
-        if (instance == null) {
-            instance = new CallWebService();
-        }
-        CallWebService.apiCode = apiCode;
+        if (context != null && showProgressBar)
+            instance.continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithActivity((Activity) context);
+        else
+            instance.continuousSB = null;
         return instance;
     }
 
     public void hitJsonObjectRequestAPI(int requestType, final String url, JSONObject json, final ObjectResponseCallBack callBackInterface) {
         objectCallBackInterface = callBackInterface;
+        cancelRequest(url);
         this.url = url;
-        if (progressDialog != null)
-            progressDialog.show();
+        if (continuousSB != null)
+            CommonFunctions.showContinuousSB(continuousSB);
 
         JsonObjectRequest request = new JsonObjectRequest(requestType, url, json == null ? null : (json), this, this);
         addRequestToVolleyQueue(url, request);
@@ -65,9 +62,12 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
 
     public void hitJsonArrayRequestAPI(int requestType, final String url, JSONArray json, final ArrayResponseCallback callBackinerface) {
         arrayCallBackInterface = callBackinerface;
+        cancelRequest(url);
+
         this.url = url;
-        if (progressDialog != null)
-            progressDialog.show();
+
+        if (continuousSB != null)
+            CommonFunctions.showContinuousSB(continuousSB);
 
         JsonArrayRequest request = new JsonArrayRequest(requestType, url, json == null ? null : (json), this, this);
         addRequestToVolleyQueue(url, request);
@@ -86,12 +86,11 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
         onError(error.getMessage());
     }
 
-
     @Override
     public void onResponse(Object response) {
         MyApp.getInstance().getRequestQueue().getCache().invalidate(url, true);
-        if (progressDialog != null)
-            progressDialog.dismiss();
+        if (continuousSB != null)
+            CommonFunctions.hideContinuousSB(continuousSB);
 
         if (response instanceof JSONObject) {
             onJsonObjectResponse((JSONObject) response);
@@ -116,6 +115,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
         }
     }
 
+
     private void onJsonArrayResponse(JSONArray response) {
         try {
             arrayCallBackInterface.onJsonArraySuccess(response, apiCode);
@@ -126,30 +126,30 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
     }
 
     public interface ObjectResponseCallBack {
+
         void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException;
 
         void onFailure(String str, int apiType);
+
     }
 
     public interface ArrayResponseCallback {
+
         void onJsonArraySuccess(JSONArray array, int apiType) throws JSONException;
 
         void onFailure(String str, int apiType);
+
     }
 
     private void onError(String error) {
-        if (progressDialog != null)
-            progressDialog.dismiss();
+
+        if (continuousSB != null)
+            CommonFunctions.hideContinuousSB(continuousSB);
         if (objectCallBackInterface != null)
             objectCallBackInterface.onFailure(error, apiCode);
         else
             CommonFunctions.getInstance().showErrorSnackBar((Activity) context, error);
     }
-   /*  public interface StringResponseCallback {
-        void onStringSuccess(String array) throws JSONException;
-
-        void onFailure(String str);
-    }*/
 
     private VolleyError configureErrorMessage(VolleyError volleyError) {
         if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
@@ -157,5 +157,10 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
             volleyError = error;
         }
         return volleyError;
+    }
+
+    private void cancelRequest(String url) {
+        if (this.url.equals(url))
+            MyApp.getInstance().cancelPendingRequests(url);
     }
 }

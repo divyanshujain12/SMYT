@@ -42,9 +42,9 @@ public class SearchUserRvAdapter extends RecyclerView.Adapter<SearchUserRvAdapte
         }
     }
 
-    public SearchUserRvAdapter(Context context, RecyclerViewClick recyclerViewClick) {
+    public SearchUserRvAdapter(Context context, RecyclerViewClick recyclerViewClick, ArrayList<UserModel> userModels) {
         this.recyclerViewClick = recyclerViewClick;
-        this.userList = SingletonClass.getInstance().userModels;
+        this.userList = userModels;
         this.context = context;
         imageLoading = new ImageLoading(context, 5);
     }
@@ -61,7 +61,7 @@ public class SearchUserRvAdapter extends RecyclerView.Adapter<SearchUserRvAdapte
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         UserModel userModel = userList.get(position);
 
-        holder.userNameTV.setText(userModel.getUsername());
+        holder.userNameTV.setText(userModel.getFirst_name() + " " + userModel.getLast_name());
         imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
         holder.ageAndGenderTV.setText(userModel.getDate_of_birth() + " " + userModel.getGender());
         holder.winsCountTV.setText("Wins: " + userModel.getTotal_wins());
@@ -81,5 +81,9 @@ public class SearchUserRvAdapter extends RecyclerView.Adapter<SearchUserRvAdapte
         return userList.size();
     }
 
+    public void setItem(ArrayList<UserModel> userModels) {
+        this.userList = userModels;
+        notifyDataSetChanged();
+    }
 }
 

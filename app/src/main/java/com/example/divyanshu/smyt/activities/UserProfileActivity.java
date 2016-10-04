@@ -101,12 +101,14 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     private void ConfigViewPager() {
+        String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(UserVideosFragment.getInstance(), getString(R.string.videos));
-        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(), getString(R.string.followers));
+        viewPagerAdapter.addFragment(UserVideosFragment.getInstance(customerID), getString(R.string.videos));
+        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(customerID), getString(R.string.followers));
         viewPagerAdapter.addFragment(UserChallengesFragment.getInstance(), getString(R.string.challenges));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
+        viewPager.setOffscreenPageLimit(3);
 
         tabs.post(new Runnable() {
             @Override

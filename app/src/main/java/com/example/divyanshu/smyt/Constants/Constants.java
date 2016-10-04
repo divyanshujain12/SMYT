@@ -33,6 +33,9 @@ public interface Constants {
     String UPDATE_COMMENT_COUNT = "update_comment_count";
     String STATUS = "status";
     String LIKES = "likes";
+    String FOLLOWING_ID = "following_id";
+    String FOLLOW_STATUS = "follow_status";
+    String SEARCH_TEXT = "search_text";
 
     int REQUEST_TIMEOUT_TIME = 30000;
 }

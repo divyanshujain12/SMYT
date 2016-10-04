@@ -42,9 +42,9 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
         }
     }
 
-    public UserFollowerAdapter(Context context, RecyclerViewClick recyclerViewClick) {
+    public UserFollowerAdapter(Context context, RecyclerViewClick recyclerViewClick, ArrayList<UserModel> userModels) {
         this.recyclerViewClick = recyclerViewClick;
-        this.userList = SingletonClass.getInstance().userModels;
+        this.userList = userModels;
         this.context = context;
         imageLoading = new ImageLoading(context, 5);
     }
@@ -81,5 +81,9 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
         return userList.size();
     }
 
+    public void addItems(ArrayList<UserModel> userModels) {
+        this.userList.addAll(userModels);
+        notifyDataSetChanged();
+    }
 }
 

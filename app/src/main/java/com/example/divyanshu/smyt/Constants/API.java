@@ -19,5 +19,9 @@ public interface API {
     String GET_CUSTOMER_VIDEO_DETAIL = BASE + "getCustomerVideoDetail";
     String ADD_COMMENT = BASE + "addComment";
     String DELETE_COMMENT = BASE + "deleteCustomerComment";
-    String LIKE_UNLIKE_VIDEO = BASE+"actionLikesDislike"; 	/* 1 for Like & 0 for Remove Like */
+    String LIKE_UNLIKE_VIDEO = BASE + "actionLikesDislike"; 	/* 1 for Like & 0 for Remove Like */
+    String ADD_REMOVE_FOLLOWING = BASE + "addFollowing";
+    String GET_FOLLOWING = BASE + "getUserFollowing";
+    String GET_FOLLOWERS = BASE + "getUserFollowers";
+    String USER_SEARCH = BASE + "autosearchUser";
 }

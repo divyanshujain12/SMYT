@@ -16,4 +16,7 @@ public interface ApiCodes {
     int DELETE_COMMENT = 110;
     int DELETE_VIDEO = 111;
     int ADD_REMOVE_LIKE = 112;
+    int FOLLOW_USER = 113;
+    int GET_FOLLOWERS = 114;
+    int SEARCH_USER = 115;
 }

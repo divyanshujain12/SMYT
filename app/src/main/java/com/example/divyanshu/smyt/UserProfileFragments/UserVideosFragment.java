@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.activities.UserProfileActivity;
 import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
@@ -46,12 +47,15 @@ public class UserVideosFragment extends BaseFragment {
     @InjectView(R.id.videosRV)
     RecyclerView videosRV;
     ArrayList<VideoModel> userVideoModels = new ArrayList<>();
-    @InjectView(R.id.loadingPB)
-    ProgressBar loadingPB;
+    private TSnackbar continuousSB = null;
+    private String customerID = "";
 
 
-    public static UserVideosFragment getInstance() {
+    public static UserVideosFragment getInstance(String customerID) {
         UserVideosFragment userVideosFragment = new UserVideosFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.CUSTOMER_ID, customerID);
+        userVideosFragment.setArguments(bundle);
         return userVideosFragment;
     }
 
@@ -88,13 +92,24 @@ public class UserVideosFragment extends BaseFragment {
     }
 
     private void initViews() {
+        customerID = getArguments().getString(Constants.CUSTOMER_ID);
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);
         videosRV.setAdapter(userVideoAdapter);
-
-        CallWebService.getInstance(getContext(), false, ApiCodes.USER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO, CommonFunctions.customerIdJsonObject(getContext()), this);
-
+        continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithView(videosRV);
+        CommonFunctions.showContinuousSB(continuousSB);
+        CallWebService.getInstance(getContext(), false, ApiCodes.USER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO, createJsonForUserVideos(), this);
         CommonFunctions.stopVideoOnScroll(videosRV);
+    }
+
+    private JSONObject createJsonForUserVideos() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMER_ID, customerID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
 
@@ -107,15 +122,16 @@ public class UserVideosFragment extends BaseFragment {
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
+        CommonFunctions.hideContinuousSB(continuousSB);
         userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
         userVideoAdapter.addUserVideoData(userVideoModels);
-        loadingPB.setVisibility(View.GONE);
     }
 
     @Override
     public void onFailure(String str, int apiType) {
+        CommonFunctions.hideContinuousSB(continuousSB);
         super.onFailure(str, apiType);
-        loadingPB.setVisibility(View.GONE);
+
     }
 
     @Override

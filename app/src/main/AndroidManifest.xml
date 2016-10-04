@@ -25,9 +25,7 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.RecordVideoActivity" />
-        <activity
-            android:name=".activities.OtherUserProfileActivity"
-            android:launchMode="singleInstance" />
+        <activity android:name=".activities.OtherUserProfileActivity" />
         <activity android:name=".activities.ForgotPassword" />
         <activity android:name=".DialogActivities.UserVideoDescActivity" />
         <activity android:name=".activities.UserSettingActivity" />

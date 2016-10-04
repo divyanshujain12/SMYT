@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
@@ -24,9 +26,14 @@ import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -103,11 +110,11 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     private void ConfigViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(UserVideosFragment.getInstance(), getString(R.string.videos));
-        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(), getString(R.string.followers));
+        viewPagerAdapter.addFragment(UserVideosFragment.getInstance(userModel.getCustomer_id()), getString(R.string.videos));
+        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(userModel.getCustomer_id()), getString(R.string.followers));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
-
+        viewPager.setOffscreenPageLimit(3);
         tabs.post(new Runnable() {
             @Override
             public void run() {
@@ -182,13 +189,32 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_user_profile:
-               /* Intent intent = new Intent(this, UserProfileActivity.class);
-                startActivity(intent);*/
-                CommonFunctions.showShortLengthSnackbar("Followed", fab);
+            case R.id.action_follow:
+                if (InternetCheck.isInternetOn(this)) {
+                    hitFollowWebService(item);
+                } else {
+                    CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
+                }
                 return true;
         }
         return true;
+    }
+
+    private void hitFollowWebService(MenuItem item) {
+        CallWebService.getInstance(this, false, ApiCodes.FOLLOW_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.ADD_REMOVE_FOLLOWING, createJsonForFollowUser(), this);
+        CommonFunctions.showShortLengthSnackbar(getString(R.string.followed), fab);
+        item.setTitle(getString(R.string.followed));
+    }
+
+    private JSONObject createJsonForFollowUser() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
+        try {
+            jsonObject.put(Constants.FOLLOWING_ID, userModel.getCustomer_id());
+            jsonObject.put(Constants.FOLLOW_STATUS, "1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
 

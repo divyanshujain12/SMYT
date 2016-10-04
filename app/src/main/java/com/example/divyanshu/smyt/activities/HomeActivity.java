@@ -33,7 +33,7 @@ public class HomeActivity extends BaseActivity {
     ViewPagerAdapter viewPagerAdapter;
     @InjectView(R.id.toolbarView)
     Toolbar toolbarView;
-
+    private CategoryModel categoryModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class HomeActivity extends BaseActivity {
 
     private void initViews() {
 
-        CategoryModel categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
+        categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
         Utils.configureToolbarWithBackButton(this, toolbarView, categoryModel.getcategory_name() + "(" + categoryModel.getUsercount() + ")");
 
         configViewPager();
@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.tab_all_videos));
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
-        viewPagerAdapter.addFragment(SearchFragment.getInstance(), getString(R.string.tab_search));
+        viewPagerAdapter.addFragment(SearchFragment.getInstance(categoryModel.getId()), getString(R.string.tab_search));
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(3);
         homeTabLayout.post(new Runnable() {
@@ -84,6 +84,7 @@ public class HomeActivity extends BaseActivity {
         }
         return true;
     }
+
     @Override
     public void onBackPressed() {
         if (JCVideoPlayer.backPress()) {
@@ -91,6 +92,7 @@ public class HomeActivity extends BaseActivity {
         }
         super.onBackPressed();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
