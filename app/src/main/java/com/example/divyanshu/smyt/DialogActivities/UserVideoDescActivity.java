@@ -17,6 +17,7 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
+import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -79,6 +80,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private VideoDetailModel videoDetailModel;
     private CommentsAdapter commentsAdapter;
     private CommentModel deleteCommentModel;
+    private VideoModel videoModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         if (v.getId() == R.id.sendCommentIV) {
             if (InternetCheck.isInternetOn(this))
                 sendComment();
+            else
             CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
         } else {
             if (InternetCheck.isInternetOn(this))
@@ -169,8 +172,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     public void onResume() {
         super.onResume();
         if (videoDetailModel == null) {
-            String videoID = getIntent().getExtras().getString(Constants.CUSTOMERS_VIDEO_ID);
-            CallWebService.getInstance(this, true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(videoID), this);
+            videoModel = getIntent().getExtras().getParcelable(Constants.USER_VIDEO);
+            CallWebService.getInstance(this, true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(), this);
         }
     }
 
@@ -238,10 +241,10 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         commentPB.setVisibility(visibility);
     }
 
-    private JSONObject createJsonForGettingVideoInfo(String videoId) {
-        JSONObject jsonObject = new JSONObject();
+    private JSONObject createJsonForGettingVideoInfo() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
-            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoId);
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoModel.getCustomers_videos_id());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -252,7 +255,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoDetailModel.getCustomers_videos_id());
-            jsonObject.put(Constants.LIKES, "1");
+            jsonObject.put(Constants.LIKES, String.valueOf(videoDetailModel.getLikestatus()));
         } catch (JSONException e) {
             e.printStackTrace();
         }

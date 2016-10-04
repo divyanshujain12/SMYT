@@ -22,6 +22,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
@@ -39,6 +40,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     private Context context;
     private ImageLoading imageLoading;
     private RecyclerViewClick recyclerViewClick;
+    private String currentCustomerID = "";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, commentTV;
@@ -59,6 +61,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         this.commentModels = commentModels;
         this.context = context;
         imageLoading = new ImageLoading(context, 5);
+        currentCustomerID = MySharedPereference.getInstance().getString(context,Constants.CUSTOMER_ID);
     }
 
     @Override
@@ -75,7 +78,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.userNameTV.setText(commentModel.getFirst_name());
         imageLoading.LoadImage(commentModel.getProfileimage(), holder.userIV, null);
         holder.commentTV.setText(commentModel.getComment());
-
+        setDeleteCommentIvVisibility(holder, commentModel);
         holder.deleteVideoIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +90,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
                 }
             }
         });
+    }
+
+    private void setDeleteCommentIvVisibility(MyViewHolder holder, CommentModel commentModel) {
+        if(commentModel.getCustomer_id().equals(currentCustomerID))
+            holder.deleteVideoIV.setVisibility(View.VISIBLE);
+        else
+            holder.deleteVideoIV.setVisibility(View.GONE);
     }
 
     public void removeComment(int position) {

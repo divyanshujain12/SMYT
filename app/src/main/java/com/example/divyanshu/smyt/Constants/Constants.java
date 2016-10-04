@@ -36,6 +36,6 @@ public interface Constants {
     String FOLLOWING_ID = "following_id";
     String FOLLOW_STATUS = "follow_status";
     String SEARCH_TEXT = "search_text";
-
+String USER_VIDEO = "user_video";
     int REQUEST_TIMEOUT_TIME = 30000;
 }
