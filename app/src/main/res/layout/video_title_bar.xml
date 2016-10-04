@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:paddingStart="@dimen/five_dp"
+    android:paddingEnd="@dimen/five_dp"
     tools:showIn="@layout/battle_video_item">
 
     <com.neopixl.pixlui.components.textview.TextView

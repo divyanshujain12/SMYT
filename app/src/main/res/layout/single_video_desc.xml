@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:minWidth="1000dp"
     android:orientation="vertical"
-    android:padding="@dimen/ten_dp">
+    android:padding="@dimen/three_dp">
 
 
     <LinearLayout
@@ -18,7 +18,9 @@
 
         <include layout="@layout/video_title_bar" />
 
-        <include layout="@layout/single_video_inside_item" />
+        <include layout="@layout/single_video_inside_item"
+            android:layout_height="@dimen/two_hundred_fifty_dp"
+            android:layout_width="match_parent"/>
 
         <include layout="@layout/uploaded_video_comment_bar" />
 

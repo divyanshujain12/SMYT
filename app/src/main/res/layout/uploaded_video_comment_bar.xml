@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:paddingStart="@dimen/five_dp"
+    android:paddingEnd="@dimen/five_dp"
     android:orientation="horizontal">
 
     <com.neopixl.pixlui.components.textview.TextView
