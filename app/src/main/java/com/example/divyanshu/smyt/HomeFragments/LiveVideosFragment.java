@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.HomeFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.LiveVideosAdapter;
-import com.example.divyanshu.smyt.Fragments.PlayLiveBattleVideoFragment;
+import com.example.divyanshu.smyt.DialogActivities.LiveBattleDescActivity;
+import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
@@ -72,6 +74,7 @@ public class LiveVideosFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        showDialogFragment(new PlayLiveBattleVideoFragment());
+        Intent intent = new Intent(getActivity(),LiveBattleDescActivity.class);
+        startActivity(intent);
     }
 }

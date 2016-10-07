@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:name=".activities.MyApp"
         android:allowBackup="true"
@@ -25,10 +26,12 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.RecordVideoActivity" />
-        <activity android:name=".activities.OtherUserProfileActivity" />
+        <activity android:name=".activities.OtherUserProfileActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".activities.ForgotPassword" />
         <activity android:name=".DialogActivities.UserVideoDescActivity" />
-        <activity android:name=".activities.UserSettingActivity" />
+        <activity android:name=".activities.UserSettingActivity"
+            android:configChanges="orientation|screenSize|keyboard|screenLayout"/>
     </application>
 
 </manifest>

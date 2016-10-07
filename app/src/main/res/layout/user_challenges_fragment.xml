@@ -3,6 +3,7 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,13 +20,13 @@
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
-        <ToggleButton
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/challengesTB"
-            android:layout_width="@dimen/fourty_dp"
-            android:layout_height="@dimen/twenty_two_dp"
-            android:background="@drawable/toggle_widget_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textOff=""
-            android:textOn="" />
+            android:textOn=""
+            app:theme="@style/Theme.Switch"/>
 
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"

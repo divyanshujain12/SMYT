@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import butterknife.InjectView;
 public class UserChallengesFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener, RecyclerItemClickListener.OnItemClickListener {
 
     @InjectView(R.id.challengesTB)
-    ToggleButton challengesTB;
+    SwitchCompat challengesTB;
     @InjectView(R.id.challengesRV)
     RecyclerView challengesRV;
     private UserOngoingChallengesAdapter userOngoingChallengesAdapter;

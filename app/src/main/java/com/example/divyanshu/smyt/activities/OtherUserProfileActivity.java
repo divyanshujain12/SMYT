@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -89,19 +90,19 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.other_user_profile_activity);
         ButterKnife.inject(this);
-        initViews();
+        initViews(getIntent());
     }
 
-    private void initViews() {
+    private void initViews(Intent intent) {
 
-        updateUi();
+        updateUi(intent);
         createAnimation();
         ConfigViewPager();
         Utils.configureToolbarWithBackButton(this, toolbar, "");
     }
 
-    private void updateUi() {
-        userModel = getIntent().getExtras().getParcelable(Constants.USER_DATA);
+    private void updateUi(Intent intent) {
+        userModel = intent.getExtras().getParcelable(Constants.USER_DATA);
         txtName.setText(userModel.getFirst_name());
         phoneNumberTV.setText(userModel.getPhonenumber());
         followersCountTV.setText(userModel.getFollowers());
@@ -215,6 +216,12 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initViews(intent);
     }
 }
 

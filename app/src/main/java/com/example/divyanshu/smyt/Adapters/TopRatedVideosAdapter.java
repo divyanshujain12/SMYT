@@ -1,18 +1,12 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
-import com.example.divyanshu.smyt.Fragments.SingleVideoDescFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;

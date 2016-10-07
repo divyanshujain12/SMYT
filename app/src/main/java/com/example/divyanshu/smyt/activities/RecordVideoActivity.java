@@ -1,9 +1,10 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.Fragments.UploadVideoFragment;
+import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -38,7 +39,7 @@ public class RecordVideoActivity extends BaseActivity {
 
     @OnClick(R.id.startRecordingIV)
     public void onClick() {
-        showDialogFragment(new UploadVideoFragment());
-
+        Intent intent = new Intent(this, UploadNewVideoActivity.class);
+        startActivity(intent);
     }
 }

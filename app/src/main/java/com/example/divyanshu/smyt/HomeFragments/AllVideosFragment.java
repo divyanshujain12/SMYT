@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.HomeFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
-import com.example.divyanshu.smyt.Adapters.TopRatedVideosAdapter;
-import com.example.divyanshu.smyt.Fragments.SingleVideoDescFragment;
-import com.example.divyanshu.smyt.Fragments.PlayUploadedBattleVideoFragment;
+import com.example.divyanshu.smyt.DialogActivities.UploadedBattleDescActivity;
+import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
@@ -78,14 +77,17 @@ public class AllVideosFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
+        Intent intent = null;
         switch (position) {
             case 0:
-                showDialogFragment(new SingleVideoDescFragment());
+                intent = new Intent(getActivity(), UserVideoDescActivity.class);
                 break;
             case 1:
-                showDialogFragment(new PlayUploadedBattleVideoFragment());
+                intent = new Intent(getActivity(), UploadedBattleDescActivity.class);
                 break;
         }
+        if (intent != null)
+            startActivity(intent);
 
     }
 }
