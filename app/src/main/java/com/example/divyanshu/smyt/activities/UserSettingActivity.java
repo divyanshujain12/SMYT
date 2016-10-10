@@ -68,7 +68,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     }
 
     private void InitViews() {
-        cameraPermission = new String[]{Manifest.permission.CAMERA};
+        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
         externalStoragePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.setting));
         String firstName = MySharedPereference.getInstance().getString(this, Constants.FIRST_NAME);
@@ -138,14 +138,22 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
 
         try {
             HashMap<String, Bitmap> imageMap = TakePictureHelper.getInstance().retrievePicturePath(this, requestCode, resultCode, data);
-            for (String path : imageMap.keySet()) {
-                Bitmap bitmap = imageMap.get(path);
-                if (bitmap != null)
-                    userIV.setImageBitmap(bitmap);
-            }
+            setImageBitmap(imageMap);
+
         } catch (Exception e) {
             CommonFunctions.getInstance().showErrorSnackBar(this, e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void setImageBitmap(HashMap<String, Bitmap> imageMap) {
+        if (imageMap != null)
+            for (String path : imageMap.keySet()) {
+                Bitmap bitmap = imageMap.get(path);
+                if (bitmap != null) {
+                    userIV.setImageBitmap(bitmap);
+                  //  bitmap.recycle();
+                }
+            }
     }
 }

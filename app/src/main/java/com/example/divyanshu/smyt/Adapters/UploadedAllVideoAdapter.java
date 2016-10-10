@@ -150,7 +150,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         JCVideoPlayerStandard firstVideoPlayer = battleVideoHolder.firstVideoPlayer;
         JCVideoPlayerStandardTwo secondVideoPlayer = battleVideoHolder.secondVideoPlayer;
 
-        VideoSetupUtils.getInstance(context).setUpFirstVideoPlayer(firstVideoPlayer, context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url));
+        VideoSetupUtils.getInstance(context).setUpFirstVideoPlayer(firstVideoPlayer, context.getString(R.string.dummy_m3u8_video), context.getString(R.string.dummy_image_url));
         VideoSetupUtils.getInstance(context).setUpSecondVideoPlayer(secondVideoPlayer, context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url));
 
 

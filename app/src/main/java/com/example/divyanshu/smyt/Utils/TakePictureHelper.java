@@ -5,22 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class TakePictureHelper {
 
     public final static int REQUEST_CAMERA = 1;
     public final static int REQUEST_OTHER = 2;
+    private static final String TAG = TakePictureHelper.class.getName();
 
     private Uri cameraImageUri;
     private static TakePictureHelper takePictureHelper = null;
@@ -43,7 +44,8 @@ public class TakePictureHelper {
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 createCameraImageFileName());
         cameraImageUri = Uri.fromFile(cameraImageOutputFile);
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
+        // intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
+        intent.putExtra("return-data", true);
         activity.startActivityForResult(intent, REQUEST_CAMERA);
     }
 
@@ -64,19 +66,34 @@ public class TakePictureHelper {
     public HashMap<String, Bitmap> retrievePicturePath(Activity activity, int requestCode, int resultCode, Intent data) throws Exception {
 
         if (resultCode == Activity.RESULT_OK) {
-            Uri result = data.getData();
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), result);
+            Uri result = null;
+            Bitmap bitmap;
+            if (requestCode == REQUEST_CAMERA) {
+                bitmap = (Bitmap) data.getExtras().get("data");
+                Log.d(TAG,String.valueOf(bitmapSizeInKB(bitmap)));
+                result = getImageUri(activity, bitmap);
+            } else
+                result = data.getData();
+
             String filePath = getRealPathFromURI(activity, result);
-            bitmap = rotatePicInPortraitMode(filePath, bitmap);
-            bitmap = resizeImageForImageView(300, bitmap);
-            HashMap<String, Bitmap> hashMap = new HashMap<>();
-            hashMap.put(filePath, bitmap);
-            return hashMap;
+            if (filePath != null && filePath.length() > 0) {
+                bitmap = getBitmap(activity, result);
+                Log.d(TAG,String.valueOf(bitmapSizeInKB(bitmap)));
+                HashMap<String, Bitmap> hashMap = new HashMap<>();
+                hashMap.put(filePath, bitmap);
+                return hashMap;
+            }
         }
 
         return null;
     }
 
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 
     private String getRealPathFromURI(Context context, Uri contentUri) throws Exception {
         Cursor cursor = null;
@@ -100,7 +117,7 @@ public class TakePictureHelper {
     }
 
 
-    private Bitmap rotatePicInPortraitMode(String photoPath, Bitmap bitmap) throws IOException {
+    /*private Bitmap rotatePicInPortraitMode(String photoPath, Bitmap bitmap) throws IOException {
         ExifInterface
                 ei = new ExifInterface(photoPath);
         int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
@@ -121,35 +138,75 @@ public class TakePictureHelper {
                 break;
         }
         return bitmap;
-    }
+    }*/
 
-    private static Bitmap rotateImage(Bitmap source, float angle) {
+  /*  private static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix,
                 true);
+    }*/
+
+    private int bitmapSizeInKB(Bitmap bitmap) {
+        return bitmap.getByteCount() / 1000;
     }
 
-    public Bitmap resizeImageForImageView(int scaleSize, Bitmap bitmap) {
-        Bitmap resizedBitmap = null;
-        int originalWidth = bitmap.getWidth();
-        int originalHeight = bitmap.getHeight();
-        int newWidth = -1;
-        int newHeight = -1;
-        float multFactor = -1.0F;
-        if (originalHeight > originalWidth) {
-            newHeight = scaleSize;
-            multFactor = (float) originalWidth / (float) originalHeight;
-            newWidth = (int) (newHeight * multFactor);
-        } else if (originalWidth > originalHeight) {
-            newWidth = scaleSize;
-            multFactor = (float) originalHeight / (float) originalWidth;
-            newHeight = (int) (newWidth * multFactor);
-        } else if (originalHeight == originalWidth) {
-            newHeight = scaleSize;
-            newWidth = scaleSize;
+    private Bitmap getBitmap(Context context, Uri uri) {
+        InputStream in = null;
+        try {
+            final int IMAGE_MAX_SIZE = 40000;
+            in = context.getContentResolver().openInputStream(uri);
+
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, o);
+            in.close();
+
+
+            int scale = 1;
+            while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 2)) >
+                    IMAGE_MAX_SIZE) {
+                scale++;
+            }
+            Log.d(TAG, "scale = " + scale + ", orig-width: " + o.outWidth + ", orig-height: " + o.outHeight);
+
+            Bitmap b = null;
+            in = context.getContentResolver().openInputStream(uri);
+            if (scale > 1) {
+                scale--;
+                // scale to max possible inSampleSize that still yields an image
+                // larger than target
+                o = new BitmapFactory.Options();
+                o.inSampleSize = scale;
+                b = BitmapFactory.decodeStream(in, null, o);
+
+                // resize to desired dimensions
+                int height = b.getHeight();
+                int width = b.getWidth();
+                Log.d(TAG, "1th scale operation dimenions - width: " + width + ", height: " + height);
+
+                double y = Math.sqrt(IMAGE_MAX_SIZE
+                        / (((double) width) / height));
+                double x = (y / height) * width;
+
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(b, (int) x,
+                        (int) y, true);
+                b.recycle();
+                b = scaledBitmap;
+
+                System.gc();
+            } else {
+                b = BitmapFactory.decodeStream(in);
+            }
+            in.close();
+
+            Log.d(TAG, "bitmap size - width: " + b.getWidth() + ", height: " +
+                    b.getHeight());
+            return b;
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage(), e);
+            return null;
         }
-        resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
-        return resizedBitmap;
     }
 }
