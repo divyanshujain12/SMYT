@@ -4,10 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <application
         android:name=".activities.MyApp"
         android:allowBackup="true"
@@ -29,12 +32,25 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.RecordVideoActivity" />
-        <activity android:name=".activities.OtherUserProfileActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activities.OtherUserProfileActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".activities.ForgotPassword" />
         <activity android:name=".DialogActivities.UserVideoDescActivity" />
-        <activity android:name=".activities.UserSettingActivity"
-            android:configChanges="orientation|screenSize|keyboard|screenLayout"/>
+        <activity
+            android:name=".activities.UserSettingActivity"
+            android:configChanges="orientation|screenSize|keyboard|screenLayout" />
+
+        <service android:name=".Fcm.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Fcm.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

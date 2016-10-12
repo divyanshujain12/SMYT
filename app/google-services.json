@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "88567538555",
+    "firebase_url": "https://smyt-ef56d.firebaseio.com",
+    "project_id": "smyt-ef56d",
+    "storage_bucket": "smyt-ef56d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88567538555:android:f1fc249505b956ab",
+        "android_client_info": {
+          "package_name": "com.smytex.livestream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88567538555-md408qbddp4ob5tee7v9inhec91voip8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpq9JOrCSiCLcAvwBtSPDPGvtfUOGp_CU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
