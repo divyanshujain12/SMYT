@@ -137,10 +137,11 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     }
 
     private JSONObject createJsonForUserSearch(String queryText) {
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.CATEGORY_ID, categoryID);
             jsonObject.put(Constants.SEARCH_TEXT, queryText);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

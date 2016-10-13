@@ -12,9 +12,12 @@ import android.widget.ImageView;
 import com.example.divyanshu.smyt.Fragments.OngoingChallengeDescriptionFragment;
 import com.example.divyanshu.smyt.Fragments.UserCompletedChallengeDescFragment;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
+import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.RecyclerItemClickListener;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -25,10 +28,11 @@ import java.util.ArrayList;
 public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCompletedChallengesAdapter.MyViewHolder> implements View.OnClickListener {
 
 
-    private ArrayList<UserModel> userList;
+    private ArrayList<ChallengeModel> challengeModels;
     private Context context;
     private ImageLoading imageLoading;
-
+    private RecyclerViewClick recyclerViewClick;
+    String round_count_string = "(%s/%s)";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView titleTV;
@@ -46,13 +50,13 @@ public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCom
             challengeTypeTV = (TextView) view.findViewById(R.id.challengeTypeTV);
             roundsCountTV = (TextView) view.findViewById(R.id.roundsCountTV);
             challengeTimeTV = (TextView) view.findViewById(R.id.challengeTimeTV);
-            view.setOnClickListener(UserCompletedChallengesAdapter.this);
         }
     }
 
-    public UserCompletedChallengesAdapter(Context context) {
-        this.userList = SingletonClass.getInstance().userModels;
+    public UserCompletedChallengesAdapter(Context context, ArrayList<ChallengeModel> challengeModels, RecyclerViewClick recyclerViewClick) {
+        this.challengeModels = challengeModels;
         this.context = context;
+        this.recyclerViewClick = recyclerViewClick;
         imageLoading = new ImageLoading(context, 5);
     }
 
@@ -66,12 +70,23 @@ public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCom
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        // UserModel userModel = userList.get(position);
+        ChallengeModel challengeModel = challengeModels.get(position);
+        holder.titleTV.setText(challengeModel.getTitle());
+        holder.genreNameTV.setText(challengeModel.getGenre());
+        holder.challengeTypeTV.setText(challengeModel.getShare_status());
+        holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
+        holder.challengeTimeTV.setText(challengeModel.getRound_date());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(position, v);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 8;
+        return challengeModels.size();
     }
 
 
@@ -80,6 +95,11 @@ public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCom
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         UserCompletedChallengeDescFragment challangeFragment = new UserCompletedChallengeDescFragment();
         challangeFragment.show(fragmentManager, challangeFragment.getClass().getName());
+    }
+
+    public void addItems(ArrayList<ChallengeModel> challengeModels) {
+        this.challengeModels.addAll(challengeModels);
+        notifyDataSetChanged();
     }
 }
 

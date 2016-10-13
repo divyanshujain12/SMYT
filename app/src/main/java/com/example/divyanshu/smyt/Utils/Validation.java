@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.Utils;
 
 
 import android.app.Activity;
+import android.support.annotation.Nullable;
 import android.util.Patterns;
 import android.view.View;
 
@@ -24,15 +25,33 @@ public class Validation {
     public final static int TYPE_EMPTY_FIELD_VALIDATION = 4;
     private EditText editText = null;
     private TextView textView = null;
-
+    private TSnackbar snackbar;
     private ArrayList<ValidationModel> validationModels = new ArrayList<>();
 
     public void addValidationField(ValidationModel validationModel) {
         validationModels.add(validationModel);
     }
 
+    public void removeValidationField(ValidationModel validationModel) {
+        validationModels.remove(validationModel);
+    }
+
+    public HashMap<View, String> validate(View view) {
+        snackbar = CommonFunctions.getInstance().getErrorSnackbar(view);
+        HashMap<View, String> valueMap = getHashMap();
+        if (valueMap == null) return null;
+        return valueMap;
+    }
+
     public HashMap<View, String> validate(Activity activity) {
-        TSnackbar snackbar = CommonFunctions.getInstance().getErrorSnackbar(activity);
+        snackbar = CommonFunctions.getInstance().getErrorSnackbar(activity);
+        HashMap<View, String> valueMap = getHashMap();
+        if (valueMap == null) return null;
+        return valueMap;
+    }
+
+    @Nullable
+    private HashMap<View, String> getHashMap() {
         HashMap<View, String> valueMap = new HashMap<>();
 
         for (ValidationModel validationModel : validationModels) {

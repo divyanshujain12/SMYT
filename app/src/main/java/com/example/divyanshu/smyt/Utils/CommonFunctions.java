@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,8 +50,8 @@ public class CommonFunctions {
         getErrorSnackbar(activity).setText(errorText).setDuration(TSnackbar.LENGTH_SHORT).show();
     }
 
-    public void showSuccessSnackBar(Activity activity, String errorText) {
-        getSuccessSnackbar(activity).setText(errorText).setDuration(TSnackbar.LENGTH_SHORT).show();
+    public void showSuccessSnackBar(Activity activity, String msg) {
+        getSuccessSnackbar(activity).setText(msg).setDuration(TSnackbar.LENGTH_SHORT).show();
     }
 
     public void showErrorSnackBar(View view, String errorText) {
@@ -92,7 +93,6 @@ public class CommonFunctions {
     }
 
 
-
     public TSnackbar createLoadingSnackBarWithView(View view) {
         TSnackbar snackbar = TSnackbar
                 .make(view, "", TSnackbar.LENGTH_LONG);
@@ -116,6 +116,7 @@ public class CommonFunctions {
 
         return snackbar;
     }
+
     private void setUpCustomSnackBar(TSnackbar snackbar, int color) {
         snackbar.setActionTextColor(Color.WHITE);
         View snackbarView = snackbar.getView();
@@ -123,11 +124,12 @@ public class CommonFunctions {
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
     }
+
     public static JSONObject customerIdJsonObject(Context context) {
         String customerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : customerID);
+            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "2" : "2");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -186,5 +188,11 @@ public class CommonFunctions {
 
     public static void hideContinuousSB(TSnackbar continuousSB) {
         continuousSB.dismiss();
+    }
+
+    public void hideKeyBoard(Activity activity, View view) {
+        InputMethodManager imm = (InputMethodManager) activity
+                .getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

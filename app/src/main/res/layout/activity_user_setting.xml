@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-
     android:orientation="vertical">
 
     <include layout="@layout/custom_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarView"
+        android:layout_marginBottom="@dimen/fifty_dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,8 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user" />
+                    android:scaleType="centerCrop" />
 
                 <View
                     android:layout_width="match_parent"
@@ -66,6 +66,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/eighteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,6 +100,7 @@
             </FrameLayout>
 
             <include layout="@layout/horizontal_yellow_line" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -199,6 +201,42 @@
 
             <include layout="@layout/horizontal_yellow_line" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.neopixl.pixlui.components.edittext.EditText
+                        android:id="@+id/changePasswordET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawablePadding="@dimen/ten_dp"
+                        android:drawableStart="@drawable/password_icon"
+                        android:hint="@string/change_password"
+                        android:inputType="numberPassword"
+                        android:maxLines="1"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:padding="@dimen/ten_dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sixteen_sp"
+                        pixlui:typeface="Roboto-Medium.ttf" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@drawable/icon_edit" />
+            </FrameLayout>
+
+            <include layout="@layout/horizontal_yellow_line" />
+
             <com.neopixl.pixlui.components.textview.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -235,4 +273,21 @@
                 pixlui:typeface="Roboto-Medium.ttf" />
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/updateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fourty_dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:background="@drawable/rounded_corner_yellow"
+        android:gravity="center"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:text="@string/update"
+        android:textColor="@color/white"
+        android:textSize="@dimen/eighteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+</RelativeLayout>

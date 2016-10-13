@@ -11,7 +11,7 @@ public interface API {
     String LOGIN = BASE + "login";
     String FORGOT_PASSWORD = BASE + "forgetpassword";
     String GET_CATEGORIES = BASE + "getcategory";
-    String RESET_PASSWORD = BASE + "changepassword";
+    String UPDATE_USER = BASE + "changepassword";
     String GET_CATEGORY_USER = BASE + "getcategoryUsers";
     String JOIN_CATEGORY = BASE + "join_category";
     String GET_CUSTOMER_VIDEO = BASE + "getCustomerVideos";
@@ -24,4 +24,10 @@ public interface API {
     String GET_FOLLOWING = BASE + "getUserFollowing";
     String GET_FOLLOWERS = BASE + "getUserFollowers";
     String USER_SEARCH = BASE + "autosearchUser";
+    String POST_CHALLENGE = BASE + "postChallenge";
+    String GET_ONGOING_CHALLENGES = BASE + "getCustomerChallengeVideosOngoing";
+    String GET_COMPLETED_CHALLENGES = BASE + "getCustomerChallengeVideosComplete";
+    String GET_POST_VIDEO = BASE + "postVideo";
+    String ACCEPT_REJECT_CHALLENGE = BASE + "challengeAction";
+    String GET_CUSTOMER_DETAIL = BASE + "getCustomerDetails";
 }

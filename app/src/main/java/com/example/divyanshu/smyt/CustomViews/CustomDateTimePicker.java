@@ -59,12 +59,14 @@ public class CustomDateTimePicker implements TimePickerDialog.OnTimeSetListener,
     public void showTimeDialog(Activity context, final TextView textView) {
         dateTimeTV = textView;
         mcurrentDate = Calendar.getInstance();
+        //mcurrentDate.setTime(getCurrentSelectedDate(textView.getText().toString(), TIME_FORMAT));
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 this,
                 mcurrentDate.get(Calendar.HOUR_OF_DAY),
                 mcurrentDate.get(Calendar.MINUTE),
                 false
         );
+     //   tpd.setMinTime(mcurrentDate.get(Calendar.HOUR_OF_DAY), mcurrentDate.get(Calendar.MINUTE), mcurrentDate.get(Calendar.SECOND));
         tpd.show(context.getFragmentManager(), "TimePickerDialog");
     }
 

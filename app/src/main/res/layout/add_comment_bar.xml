@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/fourty_dp"
     android:layout_alignParentBottom="true"
-    android:background="@drawable/flat_yellow_thick_border"
-    tools:showIn="@layout/play_single_video_fragment">
+    android:background="@drawable/flat_yellow_thick_border">
 
     <com.neopixl.pixlui.components.edittext.EditText
         android:id="@+id/commentsET"

@@ -29,6 +29,7 @@ import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -80,7 +81,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     @InjectView(R.id.main_content)
     CoordinatorLayout mainContent;
     private int viewPagerPos = 0;
-
+    private ImageLoading imageLoading;
     private ViewPagerAdapter viewPagerAdapter;
     private Animation fabIn, fabOut;
     private UserModel userModel;
@@ -94,7 +95,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     }
 
     private void initViews(Intent intent) {
-
+        imageLoading = new ImageLoading(this, 5);
         updateUi(intent);
         createAnimation();
         ConfigViewPager();
@@ -105,8 +106,10 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         userModel = intent.getExtras().getParcelable(Constants.USER_DATA);
         txtName.setText(userModel.getFirst_name());
         phoneNumberTV.setText(userModel.getPhonenumber());
+        nameInImgTV.setText(userModel.getUsername());
         followersCountTV.setText(userModel.getFollowers());
         followingCountTV.setText(userModel.getFollowing());
+        imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
     }
 
     private void ConfigViewPager() {
@@ -176,7 +179,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     public void onClick() {
         switch (viewPagerPos) {
             case 0:
-                showDialogFragment(new PostChallengeFragment());
+                showDialogFragment(PostChallengeFragment.getInstance(createBundleForPostChallenge()));
                 break;
         }
     }
@@ -222,6 +225,13 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         initViews(intent);
+    }
+
+    private Bundle createBundleForPostChallenge() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.DATA, userModel);
+        bundle.putBoolean(Constants.FROM_FOLLOWER, true);
+        return bundle;
     }
 }
 

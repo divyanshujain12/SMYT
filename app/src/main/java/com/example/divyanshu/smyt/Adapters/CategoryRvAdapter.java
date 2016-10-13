@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.activities.HomeActivity;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.activities.CategoryDescriptionActivity;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.activities.CategoryDescriptionActivity;
+import com.example.divyanshu.smyt.activities.HomeActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
         } else {
             Intent intent = new Intent(context, HomeActivity.class);
             intent.putExtra(Constants.DATA, categoryModel);
+            MySharedPereference.getInstance().setString(context, Constants.CATEGORY_ID, categoryModel.getId());
             context.startActivity(intent);
         }
     }

@@ -75,9 +75,7 @@ public class ImageLoading {
                 .showImageForEmptyUri(R.drawable.noimage).displayer(new RoundedBitmapDisplayer(radius)).cacheInMemory()
                 .cacheOnDisc().build();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-
         imageListener = new ImageDisplayListener();
-
         imageProgressBar = new HashMap<ImageView, ProgressBar>();
     }
 

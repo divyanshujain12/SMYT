@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Fragments.OngoingChallengeDescriptionFragment;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
+import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -26,10 +29,13 @@ import java.util.ArrayList;
 public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> implements View.OnClickListener {
 
 
-    private ArrayList<UserModel> userList;
+    private ArrayList<ChallengeModel> challengeModels;
     private Context context;
     private ImageLoading imageLoading;
-
+    private RecyclerViewClick recyclerViewClick;
+    private String ACTIVE = "Active";
+    private String IN_ACTIVE = "Inactive";
+    String round_count_string = "(%s/%s)";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView titleTV;
@@ -40,7 +46,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         TextView challengeTimeTV;
         TextView declineTV;
         TextView acceptTV;
-
+        LinearLayout acceptAndDeclineLL;
 
         public MyViewHolder(View view) {
             super(view);
@@ -52,15 +58,14 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
             challengeTimeTV = (TextView) view.findViewById(R.id.challengeTimeTV);
             declineTV = (TextView) view.findViewById(R.id.declineTV);
             acceptTV = (TextView) view.findViewById(R.id.acceptTV);
-            declineTV.setOnClickListener(UserOngoingChallengesAdapter.this);
-            acceptTV.setOnClickListener(UserOngoingChallengesAdapter.this);
-            view.setOnClickListener(UserOngoingChallengesAdapter.this);
+            acceptAndDeclineLL = (LinearLayout) view.findViewById(R.id.acceptAndDeclineLL);
         }
     }
 
-    public UserOngoingChallengesAdapter(Context context) {
-        this.userList = SingletonClass.getInstance().userModels;
+    public UserOngoingChallengesAdapter(Context context, ArrayList<ChallengeModel> challengeModels, RecyclerViewClick recyclerViewClick) {
+        this.challengeModels = challengeModels;
         this.context = context;
+        this.recyclerViewClick = recyclerViewClick;
         imageLoading = new ImageLoading(context, 5);
     }
 
@@ -74,14 +79,34 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        // UserModel userModel = userList.get(position);
+        ChallengeModel challengeModel = challengeModels.get(position);
+        holder.titleTV.setText(challengeModel.getTitle());
+        holder.genreNameTV.setText(challengeModel.getGenre());
+        holder.challengeTypeTV.setText(challengeModel.getShare_status());
+        holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
+        holder.challengeTimeTV.setText(challengeModel.getRound_date());
+        if (challengeModel.getStatus().equals(ACTIVE)) {
+            holder.acceptAndDeclineLL.setVisibility(View.GONE);
+        } else
+            holder.acceptAndDeclineLL.setVisibility(View.VISIBLE);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(position, v);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 8;
+        return challengeModels.size();
     }
 
+    public void addItems(ArrayList<ChallengeModel> challengeModels) {
+        this.challengeModels.addAll(challengeModels);
+        notifyDataSetChanged();
+    }
 
     @Override
     public void onClick(View v) {

@@ -21,19 +21,32 @@
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 
-    <AutoCompleteTextView
-        android:id="@+id/friendAC"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:gravity="center_vertical"
-        android:hint="@string/write_a_title"
-        android:maxLines="2"
-        android:padding="@dimen/ten_dp"
-        android:drawableRight="@drawable/icon_search"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/color_primary_with_eight_eight"
-        android:textSize="@dimen/sixteen_sp" />
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/friendAC"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="@string/write_a_title"
+            android:maxLines="2"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/color_primary_with_eight_eight"
+            android:textSize="@dimen/sixteen_sp" />
+
+        <ProgressBar
+            android:id="@+id/loadFriendsPB"
+            style="?android:attr/progressBarStyleSmallInverse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

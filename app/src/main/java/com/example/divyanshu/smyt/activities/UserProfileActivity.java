@@ -1,11 +1,15 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,22 +21,33 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
+import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserChallengesFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
+import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 
 /**
  * Created by divyanshu.jain on 8/31/2016.
@@ -80,24 +95,29 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     private ViewPagerAdapter viewPagerAdapter;
     private Animation fabIn, fabOut;
-
+    private UserModel userModel;
+    private ImageLoading imageLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocalBroadcastManager.getInstance(this).registerReceiver(updateUserInfo, new IntentFilter(Constants.UPDATE_USER_INFO));
         setContentView(R.layout.user_profile_activity);
         ButterKnife.inject(this);
         initViews();
     }
 
     private void initViews() {
-
-        txtName.setText(MySharedPereference.getInstance().getString(this, Constants.FIRST_NAME));
-        phoneNumberTV.setText(MySharedPereference.getInstance().getString(this, Constants.PHONE_NUMBER));
-        nameInImgTV.setText(MySharedPereference.getInstance().getString(this, Constants.FIRST_NAME));
+        imageLoading = new ImageLoading(this, 5);
         createAnimation();
         ConfigViewPager();
         Utils.configureToolbarWithBackButton(this, toolbar, "");
+
+        hitgetUserInfoApi();
+    }
+
+    private void hitgetUserInfoApi() {
+        CallWebService.getInstance(this, true, GET_USER_INFO).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_DETAIL, CommonFunctions.customerIdJsonObject(this), this);
     }
 
     private void ConfigViewPager() {
@@ -178,10 +198,30 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 startActivity(intent);
                 break;
             case 2:
-                showDialogFragment(new PostChallengeFragment());
+                showDialogFragment(PostChallengeFragment.getInstance());
                 break;
 
         }
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        switch (apiType) {
+            case GET_USER_INFO:
+                userModel = UniversalParser.getInstance().parseJsonObject(response.getJSONArray(Constants.DATA).getJSONObject(0), UserModel.class);
+                updateUI();
+                break;
+        }
+    }
+
+    private void updateUI() {
+        txtName.setText(userModel.getUsername());
+        phoneNumberTV.setText(userModel.getPhonenumber());
+        nameInImgTV.setText(userModel.getUsername());
+        followersCountTV.setText(userModel.getFollowers());
+        followingCountTV.setText(userModel.getFollowing());
+        imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
     }
 
     @Override
@@ -215,5 +255,18 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 return true;
         }
         return true;
+    }
+
+    private BroadcastReceiver updateUserInfo = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            hitgetUserInfoApi();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(updateUserInfo);
     }
 }

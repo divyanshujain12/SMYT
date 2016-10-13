@@ -79,6 +79,7 @@ public class HomeActivity extends BaseActivity {
 
             case R.id.action_user_profile:
                 Intent intent = new Intent(this, UserProfileActivity.class);
+                intent.putExtra(Constants.CATEGORY_ID, categoryModel.getId());
                 startActivity(intent);
                 return true;
         }

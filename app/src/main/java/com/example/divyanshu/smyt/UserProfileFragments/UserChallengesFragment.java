@@ -3,21 +3,19 @@ package com.example.divyanshu.smyt.UserProfileFragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ToggleButton;
 
-import com.example.divyanshu.smyt.Adapters.UserCompletedChallengesAdapter;
-import com.example.divyanshu.smyt.Adapters.UserOngoingChallengesAdapter;
-import com.example.divyanshu.smyt.Fragments.OngoingChallengeDescriptionFragment;
+import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.NonSwipeableViewPager;
 import com.example.divyanshu.smyt.Utils.RecyclerItemClickListener;
 
 import butterknife.ButterKnife;
@@ -30,10 +28,9 @@ public class UserChallengesFragment extends BaseFragment implements CompoundButt
 
     @InjectView(R.id.challengesTB)
     SwitchCompat challengesTB;
-    @InjectView(R.id.challengesRV)
-    RecyclerView challengesRV;
-    private UserOngoingChallengesAdapter userOngoingChallengesAdapter;
-    private UserCompletedChallengesAdapter userCompletedChallengesAdapter;
+    @InjectView(R.id.viewPager)
+    NonSwipeableViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
 
     public static UserChallengesFragment getInstance() {
         UserChallengesFragment userChallengesFragment = new UserChallengesFragment();
@@ -66,14 +63,11 @@ public class UserChallengesFragment extends BaseFragment implements CompoundButt
     }
 
     private void initViews() {
-        userOngoingChallengesAdapter = new UserOngoingChallengesAdapter(getContext());
-        userCompletedChallengesAdapter = new UserCompletedChallengesAdapter(getContext());
-        challengesRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        challengesRV.setAdapter(userCompletedChallengesAdapter);
-
         challengesTB.setOnCheckedChangeListener(this);
-
-        challengesRV.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), UserChallengesFragment.this));
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+        viewPagerAdapter.addFragment(UserCompletedChallengeFragment.newInstance(), "");
+        viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(), "");
+        viewPager.setAdapter(viewPagerAdapter);
     }
 
     @Override
@@ -84,10 +78,11 @@ public class UserChallengesFragment extends BaseFragment implements CompoundButt
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked)
-            challengesRV.setAdapter(userOngoingChallengesAdapter);
+        if (!isChecked)
+            viewPager.setCurrentItem(0);
         else
-            challengesRV.setAdapter(userCompletedChallengesAdapter);
+            viewPager.setCurrentItem(1);
+
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,36 +15,53 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
+import com.example.divyanshu.smyt.Adapters.AutoCompleteArrayAdapter;
+import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
-import com.example.divyanshu.smyt.Models.ValidationModel;
-import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker;
+import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
+import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Models.ValidationModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
+import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.InternetCheck;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_CHALLENGE;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.SEARCH_USER;
+
 /**
  * Created by divyanshu on 9/3/2016.
  */
-public class PostChallengeFragment extends BaseDialogFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class PostChallengeFragment extends BaseDialogFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, TextWatcher {
 
     @InjectView(R.id.declineTV)
     TextView declineTV;
@@ -78,9 +97,31 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     TextView roundTimeValueTV;
     @InjectView(R.id.roundDateValueTV)
     TextView roundDateValueTV;
+    @InjectView(R.id.scrollView)
+    ScrollView scrollView;
+    @InjectView(R.id.loadFriendsPB)
+    ProgressBar loadFriendsPB;
+    private JSONArray roundArray;
     private String[] genreTypesArray = null, roundsCountArray = null, shareWithArray = null;
     private Validation validation;
     private String genreTypeStr, roundCountStr, shareWithStr;
+    private String categoryID = "";
+    private AutoCompleteArrayAdapter autoCompleteArrayAdapter;
+    private ArrayList<UserModel> userModels = new ArrayList<>();
+    private HashMap<View, String> hashMap;
+    private UserModel userModel;
+    private TSnackbar snackbar;
+
+    public static PostChallengeFragment getInstance() {
+        PostChallengeFragment postChallengeFragment = new PostChallengeFragment();
+        return postChallengeFragment;
+    }
+
+    public static PostChallengeFragment getInstance(Bundle bundle) {
+        PostChallengeFragment postChallengeFragment = new PostChallengeFragment();
+        postChallengeFragment.setArguments(bundle);
+        return postChallengeFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,9 +139,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.post_challenge_fragment, null);
-
         ButterKnife.inject(this, view);
         return view;
     }
@@ -118,10 +157,12 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     }
 
     private void initViews() {
+        categoryID = MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID);
 
         validation = new Validation();
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getActivity().getString(R.string.err_post_challenge_title)));
 
+        snackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(titleLL);
         genreTypesArray = getResources().getStringArray(R.array.genre_type);
         roundsCountArray = getResources().getStringArray(R.array.rounds_count);
         shareWithArray = getResources().getStringArray(R.array.share_with);
@@ -137,6 +178,29 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, shareWithArray);
         shareWithSP.setAdapter(arrayAdapter);
         shareWithSP.setOnItemSelectedListener(this);
+
+        friendAC.addTextChangedListener(this);
+
+        autoCompleteArrayAdapter = new AutoCompleteArrayAdapter(getContext(), 0, userModels, this);
+        friendAC.setAdapter(autoCompleteArrayAdapter);
+
+        if (getArguments().getBoolean(Constants.FROM_FOLLOWER))
+            setUiForFollowersData();
+        //setProgressBarVisibility(false);
+    }
+
+    private void setUiForFollowersData() {
+        userModel = getArguments().getParcelable(Constants.DATA);
+        shareWithSP.setSelection(1);
+        shareWithSP.setEnabled(false);
+        shareWithSP.setFocusable(false);
+        shareWithSP.setClickable(false);
+
+        searchFriendLL.setVisibility(View.VISIBLE);
+        friendAC.setText(userModel.getUsername());
+        friendAC.setEnabled(false);
+        friendAC.setFocusable(false);
+        friendAC.setClickable(false);
     }
 
 
@@ -155,20 +219,22 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     @OnClick(R.id.postChallengeBT)
     public void onClick() {
 
-        createJsonArrayForChallengeTimeAndDate();
-        // getDialog().dismiss();
-    }
+        hashMap = validation.validate(friendAC);
+        if (hashMap != null) {
+            if (shareWithStr.equals("Friend") && userModel != null)
+                CommonFunctions.getInstance().showErrorSnackBar(friendAC, getString(R.string.error_select_friend_first));
 
 
-    private void showErrorMessage(int i) {
-        CommonFunctions.getInstance().showErrorSnackBar(declineTV, String.format(getString(R.string.time_difference_error_msg), String.valueOf(i + 1)));
+            if (InternetCheck.isInternetOn(getContext()) && createJsonArrayForChallengeTimeAndDate()) {
+                CommonFunctions.showContinuousSB(snackbar);
+                CallWebService.getInstance(getContext(), false, POST_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_CHALLENGE, createJsonForPostChallenge(), this);
+
+            } else
+                CommonFunctions.getInstance().showErrorSnackBar(getActivity(), getString(R.string.no_internet_connection));
+        }
+
     }
 
-    private Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm aa", Locale.ENGLISH);
-        dateValue = dateValue + " " + timeValue;
-        return simpleDateFormat.parse(dateValue);
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -188,6 +254,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         }
     }
 
+
     private void shareWith(int position) {
         switch (position) {
             case 0:
@@ -196,6 +263,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
             case 1:
                 searchFriendLL.setVisibility(View.VISIBLE);
+                scrollView.fullScroll(View.FOCUS_DOWN);
                 break;
         }
         shareWithStr = shareWithArray[position];
@@ -218,8 +286,10 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
             TextView roundDateTV = (TextView) customView.findViewById(R.id.roundDateTV);
             TextView roundDateValueTV = (TextView) customView.findViewById(R.id.roundDateValueTV);
             addRoundNumberToTV(roundDateTV, roundTimeTV, i + 1);
-
-            calendar.add(Calendar.DATE, +1);
+            if (i == 0)
+                calendar.add(Calendar.MINUTE, +70);
+            else
+                calendar.add(Calendar.DATE, +1);
 
             roundDateValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), CustomDateTimePicker.DATE_FORMAT));
             roundTimeValueTV.setText(CustomDateTimePicker.formatDateAndTime(calendar.getTimeInMillis(), CustomDateTimePicker.TIME_FORMAT));
@@ -249,9 +319,9 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         }
     }
 
-    private void createJsonArrayForChallengeTimeAndDate() {
+    private boolean createJsonArrayForChallengeTimeAndDate() {
 
-        JSONArray jsonArray = new JSONArray();
+        roundArray = new JSONArray();
         Date previousDate = Calendar.getInstance(Locale.getDefault()).getTime();
         for (int i = 0; i < roundInfoLL.getChildCount(); i++) {
             JSONObject jsonObject = new JSONObject();
@@ -265,22 +335,130 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
             try {
                 date = getDateFromDateTmeString(dateValue, timeValue);
                 long diff = (date.getTime() - previousDate.getTime()) / (60 * 60 * 1000);
-                if (diff < 24) {
-                    showErrorMessage(i);
-                    break;
+                if (i == 0 && diff <= 0) {
+                    showErrorMessage(i, getString(R.string.one_hours_err_msg));
+                    return false;
+                } else if (i > 0 && diff < 24) {
+                    showErrorMessage(i, getString(R.string.twenty_four_hours_err_msg));
+                    return false;
                 }
 
                 previousDate = date;
-
-                jsonObject.put(Constants.ROUND_TIME, timeValue);
-                jsonObject.put(Constants.ROUND_DATE, dateValue);
-
-                jsonArray.put(jsonObject);
+                //jsonObject.put(Constants.ROUND_TIME, timeValue);
+                jsonObject.put(Constants.ROUND_DATE, getDateInTwentyFourHoursFormat(dateValue, timeValue));
+                roundArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+        return true;
     }
 
+    private Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm aa", Locale.ENGLISH);
+        dateValue = dateValue + " " + timeValue;
+        return simpleDateFormat.parse(dateValue);
+    }
+
+    private String getDateInTwentyFourHoursFormat(String selectedDate, String time) {
+        SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+
+        try {
+            Date date = parseFormat.parse(time);
+            String formattedTime = displayFormat.format(date);
+            return selectedDate + " " + formattedTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void showErrorMessage(int i, String errorMsg) {
+        Toast.makeText(getContext(), String.format(errorMsg, String.valueOf(i + 1)), Toast.LENGTH_SHORT).show();
+        //CommonFunctions.getInstance().showErrorSnackBar(titleLL, String.format(errorMsg, String.valueOf(i + 1)));
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (count > 1) {
+            if (InternetCheck.isInternetOn(getContext())) {
+                CommonFunctions.showContinuousSB(snackbar);
+                CallWebService.getInstance(getContext(), false, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
+            } else
+                CommonFunctions.getInstance().showErrorSnackBar(getActivity(), getString(R.string.no_internet_connection));
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    private JSONObject createJsonForUserSearch(String queryText) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.CATEGORY_ID, categoryID);
+            jsonObject.put(Constants.SEARCH_TEXT, queryText);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        CommonFunctions.hideContinuousSB(snackbar);
+        switch (apiType) {
+            case SEARCH_USER:
+                userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
+                autoCompleteArrayAdapter.addAll(userModels);
+                if (userModels.size() > 2)
+                    CommonFunctions.getInstance().hideKeyBoard(getActivity(), getDialog().getCurrentFocus());
+                break;
+
+            case POST_CHALLENGE:
+                CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
+                getDialog().dismiss();
+                break;
+        }
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
+        CommonFunctions.hideContinuousSB(snackbar);
+    }
+
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        userModel = userModels.get(position);
+        friendAC.setText(userModel.getUsername());
+    }
+
+    private JSONObject createJsonForPostChallenge() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.TITLE, hashMap.get(videoTitleET));
+            jsonObject.put(Constants.GENRE, genreTypeStr);
+            jsonObject.put(Constants.SHARE_STATUS, shareWithStr);
+            if (shareWithStr.equals("Friend")) {
+                jsonObject.put(Constants.FRIEND_ID, userModel.getCustomer_id());
+            }
+            jsonObject.put(Constants.TOTAL_ROUND, roundCountStr);
+            jsonObject.put(Constants.ROUND_ARRAY, roundArray);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 }

@@ -23,6 +23,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 
 import org.json.JSONException;
@@ -79,9 +80,9 @@ public class CategoriesActivity extends BaseActivity {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        Intent intent = new Intent(this, OtherUserProfileActivity.class);
+      /*  Intent intent = new Intent(this, OtherUserProfileActivity.class);
         intent.putExtra(Constants.USER_DATA, userModels.get(position));
-        startActivity(intent);
+        startActivity(intent);*/
     }
 
     @Override

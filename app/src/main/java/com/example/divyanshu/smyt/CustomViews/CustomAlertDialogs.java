@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.CustomViews;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -8,17 +9,22 @@ import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
-import com.example.divyanshu.smyt.Interfaces.AlertDialogInterface;
+import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Interfaces.ChangePasswordInterface;
 import com.example.divyanshu.smyt.Interfaces.ImagePickDialogInterface;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
+import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Validation;
+import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import java.util.HashMap;
 
 
 public class CustomAlertDialogs {
@@ -95,10 +101,54 @@ public class CustomAlertDialogs {
         alertDialog.show();
     }
 
+    public static void showChangePasswordDialog(final Context context, final ChangePasswordInterface changePasswordInterface) {
+        final Validation validation = new Validation();
+        alertDialog = new AlertDialog.Builder(context).create();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(R.layout.change_password_layout, null);
+        setupDialog();
+        final EditText oldPasswordET = (EditText) layout.findViewById(R.id.oldPasswordET);
+        final EditText passwordET = (EditText) layout.findViewById(R.id.passwordET);
+        final EditText reEnterPasswordET = (EditText) layout.findViewById(R.id.reEnterPasswordET);
+        TextView updateTV = (TextView) layout.findViewById(R.id.updateTV);
+        validation.addValidationField(new ValidationModel(oldPasswordET, Validation.TYPE_PASSWORD_VALIDATION, context.getString(R.string.err_pass)));
+        validation.addValidationField(new ValidationModel(passwordET, Validation.TYPE_PASSWORD_VALIDATION, context.getString(R.string.err_pass)));
+        validation.addValidationField(new ValidationModel(reEnterPasswordET, Validation.TYPE_PASSWORD_VALIDATION, context.getString(R.string.err_pass)));
+        updateTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<View, String> hashMap = validation.validate((Activity) context);
+                if (hashMap != null) {
+                    String savedPassword = MySharedPereference.getInstance().getString(context, Constants.PASSWORD);
+
+                    if (!savedPassword.equals(hashMap.get(oldPasswordET))) {
+                        showErrorToast(context, "Old Password Mismatch!");
+                        return;
+                    } else if (!hashMap.get(passwordET).equals(hashMap.get(reEnterPasswordET))) {
+                        showErrorToast(context, "New Password Mismatch!");
+                        return;
+                    } else {
+                        changePasswordInterface.onChangeSuccess(hashMap.get(passwordET));
+                        dismissDialog();
+                    }
+                }
+
+
+            }
+        });
+        alertDialog.setView(layout);
+        alertDialog.show();
+    }
+
+    private static void showErrorToast(Context context, String errorMsg) {
+        Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
     private static void dismissDialog() {
         if (alertDialog != null)
             alertDialog.dismiss();
     }
+
 
     private static void setupDialog() {
         alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

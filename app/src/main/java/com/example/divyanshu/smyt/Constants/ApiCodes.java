@@ -19,4 +19,9 @@ public interface ApiCodes {
     int FOLLOW_USER = 113;
     int GET_FOLLOWERS = 114;
     int SEARCH_USER = 115;
+    int ONGOING_CHALLENGES = 116;
+    int COMPLETED_CHALLENGES = 117;
+    int POST_CHALLENGE = 118;
+    int GET_USER_INFO = 119;
+    int UPDATE_USER = 120;
 }

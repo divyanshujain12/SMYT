@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
-import com.example.divyanshu.smyt.Models.ChallangeModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
+import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -21,7 +19,7 @@ import java.util.ArrayList;
  */
 public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<ChallangeModel> categoryModels;
+    private ArrayList<ChallengeModel> categoryModels;
     private Context context;
 
     public class ChallengeDescViewHolder extends RecyclerView.ViewHolder {
@@ -43,7 +41,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
 
-    public ChallengeRoundDescRvAdapter(Context context, ArrayList<ChallangeModel> categoryModels) {
+    public ChallengeRoundDescRvAdapter(Context context, ArrayList<ChallengeModel> categoryModels) {
 
         this.categoryModels = categoryModels;
         this.context = context;

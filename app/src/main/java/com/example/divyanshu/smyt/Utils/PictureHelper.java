@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -17,21 +18,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-public class TakePictureHelper {
+public class PictureHelper {
 
     public final static int REQUEST_CAMERA = 1;
     public final static int REQUEST_OTHER = 2;
-    private static final String TAG = TakePictureHelper.class.getName();
+    private static final String TAG = PictureHelper.class.getName();
 
     private Uri cameraImageUri;
-    private static TakePictureHelper takePictureHelper = null;
+    private static PictureHelper takePictureHelper = null;
 
-    private TakePictureHelper() {
+    private PictureHelper() {
     }
 
-    public static TakePictureHelper getInstance() {
+    public static PictureHelper getInstance() {
         if (takePictureHelper == null)
-            takePictureHelper = new TakePictureHelper();
+            takePictureHelper = new PictureHelper();
         return takePictureHelper;
     }
 
@@ -70,7 +71,7 @@ public class TakePictureHelper {
             Bitmap bitmap;
             if (requestCode == REQUEST_CAMERA) {
                 bitmap = (Bitmap) data.getExtras().get("data");
-                Log.d(TAG,String.valueOf(bitmapSizeInKB(bitmap)));
+                Log.d(TAG, String.valueOf(bitmapSizeInKB(bitmap)));
                 result = getImageUri(activity, bitmap);
             } else
                 result = data.getData();
@@ -78,7 +79,7 @@ public class TakePictureHelper {
             String filePath = getRealPathFromURI(activity, result);
             if (filePath != null && filePath.length() > 0) {
                 bitmap = getBitmap(activity, result);
-                Log.d(TAG,String.valueOf(bitmapSizeInKB(bitmap)));
+                Log.d(TAG, String.valueOf(bitmapSizeInKB(bitmap)));
                 HashMap<String, Bitmap> hashMap = new HashMap<>();
                 hashMap.put(filePath, bitmap);
                 return hashMap;
@@ -154,7 +155,7 @@ public class TakePictureHelper {
     private Bitmap getBitmap(Context context, Uri uri) {
         InputStream in = null;
         try {
-            final int IMAGE_MAX_SIZE = 40000;
+            final int IMAGE_MAX_SIZE = 80000;
             in = context.getContentResolver().openInputStream(uri);
 
             // Decode image size
@@ -208,5 +209,14 @@ public class TakePictureHelper {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }
+    }
+
+    public String convertBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        return encoded;
     }
 }

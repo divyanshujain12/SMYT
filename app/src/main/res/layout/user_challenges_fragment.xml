@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textOff=""
             android:textOn=""
-            app:theme="@style/Theme.Switch"/>
+            app:theme="@style/Theme.Switch" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:layout_width="wrap_content"
@@ -38,8 +38,8 @@
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/challengesRV"
+    <com.example.divyanshu.smyt.Utils.NonSwipeableViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 </LinearLayout>

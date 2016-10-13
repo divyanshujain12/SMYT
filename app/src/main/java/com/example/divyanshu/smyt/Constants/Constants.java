@@ -15,6 +15,7 @@ public interface Constants {
     String PHONE_NUMBER = "phonenumber";
     String DATE_OF_BIRTH = "date_of_birth";
     String DATA = "data";
+    String FROM_FOLLOWER = "from_follower";
     String MESSAGE = "message";
     String CUSTOMER_ID = "customer_id";
     String CATEGORY = "category";
@@ -31,11 +32,19 @@ public interface Constants {
     String ROUND_DATE = "round_date";
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
     String UPDATE_COMMENT_COUNT = "update_comment_count";
+    String UPDATE_USER_INFO = "update_user_info";
     String STATUS = "status";
     String LIKES = "likes";
     String FOLLOWING_ID = "following_id";
     String FOLLOW_STATUS = "follow_status";
     String SEARCH_TEXT = "search_text";
-String USER_VIDEO = "user_video";
+    String USER_VIDEO = "user_video";
+    String TITLE = "title";
+    String GENRE = "genre";
+    String SHARE_STATUS = "share_status";
+    String FRIEND_ID = "friend_id";
+    String TOTAL_ROUND = "total_round";
+    String ROUND_ARRAY = "round_array";
+    String PROFILE_IMAGE = "profileimage";
     int REQUEST_TIMEOUT_TIME = 30000;
 }
