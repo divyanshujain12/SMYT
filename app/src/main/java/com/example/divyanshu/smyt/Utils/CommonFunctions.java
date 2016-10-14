@@ -152,7 +152,7 @@ public class CommonFunctions {
                 }
                 if (JCVideoPlayerManagerTwo.getFirst() != null) {
                     JCVideoPlayerTwo videoPlayer = (JCVideoPlayerTwo) JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener();
-                    if (videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PAUSE) {
+                    if (videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PAUSE) {
                         JCVideoPlayerTwo.releaseAllVideos();
                     }
                 }
