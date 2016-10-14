@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -129,7 +128,7 @@ public class CommonFunctions {
         String customerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "2" : "2");
+            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "2" : customerID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
