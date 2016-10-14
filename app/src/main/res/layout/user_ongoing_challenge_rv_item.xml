@@ -15,7 +15,8 @@
         android:orientation="vertical"
         android:padding="@dimen/ten_dp">
 
-        <include layout="@layout/video_title_bar" />
+
+        <include layout="@layout/user_challenge_title_bar" />
 
         <include layout="@layout/user_challenge_type_bar" />
 

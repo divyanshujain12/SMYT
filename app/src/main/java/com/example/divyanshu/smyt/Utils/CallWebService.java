@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -12,7 +13,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.CustomProgressDialog;
+import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.activities.MyApp;
 
 import org.json.JSONArray;
@@ -100,12 +101,13 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
 
     }
 
-
     private void onJsonObjectResponse(JSONObject response) {
         try {
             if (response.getBoolean(Constants.STATUS_CODE)) {
                 if (objectCallBackInterface != null)
                     objectCallBackInterface.onJsonObjectSuccess(response, apiCode);
+
+                CustomToasts.getInstance(context).showSuccessToast(response.getString(Constants.MESSAGE));
             } else {
                 onError(response.getString(Constants.MESSAGE));
             }
@@ -124,6 +126,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
             e.printStackTrace();
         }
     }
+
 
     public interface ObjectResponseCallBack {
 
@@ -147,8 +150,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
             CommonFunctions.hideContinuousSB(continuousSB);
         if (objectCallBackInterface != null)
             objectCallBackInterface.onFailure(error, apiCode);
-        else
-            CommonFunctions.getInstance().showErrorSnackBar((Activity) context, error);
+        CustomToasts.getInstance(context).showErrorToast(error);
     }
 
     private VolleyError configureErrorMessage(VolleyError volleyError) {
@@ -163,4 +165,16 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
         if (this.url.equals(url))
             MyApp.getInstance().cancelPendingRequests(url);
     }
+
+    private void sendErrorToView() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        };
+        handler.postDelayed(runnable, 2000);
+    }
+
+    Handler handler = new Handler();
 }

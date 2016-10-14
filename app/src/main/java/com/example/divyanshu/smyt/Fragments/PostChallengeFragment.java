@@ -256,6 +256,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 break;
         }
     }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
@@ -388,13 +389,11 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (count > 1) {
-            if (InternetCheck.isInternetOn(getContext())) {
-                CommonFunctions.showContinuousSB(snackbar);
-                CallWebService.getInstance(getContext(), false, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
-            } else
-                CommonFunctions.getInstance().showErrorSnackBar(getActivity(), getString(R.string.no_internet_connection));
-        }
+        if (InternetCheck.isInternetOn(getContext())) {
+            CommonFunctions.showContinuousSB(snackbar);
+            CallWebService.getInstance(getContext(), false, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
+        } else
+            CommonFunctions.getInstance().showErrorSnackBar(getActivity(), getString(R.string.no_internet_connection));
     }
 
     @Override
@@ -422,21 +421,12 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
             case SEARCH_USER:
                 userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
                 autoCompleteArrayAdapter.addAll(userModels);
-                if (userModels.size() > 2)
-                    CommonFunctions.getInstance().hideKeyBoard(getActivity(), getDialog().getCurrentFocus());
                 break;
 
             case POST_CHALLENGE:
-                CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
                 getDialog().dismiss();
                 break;
         }
-    }
-
-    @Override
-    public void onFailure(String str, int apiType) {
-        super.onFailure(str, apiType);
-        CommonFunctions.hideContinuousSB(snackbar);
     }
 
     @Override

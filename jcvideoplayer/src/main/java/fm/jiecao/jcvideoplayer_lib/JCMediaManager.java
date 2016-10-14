@@ -27,23 +27,23 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
         IMediaPlayer.OnVideoSizeChangedListener, IMediaPlayer.OnInfoListener {
     public static String TAG = "JieCaoVideoPlayer";
 
-    private static JCMediaManager      JCMediaManager;
-    public         IjkMediaPlayer      mediaPlayer;
-    public static  JCResizeTextureView textureView;
+    private static JCMediaManager JCMediaManager;
+    public IjkMediaPlayer mediaPlayer;
+    public static JCResizeTextureView textureView;
 
-    public int currentVideoWidth  = 0;
+    public int currentVideoWidth = 0;
     public int currentVideoHeight = 0;
     public int lastState;
     public int bufferPercent;
     public int backUpBufferState = -1;
     public int videoRotation;
 
-    public static final int HANDLER_PREPARE    = 0;
+    public static final int HANDLER_PREPARE = 0;
     public static final int HANDLER_SETDISPLAY = 1;
-    public static final int HANDLER_RELEASE    = 2;
+    public static final int HANDLER_RELEASE = 2;
     HandlerThread mMediaHandlerThread;
-    MediaHandler  mMediaHandler;
-    Handler       mainThreadHandler;
+    MediaHandler mMediaHandler;
+    Handler mainThreadHandler;
 
     public static JCMediaManager instance() {
         if (JCMediaManager == null) {
@@ -60,7 +60,7 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
         mainThreadHandler = new Handler();
     }
 
-    public Point getVideoSize(){
+    public Point getVideoSize() {
         if (currentVideoWidth != 0 && currentVideoHeight != 0) {
             return new Point(currentVideoWidth, currentVideoHeight);
         } else {
@@ -85,6 +85,7 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
                         mediaPlayer = new IjkMediaPlayer();
                         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                         mediaPlayer.setDataSource(((FuckBean) msg.obj).url, ((FuckBean) msg.obj).mapHeadData);
+                        mediaPlayer.prepareAsync();
                         mediaPlayer.setLooping(((FuckBean) msg.obj).looping);
                         mediaPlayer.setOnPreparedListener(JCMediaManager.this);
                         mediaPlayer.setOnCompletionListener(JCMediaManager.this);
@@ -94,7 +95,6 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
                         mediaPlayer.setOnErrorListener(JCMediaManager.this);
                         mediaPlayer.setOnInfoListener(JCMediaManager.this);
                         mediaPlayer.setOnVideoSizeChangedListener(JCMediaManager.this);
-                        mediaPlayer.prepareAsync();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -148,7 +148,7 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
     }
 
     @Override
-    public void onPrepared(IMediaPlayer mp) {
+    public void onPrepared(final IMediaPlayer mp) {
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -237,9 +237,9 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
 
 
     private class FuckBean {
-        String              url;
+        String url;
         Map<String, String> mapHeadData;
-        boolean             looping;
+        boolean looping;
 
         FuckBean(String url, Map<String, String> mapHeadData, boolean loop) {
             this.url = url;

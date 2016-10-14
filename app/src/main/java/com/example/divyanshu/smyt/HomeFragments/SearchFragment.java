@@ -50,7 +50,7 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     FrameLayout searchBarFL;
     private SearchUserRvAdapter searchUserRvAdapter;
     private ArrayList<UserModel> userModels;
-    private TSnackbar continuousSB = null;
+
 
     public static SearchFragment getInstance(String categoryID) {
         SearchFragment searchFragment = new SearchFragment();
@@ -86,7 +86,7 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     }
 
     private void iniViews() {
-        continuousSB = CommonFunctions.getInstance().getSuccessSnackbar(getActivity());
+
         userModels = new ArrayList<>();
         searchET.addTextChangedListener(this);
         categoryID = getArguments().getString(Constants.CATEGORY_ID);
@@ -119,7 +119,6 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
         if (count > 1) {
             if (InternetCheck.isInternetOn(getContext()))
                 CallWebService.getInstance(getContext(), true, ApiCodes.SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
-
             else
                 CommonFunctions.getInstance().showErrorSnackBar(getActivity(), getString(R.string.no_internet_connection));
         }
@@ -136,6 +135,11 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
         }
     }
 
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
     private JSONObject createJsonForUserSearch(String queryText) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
@@ -146,10 +150,5 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
             e.printStackTrace();
         }
         return jsonObject;
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 }

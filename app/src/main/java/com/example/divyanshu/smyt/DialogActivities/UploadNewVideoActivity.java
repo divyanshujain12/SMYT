@@ -221,8 +221,8 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
             case SEARCH_USER:
                 userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
                 autoCompleteArrayAdapter.addAll(userModels);
-                if (userModels.size() > 2)
-                    CommonFunctions.getInstance().hideKeyBoard(this, this.getCurrentFocus());
+              /*  if (userModels.size() > 2)
+                    CommonFunctions.getInstance().hideKeyBoard(this, this.getCurrentFocus());*/
                 break;
 
             case POST_USER_VIDEO:
