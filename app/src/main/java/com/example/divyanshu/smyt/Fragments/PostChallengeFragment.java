@@ -114,6 +114,9 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
     public static PostChallengeFragment getInstance() {
         PostChallengeFragment postChallengeFragment = new PostChallengeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Constants.FROM_FOLLOWER, false);
+        postChallengeFragment.setArguments(bundle);
         return postChallengeFragment;
     }
 
@@ -163,6 +166,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getActivity().getString(R.string.err_post_challenge_title)));
 
         snackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(titleLL);
+
         genreTypesArray = getResources().getStringArray(R.array.genre_type);
         roundsCountArray = getResources().getStringArray(R.array.rounds_count);
         shareWithArray = getResources().getStringArray(R.array.share_with);
@@ -184,7 +188,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         autoCompleteArrayAdapter = new AutoCompleteArrayAdapter(getContext(), 0, userModels, this);
         friendAC.setAdapter(autoCompleteArrayAdapter);
 
-        if (getArguments().getBoolean(Constants.FROM_FOLLOWER))
+        if (getArguments().getBoolean(Constants.FROM_FOLLOWER, false))
             setUiForFollowersData();
         //setProgressBarVisibility(false);
     }
@@ -250,10 +254,12 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
             case R.id.shareWithSP:
                 shareWith(position);
                 break;
-
         }
     }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
+    }
 
     private void shareWith(int position) {
         switch (position) {
@@ -267,11 +273,6 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 break;
         }
         shareWithStr = shareWithArray[position];
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     private void addRoundDateTimeLayouts(int roundCount) {

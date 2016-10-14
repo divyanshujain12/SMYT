@@ -28,7 +28,7 @@ public class ChallengeModel implements Parcelable {
     String round_no;
     int video_comment_count;
     String status;
-    String challegne_id;
+    String challenge_id;
     long edate;
 
     public ChallengeModel() {
@@ -57,7 +57,7 @@ public class ChallengeModel implements Parcelable {
         round_no = in.readString();
         video_comment_count = in.readInt();
         status = in.readString();
-        challegne_id = in.readString();
+        challenge_id = in.readString();
         edate = in.readLong();
     }
 
@@ -241,12 +241,12 @@ public class ChallengeModel implements Parcelable {
         this.status = status;
     }
 
-    public String getChallegne_id() {
-        return challegne_id;
+    public String getChallenge_id() {
+        return challenge_id;
     }
 
-    public void setChallegne_id(String challegne_id) {
-        this.challegne_id = challegne_id;
+    public void setChallenge_id(String challenge_id) {
+        this.challenge_id = challenge_id;
     }
 
     public long getEdate() {
@@ -285,7 +285,7 @@ public class ChallengeModel implements Parcelable {
         dest.writeString(round_no);
         dest.writeInt(video_comment_count);
         dest.writeString(status);
-        dest.writeString(challegne_id);
+        dest.writeString(challenge_id);
         dest.writeLong(edate);
     }
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,21 +11,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Fragments.OngoingChallengeDescriptionFragment;
-import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
-import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.neopixl.pixlui.components.textview.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_ACCEPT;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_REJECT;
 
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> implements View.OnClickListener {
+public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> implements View.OnClickListener, CallWebService.ObjectResponseCallBack {
 
 
     private ArrayList<ChallengeModel> challengeModels;
@@ -36,6 +43,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
     private String ACTIVE = "Active";
     private String IN_ACTIVE = "Inactive";
     String round_count_string = "(%s/%s)";
+    private int acceptRejectPos = -1;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView titleTV;
@@ -79,23 +87,51 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        ChallengeModel challengeModel = challengeModels.get(position);
+
+        final ChallengeModel challengeModel = challengeModels.get(position);
         holder.titleTV.setText(challengeModel.getTitle());
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTypeTV.setText(challengeModel.getShare_status());
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
         holder.challengeTimeTV.setText(challengeModel.getRound_date());
+
         if (challengeModel.getStatus().equals(ACTIVE)) {
             holder.acceptAndDeclineLL.setVisibility(View.GONE);
         } else
             holder.acceptAndDeclineLL.setVisibility(View.VISIBLE);
 
+        holder.acceptTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                acceptRejectPos = position;
+                CallWebService.getInstance(context, true, CHALLENGE_ACCEPT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeModel.getChallenge_id(), "1"), UserOngoingChallengesAdapter.this);
+            }
+        });
+
+        holder.declineTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                acceptRejectPos = position;
+                CallWebService.getInstance(context, true, CHALLENGE_REJECT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeModel.getChallenge_id(), "0"), UserOngoingChallengesAdapter.this);
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recyclerViewClick.onClickItem(position, v);
             }
         });
+    }
+
+    private JSONObject createJsonForAcceptRejectChallenge(String challengeID, String s) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
+        try {
+            jsonObject.put(Constants.CHALLENGE_ID, challengeID);
+            jsonObject.put(Constants.STATUS, s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     @Override
@@ -113,6 +149,28 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         OngoingChallengeDescriptionFragment challangeFragment = new OngoingChallengeDescriptionFragment();
         challangeFragment.show(fragmentManager, challangeFragment.getClass().getName());
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        switch (apiType) {
+            case CHALLENGE_ACCEPT:
+                challengeModels.get(acceptRejectPos).setStatus(ACTIVE);
+                notifyDataSetChanged();
+                CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), response.getString(Constants.MESSAGE));
+                break;
+            case CHALLENGE_REJECT:
+                challengeModels.remove(acceptRejectPos);
+                notifyItemRemoved(acceptRejectPos);
+                notifyItemRangeChanged(acceptRejectPos, getItemCount());
+                CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), response.getString(Constants.MESSAGE));
+                break;
+        }
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+
     }
 }
 

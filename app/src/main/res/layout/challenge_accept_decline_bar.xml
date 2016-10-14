@@ -15,14 +15,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/ten_dp"
-        android:paddingTop="@dimen/ten_dp"
+        android:background="?attr/selectableItemBackground"
+        android:maxLines="2"
+        android:paddingBottom="@dimen/ten_dp"
         android:paddingLeft="@dimen/ten_dp"
         android:paddingRight="@dimen/ten_dp"
-        android:paddingBottom="@dimen/five_dp"
-        android:background="@drawable/button_bg"
-        android:maxLines="2"
-        android:textColor="@color/colorPrimaryDark"
+        android:paddingTop="@dimen/ten_dp"
         android:text="@string/decline"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/sixteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 
@@ -32,13 +32,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/eight_dp"
         android:maxLines="2"
-        android:text="@string/accept"
-        android:paddingTop="@dimen/ten_dp"
+        android:paddingBottom="@dimen/ten_dp"
         android:paddingLeft="@dimen/ten_dp"
         android:paddingRight="@dimen/ten_dp"
-        android:paddingBottom="@dimen/five_dp"
-        android:background="@drawable/button_bg"
+        android:paddingTop="@dimen/ten_dp"
+        android:text="@string/accept"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/sixteen_sp"
-        pixlui:typeface="Roboto-Medium.ttf" />
+        pixlui:typeface="Roboto-Medium.ttf"
+        android:background="?attr/selectableItemBackground"/>
 </LinearLayout>

@@ -46,5 +46,8 @@ public interface Constants {
     String TOTAL_ROUND = "total_round";
     String ROUND_ARRAY = "round_array";
     String PROFILE_IMAGE = "profileimage";
+    String CHALLENGE_ID = "challenge_id";
+    String THUMBNAIL = "thumbnail";
+    String VIDEO_URL = "video_url";
     int REQUEST_TIMEOUT_TIME = 30000;
 }

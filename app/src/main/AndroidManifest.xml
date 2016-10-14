@@ -36,11 +36,14 @@
             android:name=".activities.OtherUserProfileActivity"
             android:launchMode="singleTop" />
         <activity android:name=".activities.ForgotPassword" />
-        <activity android:name=".DialogActivities.UserVideoDescActivity" />
+
         <activity
             android:name=".activities.UserSettingActivity"
             android:configChanges="orientation|screenSize|keyboard|screenLayout" />
-
+        <activity android:name=".DialogActivities.UploadNewVideoActivity"/>
+        <activity android:name=".DialogActivities.LiveBattleDescActivity"/>
+        <activity android:name=".DialogActivities.UploadedBattleDescActivity"/>
+        <activity android:name=".DialogActivities.UserVideoDescActivity" />
         <service android:name=".Fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

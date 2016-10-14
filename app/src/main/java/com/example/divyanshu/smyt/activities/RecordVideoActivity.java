@@ -41,5 +41,6 @@ public class RecordVideoActivity extends BaseActivity {
     public void onClick() {
         Intent intent = new Intent(this, UploadNewVideoActivity.class);
         startActivity(intent);
+        finish();
     }
 }

@@ -27,7 +27,7 @@ public interface API {
     String POST_CHALLENGE = BASE + "postChallenge";
     String GET_ONGOING_CHALLENGES = BASE + "getCustomerChallengeVideosOngoing";
     String GET_COMPLETED_CHALLENGES = BASE + "getCustomerChallengeVideosComplete";
-    String GET_POST_VIDEO = BASE + "postVideo";
+    String POST_VIDEO = BASE + "postVideo";
     String ACCEPT_REJECT_CHALLENGE = BASE + "challengeAction";
     String GET_CUSTOMER_DETAIL = BASE + "getCustomerDetails";
 }

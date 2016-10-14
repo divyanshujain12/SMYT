@@ -24,4 +24,7 @@ public interface ApiCodes {
     int POST_CHALLENGE = 118;
     int GET_USER_INFO = 119;
     int UPDATE_USER = 120;
+    int CHALLENGE_ACCEPT = 121;
+    int CHALLENGE_REJECT = 122;
+    int POST_USER_VIDEO = 123;
 }
