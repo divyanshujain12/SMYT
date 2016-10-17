@@ -127,7 +127,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         int voteInt = Integer.parseInt(challengeModel.getVote());
         int vote1Int = Integer.parseInt(challengeModel.getVote1());
 
-        if (voteInt+1 > vote1Int)
+        if (voteInt > vote1Int)
             holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
         else if (vote1Int > voteInt)
             holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));

@@ -93,10 +93,10 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         holder.challengeTimeTV.setText(challengeModel.getRound_date());
 
 
-        if (challengeModel.getCurrent_customer_video_status() == 1) {
-            holder.acceptAndDeclineLL.setVisibility(View.GONE);
-        } else if (challengeModel.getCurrent_customer_video_status() == 0)
+        if (challengeModel.getCurrent_customer_video_status() == 0)
             holder.acceptAndDeclineLL.setVisibility(View.VISIBLE);
+        else
+            holder.acceptAndDeclineLL.setVisibility(View.GONE);
 
         holder.acceptTV.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -158,10 +158,10 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     public void onPermissionGranted(int permissionType) {
         switch (permissionType) {
             case CAMERA_REQUEST:
-                PictureHelper.getInstance().takeFromCamera(this, "Take Picture");
+                PictureHelper.getInstance().takeFromCamera(this, getString(R.string.take_picture));
                 break;
             case GALLERY_REQUEST:
-                PictureHelper.getInstance().takeFromGallery(this, "Select Picture");
+                PictureHelper.getInstance().takeFromGallery(this, getString(R.string.select_picture));
                 break;
         }
     }
@@ -207,7 +207,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
             case UPDATE_USER:
                 sendLocalBroadCastForUserProfile();
                 MySharedPereference.getInstance().setString(this, Constants.PASSWORD, hashMap.get(changePasswordET));
-              //onBackPressed();
+                //onBackPressed();
                 break;
         }
     }
@@ -230,15 +230,19 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
 
     private JSONObject createJsonForUpdateUserInfo() {
         JSONObject jsonObject = new JSONObject();
+
         try {
-            String encodedImage = PictureHelper.getInstance().convertBitmapToBase64(bitmap);
+            if (bitmap != null) {
+                String encodedImage = PictureHelper.getInstance().convertBitmapToBase64(bitmap);
+                jsonObject.put(Constants.PROFILE_IMAGE, encodedImage);
+            }
             jsonObject.put(Constants.FIRST_NAME, hashMap.get(firstNameET));
             jsonObject.put(Constants.LAST_NAME, hashMap.get(lastNameET));
             jsonObject.put(Constants.EMAIl, userModel.getEmail());
             jsonObject.put(Constants.PHONE_NUMBER, hashMap.get(mobileET));
             jsonObject.put(Constants.DATE_OF_BIRTH, userModel.getDate_of_birth());
-            jsonObject.put(Constants.PROFILE_IMAGE, encodedImage);
             jsonObject.put(Constants.PASSWORD, hashMap.get(changePasswordET));
+            jsonObject.put(Constants.TIMELINE_MSG, hashMap.get(statusET));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -258,5 +262,11 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
             });
         }
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CommonFunctions.getInstance().hideKeyBoard(this, userIV);
     }
 }

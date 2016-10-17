@@ -107,7 +107,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
                 if (objectCallBackInterface != null)
                     objectCallBackInterface.onJsonObjectSuccess(response, apiCode);
 
-                CustomToasts.getInstance(context).showSuccessToast(response.getString(Constants.MESSAGE));
+                //CustomToasts.getInstance(context).showSuccessToast(response.getString(Constants.MESSAGE));
             } else {
                 onError(response.getString(Constants.MESSAGE));
             }

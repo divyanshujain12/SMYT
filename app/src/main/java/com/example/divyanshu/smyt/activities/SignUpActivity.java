@@ -14,7 +14,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
-import com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker;
+import com.example.divyanshu.smyt.CustomViews.CustomDateTimePickerHelper;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -29,8 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker.DATE_FORMAT;
-import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePicker.DEFAULT_DATE;
+import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePickerHelper.DATE_FORMAT;
+import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePickerHelper.DEFAULT_DATE;
 
 /**
  * Created by divyanshu on 8/26/2016.
@@ -89,7 +89,7 @@ public class SignUpActivity extends BaseActivity implements RadioGroup.OnChecked
                 hitWebService();
                 break;
             case R.id.dobTV:
-                CustomDateTimePicker.getInstance().showDateDialog(this, dobTV, DATE_FORMAT, DEFAULT_DATE);
+                CustomDateTimePickerHelper.getInstance().showDateDialog(this, dobTV, DATE_FORMAT, DEFAULT_DATE);
                 break;
         }
     }

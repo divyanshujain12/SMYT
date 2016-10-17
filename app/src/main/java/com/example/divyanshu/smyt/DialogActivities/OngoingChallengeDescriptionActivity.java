@@ -82,7 +82,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(this, challengeDescModel.getChallenge_rounds());
         challengesRoundRV.setLayoutManager(new LinearLayoutManager(this));
         challengesRoundRV.setAdapter(challengeRoundDescRvAdapter);
-        if (challengeAcceptStatus == 1) {
+        if (challengeAcceptStatus != 0) {
             hideAcceptDeclineBar();
         }
         CallWebService.getInstance(this, true, ApiCodes.ONGOING_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_DESCRIPTION, createJsonForGetChallengeDesc(), this);
@@ -115,6 +115,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
             case CHALLENGE_REJECT:
                 sendBroadcastToFragment(2, challengeID);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
+                finish();
                 break;
         }
     }

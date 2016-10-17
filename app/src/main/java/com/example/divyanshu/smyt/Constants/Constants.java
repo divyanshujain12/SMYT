@@ -51,5 +51,6 @@ public interface Constants {
     String THUMBNAIL = "thumbnail";
     String VIDEO_URL = "video_url";
     String ACCEPT_STATUS = "accept_status";
+    String TIMELINE_MSG = "timeline_msg";
     int REQUEST_TIMEOUT_TIME = 30000;
 }
