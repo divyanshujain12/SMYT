@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/five_dp"
+    android:paddingEnd="@dimen/five_dp"
+    tools:showIn="@layout/user_ongoing_challenge_rv_item">
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/titleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:maxLines="2"
+        android:text="Title 1"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/eighteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <ImageView
+        android:id="@+id/moreIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/icon_more"
+        android:padding="@dimen/five_dp"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>

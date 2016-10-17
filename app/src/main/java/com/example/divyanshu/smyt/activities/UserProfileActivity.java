@@ -145,6 +145,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
+        JCVideoPlayer.releaseAllVideos();
         viewPagerPos = position;
         switch (position) {
             case 0:
