@@ -146,6 +146,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         challengeModels.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
+
     }
 
     public void updateAcceptStatusIntoList(int pos) {
