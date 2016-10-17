@@ -9,15 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.Fragments.OngoingChallengeDescriptionFragment;
 import com.example.divyanshu.smyt.Fragments.UserCompletedChallengeDescFragment;
-import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
-import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Utils.RecyclerItemClickListener;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;

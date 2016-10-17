@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.neopixl.pixlui.components.textview.TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/userTwoWinLoseTV"
+    android:layout_width="@dimen/fourty_dp"
+    android:layout_height="@dimen/fourty_dp"
+    android:background="@drawable/rounded_red_circle"
+    android:gravity="center"
+    android:text="L"
+    android:textColor="@color/white"
+    android:textSize="@dimen/eighteen_sp"
+    pixlui:typeface="Roboto-Medium.ttf"
+    tools:showIn="@layout/challenge_completed_round_rv_item" />

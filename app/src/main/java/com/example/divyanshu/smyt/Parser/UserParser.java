@@ -2,21 +2,19 @@ package com.example.divyanshu.smyt.Parser;
 
 import com.example.divyanshu.smyt.Models.UserModel;
 
-import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+
+import static com.example.divyanshu.smyt.Utils.Utils.getActiveTime;
 
 /**
  * Created by divyanshu.jain on 9/22/2016.
  */
 public class UserParser {
-    static String HOURS = "hr";
-    static String MINUTES = "min";
-    static String SECONDS = "sec";
+
 
     public static ArrayList<UserModel> getParsedUserData(JSONArray jsonArray) {
 
@@ -57,21 +55,5 @@ public class UserParser {
         }
         return userModels;
 
-    }
-
-    private static String getActiveTime(long active_before) {
-        long tempMillis = active_before;
-
-        String timePostFix = HOURS;
-        active_before = TimeUnit.MILLISECONDS.toHours(tempMillis);
-        if (active_before <= 0) {
-            active_before = TimeUnit.MILLISECONDS.toMinutes(tempMillis);
-            timePostFix = MINUTES;
-        }
-        if (active_before <= 0) {
-            active_before = TimeUnit.MILLISECONDS.toSeconds(tempMillis);
-            timePostFix = SECONDS;
-        }
-        return String.valueOf(active_before) + " " + timePostFix;
     }
 }

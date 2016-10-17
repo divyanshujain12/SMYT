@@ -111,5 +111,7 @@
     <string name="old_password">Old Password</string>
     <string name="change_password">Change Password</string>
     <string name="post_video">Post Video</string>
+    <string name="vs">VS</string>
+    <string name="round_txt">"Round "</string>
 
 </resources>

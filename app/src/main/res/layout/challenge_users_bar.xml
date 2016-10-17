@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:id="@+id/challengeUserBarFL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.example.divyanshu.smyt.CustomViews.RoundedImageView
+            android:id="@+id/firstUserIV"
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/fourty_dp"
+            android:src="@drawable/user"
+            app:riv_border_width="1dp"
+            app:riv_corner_radius="40dp" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/firstUserNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:text="@string/upload_video"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+    </LinearLayout>
+    <com.neopixl.pixlui.components.textview.TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/five_dp"
+        android:text="@string/vs"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:textSize="@dimen/twenty_sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/secondUserNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:text="@string/upload_video"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/fifteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.example.divyanshu.smyt.CustomViews.RoundedImageView
+            android:id="@+id/secondUserIV"
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/fourty_dp"
+            android:src="@drawable/user"
+            app:riv_border_width="1dp"
+            app:riv_corner_radius="40dp" />
+
+    </LinearLayout>
+</FrameLayout>

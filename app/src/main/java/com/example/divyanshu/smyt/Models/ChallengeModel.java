@@ -29,7 +29,11 @@ public class ChallengeModel implements Parcelable {
     int video_comment_count;
     String status;
     String challenge_id;
-    long edate;
+    String edate;
+    String complete_status;
+    String vote;
+    String vote1;
+    int current_customer_video_status;
 
     public ChallengeModel() {
 
@@ -58,7 +62,11 @@ public class ChallengeModel implements Parcelable {
         video_comment_count = in.readInt();
         status = in.readString();
         challenge_id = in.readString();
-        edate = in.readLong();
+        edate = in.readString();
+        complete_status = in.readString();
+        vote = in.readString();
+        vote1 = in.readString();
+        current_customer_video_status = in.readInt();
     }
 
     public static final Parcelable.Creator<ChallengeModel> CREATOR = new Parcelable.Creator<ChallengeModel>() {
@@ -249,12 +257,44 @@ public class ChallengeModel implements Parcelable {
         this.challenge_id = challenge_id;
     }
 
-    public long getEdate() {
+    public String getEdate() {
         return edate;
     }
 
-    public void setEdate(long edate) {
+    public void setEdate(String edate) {
         this.edate = edate;
+    }
+
+    public String getComplete_status() {
+        return complete_status;
+    }
+
+    public void setComplete_status(String complete_status) {
+        this.complete_status = complete_status;
+    }
+
+    public String getVote() {
+        return vote;
+    }
+
+    public void setVote(String vote) {
+        this.vote = vote;
+    }
+
+    public String getVote1() {
+        return vote1;
+    }
+
+    public void setVote1(String vote1) {
+        this.vote1 = vote1;
+    }
+
+    public int getCurrent_customer_video_status() {
+        return current_customer_video_status;
+    }
+
+    public void setCurrent_customer_video_status(int current_customer_video_status) {
+        this.current_customer_video_status = current_customer_video_status;
     }
 
     @Override
@@ -286,7 +326,16 @@ public class ChallengeModel implements Parcelable {
         dest.writeInt(video_comment_count);
         dest.writeString(status);
         dest.writeString(challenge_id);
-        dest.writeLong(edate);
+        dest.writeString(edate);
+        dest.writeString(complete_status);
+        dest.writeString(vote);
+        dest.writeString(vote1);
+        dest.writeInt(current_customer_video_status);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.challenge_id.equals(((ChallengeModel) o).challenge_id);
     }
 }
 

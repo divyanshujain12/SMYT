@@ -33,6 +33,7 @@ public interface Constants {
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
     String UPDATE_COMMENT_COUNT = "update_comment_count";
     String UPDATE_USER_INFO = "update_user_info";
+    String UPDATE_ACCEPT_REJECT_BROADCAST = "UPDATE_ACCEPT_REJECT_BROADCAST";
     String STATUS = "status";
     String LIKES = "likes";
     String FOLLOWING_ID = "following_id";
@@ -49,5 +50,6 @@ public interface Constants {
     String CHALLENGE_ID = "challenge_id";
     String THUMBNAIL = "thumbnail";
     String VIDEO_URL = "video_url";
+    String ACCEPT_STATUS = "accept_status";
     int REQUEST_TIMEOUT_TIME = 30000;
 }

@@ -30,4 +30,7 @@ public interface API {
     String POST_VIDEO = BASE + "postVideo";
     String ACCEPT_REJECT_CHALLENGE = BASE + "challengeAction";
     String GET_CUSTOMER_DETAIL = BASE + "getCustomerDetails";
+    String CHALLENGE_DESCRIPTION = BASE + "getChallengeDetails";
+    String VOTE_UP = BASE + "actionVote";
+    String USER_ACTIVE_STATUS = BASE + "updateCustomerLastActive";
 }

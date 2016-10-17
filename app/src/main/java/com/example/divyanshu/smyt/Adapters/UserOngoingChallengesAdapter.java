@@ -2,8 +2,6 @@ package com.example.divyanshu.smyt.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.Fragments.OngoingChallengeDescriptionFragment;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
@@ -33,7 +30,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_REJECT;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> implements View.OnClickListener, CallWebService.ObjectResponseCallBack {
+public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> implements CallWebService.ObjectResponseCallBack {
 
 
     private ArrayList<ChallengeModel> challengeModels;
@@ -95,9 +92,10 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
         holder.challengeTimeTV.setText(challengeModel.getRound_date());
 
-        if (challengeModel.getStatus().equals(ACTIVE)) {
+
+        if (challengeModel.getCurrent_customer_video_status() == 1) {
             holder.acceptAndDeclineLL.setVisibility(View.GONE);
-        } else
+        } else if (challengeModel.getCurrent_customer_video_status() == 0)
             holder.acceptAndDeclineLL.setVisibility(View.VISIBLE);
 
         holder.acceptTV.setOnClickListener(new View.OnClickListener() {
@@ -144,25 +142,26 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         notifyDataSetChanged();
     }
 
-    @Override
-    public void onClick(View v) {
-        FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-        OngoingChallengeDescriptionFragment challangeFragment = new OngoingChallengeDescriptionFragment();
-        challangeFragment.show(fragmentManager, challangeFragment.getClass().getName());
+    public void removeItem(int position) {
+        challengeModels.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
+    }
+
+    public void updateAcceptStatusIntoList(int pos) {
+        challengeModels.get(pos).setCurrent_customer_video_status(1);
+        notifyDataSetChanged();
     }
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         switch (apiType) {
             case CHALLENGE_ACCEPT:
-                challengeModels.get(acceptRejectPos).setStatus(ACTIVE);
-                notifyDataSetChanged();
+                updateAcceptStatusIntoList(acceptRejectPos);
                 CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), response.getString(Constants.MESSAGE));
                 break;
             case CHALLENGE_REJECT:
-                challengeModels.remove(acceptRejectPos);
-                notifyItemRemoved(acceptRejectPos);
-                notifyItemRangeChanged(acceptRejectPos, getItemCount());
+                removeItem(acceptRejectPos);
                 CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), response.getString(Constants.MESSAGE));
                 break;
         }
@@ -170,7 +169,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
 
     @Override
     public void onFailure(String str, int apiType) {
-
+        CommonFunctions.getInstance().showErrorSnackBar(((Activity) context), str);
     }
 }
 
