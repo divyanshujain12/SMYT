@@ -217,9 +217,9 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     private void updateUI() {
-        txtName.setText(userModel.getUsername());
+        txtName.setText(userModel.getFirst_name() + " " + userModel.getLast_name());
         phoneNumberTV.setText(userModel.getPhonenumber());
-        nameInImgTV.setText(userModel.getUsername());
+        nameInImgTV.setText(userModel.getFirst_name() + " " + userModel.getLast_name());
         followersCountTV.setText(userModel.getFollowers());
         followingCountTV.setText(userModel.getFollowing());
         imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);

@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomToasts;
+import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.activities.MyApp;
 
 import org.json.JSONArray;
@@ -51,14 +52,18 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
     }
 
     public void hitJsonObjectRequestAPI(int requestType, final String url, JSONObject json, final ObjectResponseCallBack callBackInterface) {
-        objectCallBackInterface = callBackInterface;
-        cancelRequest(url);
-        this.url = url;
-        if (continuousSB != null)
-            CommonFunctions.showContinuousSB(continuousSB);
+        if (InternetCheck.isInternetOn(context)) {
+            objectCallBackInterface = callBackInterface;
+            cancelRequest(url);
+            this.url = url;
+            if (continuousSB != null)
+                CommonFunctions.showContinuousSB(continuousSB);
 
-        JsonObjectRequest request = new JsonObjectRequest(requestType, url, json == null ? null : (json), this, this);
-        addRequestToVolleyQueue(url, request);
+            JsonObjectRequest request = new JsonObjectRequest(requestType, url, json == null ? null : (json), this, this);
+            addRequestToVolleyQueue(url, request);
+        } else {
+            CustomToasts.getInstance(context).showErrorToast(context.getString(R.string.no_internet_connection));
+        }
     }
 
     public void hitJsonArrayRequestAPI(int requestType, final String url, JSONArray json, final ArrayResponseCallback callBackinerface) {
@@ -150,7 +155,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
             CommonFunctions.hideContinuousSB(continuousSB);
         if (objectCallBackInterface != null)
             objectCallBackInterface.onFailure(error, apiCode);
-        CustomToasts.getInstance(context).showErrorToast(error);
+      //  CustomToasts.getInstance(context).showErrorToast(error);
     }
 
     private VolleyError configureErrorMessage(VolleyError volleyError) {

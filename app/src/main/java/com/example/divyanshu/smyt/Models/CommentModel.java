@@ -12,7 +12,7 @@ public class CommentModel {
     String customers_videos_comment_id;
     String comment;
 
-    long edate;
+    String edate;
 
     public String getCustomer_id() {
         return customer_id;
@@ -62,11 +62,11 @@ public class CommentModel {
         this.comment = comment;
     }
 
-    public long getEdate() {
+    public String getEdate() {
         return edate;
     }
 
-    public void setEdate(long edate) {
+    public void setEdate(String edate) {
         this.edate = edate;
     }
 

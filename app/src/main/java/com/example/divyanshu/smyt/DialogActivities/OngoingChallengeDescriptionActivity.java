@@ -121,22 +121,21 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     }
 
     private void updateUI() {
-        imageLoading.LoadImage(challengeDescModel.getThumbnail(), profileImage, null);
-        challengeHeaderTV.setText(challengeDescModel.getTitle());
-        totalRoundsTV.setText(challengeDescModel.getTotal_round());
-        challengeRoundDescRvAdapter.addItems(challengeDescModel.getChallenge_rounds());
+        if (profileImage != null) {
+            imageLoading.LoadImage(challengeDescModel.getThumbnail(), profileImage, null);
+            challengeHeaderTV.setText(challengeDescModel.getTitle());
+            totalRoundsTV.setText(challengeDescModel.getTotal_round());
+            challengeRoundDescRvAdapter.addItems(challengeDescModel.getChallenge_rounds());
+        }
     }
 
     @OnClick({R.id.acceptBT, R.id.declineBT})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.acceptBT:
-
                 CallWebService.getInstance(this, true, CHALLENGE_ACCEPT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeID, "1"), this);
-
                 break;
             case R.id.declineBT:
-
                 CallWebService.getInstance(this, true, CHALLENGE_REJECT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeID, "0"), this);
                 break;
         }

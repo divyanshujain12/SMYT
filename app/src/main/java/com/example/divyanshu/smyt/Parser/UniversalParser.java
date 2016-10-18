@@ -40,7 +40,7 @@ public class UniversalParser {
                 modelClassObject = modelClass.newInstance();
                 if (modelClassObject instanceof String || modelClassObject instanceof Integer || modelClassObject instanceof Boolean) {
                     Object undefinedObj = jsonArray.opt(i);
-                    if (undefinedObj != null && !undefinedObj.equals(null) && !undefinedObj.equals("")&& !undefinedObj.equals("null"))
+                    if (undefinedObj != null && !undefinedObj.equals(null) && !undefinedObj.equals("") && !undefinedObj.equals("null"))
                         data.add((T) undefinedObj);
                 } else {
                     for (Field f : modelClass.getDeclaredFields()) {
@@ -76,13 +76,16 @@ public class UniversalParser {
             modelClassObject = modelClass.newInstance();
             for (Field f : modelClass.getDeclaredFields()) {
                 f.setAccessible(true);
-                Object undefinedInnerObj = jsonObject.opt(f.getName());
-                if (undefinedInnerObj instanceof JSONArray) {
-                    getJsonArrayFromObject(modelClassObject, f, (JSONArray) undefinedInnerObj);
-                } else if (undefinedInnerObj instanceof JSONObject)
-                    getJsonObjectFromObject(modelClassObject, (JSONObject) undefinedInnerObj);
-                else if (undefinedInnerObj != null)
-                    f.set(modelClassObject, jsonObject.opt(f.getName()));
+                String name = f.getName();
+                if (!jsonObject.isNull(name)) {
+                    Object undefinedInnerObj = jsonObject.opt(f.getName());
+                    if (undefinedInnerObj instanceof JSONArray) {
+                        getJsonArrayFromObject(modelClassObject, f, (JSONArray) undefinedInnerObj);
+                    } else if (undefinedInnerObj instanceof JSONObject)
+                        getJsonObjectFromObject(modelClassObject, (JSONObject) undefinedInnerObj);
+                    else if (undefinedInnerObj != null)
+                        f.set(modelClassObject, jsonObject.opt(f.getName()));
+                }
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -103,7 +106,7 @@ public class UniversalParser {
 
     private <T> void IterateForJsonObject(Object modelClassObject, Field f, JSONObject undefinedObj) throws IllegalAccessException {
         String name = f.getName();
-        if(undefinedObj.isNull(name))
+        if (undefinedObj.isNull(name))
             return;
         Object undefinedInnerObj = undefinedObj.opt(name);
         if (undefinedInnerObj instanceof JSONArray) {

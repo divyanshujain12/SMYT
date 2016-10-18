@@ -82,12 +82,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.deleteVideoIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (InternetCheck.isInternetOn(context)) {
                     recyclerViewClick.onClickItem(position, v);
                     removeComment(position);
-                } else {
-                    CommonFunctions.getInstance().showErrorSnackBar((Activity) context, context.getString(R.string.no_internet_connection));
-                }
             }
         });
     }

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.ChangePasswordInterface;
@@ -207,7 +208,8 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
             case UPDATE_USER:
                 sendLocalBroadCastForUserProfile();
                 MySharedPereference.getInstance().setString(this, Constants.PASSWORD, hashMap.get(changePasswordET));
-                //onBackPressed();
+                CustomToasts.getInstance(this).showSuccessToast(response.getString(Constants.MESSAGE));
+                onBackPressed();
                 break;
         }
     }
