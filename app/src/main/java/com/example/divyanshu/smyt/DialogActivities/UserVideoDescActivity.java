@@ -13,6 +13,7 @@ import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -74,13 +75,17 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     ImageView sendCommentIV;
     @InjectView(R.id.commentPB)
     ProgressBar commentPB;
+    @InjectView(R.id.firstUserIV)
+    RoundedImageView firstUserIV;
+
+
     private Validation validation;
     private HashMap<View, String> validationMap;
-
     private VideoDetailModel videoDetailModel;
     private CommentsAdapter commentsAdapter;
     private CommentModel deleteCommentModel;
     private VideoModel videoModel;
+    private ImageLoading imageLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +97,9 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void initViews() {
         validation = new Validation();
-        validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, "Please Enter Comment First!"));
+        validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_cno_comment)));
         commentsRV.setLayoutManager(new LinearLayoutManager(this));
-
+        imageLoading = new ImageLoading(this);
     }
 
     @OnClick({R.id.sendCommentIV, R.id.leftSideVotingView})
@@ -103,7 +108,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             if (InternetCheck.isInternetOn(this))
                 sendComment();
             else
-            CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
+                CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
         } else {
             if (InternetCheck.isInternetOn(this))
                 checkAndSendLike();
@@ -216,6 +221,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateUI() {
+        imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
         titleTV.setText(videoDetailModel.getTitle());
         setLikeCount();
         firstUserNameTV.setText(videoDetailModel.getFirst_name());

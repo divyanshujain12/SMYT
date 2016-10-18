@@ -12,7 +12,7 @@ public interface ApiCodes {
     int JOIN_CATEGORY = 106;
     int USER_VIDEOS = 107;
     int SINGLE_VIDEO_DATA = 108;
-    int POST_COMMENT  = 109;
+    int POST_COMMENT = 109;
     int DELETE_COMMENT = 110;
     int DELETE_VIDEO = 111;
     int ADD_REMOVE_LIKE = 112;
@@ -27,4 +27,5 @@ public interface ApiCodes {
     int CHALLENGE_ACCEPT = 121;
     int CHALLENGE_REJECT = 122;
     int POST_USER_VIDEO = 123;
+    int UPDATE_LAST_ACTIVE_TIME = 124;
 }

@@ -116,5 +116,7 @@
     <string name="enter_your_friend_name">Enter your friend name</string>
     <string name="take_picture">Take Picture</string>
     <string name="select_picture">Select Picture</string>
+    <string name="err_cno_comment">Please Enter Comment First!</string>
+    <string name="draw">Draw</string>
 
 </resources>

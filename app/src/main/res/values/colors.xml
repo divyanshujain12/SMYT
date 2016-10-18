@@ -7,9 +7,11 @@
     <color name="darker_grey">#CCCCCC</color>
     <color name="unselected_text_yellow_color">#937E2F</color>
     <color name="black_with_ninety_nine">#99000000</color>
-    <color name="white">#FFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
     <color name="color_primary_with_eight_eight">#88ECC11C</color>
     <color name="black_with_fifity_five">#55000000</color>
     <color name="color_primary_with_four_four">#44ECC11C</color>
+    <color name="thumb_down_color">#e02f39</color>
+    <color name="round_draw">#3279C2</color>
 </resources>

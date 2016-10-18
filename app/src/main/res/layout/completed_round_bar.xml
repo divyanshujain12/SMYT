@@ -31,16 +31,7 @@
             android:textSize="@dimen/fifteen_sp"
             pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
-    <com.neopixl.pixlui.components.textview.TextView
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/five_dp"
-        android:text="@string/vs"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:textSize="@dimen/twenty_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

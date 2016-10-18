@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/videoFL"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/two_hundred_dp"
-    tools:showIn="@layout/live_battle_video_item">
+    android:layout_height="@dimen/two_hundred_fifty_dp"
+    android:background="@color/black_with_fifity_five"
+    android:paddingTop="@dimen/three_dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/twenty_five_dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -36,33 +38,64 @@
         android:src="@drawable/icon_play"
         android:visibility="gone" />
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/firstUserNameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:alpha=".6"
-        android:background="#88000000"
-        android:maxLines="2"
-        android:padding="@dimen/eight_dp"
-        android:text="Raghav"
-        android:textColor="@color/white"
-        android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty_dp"
+        android:orientation="horizontal">
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/secondUserNameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:alpha=".6"
-        android:background="#88000000"
-        android:maxLines="2"
-        android:padding="@dimen/eight_dp"
-        android:text="Raghav"
-        android:textColor="@color/white"
-        android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="@dimen/five_dp"
+            android:orientation="horizontal">
+
+            <com.example.divyanshu.smyt.CustomViews.RoundedImageView
+                android:id="@+id/firstUserIV"
+                android:layout_width="@dimen/fourty_dp"
+                android:layout_height="@dimen/fourty_dp"
+                android:src="@drawable/user"
+                app:riv_corner_radius="100dp" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/firstUserNameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five_dp"
+                android:maxLines="2"
+                android:text="Raghav"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:orientation="horizontal">
+
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/secondUserNameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:maxLines="2"
+                android:text="Raghav"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
+            <com.example.divyanshu.smyt.CustomViews.RoundedImageView
+                android:id="@+id/secondUserIV"
+                android:layout_width="@dimen/fourty_dp"
+                android:layout_height="@dimen/fourty_dp"
+                android:src="@drawable/user"
+                app:riv_corner_radius="100dp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/fullscreenFL"

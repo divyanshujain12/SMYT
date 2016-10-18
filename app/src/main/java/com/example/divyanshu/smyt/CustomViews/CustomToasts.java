@@ -59,14 +59,14 @@ public class CustomToasts {
     private static void createSuccessToast(Context context, TextView tv) {
         successToast = new Toast(context);
         successToast.setView(tv);
-        successToast.setGravity(Gravity.BOTTOM, 0, 50);
+        successToast.setGravity(Gravity.CENTER, 0, 50);
         successToast.setDuration(Toast.LENGTH_SHORT);
     }
 
     private static void createErrorToast(Context context, TextView tv) {
         errorToast = new Toast(context);
         errorToast.setView(tv);
-        errorToast.setGravity(Gravity.BOTTOM, 0, 50);
+        errorToast.setGravity(Gravity.CENTER, 0, 50);
         errorToast.setDuration(Toast.LENGTH_SHORT);
     }
 }

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<com.neopixl.pixlui.components.textview.TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/userOneWinLoseTV"
-    android:layout_width="@dimen/fourty_dp"
-    android:layout_height="@dimen/fourty_dp"
-    android:background="@drawable/rounded_yellow_circle"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:text="W"
-    android:textColor="@color/white"
-    android:textSize="@dimen/eighteen_sp"
-    pixlui:typeface="Roboto-Medium.ttf"
-    tools:showIn="@layout/challenge_completed_round_rv_item" />
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/thumb_on" />
+
+    <com.neopixl.pixlui.components.textview.TextView xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+        android:id="@+id/userOneWinLoseTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Win"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/fifteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+</LinearLayout>

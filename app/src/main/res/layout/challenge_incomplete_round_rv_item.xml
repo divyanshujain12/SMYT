@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:padding="@dimen/ten_dp">
 
-        <include layout="@layout/challenge_users_bar" />
+        <include layout="@layout/incomplete_round_bar" />
 
         <include layout="@layout/challenge_round_genre_type_bar" />
 

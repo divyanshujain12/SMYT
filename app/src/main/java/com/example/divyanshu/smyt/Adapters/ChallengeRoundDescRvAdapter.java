@@ -59,8 +59,6 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         private ImageView firstUserIV, secondUserIV;
         private TextView firstUserNameTV, secondUserNameTV;
         private TextView roundNumberTV, genreNameTV;
-        private TextView userOneVoteCountTV, userTwoVoteCountTV;
-
         private FrameLayout userWinningBar;
 
         public ChallengeCompletedDescViewHolder(View view) {
@@ -71,8 +69,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
             secondUserNameTV = (TextView) view.findViewById(R.id.secondUserNameTV);
             roundNumberTV = (TextView) view.findViewById(R.id.roundNumberTV);
             genreNameTV = (TextView) view.findViewById(R.id.genreNameTV);
-            userOneVoteCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
-            userTwoVoteCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
+
             userWinningBar = (FrameLayout) view.findViewById(R.id.userWinningBar);
         }
 
@@ -122,12 +119,10 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());
         holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
         holder.genreNameTV.setText(challengeModel.getGenre());
-        holder.userOneVoteCountTV.setText(challengeModel.getVote());
-        holder.userTwoVoteCountTV.setText(challengeModel.getVote1());
         int voteInt = Integer.parseInt(challengeModel.getVote());
         int vote1Int = Integer.parseInt(challengeModel.getVote1());
 
-        if (voteInt > vote1Int)
+        if (voteInt+1 > vote1Int)
             holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
         else if (vote1Int > voteInt)
             holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));

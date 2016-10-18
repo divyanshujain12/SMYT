@@ -18,9 +18,7 @@
 
         <include layout="@layout/video_title_bar" />
 
-        <include layout="@layout/single_video_inside_item"
-            android:layout_height="@dimen/two_hundred_fifty_dp"
-            android:layout_width="match_parent"/>
+        <include layout="@layout/single_video_inside_item" />
 
         <include layout="@layout/uploaded_video_comment_bar" />
 

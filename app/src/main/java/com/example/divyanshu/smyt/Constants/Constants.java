@@ -52,5 +52,7 @@ public interface Constants {
     String VIDEO_URL = "video_url";
     String ACCEPT_STATUS = "accept_status";
     String TIMELINE_MSG = "timeline_msg";
+    String LAST_LOGIN = "last_login";
+    String AVAILABLE = "available";
     int REQUEST_TIMEOUT_TIME = 30000;
 }

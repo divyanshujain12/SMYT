@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/challenge_incomplete_round_rv_item">
+    android:orientation="vertical"
+   >
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/roundNumberTV"
@@ -40,4 +43,4 @@
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
-</merge>
+</LinearLayout>

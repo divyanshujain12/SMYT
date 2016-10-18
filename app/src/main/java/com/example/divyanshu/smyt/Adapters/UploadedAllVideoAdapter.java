@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
@@ -20,7 +21,6 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
@@ -34,12 +34,13 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
 
-    public class SingleVideoHolder extends RecyclerView.ViewHolder {
+    private class SingleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
-        public ImageView videoThumbIV, moreIV;
+        private ImageView videoThumbIV, moreIV;
         public FrameLayout videoFL;
+        private RoundedImageView firstUserIV;
 
-        public SingleVideoHolder(View view) {
+        private SingleVideoHolder(View view) {
             super(view);
             titleTV = (TextView) view.findViewById(R.id.titleTV);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
@@ -49,20 +50,22 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
+            firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
         }
     }
 
-    public class BattleVideoHolder extends RecyclerView.ViewHolder {
+    private class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
         public ImageView moreIV;
         public FrameLayout videoFL;
         private JCVideoPlayerStandard firstVideoPlayer;
-        public JCVideoPlayerStandardTwo secondVideoPlayer;
+        private JCVideoPlayerStandardTwo secondVideoPlayer;
         private ImageView playVideosIV;
         private FrameLayout fullscreenFL;
         private ImageView fullscreenIV;
+        private RoundedImageView firstUserIV, secondUserIV;
 
-        public BattleVideoHolder(View view) {
+        private BattleVideoHolder(View view) {
             super(view);
 
             titleTV = (TextView) view.findViewById(R.id.titleTV);
@@ -78,14 +81,16 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
             secondVideoPlayer = (JCVideoPlayerStandardTwo) view.findViewById(R.id.secondVideoPlayer);
+            firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
+            secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
             //  setVideoPlayerPlayButtonVisibility(false, this);
         }
     }
 
-    public class TopRatedVideoHolder extends RecyclerView.ViewHolder {
-        public RecyclerView topRatedVideosRV;
+    private class TopRatedVideoHolder extends RecyclerView.ViewHolder {
+        private RecyclerView topRatedVideosRV;
 
-        public TopRatedVideoHolder(View itemView) {
+        private TopRatedVideoHolder(View itemView) {
             super(itemView);
             topRatedVideosRV = (RecyclerView) itemView.findViewById(R.id.topRatedVideosRV);
             topRatedVideosRV.setLayoutManager(new CustomLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));

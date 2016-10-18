@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -29,7 +28,8 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String TIME_FORMAT = "hh:mm aa";
-    public static final String DEFAULT_DATE = "1900-01-01";
+    public static final String DEFAULT_DATE = "1940-01-01";
+    public static final String CURRENT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static CustomDateTimePickerHelper getInstance() {
         return new CustomDateTimePickerHelper();
@@ -145,7 +145,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
             TextView roundTimeValueTV = (TextView) customView.findViewById(R.id.roundTimeValueTV);
             TextView roundDateTV = (TextView) customView.findViewById(R.id.roundDateTV);
             TextView roundDateValueTV = (TextView) customView.findViewById(R.id.roundDateValueTV);
-            addRoundNumberToTV(context,roundDateTV, roundTimeTV, i + 1);
+            addRoundNumberToTV(context, roundDateTV, roundTimeTV, i + 1);
             if (i == 0)
                 calendar.add(Calendar.MINUTE, +70);
             else
@@ -164,5 +164,11 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
     private void addRoundNumberToTV(Context context, TextView roundDateTV, TextView roundTimeTV, int number) {
         roundDateTV.setText(String.format(context.getResources().getString(R.string.round_date), String.valueOf(number)));
         roundTimeTV.setText(String.format(context.getResources().getString(R.string.round_timing), String.valueOf(number)));
+    }
+
+    public static String getCurrentTime(String format) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat displayFormat = new SimpleDateFormat(format, Locale.getDefault());
+        return displayFormat.format(calendar.getTime());
     }
 }
