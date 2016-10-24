@@ -28,14 +28,13 @@ import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by divyanshu.jain on 9/1/2016.
@@ -55,7 +54,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
 
         public ImageView videoThumbIV, moreIV;
         public FrameLayout videoFL;
-        private JCVideoPlayerStandard firstVideoPlayer;
+        private SingleVideoPlayer firstVideoPlayer;
 
         public SingleVideoHolder(View view) {
             super(view);
@@ -67,7 +66,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
             videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
-            firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
+            firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
         }
 
     }
@@ -99,10 +98,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         String commentsFound = context.getResources().getQuantityString(R.plurals.numberOfComments, userModel.getVideo_comment_count(), userModel.getVideo_comment_count() / 1);
         holder.commentsTV.setText(commentsFound);
         holder.firstUserNameTV.setText(userModel.getFirst_name());
-        boolean setUp = holder.firstVideoPlayer.setUp(userModel.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
-        if (setUp) {
-            imageLoading.LoadImage(userModel.getThumbnail(), holder.firstVideoPlayer.thumbImageView, null);
-        }
+        holder.firstVideoPlayer.setVideoUrl(userModel.getVideo_url());
+        holder.firstVideoPlayer.setThumbnail(userModel.getThumbnail());
 
         holder.moreIV.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,1 +1,1 @@
-include ':jcvideoplayer', ':app'
+include ':jcvideoplayer', ':app', ':CustomPlayer'

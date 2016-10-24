@@ -9,7 +9,7 @@
     android:background="@color/black_with_fifity_five"
     android:paddingTop="@dimen/three_dp">
 
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+    <com.player.divyanshu.customvideoplayer.SingleVideoPlayer
         android:id="@+id/firstVideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

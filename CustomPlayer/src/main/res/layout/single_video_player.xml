@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.player.divyanshu.customvideoplayer.StandardVideoPlayer
+        android:id="@+id/standardVideoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/layerLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="#55000000"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/playAllVideosIV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/jc_click_play_selector" />
+    </LinearLayout>
+</FrameLayout>

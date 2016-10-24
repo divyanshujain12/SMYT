@@ -30,6 +30,7 @@ import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,8 +41,7 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_CHALLENGE;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_USER_VIDEO;
@@ -80,7 +80,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     @InjectView(R.id.scrollView)
     ScrollView scrollView;
     @InjectView(R.id.firstVideoPlayer)
-    JCVideoPlayerStandard firstVideoPlayer;
+    SingleVideoPlayer firstVideoPlayer;
     @InjectView(R.id.firstUserNameTV)
     TextView firstUserNameTV;
     @InjectView(R.id.videoFL)
@@ -134,9 +134,8 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
     private void setUpVideoPlayer() {
         imageLoading = new ImageLoading(this);
-        boolean firstVideoSetup = firstVideoPlayer.setUp(videoUrl, JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
-        if (firstVideoSetup)
-            imageLoading.LoadImage(videoThumbnail, firstVideoPlayer.thumbImageView, null);
+        firstVideoPlayer.setVideoUrl(videoUrl);
+        firstVideoPlayer.setThumbnail(videoThumbnail);
     }
 
     @Override

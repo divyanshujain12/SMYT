@@ -12,11 +12,12 @@ import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
+import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import java.util.ArrayList;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
-import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
+
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -35,8 +36,8 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<LiveVideosAdapter.Ba
         private ImageView playVideosIV;
         private FrameLayout fullscreenFL;
         private ImageView fullscreenIV;
-        private JCVideoPlayerStandard firstVideoPlayer;
-        JCVideoPlayerStandardTwo secondVideoPlayer;
+        private TwoVideoPlayers twoVideoPlayers;
+
 
         public BattleVideoHolder(View view) {
             super(view);
@@ -52,8 +53,8 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<LiveVideosAdapter.Ba
             fullscreenFL = (FrameLayout) view.findViewById(R.id.fullscreenFL);
             fullscreenIV = (ImageView) view.findViewById(R.id.fullscreenIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
-            firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
-            secondVideoPlayer = (JCVideoPlayerStandardTwo) view.findViewById(R.id.secondVideoPlayer);
+            twoVideoPlayers = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
+
 
         }
     }
@@ -85,15 +86,16 @@ public class LiveVideosAdapter extends RecyclerView.Adapter<LiveVideosAdapter.Ba
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {recyclerViewClick.onClickItem(position, v);
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(position, v);
             }
         });
 
     }
 
     private void playVideos(BattleVideoHolder holder) {
-        holder.firstVideoPlayer.startPlayLogic();
-        holder.secondVideoPlayer.startPlayLogic();
+        holder.twoVideoPlayers.setVideoUrls(context.getString(R.string.dummy_m3u8_video), context.getString(R.string.dummy_m3u8_video));
+        holder.twoVideoPlayers.setThumbnail(context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url));
         holder.fullscreenFL.setVisibility(View.VISIBLE);
         holder.playVideosIV.setVisibility(View.GONE);
     }

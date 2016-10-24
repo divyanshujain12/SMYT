@@ -15,14 +15,10 @@ import android.widget.TextView;
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.R;
+import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
-import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerManagerTwo;
-import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -144,18 +140,7 @@ public class CommonFunctions {
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                if (JCVideoPlayerManager.getFirst() != null) {
-                    JCVideoPlayer videoPlayer = (JCVideoPlayer) JCVideoPlayerManager.getCurrentScrollPlayerListener();
-                    if (videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PAUSE) {
-                        JCVideoPlayer.releaseAllVideos();
-                    }
-                }
-                if (JCVideoPlayerManagerTwo.getFirst() != null) {
-                    JCVideoPlayerTwo videoPlayer = (JCVideoPlayerTwo) JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener();
-                    if (videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PAUSE) {
-                        JCVideoPlayerTwo.releaseAllVideos();
-                    }
-                }
+                MediaPlayerHelper.getInstance().releaseAllVideos();
             }
         });
     }

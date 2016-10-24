@@ -8,27 +8,19 @@
     android:background="@color/black_with_fifity_five"
     android:paddingTop="@dimen/three_dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/twenty_five_dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
-            android:id="@+id/firstVideoPlayer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        <com.player.divyanshu.customvideoplayer.TwoVideoPlayers
+            android:id="@+id/twoVideoPlayers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <include layout="@layout/vertical_black_line" />
-
-        <fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo
-            android:id="@+id/secondVideoPlayer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/playVideoIV"
@@ -102,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/fullscreenIV"

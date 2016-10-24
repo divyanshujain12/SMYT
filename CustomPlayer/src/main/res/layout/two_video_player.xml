@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/two_hundred_dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.player.divyanshu.customvideoplayer.StandardVideoPlayer
+            android:id="@+id/standardVideoPlayer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.player.divyanshu.customvideoplayer.SecondVideoPlayer
+            android:id="@+id/secondVideoPlayer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <View
+        android:layout_height="match_parent"
+        android:layout_width="@dimen/one_dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimaryDark"/>
+    <LinearLayout
+        android:id="@+id/layerLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="#55000000"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/playAllVideosIV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/jc_click_play_selector" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/playVideosInFullScreenIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/full_screen_videos"
+        android:visibility="gone" />
+</FrameLayout>

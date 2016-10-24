@@ -28,6 +28,8 @@ import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
+import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +39,7 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 
 public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.titleTV)
@@ -46,7 +47,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.moreIV)
     ImageView moreIV;
     @InjectView(R.id.firstVideoPlayer)
-    JCVideoPlayerStandard firstVideoPlayer;
+    SingleVideoPlayer firstVideoPlayer;
     @InjectView(R.id.videoThumbIV)
     ImageView videoThumbIV;
     @InjectView(R.id.playVideoIV)
@@ -168,9 +169,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void setupVideo() {
-        boolean popUp = firstVideoPlayer.setUp(videoDetailModel.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
-        if (popUp)
-            new ImageLoading(this).LoadImage(videoDetailModel.getThumbnail(), firstVideoPlayer.thumbImageView, null);
+        firstVideoPlayer.setVideoUrl(videoDetailModel.getVideo_url());
+        firstVideoPlayer.setThumbnail(videoDetailModel.getThumbnail());
     }
 
     @Override
@@ -289,5 +289,11 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    @Override
+    public void onBackPressed() {
+        MediaPlayerHelper.getInstance().releaseAllVideos();
+        super.onBackPressed();
     }
 }

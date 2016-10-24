@@ -13,12 +13,11 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
-import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 /**
  * Created by divyanshu.jain on 10/7/2016.
@@ -29,10 +28,8 @@ public class LiveBattleDescActivity extends BaseActivity {
     TextView titleTV;
     @InjectView(R.id.moreIV)
     ImageView moreIV;
-    @InjectView(R.id.firstVideoPlayer)
-    JCVideoPlayerStandard firstVideoPlayer;
-    @InjectView(R.id.secondVideoPlayer)
-    JCVideoPlayerStandardTwo secondVideoPlayer;
+    @InjectView(R.id.twoVideoPlayers)
+    TwoVideoPlayers twoVideoPlayers;
     @InjectView(R.id.playVideoIV)
     ImageView playVideoIV;
     @InjectView(R.id.firstUserNameTV)

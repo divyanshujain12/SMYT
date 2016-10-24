@@ -3,7 +3,6 @@ package com.example.divyanshu.smyt.Adapters;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,11 @@ import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Utils.VideoSetupUtils;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import java.util.ArrayList;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
-import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -58,8 +55,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
         public ImageView moreIV;
         public FrameLayout videoFL;
-        private JCVideoPlayerStandard firstVideoPlayer;
-        private JCVideoPlayerStandardTwo secondVideoPlayer;
+      private TwoVideoPlayers twoVideoPlayers;
         private ImageView playVideosIV;
         private FrameLayout fullscreenFL;
         private ImageView fullscreenIV;
@@ -79,8 +75,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             fullscreenFL = (FrameLayout) view.findViewById(R.id.fullscreenFL);
             fullscreenIV = (ImageView) view.findViewById(R.id.fullscreenIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
-            firstVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.firstVideoPlayer);
-            secondVideoPlayer = (JCVideoPlayerStandardTwo) view.findViewById(R.id.secondVideoPlayer);
+            twoVideoPlayers = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
             //  setVideoPlayerPlayButtonVisibility(false, this);
@@ -151,39 +146,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    private void setupBattleViewHolder(final BattleVideoHolder battleVideoHolder) {
-        JCVideoPlayerStandard firstVideoPlayer = battleVideoHolder.firstVideoPlayer;
-        JCVideoPlayerStandardTwo secondVideoPlayer = battleVideoHolder.secondVideoPlayer;
-
-        VideoSetupUtils.getInstance(context).setUpFirstVideoPlayer(firstVideoPlayer, context.getString(R.string.dummy_m3u8_video), context.getString(R.string.dummy_image_url));
-        VideoSetupUtils.getInstance(context).setUpSecondVideoPlayer(secondVideoPlayer, context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url));
-
-
-        battleVideoHolder.fullscreenIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //VideoSetupUtils.getInstance(context).onBackButtonClick(battleVideoHolder.firstVideoPlayer, battleVideoHolder.secondVideoPlayer);
-                fullScreenClicked(battleVideoHolder);
-            }
-        });
-
-        battleVideoHolder.playVideosIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                VideoSetupUtils.getInstance(context).playMusic(battleVideoHolder.firstVideoPlayer, battleVideoHolder.secondVideoPlayer);
-            }
-        });
+    private void setupBattleViewHolder(final BattleVideoHolder holder) {
+        holder.twoVideoPlayers.setVideoUrls(context.getString(R.string.dummy_m3u8_video), context.getString(R.string.dummy_m3u8_video));
+        holder.twoVideoPlayers.setThumbnail(context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url));
     }
 
-    private void fullScreenClicked(BattleVideoHolder battleVideoHolder) {
-        JCVideoPlayerStandard firstVideoPlayer = battleVideoHolder.firstVideoPlayer;
-        JCVideoPlayerStandardTwo secondVideoPlayer = battleVideoHolder.secondVideoPlayer;
 
-        VideoSetupUtils.getInstance(context).playMusic(firstVideoPlayer, secondVideoPlayer);
-
-        firstVideoPlayer.startWindowTiny(Gravity.TOP);
-        secondVideoPlayer.startWindowTiny(Gravity.BOTTOM);
-    }
 
     @Override
     public int getItemCount() {

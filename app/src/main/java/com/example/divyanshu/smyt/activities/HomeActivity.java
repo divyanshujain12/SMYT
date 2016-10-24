@@ -17,10 +17,11 @@ import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -88,16 +89,14 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
-            return;
-        }
+        MediaPlayerHelper.getInstance().releaseAllVideos();
         super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+        MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
 }
