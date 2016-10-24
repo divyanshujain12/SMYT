@@ -16,13 +16,15 @@ public class TwoPlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two_player);
         firstUrl = getIntent().getStringExtra("FirstUrl");
+
     }
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         MediaPlayerHelper.getInstance().setStandardPlayerFullScreen(false);
         MediaPlayerHelper.getInstance().setSecondPlayerFullScreen(false);
-        finish();
+
     }
 
     @Override
@@ -34,7 +36,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
         secondVideoPlayer = (SecondVideoPlayer) findViewById(R.id.secondPlayer);
         secondVideoPlayer.setUrl(secondUrl);
 
-       // standardVideoPlayer.setUp();
-      //  secondVideoPlayer.setUp();
+        // standardVideoPlayer.setUp();
+        //  secondVideoPlayer.setUp();
     }
 }

@@ -1,5 +1,6 @@
 package com.player.divyanshu.customvideoplayer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,13 +13,14 @@ import android.widget.LinearLayout;
  * Created by divyanshu.jain on 10/20/2016.
  */
 
-public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface, View.OnClickListener {
+public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface, View.OnClickListener, HomeWatcher.OnHomePressedListener {
     private StandardVideoPlayer standardVideoPlayer;
     private SecondVideoPlayer secondVideoPlayer;
     private ImageView playAllVideosIV;
     private LinearLayout layerLL;
     private ImageView playVideosInFullScreenIV;
     private ImageLoading imageLoading;
+    HomeWatcher mHomeWatcher;
 
     public TwoVideoPlayers(Context context) {
         super(context);
@@ -31,9 +33,10 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     }
 
     private void setUp() {
+
         imageLoading = new ImageLoading(getContext());
         LayoutInflater.from(getContext()).inflate(R.layout.two_video_player, this);
-
+        attachBackPressWatcher();
         standardVideoPlayer = (StandardVideoPlayer) findViewById(R.id.standardVideoPlayer);
         secondVideoPlayer = (SecondVideoPlayer) findViewById(R.id.secondVideoPlayer);
         playAllVideosIV = (ImageView) findViewById(R.id.playAllVideosIV);
@@ -45,14 +48,20 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
         setShowPlayButton(false);
     }
 
+    private void attachBackPressWatcher() {
+        mHomeWatcher = new HomeWatcher(getContext());
+        mHomeWatcher.setOnHomePressedListener(this);
+        mHomeWatcher.startWatch();
+    }
+
     public void setVideoUrls(String firstUrl, String secondUrl) {
         standardVideoPlayer.setUrl(firstUrl);
         secondVideoPlayer.setUrl(secondUrl);
     }
 
     public void setThumbnail(String firstThumbUrl, String secondThumbUrl) {
-        imageLoading.LoadImage(firstThumbUrl, standardVideoPlayer.getVideoThumbnail(),null);
-        imageLoading.LoadImage(secondThumbUrl, secondVideoPlayer.getVideoThumbnail(),null);
+        imageLoading.LoadImage(firstThumbUrl, standardVideoPlayer.getVideoThumbnail(), null);
+        imageLoading.LoadImage(secondThumbUrl, secondVideoPlayer.getVideoThumbnail(), null);
     }
 
     @Override
@@ -101,26 +110,32 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
         MediaPlayerHelper.getInstance().setStopPlayingInterface(this);
     }
 
-    /*private void resetPreviousPlayer() {
-        TwoVideoPlayers twoVideoPlayers = MediaPlayerHelper.getInstance().getTwoVideoPlayers();
-        if (twoVideoPlayers != null) {
-            twoVideoPlayers.standardVideoPlayer.releaseVideo();
-            twoVideoPlayers.secondVideoPlayer.releaseVideo();
-        }
-    }*/
-
     protected void setShowPlayButton(boolean enabled) {
         standardVideoPlayer.setShowPlayButton(enabled);
         secondVideoPlayer.setShowPlayButton(enabled);
     }
+
     private void showHideBlackLayer(boolean show) {
         layerLL.setVisibility(show ? VISIBLE : GONE);
         playVideosInFullScreenIV.setVisibility(show ? GONE : VISIBLE);
     }
 
-
     protected void onPlayVideosInFullScreenClick() {
-
         MediaPlayerHelper.getInstance().playTwoVideoPlayers(standardVideoPlayer, secondVideoPlayer);
+    }
+
+
+    @Override
+    public void onHomePressed() {
+        resetPlayers();
+    }
+
+    @Override
+    public void onHomeLongPressed() {
+        resetPlayers();
+    }
+
+    private void resetPlayers() {
+        MediaPlayerHelper.getInstance().pauseVideos(((Activity) getContext()), mHomeWatcher);
     }
 }

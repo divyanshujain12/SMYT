@@ -429,7 +429,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
         seekBarProgress.setMax(100);
     }
 
-    private void pauseVideoPlaying(MediaPlayer mp) {
+    protected void pauseVideoPlaying(MediaPlayer mp) {
         imageViewPauseIndicator.setVisibility(View.VISIBLE);
         surfaceViewFrame.setClickable(true);
         mp.pause();

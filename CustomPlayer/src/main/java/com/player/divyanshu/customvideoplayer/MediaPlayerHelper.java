@@ -1,5 +1,6 @@
 package com.player.divyanshu.customvideoplayer;
 
+import android.app.Activity;
 import android.media.MediaPlayer;
 
 /**
@@ -138,19 +139,30 @@ public class MediaPlayerHelper {
     public boolean releaseAllVideos() {
 
         boolean isStopped = false;
+        if (!standardPlayerFullScreen && !secondPlayerFullScreen) {
+            isStopped = stopStandardPlayer(isStopped);
+            isStopped = stopSecondPlayer(isStopped);
+        }
+        return isStopped;
+    }
+
+    private boolean stopStandardPlayer(boolean isStopped) {
         if (!standardPlayerFullScreen) {
             if (MediaPlayerHelper.getInstance().getCurrentStandardPlayer() != null) {
                 MediaPlayerHelper.getInstance().getCurrentStandardPlayer().releaseVideo();
                 isStopped = true;
             }
         }
+        return isStopped;
+    }
+
+    private boolean stopSecondPlayer(boolean isStopped) {
         if (!secondPlayerFullScreen) {
             if (MediaPlayerHelper.getInstance().getCurrentSecondPlayer() != null) {
                 MediaPlayerHelper.getInstance().getCurrentSecondPlayer().releaseVideo();
                 isStopped = true;
             }
         }
-
         return isStopped;
     }
 
@@ -196,5 +208,19 @@ public class MediaPlayerHelper {
         previousSecondVideoPlayer = null;
         CurrentSecondPlayer = null;
         twoVideoPlayers = null;
+    }
+
+    void pauseVideos() {
+
+    }
+
+    public void pauseVideos(Activity activity, HomeWatcher mHomeWatcher) {
+        if (mediaPlayer != null)
+            getCurrentStandardPlayer().pauseVideoPlaying(mediaPlayer);
+        if (secondMediaPlayer != null) {
+            getCurrentSecondPlayer().pauseVideoPlaying(secondMediaPlayer);
+        }
+        // activity.onBackPressed();
+        mHomeWatcher.stopWatch();
     }
 }

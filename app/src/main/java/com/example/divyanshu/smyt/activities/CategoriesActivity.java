@@ -66,8 +66,9 @@ public class CategoriesActivity extends BaseActivity {
         Utils.configureToolbarWithOutBackButton(this, toolbarView, getString(R.string.categories));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.eight_dp);
-        categoryRV.addItemDecoration(itemDecoration);
+      //  ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.eight_dp);
+       // categoryRV.addItemDecoration(itemDecoration);
+        categoryRV.setHasFixedSize(true);
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
         setUserAndCategoryAdapter();

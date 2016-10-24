@@ -1,54 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:layout_width="@dimen/one_hundred_twenty_dp"
+    android:id="@+id/card_view"
+    android:layout_width="@dimen/one_hundred_dp"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginLeft="@dimen/five_dp"
-    android:layout_marginRight="@dimen/five_dp"
-    android:background="@color/colorPrimary"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/ten_dp">
-
-        <ImageView
-            android:id="@+id/categoryIV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/genre_icon_electronics" />
-
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/categoryNameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/five_dp"
-            android:text="RAPH"
-            pixlui:typeface="Roboto-Medium.ttf" />
-    </LinearLayout>
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    card_view:cardElevation="@dimen/card_elevation_size"
+    card_view:cardUseCompatPadding="true">
 
     <FrameLayout
-        android:id="@+id/joinedCatFL"
-        android:layout_width="@dimen/thirty_six_dp"
-        android:layout_height="@dimen/fourty_dp"
-        android:layout_gravity="right|bottom">
 
-        <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/joined_cat_back" />
-
-        <ImageView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_right" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_dp">
+
+            <ImageView
+                android:id="@+id/categoryIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/genre_icon_electronics" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/categoryNameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="RAPH"
+                pixlui:typeface="Roboto-Medium.ttf" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/joinedCatFL"
+            android:layout_width="@dimen/thirty_six_dp"
+            android:layout_height="@dimen/fourty_dp"
+            android:layout_gravity="right|bottom">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/joined_cat_back" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_right" />
+        </FrameLayout>
     </FrameLayout>
-</FrameLayout>
+</android.support.v7.widget.CardView>

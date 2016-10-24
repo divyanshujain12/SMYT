@@ -25,7 +25,7 @@
         <activity
             android:name="com.player.divyanshu.customvideoplayer.TwoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_two_player"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
