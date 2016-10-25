@@ -11,6 +11,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <application
         android:name=".activities.MyApp"
         android:allowBackup="true"
@@ -18,7 +19,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,6 @@
             android:name=".activities.OtherUserProfileActivity"
             android:launchMode="singleTop" />
         <activity android:name=".activities.ForgotPassword" />
-
         <activity
             android:name=".activities.UserSettingActivity"
             android:configChanges="orientation|screenSize|keyboard|screenLayout" />
@@ -57,6 +56,12 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".activities.ProfileImageFullScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_profile_image_full_screen"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

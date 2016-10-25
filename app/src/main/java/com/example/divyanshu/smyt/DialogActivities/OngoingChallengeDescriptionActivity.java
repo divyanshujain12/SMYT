@@ -157,7 +157,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
 
     private JSONObject createJsonForGetChallengeDesc() {
 
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
             jsonObject.put(Constants.CHALLENGE_ID, challengeID);
         } catch (JSONException e) {

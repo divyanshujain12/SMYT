@@ -36,7 +36,7 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            categoryNameTV = (TextView) view.findViewById(R.id.categoryNameTV);
+            categoryNameTV = (TextView) view.findViewById(R.id.genreNameTV);
             categoryIV = (ImageView) view.findViewById(R.id.categoryIV);
             joinedCatFL = (FrameLayout) view.findViewById(R.id.joinedCatFL);
         }
@@ -83,6 +83,7 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
             Intent intent = new Intent(context, HomeActivity.class);
             intent.putExtra(Constants.DATA, categoryModel);
             MySharedPereference.getInstance().setString(context, Constants.CATEGORY_ID, categoryModel.getId());
+            MySharedPereference.getInstance().setString(context, Constants.CATEGORY_NAME, categoryModel.getcategory_name());
             context.startActivity(intent);
         }
     }

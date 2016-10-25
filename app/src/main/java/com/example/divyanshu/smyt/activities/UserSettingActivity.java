@@ -209,7 +209,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
                 sendLocalBroadCastForUserProfile();
                 MySharedPereference.getInstance().setString(this, Constants.PASSWORD, hashMap.get(changePasswordET));
                 CustomToasts.getInstance(this).showSuccessToast(response.getString(Constants.MESSAGE));
-                onBackPressed();
+                finish();
                 break;
         }
     }

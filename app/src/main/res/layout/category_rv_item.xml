@@ -32,7 +32,7 @@
                 android:src="@drawable/genre_icon_electronics" />
 
             <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/categoryNameTV"
+                android:id="@+id/genreNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five_dp"

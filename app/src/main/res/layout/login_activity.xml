@@ -82,10 +82,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/fifteen_dp"
             android:gravity="center"
-            android:background="@drawable/flat_yellow_thick_border"
+            android:background="@drawable/rounded_corner_yellow"
             android:padding="@dimen/ten_dp"
             android:text="@string/sign_up"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/eighteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 

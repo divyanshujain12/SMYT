@@ -98,6 +98,9 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     ScrollView scrollView;
     @InjectView(R.id.loadFriendsPB)
     ProgressBar loadFriendsPB;
+    @InjectView(R.id.genreNameTV)
+    TextView genreNameTV;
+
     private JSONArray roundArray;
     private String[] genreTypesArray = null, roundsCountArray = null, shareWithArray = null;
     private Validation validation;
@@ -109,6 +112,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     private UserModel userModel;
     private TSnackbar snackbar;
     private String friendUserName = "";
+    private boolean friendSelected = false;
 
     public static PostChallengeFragment getInstance() {
         PostChallengeFragment postChallengeFragment = new PostChallengeFragment();
@@ -165,13 +169,9 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
         snackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(titleLL);
 
-        genreTypesArray = getResources().getStringArray(R.array.genre_type);
         roundsCountArray = getResources().getStringArray(R.array.rounds_count);
         shareWithArray = getResources().getStringArray(R.array.share_with);
 
-        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, genreTypesArray);
-        genreTypeSP.setAdapter(arrayAdapter);
-        genreTypeSP.setOnItemSelectedListener(this);
 
         arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, roundsCountArray);
         roundsCountSP.setAdapter(arrayAdapter);
@@ -186,9 +186,30 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         autoCompleteArrayAdapter = new AutoCompleteArrayAdapter(getContext(), 0, userModels, this);
         friendAC.setAdapter(autoCompleteArrayAdapter);
 
-        if (getArguments().getBoolean(Constants.FROM_FOLLOWER, false))
+        if (getArguments().getBoolean(Constants.FROM_FOLLOWER, false)) {
             setUiForFollowersData();
+        }
+        isPremiumGenre();
         setProgressBarVisibility(false);
+    }
+
+    private void isPremiumGenre() {
+        if (categoryID.equals("111")) {
+            setGenreSpinnerShow(false);
+            genreTypesArray = getResources().getStringArray(R.array.genre_type);
+            arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, genreTypesArray);
+            genreTypeSP.setAdapter(arrayAdapter);
+            genreTypeSP.setOnItemSelectedListener(this);
+        } else {
+            setGenreSpinnerShow(false);
+            genreTypeStr = MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_NAME);
+            genreNameTV.setText(genreTypeStr);
+        }
+    }
+
+    private void setGenreSpinnerShow(boolean isPremium) {
+        genreNameTV.setVisibility(isPremium ? View.GONE : View.VISIBLE);
+        genreTypeSP.setVisibility(isPremium ? View.VISIBLE : View.GONE);
     }
 
     private void setUiForFollowersData() {
@@ -331,11 +352,11 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() > 0 && InternetCheck.isInternetOn(getContext())) {
+        if (s.length() > 0 && !friendSelected) {
+            friendSelected = false;
             setProgressBarVisibility(true);
             CallWebService.getInstance(getContext(), false, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
-        } else
-            CommonFunctions.getInstance().showErrorSnackBar(getActivity(), getString(R.string.no_internet_connection));
+        }
     }
 
     @Override
@@ -376,6 +397,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
+        friendSelected = true;
         userModel = userModels.get(position);
         friendAC.setText(userModel.getUsername());
     }
@@ -390,6 +412,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 jsonObject.put(Constants.FRIEND_ID, userModel.getCustomer_id());
             }
             jsonObject.put(Constants.TOTAL_ROUND, roundCountStr);
+            jsonObject.put(Constants.CATEGORY_ID, categoryID);
             jsonObject.put(Constants.ROUND_ARRAY, roundArray);
         } catch (Exception e) {
             e.printStackTrace();

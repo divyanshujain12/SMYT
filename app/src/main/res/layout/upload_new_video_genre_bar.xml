@@ -26,7 +26,21 @@
         android:id="@+id/genreTypeSP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/five_dp" />
+        android:layout_marginTop="@dimen/five_dp"
+        android:visibility="gone" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/genreNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:padding="@dimen/ten_dp"
+        android:text="@string/genre"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/fourteen_sp"
+        android:visibility="visible"
+        pixlui:typeface="Roboto-Medium.ttf" />
 
     <View
         android:layout_width="match_parent"

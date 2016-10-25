@@ -42,8 +42,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-
-import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_CHALLENGE;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_USER_VIDEO;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.SEARCH_USER;
 
@@ -85,6 +83,8 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     TextView firstUserNameTV;
     @InjectView(R.id.videoFL)
     FrameLayout videoFL;
+    @InjectView(R.id.genreNameTV)
+    TextView genreNameTV;
     private String[] genreTypesArray = null, shareWithArray = null;
     private Validation validation;
     private String genreTypeStr, shareWithStr;
@@ -96,6 +96,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     private String videoUrl = "http://www.whatsupguys.in/demo/smyt/videos/video2.mp4";
     private String videoThumbnail = "http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png";
     private ImageLoading imageLoading;
+    private boolean friendSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     private void initViews() {
 
         categoryID = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID);
+
 
         validation = new Validation();
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_post_challenge_title)));
@@ -128,8 +130,28 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
         autoCompleteArrayAdapter = new AutoCompleteArrayAdapter(this, 0, userModels, this);
         friendAC.setAdapter(autoCompleteArrayAdapter);
-
+        isPremiumGenre();
         setUpVideoPlayer();
+        setProgressBarVisible(false);
+    }
+
+    private void isPremiumGenre() {
+        if (categoryID.equals("111")) {
+            setGenreSpinnerShow(false);
+            genreTypesArray = getResources().getStringArray(R.array.genre_type);
+            arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_sixteens_sp, genreTypesArray);
+            genreTypeSP.setAdapter(arrayAdapter);
+            genreTypeSP.setOnItemSelectedListener(this);
+        } else {
+            setGenreSpinnerShow(false);
+            genreTypeStr = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_NAME);
+            genreNameTV.setText(genreTypeStr);
+        }
+    }
+
+    private void setGenreSpinnerShow(boolean isPremium) {
+        genreNameTV.setVisibility(isPremium ? View.GONE : View.VISIBLE);
+        genreTypeSP.setVisibility(isPremium ? View.VISIBLE : View.GONE);
     }
 
     private void setUpVideoPlayer() {
@@ -145,12 +167,12 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (count > 1) {
-            if (InternetCheck.isInternetOn(this)) {
+
+            if (s.length() > 0 && !friendSelected) {
+                friendSelected = false;
+                setProgressBarVisible(true);
                 CallWebService.getInstance(this, true, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
-            } else
-                CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
-        }
+            }
     }
 
     @Override
@@ -193,6 +215,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
+        friendSelected = true;
         userModel = userModels.get(position);
         friendAC.setText(userModel.getUsername());
     }
@@ -218,6 +241,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
         super.onJsonObjectSuccess(response, apiType);
         switch (apiType) {
             case SEARCH_USER:
+                setProgressBarVisible(false);
                 userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
                 autoCompleteArrayAdapter.addAll(userModels);
               /*  if (userModels.size() > 2)
@@ -258,5 +282,9 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    private void setProgressBarVisible(boolean b) {
+        loadFriendsPB.setVisibility(b ? View.VISIBLE : View.GONE);
     }
 }

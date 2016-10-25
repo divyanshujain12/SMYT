@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.divyanshu.smyt.Constants.Constants;
@@ -19,6 +20,7 @@ import com.example.divyanshu.smyt.Interfaces.ImagePickDialogInterface;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -70,7 +72,7 @@ public class CustomAlertDialogs {
         alertDialog = new AlertDialog.Builder(context).create();
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.image_pick_dialog, null);
-        setupDialog();
+        setupFullWidthDialog();
         TextView selectCameraTV = (TextView) layout.findViewById(R.id.selectCameraTV);
         TextView selectGalleryTV = (TextView) layout.findViewById(R.id.selectGalleryTV);
         TextView cancelTV = (TextView) layout.findViewById(R.id.cancelTV);
@@ -106,7 +108,7 @@ public class CustomAlertDialogs {
         alertDialog = new AlertDialog.Builder(context).create();
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.change_password_layout, null);
-        setupDialog();
+        setupFullWidthDialog();
         final EditText oldPasswordET = (EditText) layout.findViewById(R.id.oldPasswordET);
         final EditText passwordET = (EditText) layout.findViewById(R.id.passwordET);
         final EditText reEnterPasswordET = (EditText) layout.findViewById(R.id.reEnterPasswordET);
@@ -150,7 +152,7 @@ public class CustomAlertDialogs {
     }
 
 
-    private static void setupDialog() {
+    private static void setupFullWidthDialog() {
         alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = alertDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();

@@ -38,7 +38,7 @@ import butterknife.OnClick;
 public class CategoryDescriptionActivity extends BaseActivity {
     @InjectView(R.id.categoryIV)
     ImageView categoryIV;
-    @InjectView(R.id.categoryNameTV)
+    @InjectView(R.id.genreNameTV)
     TextView categoryNameTV;
     @InjectView(R.id.joinTV)
     TextView joinTV;

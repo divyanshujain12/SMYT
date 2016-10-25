@@ -14,4 +14,6 @@
     <color name="color_primary_with_four_four">#44ECC11C</color>
     <color name="thumb_down_color">#e02f39</color>
     <color name="round_draw">#3279C2</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

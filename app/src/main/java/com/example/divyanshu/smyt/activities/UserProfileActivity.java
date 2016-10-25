@@ -47,13 +47,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-
 import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener {
+public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener, View.OnClickListener {
     @InjectView(R.id.profileImage)
     ImageView profileImage;
     @InjectView(R.id.nameInImgTV)
@@ -224,6 +223,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         followersCountTV.setText(userModel.getFollowers());
         followingCountTV.setText(userModel.getFollowing());
         imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
+        profileImage.setOnClickListener(this);
     }
 
     @Override
@@ -268,5 +268,12 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(updateUserInfo);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this, ProfileImageFullScreen.class);
+        intent.putExtra(Constants.PROFILE_IMAGE, userModel.getProfileimage());
+        startActivity(intent);
     }
 }

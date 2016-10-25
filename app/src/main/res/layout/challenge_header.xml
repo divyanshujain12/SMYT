@@ -54,7 +54,7 @@
                 android:layout_gravity="right"
                 android:layout_marginLeft="@dimen/five_dp"
                 android:gravity="center"
-                android:text="3"
+                android:text=""
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/fourteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
@@ -84,7 +84,7 @@
                 android:layout_gravity="right"
                 android:layout_marginLeft="@dimen/five_dp"
                 android:gravity="center"
-                android:text="Public"
+                android:text=""
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/fourteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
