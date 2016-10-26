@@ -18,6 +18,7 @@
         <include layout="@layout/battle_video_inside_view" />
 
         <include layout="@layout/uploaded_video_comment_bar" />
+        <include layout="@layout/voting_view"/>
 
         <include layout="@layout/comments_rv" />
 

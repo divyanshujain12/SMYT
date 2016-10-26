@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/twenty_five_dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:orientation="horizontal">
 
         <com.player.divyanshu.customvideoplayer.TwoVideoPlayers
             android:id="@+id/twoVideoPlayers"

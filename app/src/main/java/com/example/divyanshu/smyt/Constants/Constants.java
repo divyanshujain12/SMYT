@@ -55,5 +55,6 @@ public interface Constants {
     String LAST_LOGIN = "last_login";
     String AVAILABLE = "available";
     String CATEGORY_NAME = "category_name";
+    String E_DATE = "edate";
     int REQUEST_TIMEOUT_TIME = 30000;
 }

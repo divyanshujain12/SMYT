@@ -33,4 +33,6 @@ public interface API {
     String CHALLENGE_DESCRIPTION = BASE + "getChallengeDetails";
     String VOTE_UP = BASE + "actionVote";
     String USER_ACTIVE_STATUS = BASE + "updateCustomerLastActive";
+    String ALL_VIDEOS = BASE + "getCategoriesAllVideos";
+    String GET_SINGLE_ROUND_VIDEO_DETAIL = BASE + "getSingleRoundVideoDetails";
 }

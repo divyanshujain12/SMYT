@@ -13,10 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,6 +29,12 @@ public class Utils {
     static String HOURS = "hrs";
     static String MINUTES = "mins";
     static String SECONDS = "secs";
+    static String AGO = "ago";
+
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String TIME_FORMAT = "hh:mm aa";
+    public static final String DEFAULT_DATE = "1940-01-01";
+    public static final String CURRENT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static Bitmap getRoundedCornerBitmap(Context context, int resource) {
         Bitmap mbitmap = ((BitmapDrawable) context.getResources().getDrawable(resource)).getBitmap();
@@ -70,7 +78,7 @@ public class Utils {
         String timeDifference = "";
         Date currentDate = Calendar.getInstance().getTime();
         Date givenDate = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(CURRENT_DATE_FORMAT);
         try {
             givenDate = simpleDateFormat.parse(time);
             long differenceInMillisecond = givenDate.getTime() - currentDate.getTime();
@@ -80,6 +88,65 @@ public class Utils {
             e.printStackTrace();
         }
         return timeDifference;
+    }
+
+    public static String getUploadedTimeDifference(String time) {
+        String timeDifference = "";
+        Date currentDate = Calendar.getInstance().getTime();
+        Date givenDate = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(CURRENT_DATE_FORMAT);
+        try {
+            givenDate = simpleDateFormat.parse(time);
+            long differenceInMillisecond = currentDate.getTime() - givenDate.getTime();
+            timeDifference = getActiveTime(differenceInMillisecond) + " " + AGO;
+
+            return timeDifference;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timeDifference;
+    }
+
+    public static String formatDateAndTime(long date, String format) {
+        Date dt = new Date(date);
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
+        return sdf.format(dt);
+    }
+
+    public static Date getCurrentSelectedDate(String selectedDate, String dateFormat) {
+        DateFormat format = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
+        try {
+            return format.parse(selectedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(CURRENT_DATE_FORMAT, Locale.ENGLISH);
+        dateValue = dateValue + " " + timeValue;
+        return simpleDateFormat.parse(dateValue);
+    }
+
+    public static String getDateInTwentyFourHoursFormat(String selectedDate, String time) {
+        SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+
+        try {
+            Date date = parseFormat.parse(time);
+            String formattedTime = displayFormat.format(date);
+            return selectedDate + " " + formattedTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getCurrentTime(String format) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat displayFormat = new SimpleDateFormat(format, Locale.getDefault());
+        return displayFormat.format(calendar.getTime());
     }
 
     public static String getActiveTime(long active_before) {
@@ -100,4 +167,5 @@ public class Utils {
         }
         return String.valueOf(active_before) + " " + timePostFix;
     }
+
 }

@@ -28,4 +28,6 @@ public interface ApiCodes {
     int CHALLENGE_REJECT = 122;
     int POST_USER_VIDEO = 123;
     int UPDATE_LAST_ACTIVE_TIME = 124;
+    int ALL_VIDEO_DATA = 125;
+    int SINGLE_ROUND_VIDEO_DETAIL = 126;
 }

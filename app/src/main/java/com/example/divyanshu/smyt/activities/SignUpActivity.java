@@ -29,8 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePickerHelper.DATE_FORMAT;
-import static com.example.divyanshu.smyt.CustomViews.CustomDateTimePickerHelper.DEFAULT_DATE;
+import static com.example.divyanshu.smyt.Utils.Utils.DATE_FORMAT;
+import static com.example.divyanshu.smyt.Utils.Utils.DEFAULT_DATE;
 
 /**
  * Created by divyanshu on 8/26/2016.

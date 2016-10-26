@@ -11,17 +11,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadedBattleDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
-import com.example.divyanshu.smyt.Models.VideoModel;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
+import static com.example.divyanshu.smyt.Utils.Utils.CURRENT_DATE_FORMAT;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -30,6 +42,8 @@ public class AllVideosFragment extends BaseFragment {
     @InjectView(R.id.videosRV)
     RecyclerView otherVideosRV;
     UploadedAllVideoAdapter otherAllVideoAdapter;
+
+    private ArrayList<AllVideoModel> allVideoModels;
 
     public static AllVideosFragment getInstance() {
         AllVideosFragment allVideosFragment = new AllVideosFragment();
@@ -63,9 +77,34 @@ public class AllVideosFragment extends BaseFragment {
 
     private void initViews() {
         otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), new ArrayList<VideoModel>(), this);
+        allVideoModels = new ArrayList<>();
+        otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), allVideoModels, this);
         otherVideosRV.setAdapter(otherAllVideoAdapter);
         CommonFunctions.stopVideoOnScroll(otherVideosRV);
+
+        CallWebService.getInstance(getContext(), true, ALL_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.ALL_VIDEOS, createJsonForGetVideoData(), this);
+    }
+
+    private JSONObject createJsonForGetVideoData() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTime(CURRENT_DATE_FORMAT));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        switch (apiType) {
+            case ALL_VIDEO_DATA:
+                allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
+                otherAllVideoAdapter.addData(allVideoModels);
+                break;
+        }
     }
 
     @Override
@@ -77,13 +116,17 @@ public class AllVideosFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
+
         Intent intent = null;
-        switch (position) {
+
+        switch (otherAllVideoAdapter.getItemViewType(position)) {
             case 0:
                 intent = new Intent(getActivity(), UserVideoDescActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
                 break;
             case 1:
                 intent = new Intent(getActivity(), UploadedBattleDescActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
                 break;
         }
         if (intent != null)

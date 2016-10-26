@@ -79,7 +79,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         challengeAcceptStatus = getIntent().getIntExtra(Constants.ACCEPT_STATUS, -1);
         imageLoading = new ImageLoading(this, 5);
         challengeDescModel = new ChallengeDescModel();
-        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(this, challengeDescModel.getChallenge_rounds());
+        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(this, challengeDescModel.getChallenge_rounds(), this);
         challengesRoundRV.setLayoutManager(new LinearLayoutManager(this));
         challengesRoundRV.setAdapter(challengeRoundDescRvAdapter);
         if (challengeAcceptStatus != 0) {
@@ -182,6 +182,13 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         acceptAndDeclineLL.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        Intent intent = new Intent(this, UploadedBattleDescActivity.class);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeDescModel.getChallenge_rounds().get(position).getCustomers_videos_id());
+        startActivity(intent);
+    }
 }
 
 

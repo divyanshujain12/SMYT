@@ -124,7 +124,7 @@ public class CommonFunctions {
         String customerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "2" : customerID);
+            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "2" : "2");
         } catch (JSONException e) {
             e.printStackTrace();
         }

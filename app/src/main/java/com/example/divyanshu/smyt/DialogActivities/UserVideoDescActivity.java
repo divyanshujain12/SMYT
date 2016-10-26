@@ -18,13 +18,11 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -85,8 +83,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private VideoDetailModel videoDetailModel;
     private CommentsAdapter commentsAdapter;
     private CommentModel deleteCommentModel;
-    private VideoModel videoModel;
     private ImageLoading imageLoading;
+    private String customerVideoID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,17 +103,11 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     @OnClick({R.id.sendCommentIV, R.id.leftSideVotingView})
     public void onClick(View v) {
-        if (v.getId() == R.id.sendCommentIV) {
-            if (InternetCheck.isInternetOn(this))
-                sendComment();
-            else
-                CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
-        } else {
-            if (InternetCheck.isInternetOn(this))
-                checkAndSendLike();
-            else
-                CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
-        }
+        if (v.getId() == R.id.sendCommentIV)
+            sendComment();
+        else
+            checkAndSendLike();
+
     }
 
 
@@ -123,7 +115,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
         CallWebService.getInstance(this, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), this);
-        setCommentCount();
+        decreaseCommentCount();
     }
 
     @Override
@@ -142,14 +134,26 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 updateCommentsCount();
                 break;
             case ApiCodes.DELETE_COMMENT:
-                //setCommentCount();
+                //decreaseCommentCount();
                 break;
             case ApiCodes.ADD_REMOVE_LIKE:
                 break;
         }
     }
 
-    private void setCommentCount() {
+    private void updateUI() {
+        imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
+        titleTV.setText(videoDetailModel.getTitle());
+        setLikeCount();
+        firstUserNameTV.setText(videoDetailModel.getFirst_name());
+        setupVideo();
+        commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
+        commentsRV.setAdapter(commentsAdapter);
+        updateCommentsCount();
+        setLikeIV();
+    }
+
+    private void decreaseCommentCount() {
         videoDetailModel.setVideo_comment_count(videoDetailModel.getVideo_comment_count() - 1);
         updateCommentsCount();
     }
@@ -177,7 +181,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     public void onResume() {
         super.onResume();
         if (videoDetailModel == null) {
-            videoModel = getIntent().getExtras().getParcelable(Constants.USER_VIDEO);
+            customerVideoID = getIntent().getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
             CallWebService.getInstance(this, true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(), this);
         }
     }
@@ -220,17 +224,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private void updateUI() {
-        imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
-        titleTV.setText(videoDetailModel.getTitle());
-        setLikeCount();
-        firstUserNameTV.setText(videoDetailModel.getFirst_name());
-        setupVideo();
-        commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
-        commentsRV.setAdapter(commentsAdapter);
-        updateCommentsCount();
-        setLikeIV();
-    }
 
     private void setLikeCount() {
         userOneVoteCountTV.setText(String.valueOf(videoDetailModel.getLikes()));
@@ -250,7 +243,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private JSONObject createJsonForGettingVideoInfo() {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
-            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoModel.getCustomers_videos_id());
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

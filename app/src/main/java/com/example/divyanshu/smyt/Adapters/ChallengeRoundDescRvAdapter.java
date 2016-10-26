@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -24,12 +25,14 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     private ArrayList<ChallengeModel> challengeModels;
     private Context context;
     private ImageLoading imageLoading;
+    private RecyclerViewClick recyclerViewClick;
 
-    public ChallengeRoundDescRvAdapter(Context context, ArrayList<ChallengeModel> categoryModels) {
+    public ChallengeRoundDescRvAdapter(Context context, ArrayList<ChallengeModel> categoryModels, RecyclerViewClick recyclerViewClick) {
 
         this.challengeModels = categoryModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
+        this.recyclerViewClick = recyclerViewClick;
     }
 
     public class ChallengeIncompleteDescViewHolder extends RecyclerView.ViewHolder {
@@ -98,6 +101,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     private void setViewForIncompleteview(ChallengeIncompleteDescViewHolder holder, int position) {
+
         ChallengeModel challengeModel = challengeModels.get(position);
         String[] splitDate = challengeModel.getRound_date().split(" ");
         String timeDifference = Utils.getTimeDifference(challengeModel.getRound_date());
@@ -111,7 +115,8 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.dateTV.setText(splitDate[0]);
     }
 
-    private void setViewForCompleteview(ChallengeCompletedDescViewHolder holder, int position) {
+    private void setViewForCompleteview(final ChallengeCompletedDescViewHolder holder, int position) {
+
         ChallengeModel challengeModel = challengeModels.get(position);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
@@ -122,12 +127,18 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         int voteInt = Integer.parseInt(challengeModel.getVote());
         int vote1Int = Integer.parseInt(challengeModel.getVote1());
 
-        if (voteInt+1 > vote1Int)
+        if (voteInt > vote1Int)
             holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
         else if (vote1Int > voteInt)
             holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));
         else
             holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
+            }
+        });
     }
 
 

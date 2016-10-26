@@ -17,12 +17,10 @@ import android.widget.LinearLayout;
 import com.example.divyanshu.smyt.Adapters.ChallengeRoundDescRvAdapter;
 import com.example.divyanshu.smyt.GlobalClasses.BaseDialogFragment;
 import com.example.divyanshu.smyt.R;
-import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -84,7 +82,7 @@ public class UserCompletedChallengeDescFragment extends BaseDialogFragment {
     }
 
     private void initViews() {
-        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(getActivity(), null);
+        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(getActivity(), null, this);
         challengesRoundRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         challengesRoundRV.setAdapter(challengeRoundDescRvAdapter);
     }
@@ -101,6 +99,10 @@ public class UserCompletedChallengeDescFragment extends BaseDialogFragment {
         ButterKnife.reset(this);
     }
 
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+    }
 }
 
 

@@ -8,16 +8,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -25,11 +23,6 @@ import java.util.Locale;
  */
 public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
-
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
-    public static final String TIME_FORMAT = "hh:mm aa";
-    public static final String DEFAULT_DATE = "1940-01-01";
-    public static final String CURRENT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static CustomDateTimePickerHelper getInstance() {
         return new CustomDateTimePickerHelper();
@@ -48,7 +41,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
         this.DateFormat = DateFormat;
         dateTimeTV = textView;
         mcurrentDate = Calendar.getInstance();
-        mcurrentDate.setTime(getCurrentSelectedDate(selectedDate, DateFormat));
+        mcurrentDate.setTime(Utils.getCurrentSelectedDate(selectedDate, DateFormat));
 
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 this,
@@ -66,7 +59,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
     public void showTimeDialog(Activity context, final TextView textView) {
         dateTimeTV = textView;
         mcurrentDate = Calendar.getInstance();
-        mcurrentDate.setTime(getCurrentSelectedDate(textView.getText().toString(), TIME_FORMAT));
+        mcurrentDate.setTime(Utils.getCurrentSelectedDate(textView.getText().toString(), Utils.TIME_FORMAT));
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 this,
                 mcurrentDate.get(Calendar.HOUR_OF_DAY),
@@ -82,7 +75,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
         mcurrentDate.set(Calendar.YEAR, year);
         mcurrentDate.set(Calendar.MONTH, monthOfYear);
         mcurrentDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        dateTimeTV.setText(formatDateAndTime(mcurrentDate.getTimeInMillis(), DateFormat));
+        dateTimeTV.setText(Utils.formatDateAndTime(mcurrentDate.getTimeInMillis(), DateFormat));
     }
 
     @Override
@@ -91,44 +84,9 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
         myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         myCalendar.set(Calendar.MINUTE, minute);
 
-        dateTimeTV.setText(formatDateAndTime(myCalendar.getTimeInMillis(), TIME_FORMAT));
+        dateTimeTV.setText(Utils.formatDateAndTime(myCalendar.getTimeInMillis(), Utils.TIME_FORMAT));
     }
 
-    public static String formatDateAndTime(long date, String format) {
-        Date dt = new Date(date);
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
-        return sdf.format(dt);
-    }
-
-    private static Date getCurrentSelectedDate(String selectedDate, String dateFormat) {
-        DateFormat format = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
-        try {
-            return format.parse(selectedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm aa", Locale.ENGLISH);
-        dateValue = dateValue + " " + timeValue;
-        return simpleDateFormat.parse(dateValue);
-    }
-
-    public String getDateInTwentyFourHoursFormat(String selectedDate, String time) {
-        SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-
-        try {
-            Date date = parseFormat.parse(time);
-            String formattedTime = displayFormat.format(date);
-            return selectedDate + " " + formattedTime;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public void showErrorMessage(Context context, int i, String errorMsg) {
         Toast.makeText(context, String.format(errorMsg, String.valueOf(i + 1)), Toast.LENGTH_SHORT).show();
@@ -151,8 +109,8 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
             else
                 calendar.add(Calendar.DATE, +1);
 
-            roundDateValueTV.setText(CustomDateTimePickerHelper.formatDateAndTime(calendar.getTimeInMillis(), CustomDateTimePickerHelper.DATE_FORMAT));
-            roundTimeValueTV.setText(CustomDateTimePickerHelper.formatDateAndTime(calendar.getTimeInMillis(), CustomDateTimePickerHelper.TIME_FORMAT));
+            roundDateValueTV.setText(Utils.formatDateAndTime(calendar.getTimeInMillis(), Utils.DATE_FORMAT));
+            roundTimeValueTV.setText(Utils.formatDateAndTime(calendar.getTimeInMillis(), Utils.TIME_FORMAT));
 
             roundTimeValueTV.setOnClickListener(onClickListener);
             roundDateValueTV.setOnClickListener(onClickListener);
@@ -166,9 +124,5 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
         roundTimeTV.setText(String.format(context.getResources().getString(R.string.round_timing), String.valueOf(number)));
     }
 
-    public static String getCurrentTime(String format) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat displayFormat = new SimpleDateFormat(format, Locale.getDefault());
-        return displayFormat.format(calendar.getTime());
-    }
+
 }

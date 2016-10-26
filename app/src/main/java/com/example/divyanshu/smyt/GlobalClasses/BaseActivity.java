@@ -16,6 +16,7 @@ import com.example.divyanshu.smyt.Interfaces.UpdateUiCallback;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,7 +90,7 @@ public class BaseActivity extends AppCompatActivity implements CallWebService.Ob
     private JSONObject createJsonForUpdateActiveStatus(int i) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
-            jsonObject.put(Constants.LAST_LOGIN, CustomDateTimePickerHelper.getCurrentTime(CustomDateTimePickerHelper.CURRENT_DATE_FORMAT));
+            jsonObject.put(Constants.LAST_LOGIN,  Utils.getCurrentTime( Utils.CURRENT_DATE_FORMAT));
             jsonObject.put(Constants.AVAILABLE, i);
         } catch (JSONException e) {
             e.printStackTrace();

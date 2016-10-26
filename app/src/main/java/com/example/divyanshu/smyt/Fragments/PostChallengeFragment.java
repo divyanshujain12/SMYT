@@ -33,6 +33,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -304,7 +305,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 CustomDateTimePickerHelper.getInstance().showTimeDialog(getActivity(), dateTimeTV);
                 break;
             case R.id.roundDateValueTV:
-                CustomDateTimePickerHelper.getInstance().showDateDialog(getActivity(), dateTimeTV, CustomDateTimePickerHelper.DATE_FORMAT, dateTimeTV.getText().toString().trim());
+                CustomDateTimePickerHelper.getInstance().showDateDialog(getActivity(), dateTimeTV,  Utils.DATE_FORMAT, dateTimeTV.getText().toString().trim());
                 break;
         }
     }
@@ -323,7 +324,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
             String timeValue = roundTimeValueTV.getText().toString().trim();
             Date date;
             try {
-                date = CustomDateTimePickerHelper.getInstance().getDateFromDateTmeString(dateValue, timeValue);
+                date = Utils.getDateFromDateTmeString(dateValue, timeValue);
                 long diff = (date.getTime() - previousDate.getTime()) / (60 * 60 * 1000);
                 if (i == 0 && diff <= 0) {
                     CustomDateTimePickerHelper.getInstance().showErrorMessage(getContext(), i, getString(R.string.one_hours_err_msg));
@@ -334,7 +335,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 }
 
                 previousDate = date;
-                jsonObject.put(Constants.ROUND_DATE, CustomDateTimePickerHelper.getInstance().getDateInTwentyFourHoursFormat(dateValue, timeValue));
+                jsonObject.put(Constants.ROUND_DATE,  Utils.getDateInTwentyFourHoursFormat(dateValue, timeValue));
                 roundArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
