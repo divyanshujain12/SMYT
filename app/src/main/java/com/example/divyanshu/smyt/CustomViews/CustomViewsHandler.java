@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -15,13 +16,25 @@ import com.neopixl.pixlui.components.textview.TextView;
  * Created by divyanshu.jain on 10/3/2016.
  */
 public class CustomViewsHandler {
-    public static PopupWindow createPopupWindow(Context context, View.OnClickListener onClickListener) {
+    private CustomViewsHandler() {
+    }
+
+    PopupWindow popupWindow;
+    static CustomViewsHandler customViewsHandler = new CustomViewsHandler();
+
+    public static CustomViewsHandler getInstance() {
+        if (customViewsHandler == null)
+            customViewsHandler = new CustomViewsHandler();
+
+        return customViewsHandler;
+    }
+
+    public PopupWindow createUserVodeosPopupWindow(Context context, final PopupItemClicked popupItemClicked) {
         View view = LayoutInflater.from(context).inflate(R.layout.single_text_view_in_cardview, null);
-        TextView textView = (TextView) view.findViewById(R.id.singleTV);
-        textView.setText(context.getString(R.string.delete_video));
-        textView.setOnClickListener(onClickListener);
-        textView.setBackgroundColor(context.getResources().getColor(R.color.white));
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+        TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
+        TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
+        TextView deleteVideoTV = (TextView) view.findViewById(R.id.deleteVideoTV);
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         if (Build.VERSION.SDK_INT >= 21) {
@@ -29,7 +42,34 @@ public class CustomViewsHandler {
         }
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
+        addVideoToBannerTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v);
+            }
+        });
+        addVideoToPremiumTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v);
+            }
+        });
+
+        deleteVideoTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v);
+            }
+        });
 
         return popupWindow;
+    }
+
+    private void dismissPopupWindow() {
+        if (popupWindow != null && popupWindow.isShowing())
+            popupWindow.dismiss();
     }
 }
