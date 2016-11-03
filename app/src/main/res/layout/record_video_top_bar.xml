@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sampleui="http://schemas.android.com/apk/res-auto"
+    tools:showIn="@layout/record_video_activity">
+
+    <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton
+        android:id="@+id/ic_switch_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000000ff"
+        android:contentDescription="Switch Camera"
+        android:cropToPadding="false"
+        android:onClick="onSwitchCamera"
+        android:padding="10dp"
+        android:src="@drawable/ic_switch_camera" />
+
+    <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView
+        android:id="@+id/txtTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:background="@drawable/record_video_timer_bg"
+        android:text="00:00:00"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:visibility="invisible" />
+
+    <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton
+        android:id="@+id/ic_torch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|end"
+        android:background="#000000ff"
+        android:contentDescription="Torch"
+        android:onClick="onToggleTorch"
+        android:padding="10dp"
+        android:src="@drawable/ic_torch_off"
+        sampleui:offSrc="@drawable/ic_torch_on" />
+</merge>

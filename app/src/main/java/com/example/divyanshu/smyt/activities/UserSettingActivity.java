@@ -97,7 +97,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
 
         createPermission();
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.setting));
-        addRuntimePermissionFragment();
+        runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
         addValidation();
         imageLoading = new ImageLoading(this);
         CallWebService.getInstance(this, true, GET_USER_INFO).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_DETAIL, CommonFunctions.customerIdJsonObject(this), this);
@@ -117,10 +117,10 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
         externalStoragePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
     }
 
-    private void addRuntimePermissionFragment() {
+    /*private void addRuntimePermissionFragment() {
         runtimePermissionHeadlessFragment = RuntimePermissionHeadlessFragment.newInstance(this);
         getSupportFragmentManager().beginTransaction().add(runtimePermissionHeadlessFragment, runtimePermissionHeadlessFragment.getClass().getName()).commit();
-    }
+    }*/
 
 
     @OnClick({R.id.aboutUsTV, R.id.contactUsTV, R.id.changeUserImageIV, R.id.updateTV})

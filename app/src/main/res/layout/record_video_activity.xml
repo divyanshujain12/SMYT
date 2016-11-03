@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:sampleui="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black_with_ninety_nine"
     android:orientation="vertical">
 
-    <ImageView
+    <com.wowza.gocoder.sdk.api.devices.WZCameraView
+        android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/startRecordingIV"
+
+    <include layout="@layout/record_video_top_bar" />
+
+    <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton
+        android:id="@+id/ic_broadcast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="@dimen/twenty_dp"
-        android:background="@drawable/yellow_circle"
-        android:padding="@dimen/fifteen_dp"
-        android:src="@drawable/fav_icon_record" />
+        android:src="@drawable/stopped_video_recording_btn"
+        sampleui:offSrc="@drawable/playing_video_recording_btn" />
+
+    <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView
+        android:id="@+id/statusView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,7 +37,8 @@
         android:layout_marginBottom="@dimen/twenty_dp"
         android:layout_marginRight="@dimen/five_dp"
         android:gravity="right"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -85,4 +96,5 @@
                 pixlui:typeface="Roboto-Medium.ttf" />
         </LinearLayout>
     </LinearLayout>
+
 </FrameLayout>

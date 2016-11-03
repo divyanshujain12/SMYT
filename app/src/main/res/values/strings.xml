@@ -124,5 +124,9 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="add_to_premium">Add To Premium</string>
     <string name="add_to_banner">Add To Banner</string>
+    <string name="button_dismiss">Dismiss</string>
 
+    <string name="status_connecting">Connecting...</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnecting">Disconnecting...</string>
 </resources>

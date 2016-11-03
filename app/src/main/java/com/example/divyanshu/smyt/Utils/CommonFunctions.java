@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.R;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
@@ -180,5 +182,11 @@ public class CommonFunctions {
                     .getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public RuntimePermissionHeadlessFragment addRuntimePermissionFragment(AppCompatActivity activity, RuntimePermissionHeadlessFragment.PermissionCallback permissionCallback) {
+        RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment = RuntimePermissionHeadlessFragment.newInstance(permissionCallback);
+        activity.getSupportFragmentManager().beginTransaction().add(runtimePermissionHeadlessFragment, runtimePermissionHeadlessFragment.getClass().getName()).commit();
+        return runtimePermissionHeadlessFragment;
     }
 }

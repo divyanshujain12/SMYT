@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -149,7 +148,33 @@ public class Utils {
         return displayFormat.format(calendar.getTime());
     }
 
-    public static String getActiveTime(long active_before) {
+
+    public static String getActiveTime(long different) {
+        System.out.println("different : " + different);
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+        if (elapsedDays != 0) {
+            return String.format(Locale.getDefault(), "%d days, %d hr", elapsedDays, elapsedHours);
+        }
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+        if (elapsedHours != 0) {
+            return String.format(Locale.getDefault(), "%d hr,%d min", elapsedHours, elapsedMinutes);
+        }
+        long elapsedSeconds = different / secondsInMilli;
+        return String.format(Locale.getDefault(), "%d min,%d sec", elapsedMinutes, elapsedSeconds);
+    }
+
+
+    /*public static String getActiveTime(long active_before) {
         String timePostFix = DAYS;
         long tempMillis = active_before;
         active_before = TimeUnit.MILLISECONDS.toDays(tempMillis);
@@ -166,6 +191,6 @@ public class Utils {
             timePostFix = SECONDS;
         }
         return String.valueOf(active_before) + " " + timePostFix;
-    }
+    }*/
 
 }
