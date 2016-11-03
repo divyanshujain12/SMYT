@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,6 +20,7 @@ import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
@@ -113,11 +116,11 @@ public class CategoryDescriptionActivity extends BaseActivity {
     }
 
     private JSONObject createJsonForJoinCategory() {
-        String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
-        JSONObject jsonObject = new JSONObject();
+        //String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
             jsonObject.put(Constants.CATEGORY_ID, categoriesModel.getId());
-            jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : customerID);
+           // jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : customerID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -132,5 +135,22 @@ public class CategoryDescriptionActivity extends BaseActivity {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_activity, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_user_profile:
+                Intent intent = new Intent(this, UserProfileActivity.class);
+                //intent.putExtra(Constants.CATEGORY_ID, categoryModel.getId());
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }

@@ -7,6 +7,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.divyanshu.smyt.Adapters.CategoryRvAdapter;
@@ -74,6 +76,23 @@ public class CategoriesActivity extends BaseActivity {
         userRV.setAdapter(categoryUserRvAdapter);
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_activity, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_user_profile:
+                Intent intent = new Intent(this, UserProfileActivity.class);
+                //intent.putExtra(Constants.CATEGORY_ID, categoryModel.getId());
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 
     @Override
