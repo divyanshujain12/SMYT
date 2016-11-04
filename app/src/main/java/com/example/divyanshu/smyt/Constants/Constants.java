@@ -57,4 +57,11 @@ public interface Constants {
     String CATEGORY_NAME = "category_name";
     String E_DATE = "edate";
     int REQUEST_TIMEOUT_TIME = 30000;
+
+    //WOWZA server ----------------------------------------------------------
+    String WOWZA_APPLICATION_NAME = "smytex";
+    String WOWZA_STREAM_URL = "rtsp://162.13.167.196:1935/" /*+ WOWZA_APPLICATION_NAME + "/"*/;
+    String WOWZA_USERNAME = "elinfo";
+    String WOWZA_PASSWORD = "userapppassword";
+    String WOWZA_MYSTREAM_PREFIX = "myStream_";
 }

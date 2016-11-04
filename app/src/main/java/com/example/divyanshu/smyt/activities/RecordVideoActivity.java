@@ -13,10 +13,22 @@ import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.example.divyanshu.smyt.Constants.Constants.CUSTOMER_ID;
+import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_APPLICATION_NAME;
+import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_MYSTREAM_PREFIX;
+import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_PASSWORD;
+import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_STREAM_URL;
+import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_USERNAME;
 
 /**
  * Created by divyanshu.jain on 9/2/2016.
@@ -37,6 +49,10 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
     private static final int CAMERA_REQUEST = 101;
     protected GestureDetectorCompat mAutoFocusDetector = null;
+    private Pattern uri;
+    private String videoName = "";
+    private String streamVideoUrl = "";
+    private String userID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +64,31 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     }
 
     private void InitViews() {
+        createVideoUrl();
         mRequiredPermissions = new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
         };
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
+    }
+
+    private void createVideoUrl() {
+        uri = Pattern.compile("rtsp://(.+):(\\d+)/(.+)");
+        userID = MySharedPereference.getInstance().getString(this, CUSTOMER_ID);
+        videoName = WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTime(Utils.CURRENT_DATE_FORMAT);
+        streamVideoUrl = WOWZA_STREAM_URL + videoName;
+        Matcher m = uri.matcher(streamVideoUrl);
+        m.find();
+        String ip = m.group(1);
+        String port = m.group(2);
+        String path = m.group(3);
+
+        mWZBroadcastConfig.setHostAddress(ip);
+        mWZBroadcastConfig.setPortNumber(Integer.parseInt(port));
+        mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
+        mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
+        mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
+        mWZBroadcastConfig.setStreamName(videoName);
     }
 
     @Override
@@ -71,6 +107,7 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
         runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
 
     }
+
     public void onSwitchCamera(View v) {
         if (mWZCameraView == null) return;
 

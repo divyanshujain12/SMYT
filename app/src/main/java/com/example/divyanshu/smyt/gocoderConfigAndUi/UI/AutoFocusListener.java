@@ -81,7 +81,7 @@ public class AutoFocusListener extends GestureDetector.SimpleOnGestureListener {
                 float relX = (previewScreenX / (float)previewScreenSize.width) * (float)previewFrameSize.getWidth();
                 float relY = (previewScreenY / (float)previewScreenSize.height) * (float)previewFrameSize.getHeight();
 
-                Toast.makeText(mContext, "Auto focusing at (" + Math.round(relX) + "," + Math.round(relY) + ")", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mContext, "Auto focusing at (" + Math.round(relX) + "," + Math.round(relY) + ")", Toast.LENGTH_SHORT).show();
                 activeCamera.setFocusPoint(relX, relY, 25);
             }
         }
