@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="@dimen/twenty_dp"
+        android:clickable="true"
+        android:onClick="onToggleBroadcast"
         android:src="@drawable/stopped_video_recording_btn"
         sampleui:offSrc="@drawable/playing_video_recording_btn" />
 

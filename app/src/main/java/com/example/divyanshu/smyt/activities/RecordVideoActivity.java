@@ -16,6 +16,7 @@ import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
+import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,10 +50,7 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
     private static final int CAMERA_REQUEST = 101;
     protected GestureDetectorCompat mAutoFocusDetector = null;
-    private Pattern uri;
-    private String videoName = "";
-    private String streamVideoUrl = "";
-    private String userID = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +62,6 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     }
 
     private void InitViews() {
-        createVideoUrl();
         mRequiredPermissions = new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
@@ -72,24 +69,7 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
     }
 
-    private void createVideoUrl() {
-        uri = Pattern.compile("rtsp://(.+):(\\d+)/(.+)");
-        userID = MySharedPereference.getInstance().getString(this, CUSTOMER_ID);
-        videoName = WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTime(Utils.CURRENT_DATE_FORMAT);
-        streamVideoUrl = WOWZA_STREAM_URL + videoName;
-        Matcher m = uri.matcher(streamVideoUrl);
-        m.find();
-        String ip = m.group(1);
-        String port = m.group(2);
-        String path = m.group(3);
 
-        mWZBroadcastConfig.setHostAddress(ip);
-        mWZBroadcastConfig.setPortNumber(Integer.parseInt(port));
-        mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
-        mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
-        mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
-        mWZBroadcastConfig.setStreamName(videoName);
-    }
 
     @Override
     protected void onResume() {

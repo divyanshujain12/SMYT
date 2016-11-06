@@ -60,8 +60,8 @@ public interface Constants {
 
     //WOWZA server ----------------------------------------------------------
     String WOWZA_APPLICATION_NAME = "smytex";
-    String WOWZA_STREAM_URL = "rtsp://162.13.167.196:1935/" /*+ WOWZA_APPLICATION_NAME + "/"*/;
-    String WOWZA_USERNAME = "elinfo";
-    String WOWZA_PASSWORD = "userapppassword";
+    String WOWZA_STREAM_URL = "rtsp://192.254.214.196:1935" + "/" + WOWZA_APPLICATION_NAME + "/";
+    String WOWZA_USERNAME = "root";
+    String WOWZA_PASSWORD = "SHAD!@#$%^";
     String WOWZA_MYSTREAM_PREFIX = "myStream_";
 }
