@@ -140,21 +140,9 @@ abstract public class CameraActivityBase extends com.example.divyanshu.smyt.Goco
     /**
      * Click handler for the broadcast button
      */
-    public void onToggleBroadcast(View v) {
-        if (getBroadcast() == null) return;
 
-        if (getBroadcast().getStatus().isIdle()) {
-            createVideoUrl();
-            WZStreamingError configError = startBroadcast();
-            if (configError != null) {
-                if (mStatusView != null) mStatusView.setErrorMessage(configError.getErrorDescription());
-            }
-        } else {
-            endBroadcast();
-        }
-    }
 
-    private void createVideoUrl() {
+    protected void createVideoUrl() {
         uri = Pattern.compile("rtsp://(.+):(\\d+)/(.+)");
         userID = MySharedPereference.getInstance().getString(this, CUSTOMER_ID);
         videoName = WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTime(Utils.CURRENT_DATE_FORMAT);

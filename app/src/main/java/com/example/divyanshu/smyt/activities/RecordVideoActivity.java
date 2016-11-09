@@ -1,11 +1,13 @@
 package com.example.divyanshu.smyt.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
@@ -13,23 +15,11 @@ import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
-import com.example.divyanshu.smyt.Utils.MySharedPereference;
-import com.example.divyanshu.smyt.Utils.Utils;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static com.example.divyanshu.smyt.Constants.Constants.CUSTOMER_ID;
-import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_APPLICATION_NAME;
-import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_MYSTREAM_PREFIX;
-import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_PASSWORD;
-import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_STREAM_URL;
-import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_USERNAME;
 
 /**
  * Created by divyanshu.jain on 9/2/2016.
@@ -68,7 +58,6 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
         };
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
     }
-
 
 
     @Override
@@ -161,6 +150,23 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
         }
 
         return disableControls;
+    }
+
+    public void onToggleBroadcast(View v) {
+        if (getBroadcast() == null) return;
+
+        if (getBroadcast().getStatus().isIdle()) {
+            createVideoUrl();
+            WZStreamingError configError = startBroadcast();
+            if (configError != null) {
+                if (mStatusView != null)
+                    mStatusView.setErrorMessage(configError.getErrorDescription());
+            }
+        } else {
+            endBroadcast();
+            Intent intent = new Intent(this, UploadNewVideoActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

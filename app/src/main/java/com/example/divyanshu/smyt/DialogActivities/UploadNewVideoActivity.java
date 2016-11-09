@@ -110,10 +110,8 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
         categoryID = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID);
 
-
         validation = new Validation();
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_post_challenge_title)));
-
 
         genreTypesArray = getResources().getStringArray(R.array.genre_type);
         shareWithArray = getResources().getStringArray(R.array.share_with);
