@@ -227,8 +227,7 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
                 mWZBroadcast.endBroadcast(new WZStatusCallback() {
                     @Override
                     public void onWZStatus(WZStatus wzStatus) {
-                        synchronized (sBroadcastLock) {
-                            sBroadcastEnded = true;
+                        synchronized (sBroadcastLock) {sBroadcastEnded = true;
                             sBroadcastLock.notifyAll();
                         }
                     }
@@ -258,6 +257,6 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
     }
 
     protected synchronized void endBroadcast() {
-        endBroadcast(false);
+        endBroadcast(true);
     }
 }
