@@ -99,6 +99,7 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
             mWZBroadcastConfig = new WZBroadcastConfig(sGoCoderSDK.getConfig());
             mWZBroadcastConfig.setLogLevel(WZLog.LOG_LEVEL_DEBUG);
         }
+
     }
 
     /**

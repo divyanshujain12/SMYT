@@ -158,7 +158,7 @@ abstract public class CameraActivityBase extends com.example.divyanshu.smyt.Goco
         mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
-        mWZBroadcastConfig.setStreamName(videoName);
+        mWZBroadcastConfig.setStreamName("mp4:"+videoName);
     }
     /**
      * Click handler for the settings button
