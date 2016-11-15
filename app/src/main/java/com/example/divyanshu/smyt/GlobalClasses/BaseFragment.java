@@ -22,7 +22,7 @@ import org.json.JSONObject;
 public class BaseFragment extends Fragment implements CallWebService.ObjectResponseCallBack, SnackBarCallback, UpdateUiCallback, RecyclerViewClick {
 
     @Override
-    public void doAction() {
+    public void onAlertButtonPressed() {
 
     }
 

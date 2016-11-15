@@ -27,7 +27,7 @@ import org.json.JSONObject;
 public class BaseActivity extends AppCompatActivity implements CallWebService.ObjectResponseCallBack, SnackBarCallback, UpdateUiCallback, RecyclerViewClick {
 
     @Override
-    public void doAction() {
+    public void onAlertButtonPressed() {
 
     }
 

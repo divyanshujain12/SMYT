@@ -144,8 +144,8 @@ public class SignUpActivity extends BaseActivity implements RadioGroup.OnChecked
     }
 
     @Override
-    public void doAction() {
-        super.doAction();
+    public void onAlertButtonPressed() {
+        super.onAlertButtonPressed();
         onBackPressed();
     }
     @Override

@@ -148,7 +148,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         notifyDataSetChanged();
     }
     @Override
-    public void doAction() {
+    public void onAlertButtonPressed() {
         if (InternetCheck.isInternetOn(context)) {
             removeItem();
             CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(), null);

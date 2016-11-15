@@ -76,8 +76,8 @@ public class ForgotPassword extends BaseActivity {
     }
 
     @Override
-    public void doAction() {
-        super.doAction();
+    public void onAlertButtonPressed() {
+        super.onAlertButtonPressed();
         finish();
     }
 }

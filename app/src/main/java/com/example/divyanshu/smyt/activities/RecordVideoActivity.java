@@ -7,6 +7,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
@@ -37,8 +38,8 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     protected String[] mRequiredPermissions = {};
     @InjectView(R.id.txtTimer)
     TimerView txtTimer;
-    private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
-    private static final int CAMERA_REQUEST = 101;
+ //   private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
+//    private static final int CAMERA_REQUEST = 101;
     protected GestureDetectorCompat mAutoFocusDetector = null;
 
 
@@ -52,28 +53,18 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     }
 
     private void InitViews() {
-        mRequiredPermissions = new String[]{
+  /*      mRequiredPermissions = new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
-        };
-        runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
+        };*/
+       // runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (sGoCoderSDK != null && mWZCameraView != null) {
-            if (mAutoFocusDetector == null)
-                mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
-
-            WZCamera activeCamera = mWZCameraView.getCamera();
-            if (activeCamera != null && activeCamera.hasCapability(WZCamera.FOCUS_MODE_CONTINUOUS))
-                activeCamera.setFocusMode(WZCamera.FOCUS_MODE_CONTINUOUS);
-
-        }
-        runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+      //  runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
 
     }
 
@@ -171,11 +162,29 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
 
     @Override
     public void onPermissionGranted(int permissionType) {
-
+        initializeGocoder();
     }
 
     @Override
     public void onPermissionDenied(int permissionType) {
+        CustomAlertDialogs.showAlertDialog(this, getString(R.string.permission), getString(R.string.permission_denied_by_user), this);
+    }
 
+    private void initializeGocoder() {
+        if (sGoCoderSDK != null && mWZCameraView != null) {
+            if (mAutoFocusDetector == null)
+                mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
+
+            WZCamera activeCamera = mWZCameraView.getCamera();
+            if (activeCamera != null && activeCamera.hasCapability(WZCamera.FOCUS_MODE_CONTINUOUS))
+                activeCamera.setFocusMode(WZCamera.FOCUS_MODE_CONTINUOUS);
+
+        }
+    }
+
+    @Override
+    public void onAlertButtonPressed() {
+        super.onAlertButtonPressed();
+        finish();
     }
 }

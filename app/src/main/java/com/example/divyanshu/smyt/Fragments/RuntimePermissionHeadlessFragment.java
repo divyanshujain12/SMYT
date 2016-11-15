@@ -63,15 +63,6 @@ public class RuntimePermissionHeadlessFragment extends Fragment {
             }
         }
     }
-
-    public void setCameraMicPermissionDenied(boolean cameraMicPermissionDenied) {
-        this.isCallLogPermissionDenied = cameraMicPermissionDenied;
-    }
-
-    public static boolean isCameraMicPermissionDenied() {
-        return isCallLogPermissionDenied;
-    }
-
     /**
      * Callback received when a permissions request has been completed.
      */
@@ -83,7 +74,7 @@ public class RuntimePermissionHeadlessFragment extends Fragment {
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 mCallback.onPermissionGranted(PERMISSION_TYPE);
             } else {
-                Log.i("BaseActivity", "LOCATION permission was NOT granted.");
+                Log.i("BaseActivity", "permission was NOT granted.");
                 mCallback.onPermissionDenied(PERMISSION_TYPE);
             }
 
