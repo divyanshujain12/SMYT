@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.divyanshu.smyt.Constants.Constants;
@@ -19,6 +20,7 @@ import com.example.divyanshu.smyt.Interfaces.ImagePickDialogInterface;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -38,7 +40,7 @@ public class CustomAlertDialogs {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                snackBarCallback.onAlertButtonPressed();
+                snackBarCallback.doAction();
             }
         });
         alertDialog.show();
@@ -52,7 +54,7 @@ public class CustomAlertDialogs {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                snackBarCallback.onAlertButtonPressed();
+                snackBarCallback.doAction();
                 dialog.dismiss();
             }
         });

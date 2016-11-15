@@ -129,7 +129,5 @@
     <string name="status_connecting">Connecting...</string>
     <string name="status_connected">Connected</string>
     <string name="status_disconnecting">Disconnecting...</string>
-    <string name="permission">PERMISSIONS</string>
-    <string name="permission_denied_by_user">Permission DEnied by user!</string>
 
 </resources>

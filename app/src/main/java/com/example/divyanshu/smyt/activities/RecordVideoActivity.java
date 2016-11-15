@@ -1,21 +1,16 @@
 package com.example.divyanshu.smyt.activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
-import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
-import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
@@ -25,7 +20,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class RecordVideoActivity extends CameraActivityBase implements RuntimePermissionHeadlessFragment.PermissionCallback {
+public class RecordVideoActivity extends CameraActivityBase {
 
 
     @InjectView(R.id.ic_switch_camera)
@@ -34,12 +29,9 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     MultiStateButton icTorch;
     @InjectView(R.id.ic_broadcast)
     MultiStateButton icBroadcast;
-
-    protected String[] mRequiredPermissions = {};
     @InjectView(R.id.txtTimer)
     TimerView txtTimer;
- //   private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
-//    private static final int CAMERA_REQUEST = 101;
+
     protected GestureDetectorCompat mAutoFocusDetector = null;
 
 
@@ -53,18 +45,13 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
     }
 
     private void InitViews() {
-  /*      mRequiredPermissions = new String[]{
-                Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
-        };*/
-       // runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
+
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-      //  runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
 
     }
 
@@ -158,33 +145,5 @@ public class RecordVideoActivity extends CameraActivityBase implements RuntimePe
             Intent intent = new Intent(this, UploadNewVideoActivity.class);
             startActivity(intent);
         }
-    }
-
-    @Override
-    public void onPermissionGranted(int permissionType) {
-        initializeGocoder();
-    }
-
-    @Override
-    public void onPermissionDenied(int permissionType) {
-        CustomAlertDialogs.showAlertDialog(this, getString(R.string.permission), getString(R.string.permission_denied_by_user), this);
-    }
-
-    private void initializeGocoder() {
-        if (sGoCoderSDK != null && mWZCameraView != null) {
-            if (mAutoFocusDetector == null)
-                mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
-
-            WZCamera activeCamera = mWZCameraView.getCamera();
-            if (activeCamera != null && activeCamera.hasCapability(WZCamera.FOCUS_MODE_CONTINUOUS))
-                activeCamera.setFocusMode(WZCamera.FOCUS_MODE_CONTINUOUS);
-
-        }
-    }
-
-    @Override
-    public void onAlertButtonPressed() {
-        super.onAlertButtonPressed();
-        finish();
     }
 }

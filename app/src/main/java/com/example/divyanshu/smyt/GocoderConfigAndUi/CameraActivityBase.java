@@ -35,7 +35,7 @@ import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_PASSWORD;
 import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_STREAM_URL;
 import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_USERNAME;
 
-abstract public class CameraActivityBase extends com.example.divyanshu.smyt.GocoderConfigAndUi.GoCoderSDKActivityBase
+abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     implements WZCameraView.PreviewStatusListener{
 
     private final static String TAG = CameraActivityBase.class.getSimpleName();

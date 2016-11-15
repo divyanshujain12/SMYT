@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class BaseDialogFragment extends DialogFragment implements CallWebService.ObjectResponseCallBack, SnackBarCallback, UpdateUiCallback, RecyclerViewClick {
 
     @Override
-    public void onAlertButtonPressed() {
+    public void doAction() {
 
     }
 

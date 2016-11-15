@@ -29,7 +29,7 @@ import com.wowza.gocoder.sdk.api.status.WZStatusCallback;
 import java.util.Arrays;
 
 public abstract class GoCoderSDKActivityBase extends BaseActivity
-        implements WZStatusCallback,RuntimePermissionHeadlessFragment.PermissionCallback {
+        implements WZStatusCallback{
 
     private final static String TAG = GoCoderSDKActivityBase.class.getSimpleName();
 
@@ -46,9 +46,6 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
 
     // GoCoder SDK top level interface
     protected static WowzaGoCoder sGoCoderSDK = null;
-    private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
-    private static final int CAMERA_REQUEST = 101;
-
     /**
      * Build an array of WZMediaConfigs from the frame sizes supported by the active camera
      *
@@ -88,8 +85,6 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
         };
-        runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
-        runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
         if (sGoCoderSDK == null) {
             // Enable detailed logging from the GoCoder SDK
             WZLog.LOGGING_ENABLED = true;
