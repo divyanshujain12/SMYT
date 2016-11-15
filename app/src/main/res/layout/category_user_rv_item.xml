@@ -6,7 +6,7 @@
     android:layout_width="@dimen/two_hundred_dp"
     android:layout_height="@dimen/two_hundred_dp"
     card_view:cardCornerRadius="@dimen/card_corner_radius"
-    card_view:cardElevation="@dimen/five_dp"
+    card_view:cardElevation="@dimen/card_elevation_size"
     card_view:cardUseCompatPadding="true">
 
     <ImageView

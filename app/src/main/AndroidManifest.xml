@@ -72,7 +72,7 @@
             android:name=".activities.ProfileImageFullScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_profile_image_full_screen"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme"/>
     </application>
 
 </manifest>

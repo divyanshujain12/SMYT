@@ -46,10 +46,10 @@ public class AutoFocusListener extends GestureDetector.SimpleOnGestureListener {
             if (activeCamera != null && activeCamera.hasCapability(WZCamera.FOCUS_MODE_CONTINUOUS)) {
                 if (activeCamera.getFocusMode() != WZCamera.FOCUS_MODE_CONTINUOUS) {
                     activeCamera.setFocusMode(WZCamera.FOCUS_MODE_CONTINUOUS);
-                    Toast.makeText(mContext, "Continuous video focus on", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(mContext, "Continuous video focus on", Toast.LENGTH_SHORT).show();
                 } else {
                     activeCamera.setFocusMode(WZCamera.FOCUS_MODE_OFF);
-                    Toast.makeText(mContext, "Continuous video focus off", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Continuous video focus off", Toast.LENGTH_SHORT).show();
                 }
             }
         }

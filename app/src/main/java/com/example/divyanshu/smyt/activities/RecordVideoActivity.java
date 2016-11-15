@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
+import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
@@ -38,6 +40,8 @@ public class RecordVideoActivity extends CameraActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.record_video_activity);
         ButterKnife.inject(this);
 
@@ -52,7 +56,8 @@ public class RecordVideoActivity extends CameraActivityBase {
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (mAutoFocusDetector == null)
+            mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
     }
 
     public void onSwitchCamera(View v) {
