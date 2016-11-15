@@ -104,6 +104,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     private BillingProcessor billingProcessor;
     private boolean readyToPurchase = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
