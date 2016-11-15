@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
+import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -54,7 +56,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener, View.OnClickListener, BillingProcessor.IBillingHandler {
+public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener, View.OnClickListener, BillingProcessor.IBillingHandler, RuntimePermissionHeadlessFragment.PermissionCallback {
     @InjectView(R.id.profileImage)
     ImageView profileImage;
     @InjectView(R.id.nameInImgTV)
@@ -103,7 +105,9 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     private static final String MERCHANT_ID = null;
     private BillingProcessor billingProcessor;
     private boolean readyToPurchase = false;
-
+    private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
+    private static final int CAMERA_REQUEST = 101;
+    protected String[] mRequiredPermissions = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +119,13 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     private void initViews() {
+
+        mRequiredPermissions = new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
+        };
+        runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
+
         billingProcessor = new BillingProcessor(this, LICENSE_KEY, this);
         imageLoading = new ImageLoading(this, 5);
         createAnimation();
@@ -203,8 +214,8 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     public void onClick() {
         switch (viewPagerPos) {
             case 0:
-                Intent intent = new Intent(this, RecordVideoActivity.class);
-                startActivity(intent);
+                runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+
                 break;
             case 2:
                 showDialogFragment(PostChallengeFragment.getInstance());
@@ -302,6 +313,17 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onBillingInitialized() {
+
+    }
+
+    @Override
+    public void onPermissionGranted(int permissionType) {
+        Intent intent = new Intent(this, RecordVideoActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPermissionDenied(int permissionType) {
 
     }
 }
