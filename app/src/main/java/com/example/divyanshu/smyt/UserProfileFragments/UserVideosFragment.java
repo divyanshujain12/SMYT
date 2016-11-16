@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.anjlab.android.iab.v3.BillingProcessor;
@@ -142,7 +143,8 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     }
 
     private void checkAndPayForBannerVideo(int position) {
-        List<String> productsList = billingProcessor.listOwnedProducts();
+        billingProcessor.purchase(getActivity(),Constants.OTHER_CATEGORY_SINGLE_BANNER_VIDEO);
+        //List<String> productsList = billingProcessor.listOwnedProducts();
     }
 
     private void goVideoDescActivity(int position) {
@@ -190,7 +192,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     @Override
     public void onProductPurchased(String productId, TransactionDetails details) {
-
+        Toast.makeText(getContext(),details.purchaseInfo.responseData,Toast.LENGTH_SHORT).show();
     }
 
 
@@ -201,7 +203,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     @Override
     public void onBillingError(int errorCode, Throwable error) {
-
+        Toast.makeText(getContext(),error.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
