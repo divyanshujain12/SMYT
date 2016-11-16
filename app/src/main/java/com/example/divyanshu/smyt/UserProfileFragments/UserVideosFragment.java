@@ -7,17 +7,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.androidadvance.topsnackbar.TSnackbar;
-import com.example.divyanshu.smyt.activities.UserProfileActivity;
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
@@ -34,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,7 +41,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserVideosFragment extends BaseFragment {
+public class UserVideosFragment extends BaseFragment implements BillingProcessor.IBillingHandler {
 
     UserVideoAdapter userVideoAdapter;
     @InjectView(R.id.videosRV)
@@ -50,6 +50,10 @@ public class UserVideosFragment extends BaseFragment {
     private TSnackbar continuousSB = null;
     private String customerID = "";
 
+    private static final String LICENSE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr6GFNrWL8AxANIRSRfTuQpgJwlgZZwQeqPgOldEH8bk1IeKR54cDcPaozZCAl9JSLLp8PnBiTw5jB3XCk5pbeZWzebyAfwVdGgXDvSqJ5emlY3tJ++SuSidb/FF2lmn3ZuQOmK0B48W2lCtwoslhwtC4uHw+e/LXrvA82cHHDsmgejpzj+42H0FYzO/hiMzoBbJwrIJ8xyz74XBAceHuOJxDKN9D84DRrTc6xiCFoIgTK2NyPNbWGjeq5oiRmQNrVev9I63UFcLS3yVDx/ecjqmLJeBcUu1jLGnmhqRbSQ3MK7zb0qtnw/uCvJ19YgKVcqE1+eOeTl83Q2FpmAQBbQIDAQAB";
+    private static final String MERCHANT_ID = "0061-7515-1038";
+    private BillingProcessor billingProcessor;
+    private boolean readyToPurchase = false;
 
     public static UserVideosFragment getInstance(String customerID) {
         UserVideosFragment userVideosFragment = new UserVideosFragment();
@@ -92,6 +96,8 @@ public class UserVideosFragment extends BaseFragment {
     }
 
     private void initViews() {
+
+        billingProcessor = new BillingProcessor(getActivity(), LICENSE_KEY, this);
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);
@@ -100,23 +106,6 @@ public class UserVideosFragment extends BaseFragment {
         CommonFunctions.showContinuousSB(continuousSB);
         CallWebService.getInstance(getContext(), false, ApiCodes.USER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO, createJsonForUserVideos(), this);
         CommonFunctions.stopVideoOnScroll(videosRV);
-    }
-
-    private JSONObject createJsonForUserVideos() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(Constants.CUSTOMER_ID, customerID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
     }
 
     @Override
@@ -134,13 +123,48 @@ public class UserVideosFragment extends BaseFragment {
 
     }
 
+
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
+        switch (view.getId()) {
+            case R.id.commentsTV:
+                goVideoDescActivity(position);
+                break;
+            case R.id.addVideoToBannerTV:
+                checkAndPayForBannerVideo(position);
+                break;
+            case R.id.addVideoToPremiumTV:
+                break;
+        }
+
+
+    }
+
+    private void checkAndPayForBannerVideo(int position) {
+        List<String> productsList = billingProcessor.listOwnedProducts();
+    }
+
+    private void goVideoDescActivity(int position) {
         Intent intent = new Intent(getActivity(), UserVideoDescActivity.class);
-        //intent.putExtra(Constants.USER_VIDEO,userVideoAdapter.videoModels.get(position));
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoAdapter.videoModels.get(position).getCustomers_videos_id());
         startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!billingProcessor.handleActivityResult(requestCode, resultCode, data))
+            super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private JSONObject createJsonForUserVideos() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.CUSTOMER_ID, customerID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     @Override
@@ -150,6 +174,40 @@ public class UserVideosFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateVideoCommentCountReceiver);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
+
+    @Override
+    public void onProductPurchased(String productId, TransactionDetails details) {
+
+    }
+
+
+    @Override
+    public void onPurchaseHistoryRestored() {
+
+    }
+
+    @Override
+    public void onBillingError(int errorCode, Throwable error) {
+
+    }
+
+    @Override
+    public void onBillingInitialized() {
+
+    }
 
     private BroadcastReceiver updateVideoCommentCountReceiver = new BroadcastReceiver() {
         @Override
@@ -162,11 +220,4 @@ public class UserVideosFragment extends BaseFragment {
             userVideoAdapter.addUserVideoData(userVideoModels);
         }
     };
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateVideoCommentCountReceiver);
-    }
 }

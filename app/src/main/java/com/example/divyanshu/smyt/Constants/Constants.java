@@ -64,4 +64,18 @@ public interface Constants {
     String WOWZA_USERNAME = "root";
     String WOWZA_PASSWORD = "SHAD!@#$%^";
     String WOWZA_MYSTREAM_PREFIX = "myStream_";
+
+    //IN-APP Purchase Ids
+    String DOT = ".";
+    String IN_APP_BASE = "com.smytex.livestream";
+    String OTHER_CATEGORIES = IN_APP_BASE + DOT + "othercategories";
+    String PREMIUM_CATEGORIES = IN_APP_BASE + DOT + "premiumcategory";
+    String SINGLE_BANNER_VIDEO = DOT + "singlebannervideo";
+    String MONTHLY_VIDEOS = DOT + "monthlyvideos";
+    String OTHER_CATEGORY_SINGLE_BANNER_VIDEO = OTHER_CATEGORIES + SINGLE_BANNER_VIDEO;
+    String OTHER_CATEGORY_MONTHLY_BANNER_VIDEOS = OTHER_CATEGORIES + MONTHLY_VIDEOS;
+    String OTHER_CATEGORY_TO_PREMIUM_CATEGORY_VIDEO = PREMIUM_CATEGORIES + DOT + "singlevideo";
+    String PREMIUM_CATEGORY_SINGLE_BANNER_VIDEO = PREMIUM_CATEGORIES + SINGLE_BANNER_VIDEO;
+    String PREMIUM_CATEGORY_MONTHLY_BANNER_VIDEOS = PREMIUM_CATEGORIES + MONTHLY_VIDEOS;
+    String PREMIUM_CATEGORY_NEW_VIDEO_UPLOAD = PREMIUM_CATEGORIES + DOT + "newvideoupload";
 }

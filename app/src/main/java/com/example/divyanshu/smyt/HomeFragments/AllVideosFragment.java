@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
@@ -76,6 +78,8 @@ public class AllVideosFragment extends BaseFragment {
     }
 
     private void initViews() {
+
+
         otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         allVideoModels = new ArrayList<>();
         otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), allVideoModels, this);

@@ -56,7 +56,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener, View.OnClickListener, BillingProcessor.IBillingHandler, RuntimePermissionHeadlessFragment.PermissionCallback {
+public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener, View.OnClickListener, RuntimePermissionHeadlessFragment.PermissionCallback {
     @InjectView(R.id.profileImage)
     ImageView profileImage;
     @InjectView(R.id.nameInImgTV)
@@ -101,10 +101,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     private Animation fabIn, fabOut;
     private UserModel userModel;
     private ImageLoading imageLoading;
-    private static final String LICENSE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr6GFNrWL8AxANIRSRfTuQpgJwlgZZwQeqPgOldEH8bk1IeKR54cDcPaozZCAl9JSLLp8PnBiTw5jB3XCk5pbeZWzebyAfwVdGgXDvSqJ5emlY3tJ++SuSidb/FF2lmn3ZuQOmK0B48W2lCtwoslhwtC4uHw+e/LXrvA82cHHDsmgejpzj+42H0FYzO/hiMzoBbJwrIJ8xyz74XBAceHuOJxDKN9D84DRrTc6xiCFoIgTK2NyPNbWGjeq5oiRmQNrVev9I63UFcLS3yVDx/ecjqmLJeBcUu1jLGnmhqRbSQ3MK7zb0qtnw/uCvJ19YgKVcqE1+eOeTl83Q2FpmAQBbQIDAQAB";
-    private static final String MERCHANT_ID = null;
-    private BillingProcessor billingProcessor;
-    private boolean readyToPurchase = false;
+
     private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
     private static final int CAMERA_REQUEST = 101;
     protected String[] mRequiredPermissions = {};
@@ -126,7 +123,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         };
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
 
-        billingProcessor = new BillingProcessor(this, LICENSE_KEY, this);
+
         imageLoading = new ImageLoading(this, 5);
         createAnimation();
         ConfigViewPager();
@@ -294,26 +291,6 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         Intent intent = new Intent(this, ProfileImageFullScreen.class);
         intent.putExtra(Constants.PROFILE_IMAGE, userModel.getProfileimage());
         startActivity(intent);
-    }
-
-    @Override
-    public void onProductPurchased(String productId, TransactionDetails details) {
-
-    }
-
-    @Override
-    public void onPurchaseHistoryRestored() {
-
-    }
-
-    @Override
-    public void onBillingError(int errorCode, Throwable error) {
-
-    }
-
-    @Override
-    public void onBillingInitialized() {
-
     }
 
     @Override

@@ -78,7 +78,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             twoVideoPlayers = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
-            //  setVideoPlayerPlayButtonVisibility(false, this);
+
         }
     }
 

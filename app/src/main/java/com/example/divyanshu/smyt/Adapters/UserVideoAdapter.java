@@ -124,8 +124,10 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     public void onPopupMenuClicked(View view) {
         switch (view.getId()) {
             case R.id.addVideoToBannerTV:
+                recyclerViewClick.onClickItem(selectedVideoPos, view);
                 break;
             case R.id.addVideoToPremiumTV:
+                recyclerViewClick.onClickItem(selectedVideoPos, view);
                 break;
             case R.id.deleteVideoTV:
                 deleteVideoAlert();
@@ -147,6 +149,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         videoModels = userVideoModels;
         notifyDataSetChanged();
     }
+
     @Override
     public void doAction() {
         if (InternetCheck.isInternetOn(context)) {
