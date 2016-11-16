@@ -99,6 +99,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     private void initViews() {
 
         billingProcessor = new BillingProcessor(getActivity(), LICENSE_KEY,MERCHANT_ID, this);
+
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);
@@ -128,7 +129,9 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
+        billingProcessor.consumePurchase(Constants.OTHER_CATEGORY_SINGLE_BANNER_VIDEO);
         switch (view.getId()) {
+
             case R.id.commentsTV:
                 goVideoDescActivity(position);
                 break;
@@ -143,7 +146,9 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     }
 
     private void checkAndPayForBannerVideo(int position) {
-     billingProcessor.purchase(getActivity(),"com.smytex.livestream.othercategories.monthlyvideos");
+
+     //billingProcessor.purchase(getActivity(),"com.smytex.livestream.othercategories.monthlyvideos");
+        billingProcessor.purchase(getActivity(),Constants.OTHER_CATEGORY_SINGLE_BANNER_VIDEO);
       //  List<String> productsList = billingProcessor.listOwnedProducts();
     }
 
