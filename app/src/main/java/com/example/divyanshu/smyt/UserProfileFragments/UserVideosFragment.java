@@ -22,6 +22,7 @@ import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.InAppDialogs;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
@@ -34,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -98,7 +98,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     private void initViews() {
 
-        billingProcessor = new BillingProcessor(getActivity(), LICENSE_KEY,MERCHANT_ID, this);
+        billingProcessor = new BillingProcessor(getActivity(), LICENSE_KEY, MERCHANT_ID, this);
 
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -129,7 +129,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        billingProcessor.consumePurchase(Constants.OTHER_CATEGORY_SINGLE_BANNER_VIDEO);
+        billingProcessor.consumePurchase(Constants.OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK);
         switch (view.getId()) {
 
             case R.id.commentsTV:
@@ -137,8 +137,10 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
                 break;
             case R.id.addVideoToBannerTV:
                 checkAndPayForBannerVideo(position);
+                InAppDialogs.getInstance().showOtherCategoryBannerDialog(getActivity(), billingProcessor);
                 break;
             case R.id.addVideoToPremiumTV:
+                InAppDialogs.getInstance().showOtherCategoryToPremiumDialog(getActivity(), billingProcessor);
                 break;
         }
 
@@ -147,9 +149,9 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     private void checkAndPayForBannerVideo(int position) {
 
-     //billingProcessor.purchase(getActivity(),"com.smytex.livestream.othercategories.monthlyvideos");
-        billingProcessor.purchase(getActivity(),Constants.OTHER_CATEGORY_SINGLE_BANNER_VIDEO);
-      //  List<String> productsList = billingProcessor.listOwnedProducts();
+        //billingProcessor.purchase(getActivity(),"com.smytex.livestream.othercategories.monthlyvideos");
+        //billingProcessor.purchase(getActivity(), Constants.OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK);
+        //List<String> productsList = billingProcessor.listOwnedProducts();
     }
 
     private void goVideoDescActivity(int position) {
@@ -197,7 +199,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     @Override
     public void onProductPurchased(String productId, TransactionDetails details) {
-        Toast.makeText(getContext(),details.purchaseInfo.responseData,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), details.purchaseInfo.responseData, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -208,7 +210,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     @Override
     public void onBillingError(int errorCode, Throwable error) {
-        Toast.makeText(getContext(),error.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
