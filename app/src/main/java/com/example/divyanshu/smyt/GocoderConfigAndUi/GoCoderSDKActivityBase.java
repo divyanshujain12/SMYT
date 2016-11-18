@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.GocoderConfigAndUi;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,10 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.config.ConfigPrefs;
-import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.wowza.gocoder.sdk.api.WowzaGoCoder;
 import com.wowza.gocoder.sdk.api.broadcast.WZBroadcast;
 import com.wowza.gocoder.sdk.api.broadcast.WZBroadcastConfig;
@@ -29,7 +28,7 @@ import com.wowza.gocoder.sdk.api.status.WZStatusCallback;
 import java.util.Arrays;
 
 public abstract class GoCoderSDKActivityBase extends BaseActivity
-        implements WZStatusCallback{
+        implements WZStatusCallback {
 
     private final static String TAG = GoCoderSDKActivityBase.class.getSimpleName();
 
@@ -265,6 +264,14 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
     }
 
     protected synchronized void endBroadcast() {
-        endBroadcast(false);
+        new StopBroadcast().execute();
+    }
+
+    private class StopBroadcast extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            endBroadcast(false);
+            return null;
+        }
     }
 }
