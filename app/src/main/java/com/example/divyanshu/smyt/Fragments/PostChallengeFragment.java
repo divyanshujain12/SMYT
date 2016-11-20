@@ -305,7 +305,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 CustomDateTimePickerHelper.getInstance().showTimeDialog(getActivity(), dateTimeTV);
                 break;
             case R.id.roundDateValueTV:
-                CustomDateTimePickerHelper.getInstance().showDateDialog(getActivity(), dateTimeTV,  Utils.DATE_FORMAT, dateTimeTV.getText().toString().trim());
+                CustomDateTimePickerHelper.getInstance().showDateDialog(getActivity(), dateTimeTV, Utils.DATE_FORMAT, dateTimeTV.getText().toString().trim());
                 break;
         }
     }
@@ -335,7 +335,8 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 }
 
                 previousDate = date;
-                jsonObject.put(Constants.ROUND_DATE,  Utils.getDateInTwentyFourHoursFormat(dateValue, timeValue));
+                //jsonObject.put(Constants.ROUND_DATE,  Utils.getDateInTwentyFourHoursFormat(dateValue, timeValue));
+                jsonObject.put(Constants.ROUND_DATE, date.getTime());
                 roundArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -409,12 +410,16 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
             jsonObject.put(Constants.TITLE, hashMap.get(videoTitleET));
             jsonObject.put(Constants.GENRE, genreTypeStr);
             jsonObject.put(Constants.SHARE_STATUS, shareWithStr);
-            if (shareWithStr.equals("Friend")) {
+            if (shareWithStr.equals("Friend"))
                 jsonObject.put(Constants.FRIEND_ID, userModel.getCustomer_id());
-            }
+
+            else
+                jsonObject.put(Constants.FRIEND_ID, "0");
+
             jsonObject.put(Constants.TOTAL_ROUND, roundCountStr);
             jsonObject.put(Constants.CATEGORY_ID, categoryID);
             jsonObject.put(Constants.ROUND_ARRAY, roundArray);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (Exception e) {
             e.printStackTrace();
         }

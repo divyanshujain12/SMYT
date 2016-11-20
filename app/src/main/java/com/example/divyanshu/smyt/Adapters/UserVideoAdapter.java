@@ -24,6 +24,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 
@@ -96,6 +97,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         holder.firstUserNameTV.setText(userModel.getFirst_name());
         holder.firstVideoPlayer.setVideoUrl(userModel.getVideo_url());
         holder.firstVideoPlayer.setThumbnail(userModel.getThumbnail());
+        holder.uploadedTimeTV.setText(Utils.getTimeDifference(userModel.getEdate()));
         holder.moreIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

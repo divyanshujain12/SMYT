@@ -35,4 +35,5 @@ public interface API {
     String USER_ACTIVE_STATUS = BASE + "updateCustomerLastActive";
     String ALL_VIDEOS = BASE + "getCategoriesAllVideos";
     String GET_SINGLE_ROUND_VIDEO_DETAIL = BASE + "getSingleRoundVideoDetails";
+    String POST_VIDEO_PREVIOUS = BASE + "postVideoPrevious";
 }

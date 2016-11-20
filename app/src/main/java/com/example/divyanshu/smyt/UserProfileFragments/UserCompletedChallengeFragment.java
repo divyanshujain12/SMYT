@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,7 +115,18 @@ public class UserCompletedChallengeFragment extends BaseFragment {
         if (challengeModels.size() <= 0) {
             tSnackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(challengesRV);
             CommonFunctions.showContinuousSB(tSnackbar);
-            CallWebService.getInstance(getContext(), false, ApiCodes.COMPLETED_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_COMPLETED_CHALLENGES, CommonFunctions.customerIdJsonObject(getContext()), this);
+            CallWebService.getInstance(getContext(), false, ApiCodes.COMPLETED_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_COMPLETED_CHALLENGES, createJsonForGetChallenges(), this);
         }
+    }
+
+    private JSONObject createJsonForGetChallenges() {
+
+        JSONObject jsonObject =CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

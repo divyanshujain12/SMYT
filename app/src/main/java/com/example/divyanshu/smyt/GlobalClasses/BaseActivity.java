@@ -90,7 +90,8 @@ public class BaseActivity extends AppCompatActivity implements CallWebService.Ob
     private JSONObject createJsonForUpdateActiveStatus(int i) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
-            jsonObject.put(Constants.LAST_LOGIN,  Utils.getCurrentTime( Utils.CURRENT_DATE_FORMAT));
+            //jsonObject.put(Constants.LAST_LOGIN,  Utils.getCurrentTime( Utils.CURRENT_DATE_FORMAT));
+            jsonObject.put(Constants.LAST_LOGIN,  Utils.getCurrentTimeInMillisecond());
             jsonObject.put(Constants.AVAILABLE, i);
         } catch (JSONException e) {
             e.printStackTrace();

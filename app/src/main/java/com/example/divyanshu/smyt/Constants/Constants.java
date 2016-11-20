@@ -56,6 +56,7 @@ public interface Constants {
     String AVAILABLE = "available";
     String CATEGORY_NAME = "category_name";
     String E_DATE = "edate";
+    String VIDEO_NAME = "video_name";
     int REQUEST_TIMEOUT_TIME = 30000;
 
     //WOWZA server ----------------------------------------------------------

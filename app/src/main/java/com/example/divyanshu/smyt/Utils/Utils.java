@@ -33,6 +33,7 @@ public class Utils {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String TIME_FORMAT = "hh:mm aa";
     public static final String DEFAULT_DATE = "1940-01-01";
+    public static final String POST_CHALLENGE_TIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT;
     public static final String CURRENT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static Bitmap getRoundedCornerBitmap(Context context, int resource) {
@@ -81,7 +82,7 @@ public class Utils {
         try {
             givenDate = simpleDateFormat.parse(time);
             long differenceInMillisecond = givenDate.getTime() - currentDate.getTime();
-            timeDifference = getActiveTime(differenceInMillisecond);
+            timeDifference = getTimeDifference(differenceInMillisecond);
             return timeDifference;
         } catch (ParseException e) {
             e.printStackTrace();
@@ -97,7 +98,7 @@ public class Utils {
         try {
             givenDate = simpleDateFormat.parse(time);
             long differenceInMillisecond = currentDate.getTime() - givenDate.getTime();
-            timeDifference = getActiveTime(differenceInMillisecond) + " " + AGO;
+            timeDifference = getTimeDifference(differenceInMillisecond) + " " + AGO;
 
             return timeDifference;
         } catch (ParseException e) {
@@ -123,7 +124,7 @@ public class Utils {
     }
 
     public static Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(CURRENT_DATE_FORMAT, Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(POST_CHALLENGE_TIME_FORMAT, Locale.ENGLISH);
         dateValue = dateValue + " " + timeValue;
         return simpleDateFormat.parse(dateValue);
     }
@@ -149,8 +150,9 @@ public class Utils {
     }
 
 
-    public static String getActiveTime(long different) {
+    public static String getTimeDifference(long different) {
         System.out.println("different : " + different);
+        different = getCurrentTimeInMillisecond() - different;
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
@@ -174,7 +176,7 @@ public class Utils {
     }
 
 
-    /*public static String getActiveTime(long active_before) {
+    /*public static String getTimeDifference(long active_before) {
         String timePostFix = DAYS;
         long tempMillis = active_before;
         active_before = TimeUnit.MILLISECONDS.toDays(tempMillis);
@@ -193,4 +195,7 @@ public class Utils {
         return String.valueOf(active_before) + " " + timePostFix;
     }*/
 
+    public static long getCurrentTimeInMillisecond() {
+        return Calendar.getInstance().getTimeInMillis();
+    }
 }

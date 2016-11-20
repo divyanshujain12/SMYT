@@ -215,6 +215,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         try {
             jsonObject.put(Constants.FOLLOWING_ID, userModel.getCustomer_id());
             jsonObject.put(Constants.FOLLOW_STATUS, "1");
+            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }

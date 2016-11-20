@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -172,6 +173,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         try {
             jsonObject.put(Constants.CHALLENGE_ID, challengeID);
             jsonObject.put(Constants.STATUS, s);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }

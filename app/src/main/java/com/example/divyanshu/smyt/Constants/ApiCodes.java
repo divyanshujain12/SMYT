@@ -30,4 +30,5 @@ public interface ApiCodes {
     int UPDATE_LAST_ACTIVE_TIME = 124;
     int ALL_VIDEO_DATA = 125;
     int SINGLE_ROUND_VIDEO_DETAIL = 126;
+    int POST_VIDEO_PREVIOUS = 127;
 }

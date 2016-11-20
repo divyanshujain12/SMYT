@@ -22,6 +22,7 @@ public class UserModel implements Parcelable {
     String following;
     String active_before;
 
+
     public UserModel() {
     }
 

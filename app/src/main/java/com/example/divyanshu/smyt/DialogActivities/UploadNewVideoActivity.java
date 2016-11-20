@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.DialogActivities;
 
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,8 +16,10 @@ import android.widget.Spinner;
 
 import com.example.divyanshu.smyt.Adapters.AutoCompleteArrayAdapter;
 import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Models.ThumbnailGenerateModel;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -26,6 +29,7 @@ import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -43,6 +47,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_USER_VIDEO;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_VIDEO_PREVIOUS;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.SEARCH_USER;
 
 /**
@@ -93,8 +98,8 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     private ArrayList<UserModel> userModels = new ArrayList<>();
     private HashMap<View, String> hashMap;
     private UserModel userModel;
-    private String videoUrl = "http://www.whatsupguys.in/demo/smyt/videos/video2.mp4";
-    private String videoThumbnail = "http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png";
+    private ThumbnailGenerateModel thumbnailGenerateModel;
+    private String videoName = "";
     private ImageLoading imageLoading;
     private boolean friendSelected = false;
 
@@ -109,6 +114,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     private void initViews() {
 
         categoryID = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID);
+        videoName = getIntent().getStringExtra(Constants.VIDEO_NAME);
 
         validation = new Validation();
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_post_challenge_title)));
@@ -129,8 +135,9 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
         autoCompleteArrayAdapter = new AutoCompleteArrayAdapter(this, 0, userModels, this);
         friendAC.setAdapter(autoCompleteArrayAdapter);
         isPremiumGenre();
-        setUpVideoPlayer();
         setProgressBarVisible(false);
+
+        CallWebService.getInstance(this, true, ApiCodes.POST_VIDEO_PREVIOUS).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_VIDEO_PREVIOUS, createJsonForGetPreviousVideoDetail(), this);
     }
 
     private void isPremiumGenre() {
@@ -152,10 +159,10 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
         genreTypeSP.setVisibility(isPremium ? View.VISIBLE : View.GONE);
     }
 
-    private void setUpVideoPlayer() {
+    private void setUpVideoPlayer(ThumbnailGenerateModel thumbnailGenerateModel) {
         imageLoading = new ImageLoading(this);
-        firstVideoPlayer.setVideoUrl(videoUrl);
-        firstVideoPlayer.setThumbnail(videoThumbnail);
+        firstVideoPlayer.setVideoUrl(thumbnailGenerateModel.getVideo_url());
+        firstVideoPlayer.setThumbnail(thumbnailGenerateModel.getThumbnail());
     }
 
     @Override
@@ -166,11 +173,11 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if (s.length() > 0 && !friendSelected) {
-                friendSelected = false;
-                setProgressBarVisible(true);
-                CallWebService.getInstance(this, true, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
-            }
+        if (s.length() > 0 && !friendSelected) {
+            friendSelected = false;
+            setProgressBarVisible(true);
+            CallWebService.getInstance(this, true, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);
+        }
     }
 
     @Override
@@ -242,15 +249,29 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
                 setProgressBarVisible(false);
                 userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
                 autoCompleteArrayAdapter.addAll(userModels);
-              /*  if (userModels.size() > 2)
-                    CommonFunctions.getInstance().hideKeyBoard(this, this.getCurrentFocus());*/
                 break;
 
             case POST_USER_VIDEO:
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
                 finish();
                 break;
+            case POST_VIDEO_PREVIOUS:
+                thumbnailGenerateModel = UniversalParser.getInstance().parseJsonObject(response, ThumbnailGenerateModel.class);
+                setUpVideoPlayer(thumbnailGenerateModel);
+                break;
         }
+    }
+
+    private JSONObject createJsonForGetPreviousVideoDetail() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
+        try {
+            jsonObject.put(Constants.VIDEO_NAME, categoryID);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     private JSONObject createJsonForUserSearch(String queryText) {
@@ -271,10 +292,14 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
             jsonObject.put(Constants.TITLE, hashMap.get(videoTitleET));
             jsonObject.put(Constants.GENRE, genreTypeStr);
             jsonObject.put(Constants.SHARE_STATUS, shareWithStr);
-            jsonObject.put(Constants.VIDEO_URL, videoUrl);
-            jsonObject.put(Constants.THUMBNAIL, videoThumbnail);
+            jsonObject.put(Constants.VIDEO_URL, thumbnailGenerateModel.getVideo_url());
+            jsonObject.put(Constants.THUMBNAIL, thumbnailGenerateModel.getThumbnail());
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
             if (shareWithStr.equals("Friend")) {
                 jsonObject.put(Constants.FRIEND_ID, userModel.getCustomer_id());
+            }
+            else{
+                jsonObject.put(Constants.FRIEND_ID, "0");
             }
         } catch (Exception e) {
             e.printStackTrace();

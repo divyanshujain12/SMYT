@@ -17,6 +17,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
@@ -90,7 +91,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTypeTV.setText(challengeModel.getShare_status());
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
-        holder.challengeTimeTV.setText(challengeModel.getRound_date());
+        holder.challengeTimeTV.setText(Utils.getTimeDifference(challengeModel.getRound_date()));
 
 
         if (challengeModel.getCurrent_customer_video_status() == 0)
@@ -126,6 +127,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         try {
             jsonObject.put(Constants.CHALLENGE_ID, challengeID);
             jsonObject.put(Constants.STATUS, s);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -172,5 +174,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
     public void onFailure(String str, int apiType) {
         CommonFunctions.getInstance().showErrorSnackBar(((Activity) context), str);
     }
+
+
 }
 

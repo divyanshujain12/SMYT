@@ -103,16 +103,17 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     private void setViewForIncompleteview(ChallengeIncompleteDescViewHolder holder, int position) {
 
         ChallengeModel challengeModel = challengeModels.get(position);
-        String[] splitDate = challengeModel.getRound_date().split(" ");
-        String timeDifference = Utils.getTimeDifference(challengeModel.getRound_date());
+        //String[] splitDate = challengeModel.getRound_date().split(" ");
+        long roundDateAndTime = challengeModel.getRound_date();
+        String timeDifference = Utils.getTimeDifference(roundDateAndTime);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
         holder.roundNumberTV.setText(context.getString(R.string.round_txt) + " " + challengeModel.getRound_no());
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());
         holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
         holder.genreNameTV.setText(challengeModel.getGenre());
-        holder.challengeTimeTV.setText(splitDate[1] + " (" + timeDifference + " left)");
-        holder.dateTV.setText(splitDate[0]);
+        holder.challengeTimeTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.TIME_FORMAT) + " (" + timeDifference + " left)");
+        holder.dateTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.DATE_FORMAT));
     }
 
     private void setViewForCompleteview(final ChallengeCompletedDescViewHolder holder, int position) {

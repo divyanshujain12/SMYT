@@ -51,7 +51,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     private boolean mDevicesInitialized = false;
     private boolean mUIInitialized      = false;
     private Pattern uri;
-    private String videoName = "";
+    protected String videoName = "";
     private String streamVideoUrl = "";
     private String userID = "";
     @Override

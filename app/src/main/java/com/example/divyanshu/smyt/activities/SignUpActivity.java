@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomDateTimePickerHelper;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -136,6 +137,7 @@ public class SignUpActivity extends BaseActivity implements RadioGroup.OnChecked
             jsonObject.put(Constants.GENDER,genderStr);
             jsonObject.put(Constants.EMAIl, formValues.get(emailET));
             jsonObject.put(Constants.PASSWORD, formValues.get(passwordET));
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
 
         } catch (JSONException e) {
             e.printStackTrace();

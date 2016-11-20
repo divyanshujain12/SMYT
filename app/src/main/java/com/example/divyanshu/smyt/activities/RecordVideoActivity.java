@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
@@ -148,7 +149,9 @@ public class RecordVideoActivity extends CameraActivityBase {
         } else {
             endBroadcast();
             Intent intent = new Intent(this, UploadNewVideoActivity.class);
+            intent.putExtra(Constants.VIDEO_NAME,videoName);
             startActivity(intent);
+            finish();
         }
     }
 }

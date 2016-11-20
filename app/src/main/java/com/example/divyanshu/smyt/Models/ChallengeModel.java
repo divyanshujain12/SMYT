@@ -23,13 +23,13 @@ public class ChallengeModel implements Parcelable {
     String video_url1;
     String genre;
     String share_status;
-    String round_date;
+    long round_date;
     String total_round;
     String round_no;
     int video_comment_count;
     String status;
     String challenge_id;
-    String edate;
+    long edate;
     String complete_status;
     String vote;
     String vote1;
@@ -56,13 +56,13 @@ public class ChallengeModel implements Parcelable {
         video_url1 = in.readString();
         genre = in.readString();
         share_status = in.readString();
-        round_date = in.readString();
+        round_date = in.readLong();
         total_round = in.readString();
         round_no = in.readString();
         video_comment_count = in.readInt();
         status = in.readString();
         challenge_id = in.readString();
-        edate = in.readString();
+        edate = in.readLong();
         complete_status = in.readString();
         vote = in.readString();
         vote1 = in.readString();
@@ -209,11 +209,11 @@ public class ChallengeModel implements Parcelable {
         this.share_status = share_status;
     }
 
-    public String getRound_date() {
+    public long getRound_date() {
         return round_date;
     }
 
-    public void setRound_date(String round_date) {
+    public void setRound_date(long round_date) {
         this.round_date = round_date;
     }
 
@@ -257,11 +257,11 @@ public class ChallengeModel implements Parcelable {
         this.challenge_id = challenge_id;
     }
 
-    public String getEdate() {
+    public long getEdate() {
         return edate;
     }
 
-    public void setEdate(String edate) {
+    public void setEdate(long edate) {
         this.edate = edate;
     }
 
@@ -320,13 +320,13 @@ public class ChallengeModel implements Parcelable {
         dest.writeString(video_url1);
         dest.writeString(genre);
         dest.writeString(share_status);
-        dest.writeString(round_date);
+        dest.writeLong(round_date);
         dest.writeString(total_round);
         dest.writeString(round_no);
         dest.writeInt(video_comment_count);
         dest.writeString(status);
         dest.writeString(challenge_id);
-        dest.writeString(edate);
+        dest.writeLong(edate);
         dest.writeString(complete_status);
         dest.writeString(vote);
         dest.writeString(vote1);

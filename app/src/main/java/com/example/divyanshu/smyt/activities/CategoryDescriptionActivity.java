@@ -120,6 +120,7 @@ public class CategoryDescriptionActivity extends BaseActivity {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
             jsonObject.put(Constants.CATEGORY_ID, categoriesModel.getId());
+            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
            // jsonObject.put(Constants.CUSTOMER_ID, customerID == "" ? "1" : customerID);
         } catch (JSONException e) {
             e.printStackTrace();

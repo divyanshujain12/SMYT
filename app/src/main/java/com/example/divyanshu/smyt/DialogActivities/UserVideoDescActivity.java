@@ -23,6 +23,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -144,7 +145,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private void updateUI() {
         imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
         titleTV.setText(videoDetailModel.getTitle());
-        setLikeCount();
+        setLikeCountInUI();
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
         setupVideo();
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
@@ -198,7 +199,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void checkAndSendLike() {
         updateModelForLikesCount();
-        setLikeCount();
+        setLikeCountInUI();
         CallWebService.getInstance(this, false, ApiCodes.ADD_REMOVE_LIKE).hitJsonObjectRequestAPI(CallWebService.POST, API.LIKE_UNLIKE_VIDEO, createJsonForAddRemoveLike(), this);
     }
 
@@ -225,7 +226,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    private void setLikeCount() {
+    private void setLikeCountInUI() {
         userOneVoteCountTV.setText(String.valueOf(videoDetailModel.getLikes()));
     }
 
@@ -255,6 +256,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         try {
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoDetailModel.getCustomers_videos_id());
             jsonObject.put(Constants.LIKES, String.valueOf(videoDetailModel.getLikestatus()));
+            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -267,6 +269,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         try {
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoDetailModel.getCustomers_videos_id());
             jsonObject.put(Constants.COMMENT, validationMap.get(commentsET));
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
