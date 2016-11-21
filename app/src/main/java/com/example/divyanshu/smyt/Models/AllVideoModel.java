@@ -29,7 +29,12 @@ public class AllVideoModel implements Parcelable {
     String round_no;
     int video_comment_count;
     String status;
-
+    String challenge_id;
+    String likes;
+    String vote;
+    String vote1;
+    String type;
+    long edate;
     public AllVideoModel() {
     }
 
@@ -60,7 +65,7 @@ public class AllVideoModel implements Parcelable {
         vote = in.readString();
         vote1 = in.readString();
         type = in.readString();
-        edate = in.readString();
+        edate = in.readLong();
     }
 
     public static final Creator<AllVideoModel> CREATOR = new Creator<AllVideoModel>() {
@@ -283,20 +288,14 @@ public class AllVideoModel implements Parcelable {
         this.type = type;
     }
 
-    public String getEdate() {
+    public long getEdate() {
         return edate;
     }
 
-    public void setEdate(String edate) {
+    public void setEdate(long edate) {
         this.edate = edate;
     }
 
-    String challenge_id;
-    String likes;
-    String vote;
-    String vote1;
-    String type;
-    String edate;
 
     @Override
     public int describeContents() {
@@ -331,6 +330,6 @@ public class AllVideoModel implements Parcelable {
         dest.writeString(vote);
         dest.writeString(vote1);
         dest.writeString(type);
-        dest.writeString(edate);
+        dest.writeLong(edate);
     }
 }

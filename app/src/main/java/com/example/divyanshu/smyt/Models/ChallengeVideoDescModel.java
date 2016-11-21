@@ -32,7 +32,7 @@ public class ChallengeVideoDescModel implements Parcelable {
     int video_comment_count;
     String status;
     String challenge_id;
-    String edate;
+    long edate;
     String complete_status;
     String vote;
     String vote1;
@@ -67,7 +67,7 @@ public class ChallengeVideoDescModel implements Parcelable {
         video_comment_count = in.readInt();
         status = in.readString();
         challenge_id = in.readString();
-        edate = in.readString();
+        edate = in.readLong();
         complete_status = in.readString();
         vote = in.readString();
         vote1 = in.readString();
@@ -262,11 +262,11 @@ public class ChallengeVideoDescModel implements Parcelable {
         this.challenge_id = challenge_id;
     }
 
-    public String getEdate() {
+    public long getEdate() {
         return edate;
     }
 
-    public void setEdate(String edate) {
+    public void setEdate(long edate) {
         this.edate = edate;
     }
 
@@ -347,7 +347,7 @@ public class ChallengeVideoDescModel implements Parcelable {
         dest.writeInt(video_comment_count);
         dest.writeString(status);
         dest.writeString(challenge_id);
-        dest.writeString(edate);
+        dest.writeLong(edate);
         dest.writeString(complete_status);
         dest.writeString(vote);
         dest.writeString(vote1);

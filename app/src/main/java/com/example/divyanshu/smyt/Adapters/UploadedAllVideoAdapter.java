@@ -156,7 +156,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.commentsTV.setText(setComment(allVideoModel));
-        holder.uploadedTimeTV.setText(Utils.getUploadedTimeDifference(allVideoModel.getEdate()));
+        holder.uploadedTimeTV.setText(Utils.getTimeDifference(allVideoModel.getEdate()));
     }
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, AllVideoModel allVideoModel) {
@@ -167,7 +167,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
-        holder.uploadedTimeTV.setText(Utils.getUploadedTimeDifference(allVideoModel.getEdate()));
+        holder.uploadedTimeTV.setText(Utils.getTimeDifference(allVideoModel.getEdate()));
     }
 
     @NonNull

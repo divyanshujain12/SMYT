@@ -12,7 +12,7 @@
     <FrameLayout
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/one_hundred_dp"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:gravity="center"
@@ -20,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="@dimen/ten_dp">
@@ -29,6 +29,7 @@
                 android:id="@+id/categoryIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:src="@drawable/genre_icon_electronics" />
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -37,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five_dp"
                 android:text="RAPH"
-                pixlui:typeface="Roboto-Medium.ttf" />
+                pixlui:typeface="RAVIE.TTF" />
         </LinearLayout>
 
         <FrameLayout
