@@ -14,6 +14,7 @@ import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCom
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTypeTV.setText(challengeModel.getShare_status());
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
-        holder.challengeTimeTV.setText(challengeModel.getRound_date());
+        holder.challengeTimeTV.setText(Utils.formatDateAndTime(challengeModel.getRound_date(), Utils.DATE_FORMAT));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -10,17 +10,16 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView;
-import com.example.divyanshu.smyt.GocoderConfigAndUi.config.ConfigPrefs;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.wowza.gocoder.sdk.api.WowzaGoCoder;
+import com.wowza.gocoder.sdk.api.configuration.WZMediaConfig;
 import com.wowza.gocoder.sdk.api.devices.WZAudioDevice;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.devices.WZCameraView;
 import com.wowza.gocoder.sdk.api.errors.WZError;
-import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 import com.wowza.gocoder.sdk.api.geometry.WZSize;
 import com.wowza.gocoder.sdk.api.graphics.WZColor;
 import com.wowza.gocoder.sdk.api.status.WZStatus;
@@ -72,10 +71,8 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             initGoCoderDevices();
 
         if (sGoCoderSDK != null && mPermissionsGranted) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
             mWZCameraView.setCameraConfig(getBroadcastConfig());
-            mWZCameraView.setScaleMode(ConfigPrefs.getScaleMode(sharedPrefs));
+            mWZCameraView.setScaleMode(WZMediaConfig.FILL_VIEW);
             mWZCameraView.setVideoBackgroundColor(WZColor.DARKGREY);
 
             if (mWZBroadcastConfig.isVideoEnabled()) {
@@ -112,9 +109,6 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
                 if (goCoderStatus.isRunning()) {
                     // Keep the screen on while we are broadcasting
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-                    // Since we have successfully opened up the server connection, store the connection info for auto complete
-                    ConfigPrefs.storeAutoCompleteHostConfig(PreferenceManager.getDefaultSharedPreferences(CameraActivityBase.this), mWZBroadcastConfig);
                 } else if (goCoderStatus.isIdle()) {
                     // Clear the "keep screen on" flag
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

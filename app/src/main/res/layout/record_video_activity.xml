@@ -16,17 +16,6 @@
 
     <include layout="@layout/record_video_top_bar" />
 
-    <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton
-        android:id="@+id/ic_broadcast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="@dimen/twenty_dp"
-        android:clickable="true"
-        android:onClick="onToggleBroadcast"
-        android:src="@drawable/playing_video_recording_btn"
-        sampleui:offSrc="@drawable/stopped_video_recording_btn" />
-
     <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView
         android:id="@+id/statusView"
         android:layout_width="match_parent"
@@ -99,5 +88,16 @@
                 pixlui:typeface="Roboto-Medium.ttf" />
         </LinearLayout>
     </LinearLayout>
+
+    <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton
+        android:id="@+id/ic_broadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="@dimen/twenty_dp"
+        android:clickable="true"
+        android:onClick="onToggleBroadcast"
+        android:src="@drawable/playing_video_recording_btn"
+        sampleui:offSrc="@drawable/stopped_video_recording_btn" />
 
 </FrameLayout>

@@ -71,17 +71,16 @@ public interface Constants {
     String IN_APP_BASE = "com.smytex.livestream";
     String OTHER_CATEGORIES = IN_APP_BASE + DOT + "othercategories";
     String PREMIUM_CATEGORIES = IN_APP_BASE + DOT + "premiumcategory";
-    String SINGLE_BANNER_VIDEO = DOT + "singlebannervideo";
-    String MONTHLY_VIDEOS = DOT + "monthlyvideos";
+
     //*** show video to other category banner
-    String OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK = "com.smytex.livestream.othercategories.bannersinglevideo";
-    String OTHER_CATEGORY_BANNER_THREE_VIDEOS_PACK = "com.smytex.livestream.othercategories.bannerthreevideos";
-    String OTHER_CATEGORY_BANNER_FIVE_VIDEOS_PACK = "com.smytex.livestream.othercategories.bannerfivevideos";
+    String OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK = OTHER_CATEGORIES + DOT + "bannersinglevideo";
+    String OTHER_CATEGORY_BANNER_THREE_VIDEOS_PACK = OTHER_CATEGORIES + DOT + "bannerthreevideos";
+    String OTHER_CATEGORY_BANNER_FIVE_VIDEOS_PACK = OTHER_CATEGORIES + DOT + "bannerfivevideos";
     //***from other categories to premium category
-    String PREMIUM_NEW_SINGLE_VIDEO_PACK = "com.smytex.livestream.premiumcategory.premiumnewsinglevideo";
-    String PREMIUM_NEW_MONTHLY_VIDEO_PACK = "com.smytex.livestream.premiumcategory.premiumnewmonthlyvideos";
+    String PREMIUM_NEW_SINGLE_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumnewsinglevideo";
+    String PREMIUM_NEW_MONTHLY_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumnewmonthlyvideos";
     //*** show video to premium category banner
-    String PREMIUM_CATEGORY_BANNER_SINGLE_VIDEO_PACK = "com.smytex.livestream.premiumcategory.premiumbannersinglevideo";
-    String PREMIUM_CATEGORY_BANNER_THREE_VIDEOS_PACK = "com.smytex.livestream.premiumcategory.premiumbannerthreevideos";
-    String PREMIUM_CATEGORY_BANNER_FIVE_VIDEOS_PACK = "com.smytex.livestream.premiumcategory.premiumbannerfivevideos";
+    String PREMIUM_CATEGORY_BANNER_SINGLE_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumbannersinglevideo";
+    String PREMIUM_CATEGORY_BANNER_THREE_VIDEOS_PACK = PREMIUM_CATEGORIES + DOT + "premiumbannerthreevideos";
+    String PREMIUM_CATEGORY_BANNER_FIVE_VIDEOS_PACK = PREMIUM_CATEGORIES + DOT + "premiumbannerfivevideos";
 }
