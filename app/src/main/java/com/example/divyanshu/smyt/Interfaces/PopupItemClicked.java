@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface PopupItemClicked {
-    void onPopupMenuClicked(View view);
+    void onPopupMenuClicked(View view,int position);
 }

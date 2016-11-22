@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomViewsHandler;
+import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
@@ -24,6 +25,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
@@ -48,22 +50,21 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleTV, userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
+        public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
 
-        public ImageView videoThumbIV, moreIV;
-
+        public ImageView videoThumbIV;
+        private VideoTitleView videoTitleView;
         public FrameLayout videoFL;
         private SingleVideoPlayer firstVideoPlayer;
 
         public SingleVideoHolder(View view) {
             super(view);
-            titleTV = (TextView) view.findViewById(R.id.titleTV);
+            videoTitleView = (VideoTitleView) view.findViewById(R.id.videoTitleView);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
             firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
             commentsTV = (TextView) view.findViewById(R.id.commentsTV);
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
             videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
-            moreIV = (ImageView) view.findViewById(R.id.moreIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
         }
@@ -75,7 +76,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         this.videoModels = videoModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
-        popupWindow = CustomViewsHandler.getInstance().createUserVodeosPopupWindow(context, this);
+        popupWindow = CustomViewsHandler.getInstance().createUserVideosPopupWindow(context, this, selectedVideoPos);
     }
 
     @Override
@@ -90,20 +91,15 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     @Override
     public void onBindViewHolder(final UserVideoAdapter.SingleVideoHolder holder, int position) {
 
-        VideoModel userModel = videoModels.get(position);
-        holder.titleTV.setText(userModel.getTitle());
-        String commentsFound = context.getResources().getQuantityString(R.plurals.numberOfComments, userModel.getVideo_comment_count(), userModel.getVideo_comment_count() / 1);
+        VideoModel videoModel = videoModels.get(position);
+        holder.videoTitleView.setUp(videoModel.getTitle(), this, position);
+        setUpMoreIV(holder, videoModel);
+        String commentsFound = context.getResources().getQuantityString(R.plurals.numberOfComments, videoModel.getVideo_comment_count(), videoModel.getVideo_comment_count() / 1);
         holder.commentsTV.setText(commentsFound);
-        holder.firstUserNameTV.setText(userModel.getFirst_name());
-        holder.firstVideoPlayer.setVideoUrl(userModel.getVideo_url());
-        holder.firstVideoPlayer.setThumbnail(userModel.getThumbnail());
-        holder.uploadedTimeTV.setText(Utils.getTimeDifference(userModel.getEdate()));
-        holder.moreIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMoreIvClick(v, holder.getAdapterPosition());
-            }
-        });
+        holder.firstUserNameTV.setText(videoModel.getFirst_name());
+        holder.firstVideoPlayer.setVideoUrl(videoModel.getVideo_url());
+        holder.firstVideoPlayer.setThumbnail(videoModel.getThumbnail());
+        holder.uploadedTimeTV.setText(Utils.getTimeDifference(videoModel.getEdate()));
         holder.commentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,24 +108,22 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         });
     }
 
-
-    private void onMoreIvClick(View view, final int position) {
-        selectedVideoPos = position;
-        if (popupWindow != null && popupWindow.isShowing())
-            popupWindow.dismiss();
+    private void setUpMoreIV(SingleVideoHolder holder, VideoModel videoModel) {
+        String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
+        if (!currentCustomerID.equals(videoModel.getCustomer_id()))
+            holder.videoTitleView.showHideMoreIvButton(false);
         else
-            popupWindow.showAsDropDown(view);
-
+            holder.videoTitleView.showHideMoreIvButton(true);
     }
 
     @Override
-    public void onPopupMenuClicked(View view) {
+    public void onPopupMenuClicked(View view, int position) {
         switch (view.getId()) {
             case R.id.addVideoToBannerTV:
-                recyclerViewClick.onClickItem(selectedVideoPos, view);
+                recyclerViewClick.onClickItem(position, view);
                 break;
             case R.id.addVideoToPremiumTV:
-                recyclerViewClick.onClickItem(selectedVideoPos, view);
+                recyclerViewClick.onClickItem(position, view);
                 break;
             case R.id.deleteVideoTV:
                 deleteVideoAlert();

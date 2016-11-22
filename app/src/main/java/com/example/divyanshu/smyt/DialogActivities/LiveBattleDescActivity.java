@@ -9,7 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.R;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -23,11 +26,8 @@ import butterknife.OnClick;
  * Created by divyanshu.jain on 10/7/2016.
  */
 
-public class LiveBattleDescActivity extends BaseActivity {
-    @InjectView(R.id.titleTV)
-    TextView titleTV;
-    @InjectView(R.id.moreIV)
-    ImageView moreIV;
+public class LiveBattleDescActivity extends BaseActivity implements PopupItemClicked {
+
     @InjectView(R.id.twoVideoPlayers)
     TwoVideoPlayers twoVideoPlayers;
     @InjectView(R.id.playVideoIV)
@@ -71,6 +71,13 @@ public class LiveBattleDescActivity extends BaseActivity {
     @InjectView(R.id.commentBar)
     FrameLayout commentBar;
 
+    @InjectView(R.id.firstUserIV)
+    RoundedImageView firstUserIV;
+    @InjectView(R.id.secondUserIV)
+    RoundedImageView secondUserIV;
+    @InjectView(R.id.challengeTitleView)
+    ChallengeTitleView challengeTitleView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +87,7 @@ public class LiveBattleDescActivity extends BaseActivity {
     }
 
     private void initViews() {
-
+        challengeTitleView.setUp("", this, 0);
     }
 
     @OnClick({R.id.leftSideVotingView, R.id.rightSideVotingView, R.id.sendCommentIV})
@@ -93,5 +100,10 @@ public class LiveBattleDescActivity extends BaseActivity {
             case R.id.sendCommentIV:
                 break;
         }
+    }
+
+    @Override
+    public void onPopupMenuClicked(View view, int position) {
+
     }
 }

@@ -14,7 +14,9 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
+import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
@@ -23,6 +25,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -40,11 +43,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 
-public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener {
-    @InjectView(R.id.titleTV)
-    TextView titleTV;
-    @InjectView(R.id.moreIV)
-    ImageView moreIV;
+public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener, PopupItemClicked {
+
     @InjectView(R.id.firstVideoPlayer)
     SingleVideoPlayer firstVideoPlayer;
     @InjectView(R.id.videoThumbIV)
@@ -77,6 +77,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     ProgressBar commentPB;
     @InjectView(R.id.firstUserIV)
     RoundedImageView firstUserIV;
+    @InjectView(R.id.videoTitleView)
+    VideoTitleView videoTitleView;
 
 
     private Validation validation;
@@ -96,6 +98,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initViews() {
+
         validation = new Validation();
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_cno_comment)));
         commentsRV.setLayoutManager(new LinearLayoutManager(this));
@@ -143,8 +146,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateUI() {
+        videoTitleView.setUp(videoDetailModel.getTitle(), this, 0);
         imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
-        titleTV.setText(videoDetailModel.getTitle());
         setLikeCountInUI();
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
         setupVideo();
@@ -152,6 +155,9 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         commentsRV.setAdapter(commentsAdapter);
         updateCommentsCount();
         setLikeIV();
+        String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
+        if (!currentCustomerID.equals(videoDetailModel.getCustomer_id()))
+            videoTitleView.showHideMoreIvButton(false);
     }
 
     private void decreaseCommentCount() {
@@ -256,7 +262,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         try {
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoDetailModel.getCustomers_videos_id());
             jsonObject.put(Constants.LIKES, String.valueOf(videoDetailModel.getLikestatus()));
-            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -291,5 +297,10 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     public void onBackPressed() {
         MediaPlayerHelper.getInstance().releaseAllVideos();
         super.onBackPressed();
+    }
+
+    @Override
+    public void onPopupMenuClicked(View view, int position) {
+
     }
 }

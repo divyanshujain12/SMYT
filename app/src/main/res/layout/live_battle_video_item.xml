@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:padding="@dimen/one_dp">
 
-        <include layout="@layout/video_title_bar" />
+        <include layout="@layout/challenge_title_bar" />
 
         <include layout="@layout/battle_video_inside_view" />
 

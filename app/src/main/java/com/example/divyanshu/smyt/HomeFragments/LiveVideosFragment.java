@@ -10,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.divyanshu.smyt.Adapters.LiveVideosAdapter;
+import com.example.divyanshu.smyt.Adapters.OngoingChallengesAdapter;
 import com.example.divyanshu.smyt.DialogActivities.LiveBattleDescActivity;
-import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
@@ -28,7 +27,7 @@ import butterknife.InjectView;
 public class LiveVideosFragment extends BaseFragment {
     @InjectView(R.id.liveVideosRV)
     RecyclerView liveVideosRV;
-    private LiveVideosAdapter liveVideosAdapter;
+    private OngoingChallengesAdapter liveVideosAdapter;
 
     public static LiveVideosFragment getInstance(){
         LiveVideosFragment liveVideosFragment = new LiveVideosFragment();
@@ -60,7 +59,7 @@ public class LiveVideosFragment extends BaseFragment {
     }
 
     private void initViews() {
-        liveVideosAdapter = new LiveVideosAdapter(getContext(), new ArrayList<VideoModel>(),this);
+        liveVideosAdapter = new OngoingChallengesAdapter(getContext(), new ArrayList<VideoModel>(),this);
         liveVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         liveVideosRV.setAdapter(liveVideosAdapter);
     }

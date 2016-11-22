@@ -13,8 +13,10 @@ import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Models.ChallengeVideoDescModel;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -23,6 +25,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -42,11 +45,8 @@ import butterknife.OnClick;
  * Created by divyanshu.jain on 10/7/2016.
  */
 
-public class UploadedBattleDescActivity extends BaseActivity {
-    @InjectView(R.id.titleTV)
-    TextView titleTV;
-    @InjectView(R.id.moreIV)
-    ImageView moreIV;
+public class UploadedBattleDescActivity extends BaseActivity implements PopupItemClicked {
+
     @InjectView(R.id.twoVideoPlayers)
     TwoVideoPlayers twoVideoPlayers;
     @InjectView(R.id.playVideoIV)
@@ -93,6 +93,9 @@ public class UploadedBattleDescActivity extends BaseActivity {
     LinearLayout rightSideVotingView;
     @InjectView(R.id.voteRL)
     RelativeLayout voteRL;
+    @InjectView(R.id.challengeTitleView)
+    ChallengeTitleView challengeTitleView;
+
 
     private Validation validation;
     private HashMap<View, String> validationMap;
@@ -105,7 +108,7 @@ public class UploadedBattleDescActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_uploaded_battle_desc);
+        setContentView(R.layout.activity_uploaded_challenge_desc);
         ButterKnife.inject(this);
         initViews();
     }
@@ -205,12 +208,16 @@ public class UploadedBattleDescActivity extends BaseActivity {
         imageLoading.LoadImage(challengeVideoDescModel.getProfileimage1(), secondUserIV, null);
         firstUserNameTV.setText(challengeVideoDescModel.getFirst_name());
         secondUserNameTV.setText(challengeVideoDescModel.getFirst_name1());
-        titleTV.setText(challengeVideoDescModel.getTitle());
+        challengeTitleView.setUp(challengeVideoDescModel.getTitle(), this, 0);
         setLikeCount();
         setupVideo();
         commentsAdapter = new CommentsAdapter(this, challengeVideoDescModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
         updateCommentsCount();
+        String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
+        if (!currentCustomerID.equals(challengeVideoDescModel.getCustomer_id()) || !currentCustomerID.equals(challengeVideoDescModel.getCustomer_id1()))
+            challengeTitleView.showHideMoreIvButton(false);
+
     }
 
 
@@ -251,5 +258,10 @@ public class UploadedBattleDescActivity extends BaseActivity {
         super.onClickItem(position, view);
         CallWebService.getInstance(this, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), this);
         decreaseCommentCount();
+    }
+
+    @Override
+    public void onPopupMenuClicked(View view, int position) {
+
     }
 }

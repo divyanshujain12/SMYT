@@ -29,8 +29,8 @@ public class CustomViewsHandler {
         return customViewsHandler;
     }
 
-    public PopupWindow createUserVodeosPopupWindow(Context context, final PopupItemClicked popupItemClicked) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_text_view_in_cardview, null);
+    public PopupWindow createUserVideosPopupWindow(Context context, final PopupItemClicked popupItemClicked, final int position) {
+        View view = LayoutInflater.from(context).inflate(R.layout.videos_popup_window, null);
         TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
         TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
         TextView deleteVideoTV = (TextView) view.findViewById(R.id.deleteVideoTV);
@@ -46,14 +46,14 @@ public class CustomViewsHandler {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();
-                popupItemClicked.onPopupMenuClicked(v);
+                popupItemClicked.onPopupMenuClicked(v, position);
             }
         });
         addVideoToPremiumTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();
-                popupItemClicked.onPopupMenuClicked(v);
+                popupItemClicked.onPopupMenuClicked(v, position);
             }
         });
 
@@ -61,7 +61,38 @@ public class CustomViewsHandler {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();
-                popupItemClicked.onPopupMenuClicked(v);
+                popupItemClicked.onPopupMenuClicked(v, position);
+            }
+        });
+
+        return popupWindow;
+    }
+
+    public PopupWindow createUserChallengePopupWindow(Context context, final PopupItemClicked popupItemClicked, final int position) {
+        View view = LayoutInflater.from(context).inflate(R.layout.challenges_popup_window, null);
+        TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
+        TextView deleteVideoTV = (TextView) view.findViewById(R.id.deleteVideoTV);
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if (Build.VERSION.SDK_INT >= 21) {
+            popupWindow.setElevation(5.0f);
+        }
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        addVideoToPremiumTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v, position);
+            }
+        });
+
+        deleteVideoTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v, position);
             }
         });
 
