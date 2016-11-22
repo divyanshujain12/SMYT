@@ -94,8 +94,6 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
     private void playVideos(BattleVideoHolder holder) {
         holder.twoVideoPlayers.setVideoUrls(context.getString(R.string.dummy_m3u8_video), context.getString(R.string.dummy_m3u8_video));
         holder.twoVideoPlayers.setThumbnail(context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url));
-        holder.fullscreenFL.setVisibility(View.VISIBLE);
-        holder.playVideosIV.setVisibility(View.GONE);
     }
 
     @Override

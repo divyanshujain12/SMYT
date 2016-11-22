@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /**
  * Created by divyanshu.jain on 10/20/2016.
@@ -21,6 +22,7 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     private ImageView playVideosInFullScreenIV;
     private ImageLoading imageLoading;
     HomeWatcher mHomeWatcher;
+    String firstUrl, secondUrl;
 
     public TwoVideoPlayers(Context context) {
         super(context);
@@ -55,6 +57,8 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     }
 
     public void setVideoUrls(String firstUrl, String secondUrl) {
+        this.firstUrl = firstUrl;
+        this.secondUrl = secondUrl;
         standardVideoPlayer.setUrl(firstUrl);
         secondVideoPlayer.setUrl(secondUrl);
     }
@@ -94,7 +98,10 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     @Override
     public void onClick(View view) {
         if (view == playAllVideosIV) {
-            onPlayButtonClick();
+            if (!firstUrl.isEmpty() && !secondUrl.isEmpty())
+                onPlayButtonClick();
+            else
+                Toast.makeText(getContext(), R.string.no_video_url, Toast.LENGTH_SHORT).show();
         } else if (view == playVideosInFullScreenIV) {
             onPlayVideosInFullScreenClick();
         }
