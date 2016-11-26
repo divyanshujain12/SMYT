@@ -210,7 +210,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     @Override @Nullable
     public void onBillingError(int errorCode, Throwable error) {
-        Toast.makeText(getContext(),  error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),  error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
     }
 
