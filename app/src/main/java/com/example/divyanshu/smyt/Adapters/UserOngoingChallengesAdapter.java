@@ -91,7 +91,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTypeTV.setText(challengeModel.getShare_status());
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
-        holder.challengeTimeTV.setText(Utils.getTimeDifference(challengeModel.getRound_date()));
+        holder.challengeTimeTV.setText(Utils.getTimeDifference(Long.parseLong(challengeModel.getRound_date())));
 
 
         if (challengeModel.getCurrent_customer_video_status() == 0)

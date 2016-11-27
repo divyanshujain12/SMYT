@@ -72,7 +72,7 @@ public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCom
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTypeTV.setText(challengeModel.getShare_status());
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
-        holder.challengeTimeTV.setText(Utils.formatDateAndTime(challengeModel.getRound_date(), Utils.DATE_FORMAT));
+        holder.challengeTimeTV.setText(Utils.formatDateAndTime(Long.parseLong(challengeModel.getRound_date()), Utils.DATE_FORMAT));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

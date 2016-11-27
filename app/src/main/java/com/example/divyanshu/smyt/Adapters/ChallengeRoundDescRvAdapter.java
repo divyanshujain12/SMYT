@@ -104,7 +104,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
 
         ChallengeModel challengeModel = challengeModels.get(position);
         //String[] splitDate = challengeModel.getRound_date().split(" ");
-        long roundDateAndTime = challengeModel.getRound_date();
+        long roundDateAndTime = Long.parseLong(challengeModel.getRound_date());
         String timeDifference = Utils.getTimeDifference(roundDateAndTime);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
