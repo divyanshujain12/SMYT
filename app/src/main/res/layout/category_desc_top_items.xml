@@ -51,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="RAPH"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sixteen_sp"
                 pixlui:typeface="RAVIE.TTF" />
