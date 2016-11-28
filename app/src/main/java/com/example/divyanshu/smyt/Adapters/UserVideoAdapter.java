@@ -126,6 +126,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
                 recyclerViewClick.onClickItem(position, view);
                 break;
             case R.id.deleteVideoTV:
+                selectedVideoPos = position;
                 deleteVideoAlert();
                 break;
         }
