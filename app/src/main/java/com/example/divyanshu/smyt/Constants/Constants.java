@@ -18,6 +18,7 @@ public interface Constants {
     String FROM_FOLLOWER = "from_follower";
     String MESSAGE = "message";
     String CUSTOMER_ID = "customer_id";
+    String CUSTOMER_ID_ONE = "customer1_id";
     String CATEGORY = "category";
     String CUSTOMERS = "customers";
     String CATEGORY_ID = "category_id";
@@ -33,7 +34,7 @@ public interface Constants {
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
     String UPDATE_COMMENT_COUNT = "update_comment_count";
     String UPDATE_USER_INFO = "update_user_info";
-    String UPDATE_ACCEPT_REJECT_BROADCAST = "UPDATE_ACCEPT_REJECT_BROADCAST";
+    String USER_ONGOING_CHALLENGE_FRAGMENT = "USER_ONGOING_CHALLENGE_FRAGMENT";
     String STATUS = "status";
     String LIKES = "likes";
     String FOLLOWING_ID = "following_id";
@@ -57,6 +58,7 @@ public interface Constants {
     String CATEGORY_NAME = "category_name";
     String E_DATE = "edate";
     String VIDEO_NAME = "video_name";
+    String TYPE = "type";
     int REQUEST_TIMEOUT_TIME = 30000;
 
     //WOWZA server ----------------------------------------------------------

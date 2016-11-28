@@ -105,7 +105,7 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
         Intent intent = new Intent(getActivity(), OtherUserProfileActivity.class);
-        intent.putExtra(Constants.USER_DATA, userModels.get(position));
+        intent.putExtra(Constants.CUSTOMER_ID, userModels.get(position).getCustomer_id());
         startActivity(intent);
     }
 

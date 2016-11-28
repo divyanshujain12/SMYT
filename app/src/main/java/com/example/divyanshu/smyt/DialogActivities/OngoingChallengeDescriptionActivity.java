@@ -110,11 +110,11 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
                 break;
             case CHALLENGE_ACCEPT:
                 hideAcceptDeclineBar();
-                sendBroadcastToFragment(1, challengeID);
+                sendAcceptRejectBroadcastToFragment(1, challengeID);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
                 break;
             case CHALLENGE_REJECT:
-                sendBroadcastToFragment(2, challengeID);
+                sendAcceptRejectBroadcastToFragment(2, challengeID);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
                 finish();
                 break;
@@ -142,9 +142,9 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         }
     }
 
-    private void sendBroadcastToFragment(int status, String challengeID) {
+    private void sendAcceptRejectBroadcastToFragment(int status, String challengeID) {
         Intent intent = new Intent();
-        intent.setAction(Constants.UPDATE_ACCEPT_REJECT_BROADCAST);
+        intent.setAction(Constants.USER_ONGOING_CHALLENGE_FRAGMENT);
         intent.putExtra(Constants.ACCEPT_STATUS, status);
         intent.putExtra(Constants.CHALLENGE_ID, challengeID);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);

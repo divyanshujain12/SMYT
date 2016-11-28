@@ -2,8 +2,10 @@ package com.example.divyanshu.smyt.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -390,10 +392,18 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
                 break;
 
             case POST_CHALLENGE:
+                sendNewChallengeAddedBroadcastToFragment();
                 CommonFunctions.hideContinuousSB(snackbar);
                 getDialog().dismiss();
                 break;
         }
+    }
+
+    private void sendNewChallengeAddedBroadcastToFragment() {
+        Intent intent = new Intent();
+        intent.setAction(Constants.USER_ONGOING_CHALLENGE_FRAGMENT);
+        intent.putExtra(Constants.TYPE, 1);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     @Override

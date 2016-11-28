@@ -24,6 +24,7 @@ import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
@@ -85,6 +86,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     private ViewPagerAdapter viewPagerAdapter;
     private Animation fabIn, fabOut;
     private UserModel userModel;
+    private String otherCustomerID = "";
+    private MenuItem followedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,26 +99,19 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     private void initViews(Intent intent) {
         imageLoading = new ImageLoading(this, 5);
-        updateUi(intent);
+        //userModel = intent.getExtras().getParcelable(Constants.USER_DATA);
+        otherCustomerID = intent.getStringExtra(Constants.CUSTOMER_ID);
         createAnimation();
         ConfigViewPager();
         Utils.configureToolbarWithBackButton(this, toolbar, "");
-    }
-
-    private void updateUi(Intent intent) {
-        userModel = intent.getExtras().getParcelable(Constants.USER_DATA);
-        txtName.setText(userModel.getFirst_name());
-        phoneNumberTV.setText(userModel.getPhonenumber());
-        nameInImgTV.setText(userModel.getUsername());
-        followersCountTV.setText(userModel.getFollowers());
-        followingCountTV.setText(userModel.getFollowing());
-        imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
+        fab.setVisibility(View.GONE);
+        CallWebService.getInstance(this, true, ApiCodes.GET_USER_INFO).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_OTHER_CUSTOMER_DETAIL, createJsonForGetUserData(), this);
     }
 
     private void ConfigViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(UserVideosFragment.getInstance(userModel.getCustomer_id()), getString(R.string.videos));
-        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(userModel.getCustomer_id()), getString(R.string.followers));
+        viewPagerAdapter.addFragment(UserVideosFragment.getInstance(otherCustomerID), getString(R.string.videos));
+        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(otherCustomerID), getString(R.string.followers));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(3);
@@ -188,6 +184,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.other_user_activity, menu);
+        followedButton = menu.findItem(R.id.action_follow);
         return true;
     }
 
@@ -204,10 +201,36 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         return true;
     }
 
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        switch (apiType) {
+            case ApiCodes.GET_USER_INFO:
+                userModel = UniversalParser.getInstance().parseJsonObject(response.getJSONArray(Constants.DATA).getJSONObject(0), UserModel.class);
+                fab.setVisibility(View.VISIBLE);
+                updateUi();
+                break;
+        }
+
+    }
+
+    private void updateUi() {
+        txtName.setText(userModel.getFirst_name());
+        phoneNumberTV.setText(userModel.getPhonenumber());
+        nameInImgTV.setText(userModel.getUsername());
+        followersCountTV.setText(userModel.getFollowers());
+        followingCountTV.setText(userModel.getFollowing());
+        imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
+        if (userModel.getFollowStatus().equals("1"))
+            followedButton.setTitle(R.string.unfollow);
+        else
+            followedButton.setTitle(getString(R.string.follow));
+    }
+
     private void hitFollowWebService(MenuItem item) {
         CallWebService.getInstance(this, false, ApiCodes.FOLLOW_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.ADD_REMOVE_FOLLOWING, createJsonForFollowUser(), this);
         CommonFunctions.showShortLengthSnackbar(getString(R.string.followed), fab);
-        item.setTitle(getString(R.string.followed));
+        item.setTitle(getString(R.string.unfollow));
     }
 
     private JSONObject createJsonForFollowUser() {
@@ -215,7 +238,17 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         try {
             jsonObject.put(Constants.FOLLOWING_ID, userModel.getCustomer_id());
             jsonObject.put(Constants.FOLLOW_STATUS, "1");
-            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private JSONObject createJsonForGetUserData() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
+        try {
+            jsonObject.put(Constants.CUSTOMER_ID_ONE, otherCustomerID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

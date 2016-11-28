@@ -1,6 +1,5 @@
 package com.example.divyanshu.smyt.UserProfileFragments;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -85,7 +84,7 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateAcceptRejectReceiver, new IntentFilter(Constants.UPDATE_ACCEPT_REJECT_BROADCAST));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateAcceptRejectReceiver, new IntentFilter(Constants.USER_ONGOING_CHALLENGE_FRAGMENT));
         setUserVisibleHint(true);
     }
 
@@ -106,16 +105,14 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     }
 
     private void hitOnGoingChallengeApi() {
-        if (challengeModels.size() <= 0) {
-            tSnackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(challengesRV);
-            CommonFunctions.showContinuousSB(tSnackbar);
-            CallWebService.getInstance(getContext(), false, ApiCodes.ONGOING_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_ONGOING_CHALLENGES, createJsonForGetChallenges(), this);
-        }
+        tSnackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(challengesRV);
+        CommonFunctions.showContinuousSB(tSnackbar);
+        CallWebService.getInstance(getContext(), false, ApiCodes.ONGOING_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_ONGOING_CHALLENGES, createJsonForGetChallenges(), this);
     }
 
     private JSONObject createJsonForGetChallenges() {
 
-        JSONObject jsonObject =CommonFunctions.customerIdJsonObject(getContext());
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
@@ -137,7 +134,6 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     }
 
 
-
     @Override
     public void onFailure(String str, int apiType) {
         super.onFailure(str, apiType);
@@ -148,16 +144,20 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     private BroadcastReceiver updateAcceptRejectReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int acceptStatus = intent.getIntExtra(Constants.ACCEPT_STATUS, -1);
-            String challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
-            ChallengeModel challengeModel = new ChallengeModel();
-            challengeModel.setChallenge_id(challengeID);
-            int pos = challengeModels.indexOf(challengeModel);
-            if (acceptStatus == 2)
-                userOngoingChallengesAdapter.removeItem(pos);
-            else
-                userOngoingChallengesAdapter.updateAcceptStatusIntoList(pos);
-
+            int type = intent.getIntExtra(Constants.TYPE, 0);
+            if (type == 1) {
+                hitOnGoingChallengeApi();
+            } else {
+                int acceptStatus = intent.getIntExtra(Constants.ACCEPT_STATUS, -1);
+                String challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
+                ChallengeModel challengeModel = new ChallengeModel();
+                challengeModel.setChallenge_id(challengeID);
+                int pos = challengeModels.indexOf(challengeModel);
+                if (acceptStatus == 2)
+                    userOngoingChallengesAdapter.removeItem(pos);
+                else
+                    userOngoingChallengesAdapter.updateAcceptStatusIntoList(pos);
+            }
         }
     };
 

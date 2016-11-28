@@ -31,4 +31,5 @@ public interface ApiCodes {
     int ALL_VIDEO_DATA = 125;
     int SINGLE_ROUND_VIDEO_DETAIL = 126;
     int POST_VIDEO_PREVIOUS = 127;
+    int HOME_CHALLENGES_VIDEOS = 128;
 }

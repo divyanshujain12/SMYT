@@ -36,4 +36,6 @@ public interface API {
     String ALL_VIDEOS = BASE + "getCategoriesAllVideos";
     String GET_SINGLE_ROUND_VIDEO_DETAIL = BASE + "getSingleRoundVideoDetails";
     String POST_VIDEO_PREVIOUS = BASE + "postVideoPrevious";
+    String GET_OTHER_CUSTOMER_DETAIL = BASE + "getCustomerDetailsAndFollow";
+    String HOME_LIVE_VIDEOS = BASE + "getCategoriesLiveVideos";
 }

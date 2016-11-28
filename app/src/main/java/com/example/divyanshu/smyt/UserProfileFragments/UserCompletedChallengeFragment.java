@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.UserProfileFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.example.divyanshu.smyt.Adapters.UserCompletedChallengesAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -96,7 +98,10 @@ public class UserCompletedChallengeFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-
+        Intent intent = new Intent(getActivity(), OngoingChallengeDescriptionActivity.class);
+        intent.putExtra(Constants.CHALLENGE_ID, challengeModels.get(position).getChallenge_id());
+        intent.putExtra(Constants.ACCEPT_STATUS, challengeModels.get(position).getCurrent_customer_video_status());
+        startActivity(intent);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
+import android.media.Image;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +13,14 @@ import android.widget.ImageView;
 import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
-import com.example.divyanshu.smyt.Models.VideoModel;
+import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -24,20 +30,24 @@ import java.util.ArrayList;
  */
 public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChallengesAdapter.BattleVideoHolder> implements PopupItemClicked {
 
-    private ArrayList<VideoModel> categoryModels;
+    private ArrayList<ChallengeModel> challengeModels;
     private Context context;
     private RecyclerViewClick recyclerViewClick;
+    private ImageLoading imageLoading;
 
     public class BattleVideoHolder extends RecyclerView.ViewHolder {
 
 
-        public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
+        public TextView userTimeTV, commentsTV, uploadedTimeTV;
         private ChallengeTitleView challengeTitleView;
         public FrameLayout videoFL;
         private ImageView playVideosIV;
         private FrameLayout fullscreenFL;
         private ImageView fullscreenIV;
         private TwoVideoPlayers twoVideoPlayers;
+        private ImageView firstUserIV, secondUserIV;
+        TextView firstUserNameTV, secondUserNameTV;
+        TextView userOneVoteCountTV,userTwoVoteCountTV;
 
         public BattleVideoHolder(View view) {
             super(view);
@@ -51,13 +61,19 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
             fullscreenFL = (FrameLayout) view.findViewById(R.id.fullscreenFL);
             fullscreenIV = (ImageView) view.findViewById(R.id.fullscreenIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
+            firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
+            secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
             twoVideoPlayers = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
+            userOneVoteCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
+            userTwoVoteCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
         }
     }
-    public OngoingChallengesAdapter(Context context, ArrayList<VideoModel> categoryModels, RecyclerViewClick recyclerViewClick) {
+
+    public OngoingChallengesAdapter(Context context, ArrayList<ChallengeModel> categoryModels, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
-        this.categoryModels = categoryModels;
+        this.challengeModels = categoryModels;
         this.context = context;
+        imageLoading = new ImageLoading(context);
     }
 
     @Override
@@ -71,16 +87,22 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
     @Override
     public void onBindViewHolder(final BattleVideoHolder holder, int position) {
-        //  VideoModel userModel = categoryModels.get(position);
-        holder.challengeTitleView.setUp("", this, position);
+        ChallengeModel challengeModel = challengeModels.get(position);
+
+        holder.challengeTitleView.setUp(challengeModel.getTitle(), this, position);
         holder.challengeTitleView.showHideMoreIvButton(false);
-        playVideos(holder);
-        holder.playVideosIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playVideos(holder);
-            }
-        });
+
+        holder.commentsTV.setText(setCommentCount(challengeModel));
+        holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
+        holder.twoVideoPlayers.setThumbnail(challengeModel.getThumbnail(), challengeModel.getThumbnail1());
+        imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
+        imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
+        holder.firstUserNameTV.setText(challengeModel.getFirst_name());
+        holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
+        holder.uploadedTimeTV.setText(Utils.getTimeDifference(challengeModel.getEdate()));
+        holder.userOneVoteCountTV.setText(challengeModel.getVote());
+        holder.userTwoVoteCountTV.setText(challengeModel.getVote1());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,14 +113,9 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
     }
 
 
-    private void playVideos(BattleVideoHolder holder) {
-        holder.twoVideoPlayers.setVideoUrls(context.getString(R.string.dummy_m3u8_video), context.getString(R.string.dummy_m3u8_video));
-        holder.twoVideoPlayers.setThumbnail(context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url));
-    }
-
     @Override
     public int getItemCount() {
-        return 8;
+        return challengeModels.size();
     }
 
     @Override
@@ -111,6 +128,15 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
     }
 
+    @NonNull
+    private String setCommentCount(ChallengeModel challengeModel) {
+        return context.getResources().getQuantityString(R.plurals.numberOfComments, challengeModel.getVideo_comment_count(), challengeModel.getVideo_comment_count());
+    }
+
+    public void addItem(ArrayList<ChallengeModel> challengeModels) {
+        this.challengeModels.addAll(challengeModels);
+        notifyDataSetChanged();
+    }
 }
 
 

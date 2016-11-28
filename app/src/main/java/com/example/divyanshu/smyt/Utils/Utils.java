@@ -152,26 +152,29 @@ public class Utils {
 
     public static String getTimeDifference(long different) {
         System.out.println("different : " + different);
-        different = getCurrentTimeInMillisecond() - different;
+        long currentTimeDifference = 0;
+        currentTimeDifference = getCurrentTimeInMillisecond() - different;
+        if(currentTimeDifference<0)
+            currentTimeDifference = different-getCurrentTimeInMillisecond();
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
         long daysInMilli = hoursInMilli * 24;
 
-        long elapsedDays = different / daysInMilli;
-        different = different % daysInMilli;
+        long elapsedDays = currentTimeDifference / daysInMilli;
+        currentTimeDifference = currentTimeDifference % daysInMilli;
 
-        long elapsedHours = different / hoursInMilli;
-        different = different % hoursInMilli;
+        long elapsedHours = currentTimeDifference / hoursInMilli;
+        currentTimeDifference = currentTimeDifference % hoursInMilli;
         if (elapsedDays != 0) {
             return String.format(Locale.getDefault(), "%d days, %d hr", elapsedDays, elapsedHours);
         }
-        long elapsedMinutes = different / minutesInMilli;
-        different = different % minutesInMilli;
+        long elapsedMinutes = currentTimeDifference / minutesInMilli;
+        currentTimeDifference = currentTimeDifference % minutesInMilli;
         if (elapsedHours != 0) {
             return String.format(Locale.getDefault(), "%d hr,%d min", elapsedHours, elapsedMinutes);
         }
-        long elapsedSeconds = different / secondsInMilli;
+        long elapsedSeconds = currentTimeDifference / secondsInMilli;
         return String.format(Locale.getDefault(), "%d min,%d sec", elapsedMinutes, elapsedSeconds);
     }
 

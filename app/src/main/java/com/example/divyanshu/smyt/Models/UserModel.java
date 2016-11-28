@@ -21,6 +21,7 @@ public class UserModel implements Parcelable {
     String followers;
     String following;
     String active_before;
+    String followStatus;
 
 
     public UserModel() {
@@ -41,6 +42,7 @@ public class UserModel implements Parcelable {
         followers = in.readString();
         following = in.readString();
         active_before = in.readString();
+        followStatus = in.readString();
     }
 
     public static final Creator<UserModel> CREATOR = new Creator<UserModel>() {
@@ -167,6 +169,14 @@ public class UserModel implements Parcelable {
         this.active_before = active_before;
     }
 
+    public String getFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(String followStatus) {
+        this.followStatus = followStatus;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -188,5 +198,6 @@ public class UserModel implements Parcelable {
         dest.writeString(followers);
         dest.writeString(following);
         dest.writeString(active_before);
+        dest.writeString(followStatus);
     }
 }
