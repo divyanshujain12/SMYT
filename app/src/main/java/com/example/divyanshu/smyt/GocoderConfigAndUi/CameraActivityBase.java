@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
@@ -53,6 +54,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     protected String videoName = "";
     private String streamVideoUrl = "";
     private String userID = "";
+    private WZStatus goCoderStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +105,10 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
      */
     @Override
     public void onWZStatus(final WZStatus goCoderStatus) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        this.goCoderStatus = goCoderStatus;
+        handler.sendEmptyMessage(0);
+        //Toast.makeText(this,goCoderStatus.toString(),Toast.LENGTH_SHORT).show();
+      /*  new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 if (goCoderStatus.isRunning()) {
@@ -117,20 +122,37 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
                 if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
                 syncUIControlState();
             }
-        });
+        });*/
     }
 
     @Override
     public void onWZError(final WZStatus goCoderStatus) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        this.goCoderStatus = goCoderStatus;
+        handler.sendEmptyMessage(0);
+     /*   new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
                 syncUIControlState();
             }
-        });
+        });*/
     }
+Handler handler = new Handler(new Handler.Callback() {
+    @Override
+    public boolean handleMessage(Message message) {
+        if (goCoderStatus.isRunning()) {
+            // Keep the screen on while we are broadcasting
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else if (goCoderStatus.isIdle()) {
+            // Clear the "keep screen on" flag
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
 
+        if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
+        syncUIControlState();
+        return false;
+    }
+});
     /**
      * Click handler for the broadcast button
      */

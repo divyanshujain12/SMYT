@@ -18,7 +18,7 @@ public interface Constants {
     String FROM_FOLLOWER = "from_follower";
     String MESSAGE = "message";
     String CUSTOMER_ID = "customer_id";
-    String CUSTOMER_ID_ONE = "customer1_id";
+    String CUSTOMER_ID_ONE = "customer_id1";
     String CATEGORY = "category";
     String CUSTOMERS = "customers";
     String CATEGORY_ID = "category_id";
