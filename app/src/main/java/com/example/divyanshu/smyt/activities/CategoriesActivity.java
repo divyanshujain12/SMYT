@@ -72,10 +72,6 @@ public class CategoriesActivity extends BaseActivity {
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
         setUserAndCategoryAdapter();
-        categoryUserRvAdapter = new CategoryUserRvAdapter(this, userModels, this);
-        userRV.setAdapter(categoryUserRvAdapter);
-
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
