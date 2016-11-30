@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.DialogActivities;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -45,7 +46,7 @@ import butterknife.OnClick;
  * Created by divyanshu.jain on 10/7/2016.
  */
 
-public class UploadedBattleDescActivity extends BaseActivity implements PopupItemClicked {
+public class UploadedBattleRoundDescActivity extends BaseActivity implements PopupItemClicked {
 
     @InjectView(R.id.twoVideoPlayers)
     TwoVideoPlayers twoVideoPlayers;
@@ -81,7 +82,7 @@ public class UploadedBattleDescActivity extends BaseActivity implements PopupIte
     RoundedImageView firstUserIV;
     @InjectView(R.id.secondUserIV)
     RoundedImageView secondUserIV;
-    @InjectView(R.id.videoLikeIV)
+    @InjectView(R.id.userOneVideoLikeIV)
     ImageView videoLikeIV;
     @InjectView(R.id.userOneVoteCountTV)
     TextView userOneVoteCountTV;
@@ -108,12 +109,13 @@ public class UploadedBattleDescActivity extends BaseActivity implements PopupIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_uploaded_challenge_desc);
+        setContentView(R.layout.activity_uploaded_challenge_round_desc);
         ButterKnife.inject(this);
         initViews();
     }
 
     private void initViews() {
+        commentsRV.setLayoutManager(new LinearLayoutManager(this));
         imageLoading = new ImageLoading(this);
         validation = new Validation();
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_cno_comment)));

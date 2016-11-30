@@ -59,6 +59,7 @@ public interface Constants {
     String E_DATE = "edate";
     String VIDEO_NAME = "video_name";
     String TYPE = "type";
+    String VOTING_CUSTOMER_ID = "voting_customer_id";
     int REQUEST_TIMEOUT_TIME = 30000;
 
     //WOWZA server ----------------------------------------------------------

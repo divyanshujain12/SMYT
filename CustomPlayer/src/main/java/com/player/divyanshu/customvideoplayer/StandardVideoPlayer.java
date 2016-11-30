@@ -77,6 +77,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void setUrl(String path) {
+
         videoUri = Uri.parse(path);
     }
 

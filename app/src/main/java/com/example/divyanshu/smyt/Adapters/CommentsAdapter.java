@@ -1,6 +1,5 @@
 package com.example.divyanshu.smyt.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -9,24 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-import com.example.divyanshu.smyt.Constants.API;
-import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.CommentModel;
-import com.example.divyanshu.smyt.Models.VideoDetailModel;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.Utils.CallWebService;
-import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.neopixl.pixlui.components.textview.TextView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -58,10 +47,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
 
     public CommentsAdapter(Context context, ArrayList<CommentModel> commentModels, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
-        this.commentModels = commentModels;
+        if (commentModels != null)
+            this.commentModels = commentModels;
         this.context = context;
         imageLoading = new ImageLoading(context, 5);
-        currentCustomerID = MySharedPereference.getInstance().getString(context,Constants.CUSTOMER_ID);
+        currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
     }
 
     @Override
@@ -82,14 +72,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.deleteVideoIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    recyclerViewClick.onClickItem(position, v);
-                    removeComment(position);
+                recyclerViewClick.onClickItem(position, v);
+                removeComment(position);
             }
         });
     }
 
     private void setDeleteCommentIvVisibility(MyViewHolder holder, CommentModel commentModel) {
-        if(commentModel.getCustomer_id().equals(currentCustomerID))
+        if (commentModel.getCustomer_id().equals(currentCustomerID))
             holder.deleteVideoIV.setVisibility(View.VISIBLE);
         else
             holder.deleteVideoIV.setVisibility(View.GONE);
@@ -119,6 +109,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     }
 
     public void addNewComment(CommentModel commentModel) {
+        if (commentModels == null)
+            commentModels = new ArrayList<>();
         commentModels.add(commentModels.size(), commentModel);
         notifyItemInserted(commentModels.size());
     }

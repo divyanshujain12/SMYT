@@ -10,12 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.TransactionDetails;
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.UploadedBattleDescActivity;
+import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
@@ -129,7 +127,7 @@ public class AllVideosFragment extends BaseFragment {
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
                 break;
             case 1:
-                intent = new Intent(getActivity(), UploadedBattleDescActivity.class);
+                intent = new Intent(getActivity(), UploadedBattleRoundDescActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
                 break;
         }

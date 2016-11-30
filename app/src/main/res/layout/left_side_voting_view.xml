@@ -12,7 +12,7 @@
     tools:showIn="@layout/voting_view">
 
     <ImageView
-        android:id="@+id/videoLikeIV"
+        android:id="@+id/userOneVideoLikeIV"
         android:layout_width="@dimen/thirty_dp"
         android:layout_height="@dimen/thirty_dp"
         android:src="@drawable/thumb_on" />

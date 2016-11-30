@@ -26,7 +26,7 @@ public class ChallengeVideoDescModel implements Parcelable {
     String video_url1;
     String genre;
     String share_status;
-    String round_date;
+    long round_date;
     String total_round;
     String round_no;
     int video_comment_count;
@@ -61,7 +61,7 @@ public class ChallengeVideoDescModel implements Parcelable {
         video_url1 = in.readString();
         genre = in.readString();
         share_status = in.readString();
-        round_date = in.readString();
+        round_date = in.readLong();
         total_round = in.readString();
         round_no = in.readString();
         video_comment_count = in.readInt();
@@ -214,11 +214,11 @@ public class ChallengeVideoDescModel implements Parcelable {
         this.share_status = share_status;
     }
 
-    public String getRound_date() {
+    public long getRound_date() {
         return round_date;
     }
 
-    public void setRound_date(String round_date) {
+    public void setRound_date(long round_date) {
         this.round_date = round_date;
     }
 
@@ -341,7 +341,7 @@ public class ChallengeVideoDescModel implements Parcelable {
         dest.writeString(video_url1);
         dest.writeString(genre);
         dest.writeString(share_status);
-        dest.writeString(round_date);
+        dest.writeLong(round_date);
         dest.writeString(total_round);
         dest.writeString(round_no);
         dest.writeInt(video_comment_count);

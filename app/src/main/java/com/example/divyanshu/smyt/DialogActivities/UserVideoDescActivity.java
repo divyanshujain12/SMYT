@@ -61,7 +61,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     TextView uploadedTimeTV;
     @InjectView(R.id.userOneVoteCountTV)
     TextView userOneVoteCountTV;
-    @InjectView(R.id.videoLikeIV)
+    @InjectView(R.id.userOneVideoLikeIV)
     ImageView videoLikeIV;
     @InjectView(R.id.leftSideVotingView)
     LinearLayout leftSideVotingView;
@@ -205,7 +205,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void checkAndSendLike() {
         updateModelForLikesCount();
-        setLikeCountInUI();
         CallWebService.getInstance(this, false, ApiCodes.ADD_REMOVE_LIKE).hitJsonObjectRequestAPI(CallWebService.POST, API.LIKE_UNLIKE_VIDEO, createJsonForAddRemoveLike(), this);
     }
 
@@ -221,6 +220,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         }
         setLikeIV();
         videoDetailModel.setLikes(String.valueOf(likesCount));
+        setLikeCountInUI();
     }
 
     private void setLikeIV() {

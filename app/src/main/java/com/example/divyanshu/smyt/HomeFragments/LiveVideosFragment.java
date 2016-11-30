@@ -98,6 +98,7 @@ public class LiveVideosFragment extends BaseFragment {
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
         Intent intent = new Intent(getActivity(), LiveBattleDescActivity.class);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModels.get(position).getCustomers_videos_id());
         startActivity(intent);
     }
 

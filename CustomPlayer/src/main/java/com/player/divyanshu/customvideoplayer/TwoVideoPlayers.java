@@ -57,6 +57,8 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     }
 
     public void setVideoUrls(String firstUrl, String secondUrl) {
+        if (firstUrl.equals(null) || secondUrl.equals(null))
+            return;
         this.firstUrl = firstUrl;
         this.secondUrl = secondUrl;
         standardVideoPlayer.setUrl(firstUrl);

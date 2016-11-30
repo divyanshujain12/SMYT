@@ -187,7 +187,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        Intent intent = new Intent(this, UploadedBattleDescActivity.class);
+        Intent intent = new Intent(this, UploadedBattleRoundDescActivity.class);
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeDescModel.getChallenge_rounds().get(position).getCustomers_videos_id());
         startActivity(intent);
     }
