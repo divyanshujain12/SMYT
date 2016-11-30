@@ -51,8 +51,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     private TSnackbar continuousSB = null;
     private String customerID = "";
 
-    private static final String LICENSE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr6GFNrWL8AxANIRSRfTuQpgJwlgZZwQeqPgOldEH8bk1IeKR54cDcPaozZCAl9JSLLp8PnBiTw5jB3XCk5pbeZWzebyAfwVdGgXDvSqJ5emlY3tJ++SuSidb/FF2lmn3ZuQOmK0B48W2lCtwoslhwtC4uHw+e/LXrvA82cHHDsmgejpzj+42H0FYzO/hiMzoBbJwrIJ8xyz74XBAceHuOJxDKN9D84DRrTc6xiCFoIgTK2NyPNbWGjeq5oiRmQNrVev9I63UFcLS3yVDx/ecjqmLJeBcUu1jLGnmhqRbSQ3MK7zb0qtnw/uCvJ19YgKVcqE1+eOeTl83Q2FpmAQBbQIDAQAB";
-    private static final String MERCHANT_ID = "0061-7515-1038";
+
     private BillingProcessor billingProcessor;
     private boolean readyToPurchase = false;
 
@@ -98,7 +97,7 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     private void initViews() {
 
-        billingProcessor = new BillingProcessor(getActivity(), LICENSE_KEY, MERCHANT_ID, this);
+        billingProcessor = new BillingProcessor(getActivity(), Constants.LICENSE_KEY, Constants.MERCHANT_ID, this);
 
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -149,9 +148,6 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     private void checkAndPayForBannerVideo(int position) {
 
-        //billingProcessor.purchase(getActivity(),"com.smytex.livestream.othercategories.monthlyvideos");
-        //billingProcessor.purchase(getActivity(), Constants.OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK);
-        //List<String> productsList = billingProcessor.listOwnedProducts();
     }
 
     private void goVideoDescActivity(int position) {
@@ -208,9 +204,10 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public void onBillingError(int errorCode, Throwable error) {
-        //Toast.makeText(getContext(),  error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
 
     }
 

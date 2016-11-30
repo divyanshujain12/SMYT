@@ -38,4 +38,7 @@ public interface API {
     String POST_VIDEO_PREVIOUS = BASE + "postVideoPrevious";
     String GET_OTHER_CUSTOMER_DETAIL = BASE + "getCustomerDetailsAndFollow";
     String HOME_LIVE_VIDEOS = BASE + "getCategoriesLiveVideos";
+    String PURCHASE_BANNER = BASE + "purchase_banner";
+    String CHECK_BANNER_SUBSCRIPTION = "checkBannerSubscription";
+    String ADD_BANNER = BASE + "customerAddBannerVideo";
 }

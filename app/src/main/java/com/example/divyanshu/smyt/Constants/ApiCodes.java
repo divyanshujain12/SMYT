@@ -33,4 +33,7 @@ public interface ApiCodes {
     int POST_VIDEO_PREVIOUS = 127;
     int HOME_CHALLENGES_VIDEOS = 128;
     int VOTE = 129;
+    int PURCHASE_BANNER = 130;
+    int CHECK_BANNER_SUBSCRIPTION = 131;
+    int ADD_BANNER = 132;
 }

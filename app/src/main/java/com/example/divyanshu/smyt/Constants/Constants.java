@@ -71,6 +71,8 @@ public interface Constants {
     String WOWZA_MYSTREAM_PREFIX = "myStream_";
 
     //IN-APP Purchase Ids
+    String LICENSE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr6GFNrWL8AxANIRSRfTuQpgJwlgZZwQeqPgOldEH8bk1IeKR54cDcPaozZCAl9JSLLp8PnBiTw5jB3XCk5pbeZWzebyAfwVdGgXDvSqJ5emlY3tJ++SuSidb/FF2lmn3ZuQOmK0B48W2lCtwoslhwtC4uHw+e/LXrvA82cHHDsmgejpzj+42H0FYzO/hiMzoBbJwrIJ8xyz74XBAceHuOJxDKN9D84DRrTc6xiCFoIgTK2NyPNbWGjeq5oiRmQNrVev9I63UFcLS3yVDx/ecjqmLJeBcUu1jLGnmhqRbSQ3MK7zb0qtnw/uCvJ19YgKVcqE1+eOeTl83Q2FpmAQBbQIDAQAB";
+    String MERCHANT_ID = "0061-7515-1038";
     String DOT = ".";
     String IN_APP_BASE = "com.smytex.livestream";
     String OTHER_CATEGORIES = IN_APP_BASE + DOT + "othercategories";
