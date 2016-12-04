@@ -60,7 +60,18 @@ public interface Constants {
     String VIDEO_NAME = "video_name";
     String TYPE = "type";
     String VOTING_CUSTOMER_ID = "voting_customer_id";
+    String IN_APP_TYPE = "in_app_type";
+    String PACKAGE_BANNER_TYPE = "packages_banner_type";
+    String CAT_NORMAL = "Normal";
+    String IS_PRCHASED = "is_purchased";
+    String CAT_PREMIUM = "Premium";
+    String TRANSACTION_ID = "transaction_id";
+    String CUSTOM_ID = "custom_id";
+    String SUCCESS = "success";
+    String VALID_TILL = "valid_till";
+    String PRODUCT_ID = "product_id";
     int REQUEST_TIMEOUT_TIME = 30000;
+
 
     //WOWZA server ----------------------------------------------------------
     String WOWZA_APPLICATION_NAME = "smytex";

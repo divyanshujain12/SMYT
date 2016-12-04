@@ -13,16 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.TransactionDetails;
 import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.InAppDialogs;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.VideoModel;
@@ -30,6 +26,8 @@ import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.InAppLocalApis;
+import com.example.divyanshu.smyt.activities.InAppActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,10 +37,14 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
+import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
+
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserVideosFragment extends BaseFragment implements BillingProcessor.IBillingHandler {
+public class UserVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack {
 
     UserVideoAdapter userVideoAdapter;
     @InjectView(R.id.videosRV)
@@ -50,10 +52,8 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     ArrayList<VideoModel> userVideoModels = new ArrayList<>();
     private TSnackbar continuousSB = null;
     private String customerID = "";
+    private int selectedVideo = 0;
 
-
-    private BillingProcessor billingProcessor;
-    private boolean readyToPurchase = false;
 
     public static UserVideosFragment getInstance(String customerID) {
         UserVideosFragment userVideosFragment = new UserVideosFragment();
@@ -97,8 +97,6 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
 
     private void initViews() {
 
-        billingProcessor = new BillingProcessor(getActivity(), Constants.LICENSE_KEY, Constants.MERCHANT_ID, this);
-
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);
@@ -128,38 +126,36 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        billingProcessor.consumePurchase(Constants.OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK);
+        selectedVideo = position;
         switch (view.getId()) {
-
             case R.id.commentsTV:
-                goVideoDescActivity(position);
+                goVideoDescActivity(selectedVideo);
                 break;
             case R.id.addVideoToBannerTV:
-                checkAndPayForBannerVideo(position);
-                InAppDialogs.getInstance().showOtherCategoryBannerDialog(getActivity(), billingProcessor);
+                checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
                 break;
             case R.id.addVideoToPremiumTV:
-                InAppDialogs.getInstance().showOtherCategoryToPremiumDialog(getActivity(), billingProcessor);
+                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
                 break;
         }
 
 
     }
 
-    private void checkAndPayForBannerVideo(int position) {
+    private void checkAndPayForBannerVideo(int purchaseType) {
+        setUpAvailabilityPurchase(purchaseType);
+        InAppLocalApis.getInstance().checkBannerAvailability(getContext(), Constants.CAT_NORMAL);
+    }
 
+    private void checkAndPayForAddVideoToPremium(int purchaseType) {
+        setUpAvailabilityPurchase(purchaseType);
+        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
     }
 
     private void goVideoDescActivity(int position) {
         Intent intent = new Intent(getActivity(), UserVideoDescActivity.class);
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoAdapter.videoModels.get(position).getCustomers_videos_id());
         startActivity(intent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!billingProcessor.handleActivityResult(requestCode, resultCode, data))
-            super.onActivityResult(requestCode, resultCode, data);
     }
 
     private JSONObject createJsonForUserVideos() {
@@ -186,34 +182,67 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
     }
 
 
+    private void setUpAvailabilityPurchase(int purchaseType) {
+        InAppLocalApis.getInstance().setCallback(this);
+        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
+
+    }
+
+    @Override
+    public void available(int purchaseType) {
+        switch (purchaseType) {
+            case OTHER_CATEGORY_BANNER:
+                InAppLocalApis.getInstance().addBannerToCategory(getContext(), userVideoModels.get(selectedVideo).getCustomers_videos_id());
+                break;
+            case OTHER_CATEGORY_TO_PREMIUM:
+                InAppLocalApis.getInstance().addVideoToPremiumCategory(getContext(), userVideoModels.get(selectedVideo).getCustomers_videos_id());
+                break;
+            case PREMIUM_CATEGORY_BANNER:
+                InAppLocalApis.getInstance().addBannerToCategory(getContext(), userVideoModels.get(selectedVideo).getCustomers_videos_id());
+                break;
+        }
+    }
+
+    @Override
+    public void notAvailable(int purchaseType) {
+        Intent intent = new Intent(getContext(), InAppActivity.class);
+        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
+       startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == InAppActivity.PURCHASE_REQUEST) {
+
+            if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
+
+                int type = data.getIntExtra(Constants.TYPE, 0);
+                String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
+                String productID = data.getStringExtra(Constants.PRODUCT_ID);
+                switch (type) {
+                    case OTHER_CATEGORY_BANNER:
+                        InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
+                        break;
+                    case OTHER_CATEGORY_TO_PREMIUM:
+                        InAppLocalApis.getInstance().purchaseCategory(getContext(), transactionID, productID);
+                        break;
+                    case PREMIUM_CATEGORY_BANNER:
+                        InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
+                        break;
+                }
+
+            } else {
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-
-    @Override
-    public void onProductPurchased(String productId, TransactionDetails details) {
-        Toast.makeText(getContext(), details.purchaseInfo.responseData, Toast.LENGTH_SHORT).show();
-    }
-
-
-    @Override
-    public void onPurchaseHistoryRestored() {
-
-    }
-
-    @Override
-    @Nullable
-    public void onBillingError(int errorCode, Throwable error) {
-
-
-    }
-
-    @Override
-    public void onBillingInitialized() {
-
     }
 
     private BroadcastReceiver updateVideoCommentCountReceiver = new BroadcastReceiver() {
@@ -227,4 +256,5 @@ public class UserVideosFragment extends BaseFragment implements BillingProcessor
             userVideoAdapter.addUserVideoData(userVideoModels);
         }
     };
+
 }

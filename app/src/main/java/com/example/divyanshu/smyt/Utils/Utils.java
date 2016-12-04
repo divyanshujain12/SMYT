@@ -154,8 +154,8 @@ public class Utils {
         System.out.println("different : " + different);
         long currentTimeDifference = 0;
         currentTimeDifference = getCurrentTimeInMillisecond() - different;
-        if(currentTimeDifference<0)
-            currentTimeDifference = different-getCurrentTimeInMillisecond();
+        if (currentTimeDifference < 0)
+            currentTimeDifference = different - getCurrentTimeInMillisecond();
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
@@ -179,26 +179,12 @@ public class Utils {
     }
 
 
-    /*public static String getTimeDifference(long active_before) {
-        String timePostFix = DAYS;
-        long tempMillis = active_before;
-        active_before = TimeUnit.MILLISECONDS.toDays(tempMillis);
-        if (active_before <= 0) {
-            active_before = TimeUnit.MILLISECONDS.toHours(tempMillis);
-            timePostFix = HOURS;
-        }
-        if (active_before <= 0) {
-            active_before = TimeUnit.MILLISECONDS.toMinutes(tempMillis);
-            timePostFix = MINUTES;
-        }
-        if (active_before <= 0) {
-            active_before = TimeUnit.MILLISECONDS.toSeconds(tempMillis);
-            timePostFix = SECONDS;
-        }
-        return String.valueOf(active_before) + " " + timePostFix;
-    }*/
-
     public static long getCurrentTimeInMillisecond() {
         return Calendar.getInstance().getTimeInMillis();
+    }
+
+    public static long getNextTwentyFourHoursInMS(long milliseconds) {
+        milliseconds = milliseconds + 86400000;
+        return milliseconds;
     }
 }
