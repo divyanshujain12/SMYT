@@ -39,6 +39,10 @@ public interface API {
     String GET_OTHER_CUSTOMER_DETAIL = BASE + "getCustomerDetailsAndFollow";
     String HOME_LIVE_VIDEOS = BASE + "getCategoriesLiveVideos";
     String PURCHASE_BANNER = BASE + "purchase_banner";
-    String CHECK_BANNER_SUBSCRIPTION = "checkBannerSubscription";
+    String CHECK_BANNER_SUBSCRIPTION = BASE + "checkBannerSubscription";
     String ADD_BANNER = BASE + "customerAddBannerVideo";
+    String GET_CATEGORY_BANNER = BASE + "getCategoriesBanners";
+    String CHECK_CATEGORY_SUBSCRIPTION_FOR_NEW_VIDEO = BASE + "checkCategorySubscriptionForNewVideo";
+    String ADD_VIDEO_OTHER_TO_PREMIUM_CATEGORY = BASE + "customerAddPremiumCategoryRecorderVideo";
+    String PURCHASE_CATEGORY = BASE + "purchase_category";
 }

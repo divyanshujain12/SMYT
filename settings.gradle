@@ -1,1 +1,1 @@
-include ':app', ':CustomPlayer'
+include ':app', ':CustomPlayer', ':inapplibrary'

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CustomPlayer/CustomPlayer.iml" filepath="$PROJECT_DIR$/CustomPlayer/CustomPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/SMYT.iml" filepath="$PROJECT_DIR$/SMYT.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inapplibrary/inapplibrary.iml" filepath="$PROJECT_DIR$/inapplibrary/inapplibrary.iml" />
     </modules>
   </component>
 </project>

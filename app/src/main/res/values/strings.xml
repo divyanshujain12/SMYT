@@ -131,5 +131,7 @@
     <string name="status_connected">Connected</string>
     <string name="status_disconnecting">Disconnecting...</string>
     <string name="unfollow">Unfollow</string>
+    <string name="banner_added_success">Banner Added Successfully!</string>
+    <string name="video_added_successfully">Video Added Succssfully!</string>
 
 </resources>
