@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.androidadvance.topsnackbar.TSnackbar;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.R;
@@ -113,9 +114,10 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
                     objectCallBackInterface.onJsonObjectSuccess(response, apiCode);
 
                 //CustomToasts.getInstance(context).showSuccessToast(response.getString(Constants.MESSAGE));
-            } else {
+            } else if (apiCode == ApiCodes.CHECK_BANNER_SUBSCRIPTION || apiCode == ApiCodes.CHECK_CATEGORY_SUBSCRIPTION_FOR_NEW_VIDEO) {
+                onError(response.toString());
+            } else
                 onError(response.getString(Constants.MESSAGE));
-            }
         } catch (final JSONException e) {
             onError(e.getMessage());
             e.printStackTrace();
@@ -155,7 +157,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
             CommonFunctions.hideContinuousSB(continuousSB);
         if (objectCallBackInterface != null)
             objectCallBackInterface.onFailure(error, apiCode);
-      //  CustomToasts.getInstance(context).showErrorToast(error);
+        //  CustomToasts.getInstance(context).showErrorToast(error);
     }
 
     private VolleyError configureErrorMessage(VolleyError volleyError) {

@@ -24,8 +24,8 @@ import java.util.List;
 import static com.example.divyanshu.smyt.Constants.Constants.OTHER_CATEGORY_BANNER_FIVE_VIDEOS_PACK;
 import static com.example.divyanshu.smyt.Constants.Constants.OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK;
 import static com.example.divyanshu.smyt.Constants.Constants.OTHER_CATEGORY_BANNER_THREE_VIDEOS_PACK;
-import static com.example.divyanshu.smyt.Constants.Constants.PREMIUM_NEW_MONTHLY_VIDEO_PACK;
-import static com.example.divyanshu.smyt.Constants.Constants.PREMIUM_NEW_SINGLE_VIDEO_PACK;
+import static com.example.divyanshu.smyt.Constants.Constants.PREMIUM_NEW_NINTY_DAYS_VIDEO_PACK;
+import static com.example.divyanshu.smyt.Constants.Constants.PREMIUM_NEW_SEVEN_DAYS_VIDEO_PACK;
 
 /**
  * Created by divyanshu.jain on 11/17/2016.
@@ -91,8 +91,8 @@ public class InAppDialogs {
 
     private ArrayList<String> createOtherCategoryToPremium() {
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(PREMIUM_NEW_SINGLE_VIDEO_PACK);
-        arrayList.add(PREMIUM_NEW_MONTHLY_VIDEO_PACK);
+        arrayList.add(PREMIUM_NEW_SEVEN_DAYS_VIDEO_PACK);
+        arrayList.add(PREMIUM_NEW_NINTY_DAYS_VIDEO_PACK);
         return arrayList;
     }
 

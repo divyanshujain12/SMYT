@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.SkuDetails;
-import com.anjlab.android.iab.v3.TransactionDetails;
 import com.example.divyanshu.smyt.Adapters.InAppPurchaseRVAdapter;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.InAppCallback;
@@ -90,8 +89,9 @@ public class InAppActivity extends AppCompatActivity implements RecyclerViewClic
 
     private ArrayList<String> createOtherCategoryToPremium() {
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(PREMIUM_NEW_SINGLE_VIDEO_PACK);
-        arrayList.add(PREMIUM_NEW_MONTHLY_VIDEO_PACK);
+        arrayList.add(PREMIUM_NEW_SEVEN_DAYS_VIDEO_PACK);
+        arrayList.add(PREMIUM_NEW_THIRTY_DAYS_VIDEO_PACK);
+        arrayList.add(PREMIUM_NEW_NINTY_DAYS_VIDEO_PACK);
         return arrayList;
     }
 

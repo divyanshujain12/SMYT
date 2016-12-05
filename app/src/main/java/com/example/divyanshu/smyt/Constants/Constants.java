@@ -67,7 +67,7 @@ public interface Constants {
     String CAT_PREMIUM = "Premium";
     String TRANSACTION_ID = "transaction_id";
     String CUSTOM_ID = "custom_id";
-    String SUCCESS = "success";
+    String SUCCESS = "Sucess";
     String VALID_TILL = "valid_till";
     String PRODUCT_ID = "product_id";
     String BANNERS = "banners";
@@ -95,8 +95,9 @@ public interface Constants {
     String OTHER_CATEGORY_BANNER_THREE_VIDEOS_PACK = OTHER_CATEGORIES + DOT + "bannerthreevideos";
     String OTHER_CATEGORY_BANNER_FIVE_VIDEOS_PACK = OTHER_CATEGORIES + DOT + "bannerfivevideos";
     //***from other categories to premium category
-    String PREMIUM_NEW_SINGLE_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumnewsinglevideo";
-    String PREMIUM_NEW_MONTHLY_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumnewmonthlyvideos";
+    String PREMIUM_NEW_SEVEN_DAYS_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumsevendaysvideos";
+    String PREMIUM_NEW_THIRTY_DAYS_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumthirtydaysvideos";
+    String PREMIUM_NEW_NINTY_DAYS_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumnintydaysvideos";
     //*** show video to premium category banner
     String PREMIUM_CATEGORY_BANNER_SINGLE_VIDEO_PACK = PREMIUM_CATEGORIES + DOT + "premiumbannersinglevideo";
     String PREMIUM_CATEGORY_BANNER_THREE_VIDEOS_PACK = PREMIUM_CATEGORIES + DOT + "premiumbannerthreevideos";

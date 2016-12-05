@@ -6,8 +6,11 @@ import android.content.Context;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.activities.InAppActivity;
+import com.example.divyanshu.smyt.activities.MyApp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,16 +102,30 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
     @Override
     public void onFailure(String str, int apiType) {
 
-        switch (apiType) {
-            case CHECK_BANNER_SUBSCRIPTION:
-                inAppAvailabilityCalBack.notAvailable(purchaseType);
-                break;
-            case CHECK_CATEGORY_SUBSCRIPTION_FOR_NEW_VIDEO:
-                inAppAvailabilityCalBack.notAvailable(purchaseType);
-                break;
-            default:
-                CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), str);
-                break;
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            String error_code = jsonObject.getString("error_code");
+            String productID = jsonObject.optString(Constants.CUSTOM_ID);
+            productID = Constants.OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK;
+            if (error_code.equalsIgnoreCase("2")) {
+                if (productID != null && !productID.equals(""))
+                    MyApp.getInstance().consumePurchase(productID);
+                CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), "Your package has been expired!Do you want to renew it!", new SnackBarCallback() {
+                    @Override
+                    public void doAction() {
+                        inAppAvailabilityCalBack.notAvailable(purchaseType);
+                    }
+                });
+            } else {
+                CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), "You do not have package! Would you like to purchase it!", new SnackBarCallback() {
+                    @Override
+                    public void doAction() {
+                        inAppAvailabilityCalBack.notAvailable(purchaseType);
+                    }
+                });
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
