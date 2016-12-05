@@ -84,7 +84,7 @@
         <item quantity="one">%d comment</item>
         <item quantity="other">%d comments</item>
     </plurals>
-    <string name="delete_video">Delete Video</string>
+    <string name="delete">Delete</string>
     <string name="delete_challenge">Delete Challenge</string>
     <string name="dummy_video_url">http://www.whatsupguys.in/demo/smyt/videos/video2.mp4</string>
     <string name="dummy_image_url">http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png</string>
@@ -133,5 +133,8 @@
     <string name="unfollow">Unfollow</string>
     <string name="banner_added_success">Banner Added Successfully!</string>
     <string name="video_added_successfully">Video Added Succssfully!</string>
+    <string name="no_video_available">No Video Available!</string>
+    <string name="premium_category">5</string>
+    <string name="not_played">NOT PLAYED</string>
 
 </resources>

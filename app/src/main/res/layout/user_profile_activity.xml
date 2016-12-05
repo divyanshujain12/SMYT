@@ -36,7 +36,7 @@
                 android:background="@color/navigation_bar_color"
                 app:titleTextColor="@color/colorPrimary"
                 app:subtitleTextColor="@color/colorPrimary"
-                app:layout_collapseMode="pin"
+                app:layout_collapseMode="parallax"
                 app:theme="@style/CustomToolbar">
 
 

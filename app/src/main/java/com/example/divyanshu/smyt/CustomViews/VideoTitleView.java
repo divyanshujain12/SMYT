@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.neopixl.pixlui.components.textview.TextView;
 
 /**
@@ -21,8 +23,7 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
     private ImageView moreIV;
     private static PopupWindow popupWindow = null;
     private int position;
-    private String title;
-    private PopupItemClicked popupItemClicked;
+    private String categoryID = "";
 
     public VideoTitleView(Context context) {
         super(context);
@@ -39,17 +40,20 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
         titleTV = (TextView) findViewById(R.id.titleTV);
         moreIV = (ImageView) findViewById(R.id.moreIV);
         moreIV.setOnClickListener(this);
+        categoryID = MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID);
     }
 
     public void setUp(String title, PopupItemClicked popupItemClicked, int position) {
-        this.title = title;
-        this.popupItemClicked = popupItemClicked;
         this.position = position;
         titleTV.setText(title);
         setUpPopupWindow(popupItemClicked);
     }
+
     private void setUpPopupWindow(PopupItemClicked popupItemClicked) {
-        popupWindow = CustomViewsHandler.getInstance().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
+        if (categoryID.equals(getContext().getString(R.string.premium_category)))
+            popupWindow = CustomViewsHandler.getInstance().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
+        else
+            popupWindow = CustomViewsHandler.getInstance().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
     }
 
     @Override

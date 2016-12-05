@@ -35,7 +35,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         this.recyclerViewClick = recyclerViewClick;
     }
 
-    public class ChallengeIncompleteDescViewHolder extends RecyclerView.ViewHolder {
+    private class RoundIncompleteDescViewHolder extends RecyclerView.ViewHolder {
         private ImageView firstUserIV, secondUserIV;
         private TextView firstUserNameTV, secondUserNameTV;
         private TextView roundNumberTV, genreNameTV;
@@ -43,7 +43,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
 
         private TextView dateTV;
 
-        public ChallengeIncompleteDescViewHolder(View view) {
+        private RoundIncompleteDescViewHolder(View view) {
             super(view);
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
@@ -58,13 +58,13 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
 
     }
 
-    public class ChallengeCompletedDescViewHolder extends RecyclerView.ViewHolder {
+    private class RoundCompletedDescViewHolder extends RecyclerView.ViewHolder {
         private ImageView firstUserIV, secondUserIV;
         private TextView firstUserNameTV, secondUserNameTV;
         private TextView roundNumberTV, genreNameTV;
         private FrameLayout userWinningBar;
 
-        public ChallengeCompletedDescViewHolder(View view) {
+        private RoundCompletedDescViewHolder(View view) {
             super(view);
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
@@ -72,7 +72,25 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
             secondUserNameTV = (TextView) view.findViewById(R.id.secondUserNameTV);
             roundNumberTV = (TextView) view.findViewById(R.id.roundNumberTV);
             genreNameTV = (TextView) view.findViewById(R.id.genreNameTV);
+            userWinningBar = (FrameLayout) view.findViewById(R.id.userWinningBar);
+        }
 
+    }
+
+    private class RoundNotPlayedDescViewHolder extends RecyclerView.ViewHolder {
+        private ImageView firstUserIV, secondUserIV;
+        private TextView firstUserNameTV, secondUserNameTV;
+        private TextView roundNumberTV, genreNameTV;
+        private FrameLayout userWinningBar;
+
+        private RoundNotPlayedDescViewHolder(View view) {
+            super(view);
+            firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
+            secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
+            firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
+            secondUserNameTV = (TextView) view.findViewById(R.id.secondUserNameTV);
+            roundNumberTV = (TextView) view.findViewById(R.id.roundNumberTV);
+            genreNameTV = (TextView) view.findViewById(R.id.genreNameTV);
             userWinningBar = (FrameLayout) view.findViewById(R.id.userWinningBar);
         }
 
@@ -83,29 +101,36 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         if (viewType == 0) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.challenge_incomplete_round_rv_item, parent, false);
-            return new ChallengeIncompleteDescViewHolder(itemView);
-        } else {
+            return new RoundIncompleteDescViewHolder(itemView);
+        } else if (viewType == 1) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.challenge_completed_round_rv_item, parent, false);
-            return new ChallengeCompletedDescViewHolder(itemView);
+            return new RoundCompletedDescViewHolder(itemView);
+        } else if (viewType == 2) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.challenge_round_not_played_rv_item, parent, false);
+            return new RoundNotPlayedDescViewHolder(itemView);
         }
+        return null;
     }
 
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof ChallengeIncompleteDescViewHolder)
-            setViewForIncompleteview(((ChallengeIncompleteDescViewHolder) holder), position);
-        else
-            setViewForCompleteview(((ChallengeCompletedDescViewHolder) holder), position);
+        if (holder instanceof RoundIncompleteDescViewHolder)
+            setViewForIncompleteRound(((RoundIncompleteDescViewHolder) holder), position);
+        else if (holder instanceof RoundCompletedDescViewHolder)
+            setViewForCompletedRound(((RoundCompletedDescViewHolder) holder), position);
+        else if (holder instanceof RoundNotPlayedDescViewHolder)
+            setViewForNotPlayedRound(((RoundNotPlayedDescViewHolder) holder), position);
     }
 
-    private void setViewForIncompleteview(ChallengeIncompleteDescViewHolder holder, int position) {
+    private void setViewForIncompleteRound(RoundIncompleteDescViewHolder holder, int position) {
 
         ChallengeModel challengeModel = challengeModels.get(position);
         //String[] splitDate = challengeModel.getRound_date().split(" ");
         long roundDateAndTime = Long.parseLong(challengeModel.getRound_date());
-        String timeDifference = Utils.getTimeDifference(roundDateAndTime);
+        String timeDifference = Utils.getChallengeTimeDifference(roundDateAndTime);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
         holder.roundNumberTV.setText(context.getString(R.string.round_txt) + " " + challengeModel.getRound_no());
@@ -116,7 +141,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.dateTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.DATE_FORMAT));
     }
 
-    private void setViewForCompleteview(final ChallengeCompletedDescViewHolder holder, int position) {
+    private void setViewForCompletedRound(final RoundCompletedDescViewHolder holder, int position) {
 
         ChallengeModel challengeModel = challengeModels.get(position);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
@@ -142,12 +167,25 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         });
     }
 
+    private void setViewForNotPlayedRound(final RoundNotPlayedDescViewHolder holder, int position) {
+
+        ChallengeModel challengeModel = challengeModels.get(position);
+        imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
+        imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
+        holder.roundNumberTV.setText(context.getString(R.string.round_txt) + " " + challengeModel.getRound_no());
+        holder.firstUserNameTV.setText(challengeModel.getFirst_name());
+        holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
+        holder.genreNameTV.setText(challengeModel.getGenre());
+    }
+
 
     @Override
     public int getItemViewType(int position) {
-
-        if (challengeModels.get(position).getComplete_status().equals("1"))
+        String status = challengeModels.get(position).getComplete_status();
+        if (status.equals("1"))
             return 1;
+        else if (!status.equals("1") && Utils.isTimeGone(Long.parseLong(challengeModels.get(position).getRound_date())))
+            return 2;
         else return 0;
     }
 

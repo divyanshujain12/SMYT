@@ -39,4 +39,5 @@ public interface ApiCodes {
     int CHECK_CATEGORY_SUBSCRIPTION_FOR_NEW_VIDEO = 133;
     int ADD_VIDEO_TO_PREMIUM = 134;
     int PURCHASE_CATEGORY = 135;
+    int BANNER_VIDEOS = 136;
 }

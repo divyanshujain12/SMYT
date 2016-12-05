@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:padding="@dimen/ten_dp"
-            android:text="@string/delete_video"
+            android:text="@string/delete"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />

@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.DialogActivities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,9 +26,11 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
+import com.example.divyanshu.smyt.activities.InAppActivity;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
@@ -42,8 +45,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
+import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
 
-public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener, PopupItemClicked {
+
+public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener, PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
 
     @InjectView(R.id.firstVideoPlayer)
     SingleVideoPlayer firstVideoPlayer;
@@ -301,6 +308,81 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onPopupMenuClicked(View view, int position) {
+        switch (view.getId()) {
+            case R.id.addVideoToBannerTV:
+                if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
+                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
+                else
+                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
+                break;
+            case R.id.addVideoToPremiumTV:
+                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
+                break;
+        }
+    }
 
+    private void checkAndPayForBannerVideo(int purchaseType) {
+        setUpAvailabilityPurchase(purchaseType);
+        InAppLocalApis.getInstance().checkBannerAvailability(this, purchaseType);
+    }
+
+    private void checkAndPayForAddVideoToPremium(int purchaseType) {
+        setUpAvailabilityPurchase(purchaseType);
+        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(this);
+    }
+
+    private void setUpAvailabilityPurchase(int purchaseType) {
+        InAppLocalApis.getInstance().setCallback(this);
+        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
+
+    }
+
+    @Override
+    public void available(int purchaseType) {
+        switch (purchaseType) {
+            case OTHER_CATEGORY_BANNER:
+                InAppLocalApis.getInstance().addBannerToCategory(this, videoDetailModel.getCustomers_videos_id());
+                break;
+            case OTHER_CATEGORY_TO_PREMIUM:
+                InAppLocalApis.getInstance().addVideoToPremiumCategory(this, videoDetailModel.getCustomers_videos_id());
+                break;
+            case PREMIUM_CATEGORY_BANNER:
+                InAppLocalApis.getInstance().addBannerToCategory(this, videoDetailModel.getCustomers_videos_id());
+                break;
+        }
+    }
+
+    @Override
+    public void notAvailable(int purchaseType) {
+        Intent intent = new Intent(this, InAppActivity.class);
+        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
+        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
+
+                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
+
+                    int type = data.getIntExtra(Constants.TYPE, 0);
+                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
+                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
+                    switch (type) {
+                        case OTHER_CATEGORY_BANNER:
+                            InAppLocalApis.getInstance().purchaseBanner(this, transactionID, productID);
+                            break;
+                        case OTHER_CATEGORY_TO_PREMIUM:
+                            InAppLocalApis.getInstance().purchaseCategory(this, transactionID, productID);
+                            break;
+                        case PREMIUM_CATEGORY_BANNER:
+                            InAppLocalApis.getInstance().purchaseBanner(this, transactionID, productID);
+                            break;
+                    }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

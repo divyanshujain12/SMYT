@@ -115,10 +115,6 @@ public class InAppActivity extends AppCompatActivity implements RecyclerViewClic
         billingProcessor.purchase(this, skuDetailsList.get(position).productId);
     }
 
-    public void consumePurchase(String productID) {
-        billingProcessor.consumePurchase(productID);
-    }
-
     @Override
     public void onPurchasedSuccess(String productID, String transactionID) {
         Intent intent = new Intent();

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:id="@+id/noVideoAvailableLL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/no_video" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/firstUserNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/five_dp"
+        android:maxLines="2"
+        android:text="@string/no_video_available"
+        android:textColor="@color/black"
+        android:textSize="@dimen/twenty_four_sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+</LinearLayout>

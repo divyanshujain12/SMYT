@@ -68,9 +68,9 @@ public class CustomViewsHandler {
         return popupWindow;
     }
 
-    public PopupWindow createUserChallengePopupWindow(Context context, final PopupItemClicked popupItemClicked, final int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.challenges_popup_window, null);
-        TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
+    public PopupWindow createUserPremiumPopupWindow(Context context, final PopupItemClicked popupItemClicked, final int position) {
+        View view = LayoutInflater.from(context).inflate(R.layout.premium_popup_window, null);
+        TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
         TextView deleteVideoTV = (TextView) view.findViewById(R.id.deleteVideoTV);
         popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true);
@@ -80,7 +80,7 @@ public class CustomViewsHandler {
         }
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
-        addVideoToPremiumTV.setOnClickListener(new View.OnClickListener() {
+        addVideoToBannerTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();

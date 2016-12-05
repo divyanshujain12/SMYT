@@ -74,7 +74,7 @@ public class Utils {
         });
     }
 
-    public static String getTimeDifference(String time) {
+    public static String getChallengeTimeDifference(String time) {
         String timeDifference = "";
         Date currentDate = Calendar.getInstance().getTime();
         Date givenDate = null;
@@ -82,7 +82,7 @@ public class Utils {
         try {
             givenDate = simpleDateFormat.parse(time);
             long differenceInMillisecond = givenDate.getTime() - currentDate.getTime();
-            timeDifference = getTimeDifference(differenceInMillisecond);
+            timeDifference = getChallengeTimeDifference(differenceInMillisecond);
             return timeDifference;
         } catch (ParseException e) {
             e.printStackTrace();
@@ -98,7 +98,7 @@ public class Utils {
         try {
             givenDate = simpleDateFormat.parse(time);
             long differenceInMillisecond = currentDate.getTime() - givenDate.getTime();
-            timeDifference = getTimeDifference(differenceInMillisecond) + " " + AGO;
+            timeDifference = getChallengeTimeDifference(differenceInMillisecond) + " " + AGO;
 
             return timeDifference;
         } catch (ParseException e) {
@@ -150,12 +150,20 @@ public class Utils {
     }
 
 
-    public static String getTimeDifference(long different) {
+    public static String getChallengeTimeDifference(long different) {
         System.out.println("different : " + different);
-        long currentTimeDifference = 0;
-        currentTimeDifference = getCurrentTimeInMillisecond() - different;
+        long currentTimeDifference = getCurrentTimeInMillisecond() - different;
         if (currentTimeDifference < 0)
             currentTimeDifference = different - getCurrentTimeInMillisecond();
+        return getDifferenceInString(currentTimeDifference);
+    }
+
+    public static String getVideoUploadTimeDifference(long different) {
+        long currentTimeDifference = different - getCurrentTimeInMillisecond();
+        return getDifferenceInString(currentTimeDifference);
+    }
+
+    private static String getDifferenceInString(long currentTimeDifference) {
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
@@ -186,5 +194,13 @@ public class Utils {
     public static long getNextTwentyFourHoursInMS(long milliseconds) {
         milliseconds = milliseconds + 86400000;
         return milliseconds;
+    }
+
+    public static boolean isTimeGone(long milliseconds) {
+        long difference = milliseconds - getCurrentTimeInMillisecond();
+        if (difference > 0)
+            return false;
+        else
+            return true;
     }
 }

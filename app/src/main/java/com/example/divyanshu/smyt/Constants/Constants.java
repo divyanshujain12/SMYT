@@ -70,6 +70,7 @@ public interface Constants {
     String SUCCESS = "success";
     String VALID_TILL = "valid_till";
     String PRODUCT_ID = "product_id";
+    String BANNERS = "banners";
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

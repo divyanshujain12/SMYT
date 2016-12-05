@@ -160,7 +160,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.commentsTV.setText(setComment(allVideoModel));
-        holder.uploadedTimeTV.setText(Utils.getTimeDifference(allVideoModel.getEdate()));
+        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
     }
 
@@ -174,7 +174,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
-        holder.uploadedTimeTV.setText(Utils.getTimeDifference(allVideoModel.getEdate()));
+        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
     }
 
     private void setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {
@@ -225,7 +225,16 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onPopupMenuClicked(View view, int position) {
-
+        switch (view.getId()) {
+            case R.id.addVideoToBannerTV:
+                recyclerViewClick.onClickItem(position, view);
+                break;
+            case R.id.addVideoToPremiumTV:
+                recyclerViewClick.onClickItem(position, view);
+                break;
+            case R.id.deleteVideoTV:
+                break;
+        }
     }
 }
 

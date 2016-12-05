@@ -7,6 +7,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.activities.InAppActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,9 +42,13 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
     }
 
 
-    public void checkBannerAvailability(Context context, String categoryType) {
+    public void checkBannerAvailability(Context context, int categoryType) {
         this.context = context;
-        CallWebService.getInstance(context, true, CHECK_BANNER_SUBSCRIPTION).hitJsonObjectRequestAPI(CallWebService.POST, API.CHECK_BANNER_SUBSCRIPTION, createJsonForCheckBannerAvailability(categoryType), this);
+        if (categoryType == InAppActivity.PREMIUM_CATEGORY_BANNER)
+            CallWebService.getInstance(context, true, CHECK_BANNER_SUBSCRIPTION).hitJsonObjectRequestAPI(CallWebService.POST, API.CHECK_BANNER_SUBSCRIPTION, createJsonForCheckBannerAvailability(Constants.CAT_PREMIUM), this);
+        else
+            CallWebService.getInstance(context, true, CHECK_BANNER_SUBSCRIPTION).hitJsonObjectRequestAPI(CallWebService.POST, API.CHECK_BANNER_SUBSCRIPTION, createJsonForCheckBannerAvailability(Constants.CAT_NORMAL), this);
+
     }
 
     public void checkAddVideoInPremiumCatAvailability(Context context) {

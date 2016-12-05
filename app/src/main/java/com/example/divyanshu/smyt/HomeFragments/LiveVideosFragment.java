@@ -21,8 +21,10 @@ import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.activities.InAppActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,16 +35,19 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import static com.example.divyanshu.smyt.Utils.Utils.CURRENT_DATE_FORMAT;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
+import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class LiveVideosFragment extends BaseFragment {
+public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack{
     @InjectView(R.id.liveVideosRV)
     RecyclerView liveVideosRV;
     private OngoingChallengesAdapter liveVideosAdapter;
     private ArrayList<ChallengeModel> challengeModels = new ArrayList<>();
-
+    private int selectedVideo;
     public static LiveVideosFragment getInstance() {
         return new LiveVideosFragment();
     }
@@ -97,9 +102,87 @@ public class LiveVideosFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        Intent intent = new Intent(getActivity(), LiveBattleDescActivity.class);
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModels.get(position).getCustomers_videos_id());
-        startActivity(intent);
+        selectedVideo = position;
+        switch (view.getId()) {
+            case R.id.addVideoToBannerTV:
+                if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
+                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
+                else
+                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
+                break;
+            case R.id.addVideoToPremiumTV:
+                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
+                break;
+
+            default:
+                Intent intent = new Intent(getActivity(), LiveBattleDescActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModels.get(position).getCustomers_videos_id());
+                startActivity(intent);
+                break;
+        }
+    }
+    private void checkAndPayForBannerVideo(int purchaseType) {
+        setUpAvailabilityPurchase(purchaseType);
+        InAppLocalApis.getInstance().checkBannerAvailability(getContext(), purchaseType);
+    }
+
+    private void checkAndPayForAddVideoToPremium(int purchaseType) {
+        setUpAvailabilityPurchase(purchaseType);
+        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
+    }
+    private void setUpAvailabilityPurchase(int purchaseType) {
+        InAppLocalApis.getInstance().setCallback(this);
+        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
+
+    }
+
+    @Override
+    public void available(int purchaseType) {
+        switch (purchaseType) {
+            case OTHER_CATEGORY_BANNER:
+                InAppLocalApis.getInstance().addBannerToCategory(getContext(), challengeModels.get(selectedVideo).getCustomers_videos_id());
+                break;
+            case OTHER_CATEGORY_TO_PREMIUM:
+                InAppLocalApis.getInstance().addVideoToPremiumCategory(getContext(), challengeModels.get(selectedVideo).getCustomers_videos_id());
+                break;
+            case PREMIUM_CATEGORY_BANNER:
+                InAppLocalApis.getInstance().addBannerToCategory(getContext(), challengeModels.get(selectedVideo).getCustomers_videos_id());
+                break;
+        }
+    }
+
+    @Override
+    public void notAvailable(int purchaseType) {
+        Intent intent = new Intent(getContext(), InAppActivity.class);
+        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
+        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
+
+                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
+
+                    int type = data.getIntExtra(Constants.TYPE, 0);
+                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
+                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
+                    switch (type) {
+                        case OTHER_CATEGORY_BANNER:
+                            InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
+                            break;
+                        case OTHER_CATEGORY_TO_PREMIUM:
+                            InAppLocalApis.getInstance().purchaseCategory(getContext(), transactionID, productID);
+                            break;
+                        case PREMIUM_CATEGORY_BANNER:
+                            InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
+                            break;
+                    }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private JSONObject createJsonForGetVideoData() {

@@ -1,14 +1,13 @@
 package com.example.divyanshu.smyt.Parser;
 
 import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static com.example.divyanshu.smyt.Utils.Utils.getTimeDifference;
 
 /**
  * Created by divyanshu.jain on 9/22/2016.
@@ -44,7 +43,7 @@ public class UserParser {
                 userModel.setGender(gender);
                 userModel.setDate_of_birth(date_of_birth);
                 userModel.setPhonenumber(phonenumber);
-                userModel.setActive_before(getTimeDifference(active_before));
+                userModel.setActive_before(Utils.getChallengeTimeDifference(active_before));
 
                 userModels.add(userModel);
 

@@ -1,6 +1,5 @@
 package com.example.divyanshu.smyt.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,13 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
-import com.example.divyanshu.smyt.CustomViews.CustomViewsHandler;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
@@ -24,7 +21,6 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -45,8 +41,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
-    private PopupWindow popupWindow = null;
     private int selectedVideoPos = -1;
+    private String categoryID = "";
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
 
@@ -76,7 +72,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         this.videoModels = videoModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
-        popupWindow = CustomViewsHandler.getInstance().createUserVideosPopupWindow(context, this, selectedVideoPos);
+        categoryID = MySharedPereference.getInstance().getString(context, Constants.CATEGORY_ID);
     }
 
     @Override
@@ -99,7 +95,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         holder.firstUserNameTV.setText(videoModel.getFirst_name());
         holder.firstVideoPlayer.setVideoUrl(videoModel.getVideo_url());
         holder.firstVideoPlayer.setThumbnail(videoModel.getThumbnail());
-        holder.uploadedTimeTV.setText(Utils.getTimeDifference(videoModel.getEdate()));
+        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
         holder.commentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,12 +145,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
 
     @Override
     public void doAction() {
-        if (InternetCheck.isInternetOn(context)) {
-            removeItem();
-            CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(), null);
-        } else {
-            CommonFunctions.getInstance().showErrorSnackBar((Activity) context, context.getString(R.string.no_internet_connection));
-        }
+        removeItem();
+        CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(), null);
     }
 
     private void removeItem() {

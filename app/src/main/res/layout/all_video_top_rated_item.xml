@@ -1,41 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="@dimen/one_hundred_fifty_five_dp"
     android:layout_height="@dimen/one_hundred_fourty_five_dp"
     android:layout_margin="@dimen/five_dp"
+    app:cardUseCompatPadding="true"
     card_view:cardCornerRadius="@dimen/card_corner_radius"
-    card_view:cardElevation="@dimen/card_elevation_size"
-   >
+    card_view:cardElevation="@dimen/card_elevation_size">
 
-    <FrameLayout
-        android:id="@+id/videoFL"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/one_hundred_dp">
-
-        <ImageView
-            android:id="@+id/userIV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/top_corner_white"
-            android:padding="3dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/user" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha=".5"
-            android:background="#000000" />
-
-        <ImageView
-            android:id="@+id/playVideoIV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/icon_play" />
-    </FrameLayout>
+    <include layout="@layout/top_rated_video_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"

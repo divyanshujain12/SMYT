@@ -100,7 +100,7 @@ public class UserCompletedChallengeFragment extends BaseFragment {
         super.onClickItem(position, view);
         Intent intent = new Intent(getActivity(), OngoingChallengeDescriptionActivity.class);
         intent.putExtra(Constants.CHALLENGE_ID, challengeModels.get(position).getChallenge_id());
-        intent.putExtra(Constants.ACCEPT_STATUS, challengeModels.get(position).getCurrent_customer_video_status());
+        intent.putExtra(Constants.ACCEPT_STATUS, 1);
         startActivity(intent);
     }
 

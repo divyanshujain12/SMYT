@@ -1,7 +1,6 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,8 +18,6 @@ import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -99,7 +96,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());
         holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
-        holder.uploadedTimeTV.setText(Utils.getTimeDifference(challengeModel.getEdate()));
+        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(challengeModel.getEdate()));
         holder.userOneVoteCountTV.setText(challengeModel.getVote());
         holder.userTwoVoteCountTV.setText(challengeModel.getVote1());
 
@@ -125,7 +122,16 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
     @Override
     public void onPopupMenuClicked(View view, int position) {
-
+        switch (view.getId()) {
+            case R.id.addVideoToBannerTV:
+                recyclerViewClick.onClickItem(position, view);
+                break;
+            case R.id.addVideoToPremiumTV:
+                recyclerViewClick.onClickItem(position, view);
+                break;
+            case R.id.deleteVideoTV:
+                break;
+        }
     }
 
     @NonNull

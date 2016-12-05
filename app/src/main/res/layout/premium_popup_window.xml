@@ -14,12 +14,12 @@
         android:orientation="vertical">
 
         <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/addVideoToPremiumTV"
+            android:id="@+id/addVideoToBannerTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:padding="@dimen/ten_dp"
-            android:text="@string/add_to_premium"
+            android:text="@string/add_to_banner"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:padding="@dimen/ten_dp"
-            android:text="@string/delete_challenge"
+            android:text="@string/delete"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />

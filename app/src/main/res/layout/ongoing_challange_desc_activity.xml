@@ -19,7 +19,6 @@
         android:id="@+id/acceptAndDeclineLL"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fourty_dp"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <com.neopixl.pixlui.components.button.Button
