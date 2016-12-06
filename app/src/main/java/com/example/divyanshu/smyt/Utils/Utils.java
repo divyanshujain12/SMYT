@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -202,5 +203,16 @@ public class Utils {
             return false;
         else
             return true;
+    }
+
+    public static long getTimeDifferenceFromCurrent(long timeInMS) {
+        return timeInMS - getCurrentTimeInMillisecond();
+    }
+
+    public static String getTimeInHMS(long millis) throws ParseException {
+        return String.format(Locale.getDefault(), "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+
     }
 }

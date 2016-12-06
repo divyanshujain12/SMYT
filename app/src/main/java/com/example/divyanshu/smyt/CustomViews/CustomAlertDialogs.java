@@ -152,6 +152,7 @@ public class CustomAlertDialogs {
     }
 
 
+
     private static void setupFullWidthDialog() {
         alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = alertDialog.getWindow();

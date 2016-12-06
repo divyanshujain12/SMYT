@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:sampleui="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_with_ninety_nine"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/recordVideoFL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.wowza.gocoder.sdk.api.devices.WZCameraView
+            android:id="@+id/cameraPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <include layout="@layout/record_video_top_bar" />
+
+        <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView
+            android:id="@+id/statusView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/five_dp"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_music" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Background Music"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/ten_dp"
+                    pixlui:typeface="Roboto-Medium.ttf" />
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:id="@+id/backgroundStateTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:padding="@dimen/five_dp"
+                    android:text="ON"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/ten_dp"
+                    pixlui:typeface="Roboto-Medium.ttf" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_tone"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/ten_dp"
+                    pixlui:typeface="Roboto-Medium.ttf" />
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:id="@+id/toneTypeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/five_dp"
+                    android:text="Source"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/ten_dp"
+                    pixlui:typeface="Roboto-Medium.ttf" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton
+            android:id="@+id/ic_broadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/twenty_dp"
+            android:clickable="true"
+            android:onClick="onToggleBroadcast"
+            android:src="@drawable/playing_video_recording_btn"
+            sampleui:offSrc="@drawable/stopped_video_recording_btn" />
+
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+
+            android:layout_gravity="bottom|left">
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/otherUserWaitingTV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="@dimen/five_dp"
+                android:text="@string/waiting"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.player.divyanshu.customvideoplayer.StandardVideoPlayer
+                android:id="@+id/otherUserVideoPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/timerLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/five_dp"
+            android:text="@string/next_round_in"
+            android:textColor="@color/white"
+            android:textSize="@dimen/twenty_sp"
+            pixlui:typeface="Roboto-Medium.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/countDownTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:padding="@dimen/five_dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/twenty_six_sp"
+            pixlui:typeface="RAVIE.TTF" />
+    </LinearLayout>
+</FrameLayout>

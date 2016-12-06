@@ -45,4 +45,5 @@ public interface API {
     String CHECK_CATEGORY_SUBSCRIPTION_FOR_NEW_VIDEO = BASE + "checkCategorySubscriptionForNewVideo";
     String ADD_VIDEO_OTHER_TO_PREMIUM_CATEGORY = BASE + "customerAddPremiumCategoryRecorderVideo";
     String PURCHASE_CATEGORY = BASE + "purchase_category";
+    String UPCOMING_EVENTS = BASE + "upcoming_events";
 }

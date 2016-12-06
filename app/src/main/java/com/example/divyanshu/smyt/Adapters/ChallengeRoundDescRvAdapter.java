@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.activities.ChallengeRecordVideoActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -127,7 +130,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private void setViewForIncompleteRound(RoundIncompleteDescViewHolder holder, int position) {
 
-        ChallengeModel challengeModel = challengeModels.get(position);
+        final ChallengeModel challengeModel = challengeModels.get(position);
         //String[] splitDate = challengeModel.getRound_date().split(" ");
         long roundDateAndTime = Long.parseLong(challengeModel.getRound_date());
         String timeDifference = Utils.getChallengeTimeDifference(roundDateAndTime);
@@ -139,6 +142,17 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTimeTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.TIME_FORMAT) + " (" + timeDifference + " left)");
         holder.dateTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.DATE_FORMAT));
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ChallengeRecordVideoActivity.class);
+                intent.putExtra(Constants.ROUND_TIME, challengeModel.getRound_date());
+                intent.putExtra(Constants.CHALLENGE_ID,challengeModel.getChallenge_id());
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void setViewForCompletedRound(final RoundCompletedDescViewHolder holder, int position) {

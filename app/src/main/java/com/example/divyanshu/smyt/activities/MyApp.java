@@ -93,7 +93,8 @@ public class MyApp extends Application implements BillingProcessor.IBillingHandl
 
     @Override
     public void onProductPurchased(String productId, TransactionDetails details) {
-        inAppCallback.onPurchasedSuccess(productId,details.purchaseInfo.purchaseData.purchaseToken);
+        if (inAppCallback != null)
+            inAppCallback.onPurchasedSuccess(productId, details.purchaseInfo.purchaseData.purchaseToken);
     }
 
     @Override
@@ -103,13 +104,15 @@ public class MyApp extends Application implements BillingProcessor.IBillingHandl
 
     @Override
     public void onBillingError(int errorCode, Throwable error) {
-        inAppCallback.onFailure();
+        if (inAppCallback != null)
+            inAppCallback.onFailure();
     }
 
     @Override
     public void onBillingInitialized() {
 
     }
+
     public void consumePurchase(String productID) {
         billingProcessor.consumePurchase(productID);
     }

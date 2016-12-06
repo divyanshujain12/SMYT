@@ -150,6 +150,10 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         notifyItemRangeChanged(position, getItemCount());
 
     }
+    public void clear(){
+        challengeModels.clear();
+        notifyDataSetChanged();
+    }
 
     public void updateAcceptStatusIntoList(int pos) {
         challengeModels.get(pos).setCurrent_customer_video_status(1);

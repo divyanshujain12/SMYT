@@ -146,6 +146,7 @@ public class UserOngoingChallengeFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
             int type = intent.getIntExtra(Constants.TYPE, 0);
             if (type == 1) {
+                userOngoingChallengesAdapter.clear();
                 hitOnGoingChallengeApi();
             } else {
                 int acceptStatus = intent.getIntExtra(Constants.ACCEPT_STATUS, -1);

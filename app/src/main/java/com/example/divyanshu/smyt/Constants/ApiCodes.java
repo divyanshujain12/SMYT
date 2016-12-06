@@ -40,4 +40,5 @@ public interface ApiCodes {
     int ADD_VIDEO_TO_PREMIUM = 134;
     int PURCHASE_CATEGORY = 135;
     int BANNER_VIDEOS = 136;
+    int UPCOMING_EVENTS = 137;
 }
