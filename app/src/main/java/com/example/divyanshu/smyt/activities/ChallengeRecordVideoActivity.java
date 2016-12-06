@@ -19,6 +19,7 @@ import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.StandardVideoPlayer;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
@@ -48,6 +49,10 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase {
     TextView countDownTV;
     @InjectView(R.id.timerLL)
     LinearLayout timerLL;
+    @InjectView(R.id.otherUserWaitingTV)
+    TextView otherUserWaitingTV;
+    @InjectView(R.id.otherUserVideoPlayer)
+    StandardVideoPlayer otherUserVideoPlayer;
     private CountDownTimerClass countDownTimerClass;
     private String challengeID;
 

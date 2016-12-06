@@ -56,6 +56,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     private FrameLayout playerView;
     private int surfaceViewID = 10001;
     private Uri videoUri;
+    private boolean hideAlwaysProgressBar = false;
 
     public enum State {
         Retrieving,

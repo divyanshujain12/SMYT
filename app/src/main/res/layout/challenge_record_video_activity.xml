@@ -145,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/five_dp"
-            android:text="@string/next_round_in"
+            android:text="@string/round_start_in"
             android:textColor="@color/white"
             android:textSize="@dimen/twenty_sp"
             pixlui:typeface="Roboto-Medium.ttf" />

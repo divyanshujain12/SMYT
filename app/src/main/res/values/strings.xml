@@ -136,7 +136,7 @@
     <string name="no_video_available">No Video Available!</string>
     <string name="premium_category">5</string>
     <string name="not_played">NOT PLAYED</string>
-    <string name="next_round_in">Next Round In</string>
+    <string name="round_start_in">Round Start In</string>
     <string name="waiting">waiting...</string>
 
 </resources>
