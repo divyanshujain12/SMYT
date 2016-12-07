@@ -41,4 +41,5 @@ public interface ApiCodes {
     int PURCHASE_CATEGORY = 135;
     int BANNER_VIDEOS = 136;
     int UPCOMING_EVENTS = 137;
+    int USER_AVAILABILITY = 138;
 }

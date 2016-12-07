@@ -5,11 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -55,6 +57,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
+
 public class UserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener, View.OnClickListener, RuntimePermissionHeadlessFragment.PermissionCallback {
     @InjectView(R.id.profileImage)
     ImageView profileImage;
@@ -289,7 +292,12 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     public void onClick(View v) {
         Intent intent = new Intent(this, ProfileImageFullScreen.class);
         intent.putExtra(Constants.PROFILE_IMAGE, userModel.getProfileimage());
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            profileImage.setTransitionName(Constants.PROFILE_IMAGE);
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, profileImage, Constants.PROFILE_IMAGE);
+            startActivity(intent, activityOptionsCompat.toBundle());
+        } else
+            startActivity(intent);
     }
 
     @Override

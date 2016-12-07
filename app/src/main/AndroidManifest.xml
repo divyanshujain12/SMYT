@@ -88,6 +88,7 @@
         <activity android:name=".activities.ChallengeRecordVideoActivity" />
 
         <service android:name=".ServicesAndNotifications.NotificationService" />
+        <service android:name=".ServicesAndNotifications.OtherUserAvailabilityService" />
 
 
     </application>

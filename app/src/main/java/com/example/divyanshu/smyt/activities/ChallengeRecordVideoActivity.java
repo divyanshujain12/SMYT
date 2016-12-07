@@ -17,9 +17,10 @@ import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.ServicesAndNotifications.OtherUserAvailabilityService;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.StandardVideoPlayer;
+import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
@@ -32,7 +33,7 @@ import butterknife.InjectView;
  * Created by divyanshu.jain on 12/6/2016.
  */
 
-public class ChallengeRecordVideoActivity extends CameraActivityBase {
+public class ChallengeRecordVideoActivity extends CameraActivityBase implements OtherUserAvailabilityService.UserAvailabilityInterface {
     @InjectView(R.id.ic_switch_camera)
     MultiStateButton icSwitchCamera;
     @InjectView(R.id.ic_torch)
@@ -52,9 +53,10 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase {
     @InjectView(R.id.otherUserWaitingTV)
     TextView otherUserWaitingTV;
     @InjectView(R.id.otherUserVideoPlayer)
-    StandardVideoPlayer otherUserVideoPlayer;
+    SingleVideoPlayer otherUserVideoPlayer;
     private CountDownTimerClass countDownTimerClass;
     private String challengeID;
+    boolean serviceStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase {
         long remainingTime = Utils.getTimeDifferenceFromCurrent(roundDateAndTime);
         CountDownTimerClass countDownTimerClass = new CountDownTimerClass(remainingTime, 1000);
         countDownTimerClass.start();
+        otherUserVideoPlayer.setHideControls(true);
     }
 
 
@@ -177,6 +180,7 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase {
     }
 
     private class CountDownTimerClass extends CountDownTimer {
+
         private CountDownTimerClass(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
@@ -195,8 +199,34 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase {
         public void onFinish() {
             timerLL.setVisibility(View.GONE);
             recordVideoFL.setVisibility(View.VISIBLE);
-            if (mAutoFocusDetector == null)
-                mAutoFocusDetector = new GestureDetectorCompat(ChallengeRecordVideoActivity.this, new AutoFocusListener(ChallengeRecordVideoActivity.this, mWZCameraView));
+            initialize();
+        }
+
+    }
+
+    private void initialize() {
+        if (mAutoFocusDetector == null)
+            mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
+
+        Intent intent = new Intent(this, OtherUserAvailabilityService.class);
+        startService(intent);
+        OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(this);
+        serviceStarted = true;
+    }
+
+    @Override
+    public void onAvailable(String videoUrl) {
+        otherUserWaitingTV.setVisibility(View.GONE);
+        otherUserVideoPlayer.setVideoUrl(videoUrl);
+        otherUserVideoPlayer.playVideo();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (serviceStarted) {
+            Intent intent = new Intent(this, OtherUserAvailabilityService.class);
+            stopService(intent);
         }
     }
 }

@@ -31,17 +31,18 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_marginBottom="@dimen/twenty_dp"
-            android:layout_marginRight="@dimen/five_dp"
-            android:gravity="right"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:gravity="end"
             android:orientation="vertical"
             android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_music" />
+                android:src="@drawable/icon_music"
+                android:contentDescription="@string/app_name"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -52,9 +53,9 @@
                 <com.neopixl.pixlui.components.textview.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background Music"
+                    android:text="@string/background_music"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/ten_dp"
+                    android:textSize="@dimen/ten_sp"
                     pixlui:typeface="Roboto-Medium.ttf" />
 
                 <com.neopixl.pixlui.components.textview.TextView
@@ -63,9 +64,9 @@
                     android:layout_height="wrap_content"
 
                     android:padding="@dimen/five_dp"
-                    android:text="ON"
+                    android:text="@string/on"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/ten_dp"
+                    android:textSize="@dimen/ten_sp"
                     pixlui:typeface="Roboto-Medium.ttf" />
             </LinearLayout>
 
@@ -80,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/select_tone"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/ten_dp"
+                    android:textSize="@dimen/ten_sp"
                     pixlui:typeface="Roboto-Medium.ttf" />
 
                 <com.neopixl.pixlui.components.textview.TextView
@@ -88,9 +89,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/five_dp"
-                    android:text="Source"
+                    android:text="@string/source"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/ten_dp"
+                    android:textSize="@dimen/ten_sp"
                     pixlui:typeface="Roboto-Medium.ttf" />
             </LinearLayout>
         </LinearLayout>
@@ -99,7 +100,7 @@
             android:id="@+id/ic_broadcast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/twenty_dp"
             android:clickable="true"
             android:onClick="onToggleBroadcast"
@@ -109,8 +110,12 @@
         <FrameLayout
             android:layout_width="150dp"
             android:layout_height="100dp"
+            android:layout_gravity="bottom|start">
 
-            android:layout_gravity="bottom|left">
+            <com.player.divyanshu.customvideoplayer.SingleVideoPlayer
+                android:id="@+id/otherUserVideoPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/otherUserWaitingTV"
@@ -125,10 +130,6 @@
                 android:textSize="@dimen/sixteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
-            <com.player.divyanshu.customvideoplayer.StandardVideoPlayer
-                android:id="@+id/otherUserVideoPlayer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
         </FrameLayout>
     </FrameLayout>
 

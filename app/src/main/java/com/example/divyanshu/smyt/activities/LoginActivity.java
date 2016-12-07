@@ -10,10 +10,10 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
-import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.button.Button;
@@ -121,6 +121,7 @@ public class LoginActivity extends BaseActivity {
 
         Intent categoryIntent = new Intent(this, CategoriesActivity.class);
         startActivity(categoryIntent);
+        finish();
     }
 
 }

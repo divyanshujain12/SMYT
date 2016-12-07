@@ -16,6 +16,7 @@ import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.UserProfileFragments.UserOngoingChallengeFragment;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
@@ -57,6 +58,7 @@ public class HomeActivity extends BaseActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.tab_all_videos));
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
+        viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(), getString(R.string.new_challenges));
         viewPagerAdapter.addFragment(SearchFragment.getInstance(categoryModel.getId()), getString(R.string.tab_search));
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(3);

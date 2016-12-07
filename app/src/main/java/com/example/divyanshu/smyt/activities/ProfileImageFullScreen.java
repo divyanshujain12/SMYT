@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,9 @@ public class ProfileImageFullScreen extends AppCompatActivity {
         Utils.configureToolbarWithBackButton(this, toolbarView, "");
         String imageUrl = getIntent().getStringExtra(Constants.PROFILE_IMAGE);
         imageLoading = new ImageLoading(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fullViewIV.setTransitionName(Constants.PROFILE_IMAGE);
+        }
         imageLoading.LoadImage(imageUrl, fullViewIV, null);
 
     }

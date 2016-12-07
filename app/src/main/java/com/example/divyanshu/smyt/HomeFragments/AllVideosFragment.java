@@ -103,6 +103,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
+
         noVideoAvailableLL.setVisibility(View.GONE);
         switch (apiType) {
             case ALL_VIDEO_DATA:
@@ -119,6 +120,12 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     @Override
     public void onFailure(String str, int apiType) {
         super.onFailure(str, apiType);
+        switch (apiType) {
+            case ALL_VIDEO_DATA:
+                noVideoAvailableLL.setVisibility(View.VISIBLE);
+                break;
+
+        }
     }
 
     private JSONObject createJsonForGetVideoData() {

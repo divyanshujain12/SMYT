@@ -76,4 +76,12 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
         showHideBlackLayer(false);
         MediaPlayerHelper.getInstance().setStopPlayingInterface(this);
     }
+
+    public void setHideControls(boolean hide) {
+        standardVideoPlayer.setHideControls(hide);
+    }
+
+    public void playVideo() {
+        standardVideoPlayer.playVideo();
+    }
 }

@@ -46,4 +46,5 @@ public interface API {
     String ADD_VIDEO_OTHER_TO_PREMIUM_CATEGORY = BASE + "customerAddPremiumCategoryRecorderVideo";
     String PURCHASE_CATEGORY = BASE + "purchase_category";
     String UPCOMING_EVENTS = BASE + "upcoming_events";
+    String USER_AVAILABILITY_SERVICE = BASE + "other_user_availability";
 }

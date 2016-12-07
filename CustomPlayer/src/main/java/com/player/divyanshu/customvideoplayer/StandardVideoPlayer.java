@@ -56,7 +56,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     private FrameLayout playerView;
     private int surfaceViewID = 10001;
     private Uri videoUri;
-    private boolean hideAlwaysProgressBar = false;
+    private boolean hideControls = false;
 
     public enum State {
         Retrieving,
@@ -333,8 +333,8 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         linearLayoutMediaController.setVisibility(View.GONE);
     }
 
-    private void showHideMediaControls(final boolean visible) {
-        if (visible) {
+    private void showHideMediaControls(final boolean show) {
+        if (show && !hideControls) {
             linearLayoutMediaController.setVisibility(View.VISIBLE);
             imageViewPauseIndicator.setVisibility(View.VISIBLE);
         } else {
@@ -568,5 +568,9 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     protected void setShowPlayButton(boolean clickable) {
         //  this.imageViewPauseIndicator.setClickable(clickable);
         imageViewPauseIndicator.setVisibility(clickable ? VISIBLE : GONE);
+    }
+
+    public void setHideControls(boolean hideControls) {
+        this.hideControls = hideControls;
     }
 }

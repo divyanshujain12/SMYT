@@ -197,7 +197,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     }
 
     private void isPremiumGenre() {
-        if (categoryID.equals("111")) {
+        if (categoryID.equals("5")) {
             setGenreSpinnerShow(false);
             genreTypesArray = getResources().getStringArray(R.array.genre_type);
             arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, genreTypesArray);
@@ -328,10 +328,10 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
             try {
                 date = Utils.getDateFromDateTmeString(dateValue, timeValue);
                 long diff = (date.getTime() - previousDate.getTime()) / (60 * 60 * 1000);
-                if (i == 0 && diff <= 0) {
+                /*if (i == 0 && diff <= 0) {
                     CustomDateTimePickerHelper.getInstance().showErrorMessage(getContext(), i, getString(R.string.one_hours_err_msg));
                     return false;
-                } else if (i > 0 && diff < 24) {
+                } else*/ if (i > 0 && diff < 24) {
                     CustomDateTimePickerHelper.getInstance().showErrorMessage(getContext(), i, getString(R.string.twenty_four_hours_err_msg));
                     return false;
                 }

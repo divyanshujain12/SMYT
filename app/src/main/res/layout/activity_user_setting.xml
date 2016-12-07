@@ -9,6 +9,7 @@
     <include layout="@layout/custom_toolbar" />
 
     <ScrollView
+        android:id="@+id/contentSV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbarView"
@@ -215,13 +216,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:drawablePadding="@dimen/ten_dp"
                         android:drawableStart="@drawable/password_icon"
+                        android:focusable="false"
                         android:hint="@string/change_password"
                         android:inputType="numberPassword"
                         android:maxLines="1"
-                        android:clickable="false"
-                        android:focusable="false"
                         android:padding="@dimen/ten_dp"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sixteen_sp"
@@ -268,6 +269,19 @@
                 android:drawablePadding="@dimen/five_dp"
                 android:padding="@dimen/five_dp"
                 android:text="@string/contact_us"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/logoutTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:drawableStart="@drawable/logout"
+                android:drawablePadding="@dimen/five_dp"
+                android:padding="@dimen/five_dp"
+                android:text="@string/log_out"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sixteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />

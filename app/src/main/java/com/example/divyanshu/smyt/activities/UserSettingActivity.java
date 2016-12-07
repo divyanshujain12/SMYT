@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
@@ -77,6 +78,10 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     TextView updateTV;
     @InjectView(R.id.changePasswordET)
     EditText changePasswordET;
+    @InjectView(R.id.contentSV)
+    ScrollView contentSV;
+    @InjectView(R.id.logoutTV)
+    TextView logoutTV;
     private UserModel userModel;
     private Validation validation;
     private HashMap<View, String> hashMap;
@@ -94,7 +99,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     }
 
     private void InitViews() {
-
+        contentSV.setVisibility(View.GONE);
         createPermission();
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.setting));
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
@@ -116,12 +121,6 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         externalStoragePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
     }
-
-    /*private void addRuntimePermissionFragment() {
-        runtimePermissionHeadlessFragment = RuntimePermissionHeadlessFragment.newInstance(this);
-        getSupportFragmentManager().beginTransaction().add(runtimePermissionHeadlessFragment, runtimePermissionHeadlessFragment.getClass().getName()).commit();
-    }*/
-
 
     @OnClick({R.id.aboutUsTV, R.id.contactUsTV, R.id.changeUserImageIV, R.id.updateTV})
     public void onClick(View view) {
@@ -215,6 +214,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     }
 
     private void updateUI() {
+        contentSV.setVisibility(View.VISIBLE);
         imageLoading.LoadImage(userModel.getProfileimage(), userIV, null);
         firstNameET.setText(userModel.getFirst_name());
         lastNameET.setText(userModel.getLast_name());
@@ -270,5 +270,14 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     protected void onResume() {
         super.onResume();
         CommonFunctions.getInstance().hideKeyBoard(this, userIV);
+    }
+
+    @OnClick(R.id.logoutTV)
+    public void onClick() {
+        MySharedPereference.getInstance().clearSharedPreference(this);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

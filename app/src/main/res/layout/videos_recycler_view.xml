@@ -12,5 +12,5 @@
 
         android:padding="@dimen/five_dp" />
 
-    <include layout="@layout/no_video_avaialble_view" />
+    <include layout="@layout/no_video_available_view" />
 </FrameLayout>
