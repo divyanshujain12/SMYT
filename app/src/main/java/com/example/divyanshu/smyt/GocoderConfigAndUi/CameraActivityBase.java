@@ -36,25 +36,26 @@ import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_STREAM_URL;
 import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_USERNAME;
 
 abstract public class CameraActivityBase extends GoCoderSDKActivityBase
-    implements WZCameraView.PreviewStatusListener{
+        implements WZCameraView.PreviewStatusListener {
 
     private final static String TAG = CameraActivityBase.class.getSimpleName();
 
     // UI controls
     protected MultiStateButton mBtnBroadcast = null;
-    protected StatusView mStatusView   = null;
+    protected StatusView mStatusView = null;
 
     // The GoCoder SDK camera preview display view
-    protected WZCameraView  mWZCameraView  = null;
+    protected WZCameraView mWZCameraView = null;
     protected WZAudioDevice mWZAudioDevice = null;
 
     private boolean mDevicesInitialized = false;
-    private boolean mUIInitialized      = false;
+    private boolean mUIInitialized = false;
     private Pattern uri;
     protected String videoName = "";
     protected String streamVideoUrl = "";
     private String userID = "";
     private WZStatus goCoderStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,22 +138,24 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             }
         });*/
     }
-Handler handler = new Handler(new Handler.Callback() {
-    @Override
-    public boolean handleMessage(Message message) {
-        if (goCoderStatus.isRunning()) {
-            // Keep the screen on while we are broadcasting
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        } else if (goCoderStatus.isIdle()) {
-            // Clear the "keep screen on" flag
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
 
-        if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
-        syncUIControlState();
-        return false;
-    }
-});
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            if (goCoderStatus.isRunning()) {
+                // Keep the screen on while we are broadcasting
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            } else if (goCoderStatus.isIdle()) {
+                // Clear the "keep screen on" flag
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+
+            if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
+            syncUIControlState();
+            return false;
+        }
+    });
+
     /**
      * Click handler for the broadcast button
      */
@@ -174,8 +177,9 @@ Handler handler = new Handler(new Handler.Callback() {
         mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
-        mWZBroadcastConfig.setStreamName("mp4:"+videoName);
+        mWZBroadcastConfig.setStreamName("mp4:" + videoName);
     }
+
     /**
      * Click handler for the settings button
      */
@@ -222,8 +226,8 @@ Handler handler = new Handler(new Handler.Callback() {
 
     protected void initUIControls() {
         // Initialize the UI controls
-        mBtnBroadcast       = (MultiStateButton) findViewById(R.id.ic_broadcast);
-        mStatusView         = (StatusView) findViewById(R.id.statusView);
+        mBtnBroadcast = (MultiStateButton) findViewById(R.id.ic_broadcast);
+        mStatusView = (StatusView) findViewById(R.id.statusView);
 
         // The GoCoder SDK camera view
         mWZCameraView = (WZCameraView) findViewById(R.id.cameraPreview);

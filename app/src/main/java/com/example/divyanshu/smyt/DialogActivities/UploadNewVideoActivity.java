@@ -264,9 +264,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     private JSONObject createJsonForGetPreviousVideoDetail() {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
-            jsonObject.put(Constants.VIDEO_NAME, categoryID);
-
-
+            jsonObject.put(Constants.VIDEO_NAME, videoName);
         } catch (JSONException e) {
             e.printStackTrace();
         }

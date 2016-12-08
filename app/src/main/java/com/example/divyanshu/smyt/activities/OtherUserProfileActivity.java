@@ -191,11 +191,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_follow:
-                if (InternetCheck.isInternetOn(this)) {
-                    hitFollowWebService(item);
-                } else {
-                    CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
-                }
+                hitFollowWebService(item);
                 return true;
         }
         return true;
@@ -228,16 +224,31 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     }
 
     private void hitFollowWebService(MenuItem item) {
-        CallWebService.getInstance(this, false, ApiCodes.FOLLOW_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.ADD_REMOVE_FOLLOWING, createJsonForFollowUser(), this);
-        CommonFunctions.showShortLengthSnackbar(getString(R.string.followed), fab);
-        item.setTitle(getString(R.string.unfollow));
+        String followStatus = userModel.getFollowStatus();
+        if (followStatus.equals("1")) {
+            followStatus = "0";
+            setFollowStatusOnUI(item, getString(R.string.unfollow));
+
+        } else {
+            followStatus = "1";
+            setFollowStatusOnUI(item, getString(R.string.follow));
+        }
+        userModel.setFollowStatus(followStatus);
+
+        CallWebService.getInstance(this, false, ApiCodes.FOLLOW_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.ADD_REMOVE_FOLLOWING, createJsonForFollowUser(followStatus), this);
+
     }
 
-    private JSONObject createJsonForFollowUser() {
+    private void setFollowStatusOnUI(MenuItem item, String status) {
+        CommonFunctions.showShortLengthSnackbar(status, fab);
+        item.setTitle(status);
+    }
+
+    private JSONObject createJsonForFollowUser(String followStatus) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
             jsonObject.put(Constants.FOLLOWING_ID, userModel.getCustomer_id());
-            jsonObject.put(Constants.FOLLOW_STATUS, "1");
+            jsonObject.put(Constants.FOLLOW_STATUS, followStatus);
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();

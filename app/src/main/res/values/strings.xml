@@ -28,7 +28,7 @@
     <string name="tab_live_videos">LIVE VIDEOS</string>
     <string name="tab_all_videos">ALL VIDEOS</string>
     <string name="dummy_number">""</string>
-    <string name="follow">Follow</string>
+    <string name="follow">Followed</string>
     <string name="challenges">Challenges</string>
     <string name="followers">Followers</string>
     <string name="videos">Videos</string>
@@ -130,7 +130,7 @@
     <string name="status_connecting">Connecting...</string>
     <string name="status_connected">Connected</string>
     <string name="status_disconnecting">Disconnecting...</string>
-    <string name="unfollow">Unfollow</string>
+    <string name="unfollow">Unfollowed</string>
     <string name="banner_added_success">Banner Added Successfully!</string>
     <string name="video_added_successfully">Video Added Succssfully!</string>
     <string name="no_video_available">No Video Available!</string>

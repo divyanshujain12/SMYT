@@ -79,6 +79,7 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mRequiredPermissions = new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
