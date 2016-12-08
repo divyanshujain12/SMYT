@@ -52,7 +52,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     private boolean mUIInitialized      = false;
     private Pattern uri;
     protected String videoName = "";
-    private String streamVideoUrl = "";
+    protected String streamVideoUrl = "";
     private String userID = "";
     private WZStatus goCoderStatus;
     @Override

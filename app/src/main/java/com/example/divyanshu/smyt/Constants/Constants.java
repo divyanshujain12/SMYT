@@ -36,6 +36,7 @@ public interface Constants {
     String UPDATE_USER_INFO = "update_user_info";
     String USER_ONGOING_CHALLENGE_FRAGMENT = "USER_ONGOING_CHALLENGE_FRAGMENT";
     String STATUS = "status";
+    String LIVE_STATUS = "live_status";
     String LIKES = "likes";
     String FOLLOWING_ID = "following_id";
     String FOLLOW_STATUS = "follow_status";
@@ -71,6 +72,8 @@ public interface Constants {
     String VALID_TILL = "valid_till";
     String PRODUCT_ID = "product_id";
     String BANNERS = "banners";
+    String NEW_CHALLENGE = "new_challenge";
+    String FCM_ID = "fcm_id";
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

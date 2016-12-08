@@ -15,7 +15,7 @@ import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.Utils;
-import com.example.divyanshu.smyt.activities.ChallengeRecordVideoActivity;
+import com.example.divyanshu.smyt.activities.RecordChallengeVideoActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -147,7 +147,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ChallengeRecordVideoActivity.class);
+                Intent intent = new Intent(context, RecordChallengeVideoActivity.class);
                 intent.putExtra(Constants.ROUND_TIME, challengeModel.getRound_date());
                 intent.putExtra(Constants.CHALLENGE_ID,challengeModel.getChallenge_id());
                 context.startActivity(intent);

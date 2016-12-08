@@ -91,6 +91,8 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
 
     @Override
     public void onResume() {
+        if (challengeDescModel != null)
+            challengeRoundDescRvAdapter.notifyDataSetChanged();
         super.onResume();
     }
 

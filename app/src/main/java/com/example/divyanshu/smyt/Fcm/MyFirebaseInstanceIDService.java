@@ -2,8 +2,16 @@ package com.example.divyanshu.smyt.Fcm;
 
 import android.util.Log;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
+import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
@@ -31,13 +39,24 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     /**
      * Persist token to third-party servers.
-     *
+     * <p>
      * Modify this method to associate the user's FCM InstanceID token with any server-side account
      * maintained by your application.
      *
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
+        CallWebService.getInstance(getBaseContext(), false, ApiCodes.FCM_ID).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_FCM_ID, createJsonForSavingFcmID(token), null);
         // TODO: Implement this method to send token to your app server.
+    }
+
+    private JSONObject createJsonForSavingFcmID(String id) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
+        try {
+            jsonObject.put(Constants.FCM_ID, id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

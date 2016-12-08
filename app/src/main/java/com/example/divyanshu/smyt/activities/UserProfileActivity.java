@@ -41,6 +41,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.PermissionUtil;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
@@ -143,7 +144,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(UserVideosFragment.getInstance(customerID), getString(R.string.videos));
         viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(customerID), getString(R.string.followers));
-        viewPagerAdapter.addFragment(UserChallengesFragment.getInstance(), getString(R.string.challenges));
+        viewPagerAdapter.addFragment(UserChallengesFragment.getInstance(false), getString(R.string.challenges));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(3);
@@ -213,8 +214,9 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     public void onClick() {
         switch (viewPagerPos) {
             case 0:
-                runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
-
+                if (PermissionUtil.isMNC())
+                    runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+                else goToRecordVideoActivity();
                 break;
             case 2:
                 showDialogFragment(PostChallengeFragment.getInstance());
@@ -302,6 +304,10 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onPermissionGranted(int permissionType) {
+        goToRecordVideoActivity();
+    }
+
+    private void goToRecordVideoActivity() {
         Intent intent = new Intent(this, RecordVideoActivity.class);
         startActivity(intent);
     }

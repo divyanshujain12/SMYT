@@ -18,7 +18,6 @@ import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivi
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -46,7 +45,7 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class AllVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack{
+public class AllVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack {
     @InjectView(R.id.videosRV)
     RecyclerView otherVideosRV;
     UploadedAllVideoAdapter otherAllVideoAdapter;
@@ -54,7 +53,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     LinearLayout noVideoAvailableLL;
 
     private ArrayList<AllVideoModel> allVideoModels;
-    private ArrayList<VideoModel> videoModels;
+    private ArrayList<AllVideoModel> videoModels;
     private int selectedVideo;
 
     public static AllVideosFragment getInstance() {
@@ -111,8 +110,8 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
                 otherAllVideoAdapter.addData(allVideoModels);
                 break;
             case BANNER_VIDEOS:
-                videoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), VideoModel.class);
-                otherAllVideoAdapter.addData(allVideoModels);
+                videoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
+                otherAllVideoAdapter.addDataToBanner(allVideoModels);
                 break;
         }
     }
@@ -189,6 +188,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
                 break;
         }
     }
+
     private void checkAndPayForBannerVideo(int purchaseType) {
         setUpAvailabilityPurchase(purchaseType);
         InAppLocalApis.getInstance().checkBannerAvailability(getContext(), purchaseType);
@@ -198,6 +198,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         setUpAvailabilityPurchase(purchaseType);
         InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
     }
+
     private void setUpAvailabilityPurchase(int purchaseType) {
         InAppLocalApis.getInstance().setCallback(this);
         InAppLocalApis.getInstance().setPurchaseType(purchaseType);

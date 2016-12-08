@@ -1,7 +1,6 @@
 package com.example.divyanshu.smyt.DialogActivities;
 
 import android.os.Bundle;
-import android.telecom.Call;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -137,7 +136,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
         isPremiumGenre();
         setProgressBarVisible(false);
 
-        CallWebService.getInstance(this, true, ApiCodes.POST_VIDEO_PREVIOUS).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_VIDEO_PREVIOUS, createJsonForGetPreviousVideoDetail(), this);
+        CallWebService.getInstance(this, true, ApiCodes.POST_VIDEO_PREVIOUS).hitJsonObjectRequestAPI(CallWebService.POST, API.THUMBNAIL_GENERATE, createJsonForGetPreviousVideoDetail(), this);
     }
 
     private void isPremiumGenre() {

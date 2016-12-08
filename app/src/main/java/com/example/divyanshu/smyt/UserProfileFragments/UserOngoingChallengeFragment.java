@@ -25,6 +25,7 @@ import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 
 import org.json.JSONException;
@@ -35,6 +36,9 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_ACCEPT;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_REJECT;
+
 public class UserOngoingChallengeFragment extends BaseFragment {
 
     @InjectView(R.id.challengesRV)
@@ -42,14 +46,15 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     private UserOngoingChallengesAdapter userOngoingChallengesAdapter;
     private ArrayList<ChallengeModel> challengeModels = new ArrayList<>();
     private TSnackbar tSnackbar;
+    int acceptRejectPos;
 
     public UserOngoingChallengeFragment() {
     }
 
-    public static UserOngoingChallengeFragment newInstance() {
+    public static UserOngoingChallengeFragment newInstance(boolean newChallenge) {
         UserOngoingChallengeFragment fragment = new UserOngoingChallengeFragment();
         Bundle args = new Bundle();
-
+        args.putBoolean(Constants.NEW_CHALLENGE, newChallenge);
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,29 +101,44 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        if (challengeModels != null)
+            userOngoingChallengesAdapter.notifyDataSetChanged();
+        super.onResume();
+    }
+
+    @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        Intent intent = new Intent(getActivity(), OngoingChallengeDescriptionActivity.class);
-        intent.putExtra(Constants.CHALLENGE_ID, challengeModels.get(position).getChallenge_id());
-        intent.putExtra(Constants.ACCEPT_STATUS, challengeModels.get(position).getCurrent_customer_video_status());
-        startActivity(intent);
+        switch (view.getId()) {
+            case R.id.acceptTV:
+                acceptRejectPos = position;
+                CallWebService.getInstance(getContext(), true, CHALLENGE_ACCEPT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeModels.get(position).getChallenge_id(), "1"), this);
+                break;
+            case R.id.declineTV:
+                acceptRejectPos = position;
+                CallWebService.getInstance(getContext(), true, CHALLENGE_REJECT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeModels.get(position).getChallenge_id(), "0"), this);
+                break;
+            default:
+                Intent intent = new Intent(getActivity(), OngoingChallengeDescriptionActivity.class);
+                intent.putExtra(Constants.CHALLENGE_ID, challengeModels.get(position).getChallenge_id());
+                intent.putExtra(Constants.ACCEPT_STATUS, challengeModels.get(position).getCurrent_customer_video_status());
+                startActivity(intent);
+                break;
+        }
+
+
     }
 
     private void hitOnGoingChallengeApi() {
         tSnackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(challengesRV);
         CommonFunctions.showContinuousSB(tSnackbar);
-        CallWebService.getInstance(getContext(), false, ApiCodes.ONGOING_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_ONGOING_CHALLENGES, createJsonForGetChallenges(), this);
-    }
-
-    private JSONObject createJsonForGetChallenges() {
-
-        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
-        try {
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
+        String apiUrl;
+        if (getArguments().getBoolean(Constants.NEW_CHALLENGE))
+            apiUrl = API.UPCOMING_NOT_ACCEPTED_CHALLENGES;
+        else
+            apiUrl = API.GET_ONGOING_CHALLENGES;
+        CallWebService.getInstance(getContext(), false, ApiCodes.ONGOING_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, apiUrl, createJsonForGetChallenges(), this);
     }
 
     @Override
@@ -130,9 +150,43 @@ public class UserOngoingChallengeFragment extends BaseFragment {
                 challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
                 userOngoingChallengesAdapter.addItems(challengeModels);
                 break;
+            case CHALLENGE_ACCEPT:
+                if (getArguments().getBoolean(Constants.NEW_CHALLENGE))
+                    userOngoingChallengesAdapter.removeItem(acceptRejectPos);
+                else
+                    userOngoingChallengesAdapter.updateAcceptStatusIntoList(acceptRejectPos);
+                CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
+                break;
+            case CHALLENGE_REJECT:
+                userOngoingChallengesAdapter.removeItem(acceptRejectPos);
+                CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
+                break;
         }
     }
 
+    private JSONObject createJsonForGetChallenges() {
+
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private JSONObject createJsonForAcceptRejectChallenge(String challengeID, String s) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.CHALLENGE_ID, challengeID);
+            jsonObject.put(Constants.STATUS, s);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 
     @Override
     public void onFailure(String str, int apiType) {
@@ -149,17 +203,24 @@ public class UserOngoingChallengeFragment extends BaseFragment {
                 userOngoingChallengesAdapter.clear();
                 hitOnGoingChallengeApi();
             } else {
-                int acceptStatus = intent.getIntExtra(Constants.ACCEPT_STATUS, -1);
-                String challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
-                ChallengeModel challengeModel = new ChallengeModel();
-                challengeModel.setChallenge_id(challengeID);
-                int pos = challengeModels.indexOf(challengeModel);
-                if (acceptStatus == 2)
-                    userOngoingChallengesAdapter.removeItem(pos);
-                else
-                    userOngoingChallengesAdapter.updateAcceptStatusIntoList(pos);
+                handleReceiver(intent);
             }
         }
     };
+
+    private void handleReceiver(Intent intent) {
+        int acceptStatus = intent.getIntExtra(Constants.ACCEPT_STATUS, -1);
+        String challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
+        ChallengeModel challengeModel = new ChallengeModel();
+        challengeModel.setChallenge_id(challengeID);
+        int pos = challengeModels.indexOf(challengeModel);
+
+        if (getArguments().getBoolean(Constants.NEW_CHALLENGE))
+            userOngoingChallengesAdapter.removeItem(pos);
+        else if (acceptStatus == 2)
+            userOngoingChallengesAdapter.removeItem(pos);
+        else
+            userOngoingChallengesAdapter.updateAcceptStatusIntoList(pos);
+    }
 
 }

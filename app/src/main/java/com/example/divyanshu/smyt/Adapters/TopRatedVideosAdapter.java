@@ -9,30 +9,37 @@ import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
-import com.example.divyanshu.smyt.Models.VideoModel;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
+import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import java.util.ArrayList;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class TopRatedVideosAdapter extends RecyclerView.Adapter<TopRatedVideosAdapter.MyViewHolder> {
+public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<VideoModel> videoList;
+    private ArrayList<AllVideoModel> videoList;
     private Context context;
     private ImageLoading imageLoading;
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    protected TopRatedVideosAdapter(Context context, ArrayList<AllVideoModel> videoList) {
+        this.videoList = videoList;
+        this.context = context;
+        imageLoading = new ImageLoading(context, 5);
+    }
+
+    private class SingleVideoHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, userTimeTV;
         public SingleVideoPlayer firstVideoPlayer;
 
-        public MyViewHolder(View view) {
+        public SingleVideoHolder(View view) {
             super(view);
             userNameTV = (TextView) view.findViewById(R.id.userNameTV);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
@@ -40,23 +47,37 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<TopRatedVideosAd
         }
     }
 
-    public TopRatedVideosAdapter(Context context, ArrayList<VideoModel> videoList) {
-        this.videoList = videoList;
-        this.context = context;
-        imageLoading = new ImageLoading(context, 5);
+    private class ChallengeVideosHolder extends RecyclerView.ViewHolder {
+        public TextView userNameTV, userTimeTV;
+        private TwoVideoPlayers twoVideoPlayer;
+
+        private ChallengeVideosHolder(View view) {
+            super(view);
+            userNameTV = (TextView) view.findViewById(R.id.userNameTV);
+            userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
+            twoVideoPlayer = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
+        }
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.all_video_top_rated_item, parent, false);
+                .inflate(R.layout.all_video_top_rated_single_item, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new ChallengeVideosHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        VideoModel videoModel = videoList.get(position);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        AllVideoModel videoModel = videoList.get(position);
+        if (holder instanceof SingleVideoHolder)
+            setUpForSingleVideo((SingleVideoHolder) holder, videoModel);
+        else
+            setUpForTwoVideo((ChallengeVideosHolder) holder, videoModel);
+
+    }
+
+    private void setUpForSingleVideo(final SingleVideoHolder holder, AllVideoModel videoModel) {
         holder.userNameTV.setText(videoModel.getFirst_name());
         holder.firstVideoPlayer.setThumbnail(videoModel.getThumbnail());
         holder.firstVideoPlayer.setVideoUrl(videoModel.getVideo_url());
@@ -73,12 +94,29 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<TopRatedVideosAd
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return 5;
+    private void setUpForTwoVideo(final ChallengeVideosHolder holder, AllVideoModel videoModel) {
+        holder.userNameTV.setText(videoModel.getFirst_name());
+        holder.twoVideoPlayer.setThumbnail(videoModel.getThumbnail(), videoModel.getThumbnail1());
+        holder.twoVideoPlayer.setVideoUrls(videoModel.getVideo_url(), videoModel.getVideo_url1());
+        holder.userTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, UserVideoDescActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, videoList.get(holder.getAdapterPosition()).getCustomers_videos_id());
+                context.startActivity(intent);
+
+            }
+        });
     }
 
-    public void addVideos(ArrayList<VideoModel> videoList) {
+    @Override
+    public int getItemCount() {
+        return videoList.size();
+    }
+
+    public void addVideos(ArrayList<AllVideoModel> videoList) {
         this.videoList = videoList;
         notifyDataSetChanged();
     }

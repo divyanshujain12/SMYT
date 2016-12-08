@@ -10,19 +10,24 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.ServicesAndNotifications.OtherUserAvailabilityService;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
+
+import org.json.JSONObject;
 
 import java.text.ParseException;
 
@@ -33,7 +38,7 @@ import butterknife.InjectView;
  * Created by divyanshu.jain on 12/6/2016.
  */
 
-public class ChallengeRecordVideoActivity extends CameraActivityBase implements OtherUserAvailabilityService.UserAvailabilityInterface {
+public class RecordChallengeVideoActivity extends CameraActivityBase implements OtherUserAvailabilityService.UserAvailabilityInterface {
     @InjectView(R.id.ic_switch_camera)
     MultiStateButton icSwitchCamera;
     @InjectView(R.id.ic_torch)
@@ -56,6 +61,7 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase implements 
     SingleVideoPlayer otherUserVideoPlayer;
     private CountDownTimerClass countDownTimerClass;
     private String challengeID;
+    private String customerVideoID = "";
     boolean serviceStarted = false;
 
     @Override
@@ -72,6 +78,7 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase implements 
     private void InitViews() {
 
         challengeID = getIntent().getStringExtra(Constants.CHALLENGE_ID);
+        customerVideoID = getIntent().getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         long roundDateAndTime = Long.parseLong(getIntent().getStringExtra(Constants.ROUND_TIME));
         long remainingTime = Utils.getTimeDifferenceFromCurrent(roundDateAndTime);
         CountDownTimerClass countDownTimerClass = new CountDownTimerClass(remainingTime, 1000);
@@ -142,7 +149,6 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase implements 
                 }
 
                 icSwitchCamera.setEnabled(mWZCameraView.getCameras().length > 0);
-                //mBtnSwitchCamera.setEnabled(mWZCameraView.isSwitchCameraAvailable());
             } else {
                 icSwitchCamera.setEnabled(false);
                 icTorch.setEnabled(false);
@@ -169,13 +175,16 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase implements 
             if (configError != null) {
                 if (mStatusView != null)
                     mStatusView.setErrorMessage(configError.getErrorDescription());
+            } else {
+                CallWebService.getInstance(this, false, ApiCodes.START_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("1"), this);
             }
         } else {
             mWZBroadcast.endBroadcast();
-            Intent intent = new Intent(this, UploadNewVideoActivity.class);
+            CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_END, createJsonForStartEndChallengeVideo("0"), this);
+           /* Intent intent = new Intent(this, UploadNewVideoActivity.class);
             intent.putExtra(Constants.VIDEO_NAME, videoName);
             startActivity(intent);
-            finish();
+            finish();*/
         }
     }
 
@@ -228,6 +237,18 @@ public class ChallengeRecordVideoActivity extends CameraActivityBase implements 
             Intent intent = new Intent(this, OtherUserAvailabilityService.class);
             stopService(intent);
         }
+    }
+
+    private JSONObject createJsonForStartEndChallengeVideo(String status) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
+        try {
+            jsonObject.put(Constants.VIDEO_URL, streamVideoUrl);
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+            jsonObject.put(Constants.LIVE_STATUS, status);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
 

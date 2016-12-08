@@ -58,7 +58,7 @@ public class HomeActivity extends BaseActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.tab_all_videos));
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
-        viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(), getString(R.string.new_challenges));
+        viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(true), getString(R.string.new_challenges));
         viewPagerAdapter.addFragment(SearchFragment.getInstance(categoryModel.getId()), getString(R.string.tab_search));
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(3);

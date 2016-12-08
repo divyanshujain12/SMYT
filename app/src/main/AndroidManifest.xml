@@ -85,7 +85,7 @@
             android:label="@string/title_activity_profile_image_full_screen"
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".activities.InAppActivity" />
-        <activity android:name=".activities.ChallengeRecordVideoActivity" />
+        <activity android:name=".activities.RecordChallengeVideoActivity" />
 
         <service android:name=".ServicesAndNotifications.NotificationService" />
         <service android:name=".ServicesAndNotifications.OtherUserAvailabilityService" />

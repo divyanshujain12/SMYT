@@ -35,7 +35,7 @@ public interface API {
     String USER_ACTIVE_STATUS = BASE + "updateCustomerLastActive";
     String ALL_VIDEOS = BASE + "getCategoriesAllVideos";
     String GET_SINGLE_ROUND_VIDEO_DETAIL = BASE + "getSingleRoundVideoDetails";
-    String POST_VIDEO_PREVIOUS = BASE + "postVideoPrevious";
+    String THUMBNAIL_GENERATE = BASE + "thumbnailGenerate";
     String GET_OTHER_CUSTOMER_DETAIL = BASE + "getCustomerDetailsAndFollow";
     String HOME_LIVE_VIDEOS = BASE + "getCategoriesLiveVideos";
     String PURCHASE_BANNER = BASE + "purchase_banner";
@@ -46,5 +46,10 @@ public interface API {
     String ADD_VIDEO_OTHER_TO_PREMIUM_CATEGORY = BASE + "customerAddPremiumCategoryRecorderVideo";
     String PURCHASE_CATEGORY = BASE + "purchase_category";
     String UPCOMING_EVENTS = BASE + "upcoming_events";
+    String CHALLENGE_START = BASE + "challengeStart";
+    String CHALLENGE_END = BASE + "challengeEnd";
+    String UPCOMING_NOT_ACCEPTED_CHALLENGES = BASE + "getCategoryChallengeVideosUpcomingNotAccepted";
+    String UPDATE_FCM_ID = BASE + "updateFCMId";
     String USER_AVAILABILITY_SERVICE = BASE + "other_user_availability";
+
 }

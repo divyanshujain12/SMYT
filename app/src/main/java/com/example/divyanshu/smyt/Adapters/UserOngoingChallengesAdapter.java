@@ -1,6 +1,5 @@
 package com.example.divyanshu.smyt.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,37 +8,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.divyanshu.smyt.Constants.API;
-import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.Utils.CallWebService;
-import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-
-import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_ACCEPT;
-import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_REJECT;
 
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> implements CallWebService.ObjectResponseCallBack {
+public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> {
 
 
     private ArrayList<ChallengeModel> challengeModels;
     private Context context;
     private ImageLoading imageLoading;
     private RecyclerViewClick recyclerViewClick;
-    private String ACTIVE = "Active";
-    private String IN_ACTIVE = "Inactive";
     String round_count_string = "(%s/%s)";
     private int acceptRejectPos = -1;
 
@@ -84,7 +71,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         final ChallengeModel challengeModel = challengeModels.get(position);
         holder.titleTV.setText(challengeModel.getTitle());
@@ -102,36 +89,22 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         holder.acceptTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptRejectPos = position;
-                CallWebService.getInstance(context, true, CHALLENGE_ACCEPT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeModel.getChallenge_id(), "1"), UserOngoingChallengesAdapter.this);
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
 
         holder.declineTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptRejectPos = position;
-                CallWebService.getInstance(context, true, CHALLENGE_REJECT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeModel.getChallenge_id(), "0"), UserOngoingChallengesAdapter.this);
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewClick.onClickItem(position, v);
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
-    }
-
-    private JSONObject createJsonForAcceptRejectChallenge(String challengeID, String s) {
-        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
-        try {
-            jsonObject.put(Constants.CHALLENGE_ID, challengeID);
-            jsonObject.put(Constants.STATUS, s);
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
     }
 
     @Override
@@ -144,13 +117,15 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         notifyDataSetChanged();
     }
 
+
     public void removeItem(int position) {
         challengeModels.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
 
     }
-    public void clear(){
+
+    public void clear() {
         challengeModels.clear();
         notifyDataSetChanged();
     }
@@ -158,25 +133,6 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
     public void updateAcceptStatusIntoList(int pos) {
         challengeModels.get(pos).setCurrent_customer_video_status(1);
         notifyDataSetChanged();
-    }
-
-    @Override
-    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
-        switch (apiType) {
-            case CHALLENGE_ACCEPT:
-                updateAcceptStatusIntoList(acceptRejectPos);
-                CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), response.getString(Constants.MESSAGE));
-                break;
-            case CHALLENGE_REJECT:
-                removeItem(acceptRejectPos);
-                CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), response.getString(Constants.MESSAGE));
-                break;
-        }
-    }
-
-    @Override
-    public void onFailure(String str, int apiType) {
-        CommonFunctions.getInstance().showErrorSnackBar(((Activity) context), str);
     }
 
 

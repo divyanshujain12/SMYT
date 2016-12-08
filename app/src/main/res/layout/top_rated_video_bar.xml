@@ -8,7 +8,7 @@
     android:layout_height="@dimen/one_hundred_dp"
     android:background="@color/black_with_fifity_five"
     android:paddingTop="@dimen/three_dp"
-    tools:showIn="@layout/all_video_top_rated_item">
+    tools:showIn="@layout/all_video_top_rated_single_item">
 
     <com.player.divyanshu.customvideoplayer.SingleVideoPlayer
         android:id="@+id/firstVideoPlayer"

@@ -17,7 +17,6 @@ import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -39,6 +38,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
+    private TopRatedVideosAdapter topRatedVideosAdapter;
 
 
     private class SingleVideoHolder extends RecyclerView.ViewHolder {
@@ -93,7 +93,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(itemView);
             topRatedVideosRV = (RecyclerView) itemView.findViewById(R.id.topRatedVideosRV);
             topRatedVideosRV.setLayoutManager(new CustomLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            TopRatedVideosAdapter topRatedVideosAdapter = new TopRatedVideosAdapter(context, new ArrayList<VideoModel>());
+            topRatedVideosAdapter = new TopRatedVideosAdapter(context, new ArrayList<AllVideoModel>());
             topRatedVideosRV.setAdapter(topRatedVideosAdapter);
         }
     }
@@ -221,6 +221,10 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.allVideoModels = allVideoModels;
         this.allVideoModels.add(0, new AllVideoModel());
         notifyDataSetChanged();
+    }
+
+    public void addDataToBanner(ArrayList<AllVideoModel> allVideoModels) {
+        topRatedVideosAdapter.addVideos(allVideoModels);
     }
 
     @Override

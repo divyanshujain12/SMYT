@@ -32,7 +32,7 @@ public class Utils {
     static String AGO = "ago";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
-    public static final String TIME_FORMAT = "hh:mm aa";
+    public static final String TIME_FORMAT = "hh:mm a";
     public static final String DEFAULT_DATE = "1940-01-01";
     public static final String POST_CHALLENGE_TIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT;
     public static final String CURRENT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -115,7 +115,7 @@ public class Utils {
     }
 
     public static Date getCurrentSelectedDate(String selectedDate, String dateFormat) {
-        DateFormat format = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat(dateFormat, Locale.getDefault());
         try {
             return format.parse(selectedDate);
         } catch (ParseException e) {
@@ -125,7 +125,7 @@ public class Utils {
     }
 
     public static Date getDateFromDateTmeString(String dateValue, String timeValue) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(POST_CHALLENGE_TIME_FORMAT, Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(POST_CHALLENGE_TIME_FORMAT, Locale.getDefault());
         dateValue = dateValue + " " + timeValue;
         return simpleDateFormat.parse(dateValue);
     }

@@ -172,7 +172,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
             MyApp.getInstance().cancelPendingRequests(url);
     }
 
-    private void sendErrorToView() {
+   /* private void sendErrorToView() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -182,5 +182,5 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
         handler.postDelayed(runnable, 2000);
     }
 
-    Handler handler = new Handler();
+    Handler handler = new Handler();*/
 }

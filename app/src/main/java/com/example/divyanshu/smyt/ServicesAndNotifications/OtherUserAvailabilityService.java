@@ -27,6 +27,7 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
     ScheduledExecutorService scheduler;
     static UserAvailabilityInterface mUserAvailabilityInterface;
     public static OtherUserAvailabilityService otherUserAvailabilityService = new OtherUserAvailabilityService();
+    String challengeID;
 
     public static OtherUserAvailabilityService getInstance() {
         return otherUserAvailabilityService;
@@ -41,17 +42,19 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        final String challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
+        challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate
-                (new Runnable() {
-                    public void run() {
-                        CallWebService.getInstance(getBaseContext(), false, ApiCodes.USER_AVAILABILITY).hitJsonObjectRequestAPI(CallWebService.POST, API.UPCOMING_EVENTS, createJsonForGetUserAvailability(challengeID), OtherUserAvailabilityService.this);
-                    }
-                }, 5, 0, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(runnable, 5, 5, TimeUnit.SECONDS);
 
         return START_STICKY;
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            CallWebService.getInstance(getBaseContext(), false, ApiCodes.USER_AVAILABILITY).hitJsonObjectRequestAPI(CallWebService.POST, API.UPCOMING_EVENTS, createJsonForGetUserAvailability(challengeID), OtherUserAvailabilityService.this);
+        }
+    };
 
     private JSONObject createJsonForGetUserAvailability(String challengeID) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
@@ -76,7 +79,7 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
 
     }
 
-   public interface UserAvailabilityInterface {
+    public interface UserAvailabilityInterface {
         void onAvailable(String videoUrl);
     }
 

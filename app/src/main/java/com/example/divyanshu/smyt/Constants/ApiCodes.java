@@ -42,4 +42,7 @@ public interface ApiCodes {
     int BANNER_VIDEOS = 136;
     int UPCOMING_EVENTS = 137;
     int USER_AVAILABILITY = 138;
+    int START_CHALLENGE = 139;
+    int END_CHALLENGE = 140;
+    int FCM_ID = 141;
 }
