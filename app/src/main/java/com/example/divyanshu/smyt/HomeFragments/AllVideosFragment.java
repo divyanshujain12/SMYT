@@ -131,7 +131,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTime(CURRENT_DATE_FORMAT));
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
