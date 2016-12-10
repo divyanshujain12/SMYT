@@ -49,7 +49,7 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     @Override
     public void onClick(View view) {
         if (view == playAllVideosIV) {
-            onPlayButtonClick();
+            playButtonClicked();
         }
     }
 
@@ -69,7 +69,7 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
         layerLL.setVisibility(show ? VISIBLE : GONE);
     }
 
-    protected void onPlayButtonClick() {
+    public void playButtonClicked() {
         MediaPlayerHelper.getInstance().releaseAllVideos();
         setShowPlayButton(true);
         standardVideoPlayer.onPlayButtonClick();

@@ -51,5 +51,7 @@ public interface API {
     String UPCOMING_NOT_ACCEPTED_CHALLENGES = BASE + "getCategoryChallengeVideosUpcomingNotAccepted";
     String UPDATE_FCM_ID = BASE + "updateFCMId";
     String USER_AVAILABILITY_SERVICE = BASE + "other_user_availability";
+    String OTHER_CUSTOMER_VIDEO_URL = BASE + "getOtherCustomerVideoURL";
+    String GET_UPCOMING_ROUND_INFO = BASE + "getUpcomingUrlInNext10Minutes";
 
 }

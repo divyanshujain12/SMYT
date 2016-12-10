@@ -196,6 +196,10 @@ public class Utils {
         milliseconds = milliseconds + 86400000;
         return milliseconds;
     }
+    public static long getNextTenMinuteInMS(long milliseconds) {
+        milliseconds = milliseconds + 600000;
+        return milliseconds;
+    }
 
     public static boolean isTimeGone(long milliseconds) {
         long difference = milliseconds - getCurrentTimeInMillisecond();

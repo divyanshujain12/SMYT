@@ -124,6 +124,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
                 syncUIControlState();
             }
         });*/
+        System.out.println("in");
     }
 
     @Override
@@ -164,7 +165,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     protected void createVideoUrl() {
         uri = Pattern.compile("rtsp://(.+):(\\d+)/(.+)");
         userID = MySharedPereference.getInstance().getString(this, CUSTOMER_ID);
-        videoName = WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTime(Utils.CURRENT_DATE_FORMAT);
+        videoName = "mp4:" +WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTime(Utils.CURRENT_DATE_FORMAT);
         streamVideoUrl = WOWZA_STREAM_URL + videoName;
         Matcher m = uri.matcher(streamVideoUrl);
         m.find();
@@ -177,7 +178,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
         mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
-        mWZBroadcastConfig.setStreamName("mp4:" + videoName);
+        mWZBroadcastConfig.setStreamName(videoName);
     }
 
     /**

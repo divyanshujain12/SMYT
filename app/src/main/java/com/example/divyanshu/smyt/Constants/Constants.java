@@ -58,6 +58,7 @@ public interface Constants {
     String AVAILABLE = "available";
     String CATEGORY_NAME = "category_name";
     String E_DATE = "edate";
+    String E_DATE_1 = "edate1";
     String VIDEO_NAME = "video_name";
     String TYPE = "type";
     String VOTING_CUSTOMER_ID = "voting_customer_id";
@@ -79,6 +80,7 @@ public interface Constants {
 
     //WOWZA server ----------------------------------------------------------
     String WOWZA_APPLICATION_NAME = "smytex";
+    //String WOWZA_APPLICATION_NAME = "live";
     //String WOWZA_STREAM_URL = "rtsp://192.254.214.197:1935" + "/" + WOWZA_APPLICATION_NAME + "/";
     String WOWZA_STREAM_URL = "rtsp://192.254.218.32:1935" + "/" + WOWZA_APPLICATION_NAME + "/";
     String WOWZA_USERNAME = "root";

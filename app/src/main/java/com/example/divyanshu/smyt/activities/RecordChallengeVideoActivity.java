@@ -218,6 +218,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase implements 
             mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
 
         Intent intent = new Intent(this, OtherUserAvailabilityService.class);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID,customerVideoID);
         startService(intent);
         OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(this);
         serviceStarted = true;
@@ -227,16 +228,22 @@ public class RecordChallengeVideoActivity extends CameraActivityBase implements 
     public void onAvailable(String videoUrl) {
         otherUserWaitingTV.setVisibility(View.GONE);
         otherUserVideoPlayer.setVideoUrl(videoUrl);
-        otherUserVideoPlayer.playVideo();
+        otherUserVideoPlayer.playButtonClicked();
+        OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(null);
+        stopService();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (serviceStarted) {
-            Intent intent = new Intent(this, OtherUserAvailabilityService.class);
-            stopService(intent);
+            stopService();
         }
+    }
+
+    private void stopService() {
+        Intent intent = new Intent(this, OtherUserAvailabilityService.class);
+        stopService(intent);
     }
 
     private JSONObject createJsonForStartEndChallengeVideo(String status) {

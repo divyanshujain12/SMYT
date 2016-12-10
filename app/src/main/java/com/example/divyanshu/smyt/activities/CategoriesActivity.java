@@ -21,6 +21,7 @@ import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UserParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.ServicesAndNotifications.NotificationService;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
@@ -72,6 +73,8 @@ public class CategoriesActivity extends BaseActivity {
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
         setUserAndCategoryAdapter();
+        Intent intent = new Intent(this, NotificationService.class);
+        startService(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

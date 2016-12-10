@@ -27,7 +27,7 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
     ScheduledExecutorService scheduler;
     static UserAvailabilityInterface mUserAvailabilityInterface;
     public static OtherUserAvailabilityService otherUserAvailabilityService = new OtherUserAvailabilityService();
-    String challengeID;
+    String customerVIdeoID;
 
     public static OtherUserAvailabilityService getInstance() {
         return otherUserAvailabilityService;
@@ -42,7 +42,7 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
+        customerVIdeoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(runnable, 5, 5, TimeUnit.SECONDS);
 
@@ -52,15 +52,15 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            CallWebService.getInstance(getBaseContext(), false, ApiCodes.USER_AVAILABILITY).hitJsonObjectRequestAPI(CallWebService.POST, API.UPCOMING_EVENTS, createJsonForGetUserAvailability(challengeID), OtherUserAvailabilityService.this);
+            CallWebService.getInstance(getBaseContext(), false, ApiCodes.OTHER_USER_VIDEO_URL).hitJsonObjectRequestAPI(CallWebService.POST, API.OTHER_CUSTOMER_VIDEO_URL, createJsonForGetUserAvailability(customerVIdeoID), OtherUserAvailabilityService.this);
         }
     };
 
-    private JSONObject createJsonForGetUserAvailability(String challengeID) {
+    private JSONObject createJsonForGetUserAvailability(String customerVideoID) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
         try {
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
-            jsonObject.put(Constants.CHALLENGE_ID, challengeID);
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
-        if (mUserAvailabilityInterface != null)
+        if (mUserAvailabilityInterface != null && !response.get(Constants.VIDEO_URL).equals(""))
             mUserAvailabilityInterface.onAvailable(response.getString(Constants.VIDEO_URL));
     }
 
@@ -91,6 +91,7 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
     public boolean stopService(Intent name) {
         // TODO Auto-generated method stub
         mUserAvailabilityInterface = null;
+        scheduler.shutdown();
         return super.stopService(name);
 
     }

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.WindowManager;
@@ -43,7 +44,7 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
 
     // GoCoder SDK top level interface
     protected static WowzaGoCoder sGoCoderSDK = null;
-
+    private WZStatus goCoderStatus;
     /**
      * Build an array of WZMediaConfigs from the frame sizes supported by the active camera
      *
@@ -172,7 +173,59 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
     /**
      * WZStatusCallback interface methods
      */
+
+
     @Override
+    public void onWZStatus(final WZStatus goCoderStatus) {
+        this.goCoderStatus = goCoderStatus;
+        handler.sendEmptyMessage(0);
+        //Toast.makeText(this,goCoderStatus.toString(),Toast.LENGTH_SHORT).show();
+      /*  new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (goCoderStatus.isRunning()) {
+                    // Keep the screen on while we are broadcasting
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                } else if (goCoderStatus.isIdle()) {
+                    // Clear the "keep screen on" flag
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+
+                if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
+                syncUIControlState();
+            }
+        });*/
+        System.out.println("in");
+    }
+
+    @Override
+    public void onWZError(final WZStatus goCoderStatus) {
+        this.goCoderStatus = goCoderStatus;
+        handler.sendEmptyMessage(0);
+     /*   new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
+                syncUIControlState();
+            }
+        });*/
+    }
+
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            if (goCoderStatus.isRunning()) {
+                // Keep the screen on while we are broadcasting
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            } else if (goCoderStatus.isIdle()) {
+                // Clear the "keep screen on" flag
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+
+            return false;
+        }
+    });
+   /* @Override
     public void onWZStatus(final WZStatus goCoderStatus) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -197,7 +250,7 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
                 WZLog.error(TAG, goCoderStatus.getLastError());
             }
         });
-    }
+    }*/
 
     protected synchronized WZStreamingError startBroadcast() {
         WZStreamingError configValidationError = null;

@@ -10,6 +10,8 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
+import com.example.divyanshu.smyt.Models.UpcomingRoundInfoModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.Utils;
@@ -17,6 +19,7 @@ import com.example.divyanshu.smyt.Utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +43,7 @@ public class NotificationService extends Service implements CallWebService.Objec
         scheduler.scheduleAtFixedRate
                 (new Runnable() {
                     public void run() {
-                        CallWebService.getInstance(getBaseContext(), false, ApiCodes.UPCOMING_EVENTS).hitJsonObjectRequestAPI(CallWebService.POST, API.UPCOMING_EVENTS, createJsonForGetUpcomingEvents(), NotificationService.this);
+                        CallWebService.getInstance(getBaseContext(), false, ApiCodes.UPCOMING_EVENTS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_UPCOMING_ROUND_INFO, createJsonForGetUpcomingEvents(), NotificationService.this);
                     }
                 }, 1, 1, TimeUnit.MINUTES);
 
@@ -50,7 +53,9 @@ public class NotificationService extends Service implements CallWebService.Objec
     private JSONObject createJsonForGetUpcomingEvents() {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
         try {
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+            long currentTime = Utils.getCurrentTimeInMillisecond();
+            jsonObject.put(Constants.E_DATE, currentTime);
+            jsonObject.put(Constants.E_DATE_1, Utils.getNextTenMinuteInMS(currentTime));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -71,14 +76,13 @@ public class NotificationService extends Service implements CallWebService.Objec
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
-        if(!NotificationUtils.isAppIsInBackground(getBaseContext())){
-            CustomAlertDialogs.showAlertDialogWithCallBack(getBaseContext(), "Upcoming Challenge", "You have a upcoming challenge within 1 minute! Would you like to go for it", new SnackBarCallback() {
-                @Override
-                public void doAction() {
+        if (response.has(Constants.DATA)) {
+            ArrayList<UpcomingRoundInfoModel> upcomingRoundInfoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UpcomingRoundInfoModel.class);
 
-                }
-            });
+            for (UpcomingRoundInfoModel upcomingRoundInfoModel : upcomingRoundInfoModels)
+                NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round! Click here for more info!", upcomingRoundInfoModel.getChallenge_id());
         }
+
     }
 
     @Override

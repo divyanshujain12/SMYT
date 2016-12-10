@@ -522,9 +522,6 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
         surfaceViewFrame = new ResizeTextureView(getContext());
         surfaceViewFrame.setId(surfaceViewID);
-        surfaceViewFrame.setOnClickListener(this);
-        surfaceViewFrame.setSurfaceTextureListener(this);
-        surfaceViewFrame.setKeepScreenOn(true);
         FrameLayout.LayoutParams layoutParams =
                 new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -532,6 +529,9 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
                         Gravity.CENTER);
         enableDisableTextureView(false);
         playerView.addView(surfaceViewFrame, layoutParams);
+        surfaceViewFrame.setOnClickListener(this);
+        surfaceViewFrame.setSurfaceTextureListener(this);
+        surfaceViewFrame.setKeepScreenOn(true);
     }
 
     public void releaseVideo() {

@@ -88,9 +88,10 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
         holder.challengeTitleView.setUp(challengeModel.getTitle(), this, position);
         holder.challengeTitleView.showHideMoreIvButton(false);
-
+        rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4
         holder.commentsTV.setText(setCommentCount(challengeModel));
-        holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
+        //holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
+        holder.twoVideoPlayers.setVideoUrls("rtsp://192.254.218.32:1935/smytex/mp4:myStream_2_2016-12-10 11:00:09", "rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4");
         holder.twoVideoPlayers.setThumbnail(challengeModel.getThumbnail(), challengeModel.getThumbnail1());
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
