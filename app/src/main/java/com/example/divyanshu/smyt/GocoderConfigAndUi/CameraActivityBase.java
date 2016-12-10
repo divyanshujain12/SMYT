@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.GocoderConfigAndUi;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.R;
@@ -149,6 +152,10 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             } else if (goCoderStatus.isIdle()) {
                 // Clear the "keep screen on" flag
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                Intent intent = new Intent(CameraActivityBase.this, UploadNewVideoActivity.class);
+                intent.putExtra(Constants.VIDEO_NAME, videoName);
+                startActivity(intent);
+                finish();
             }
 
             if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
@@ -165,7 +172,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     protected void createVideoUrl() {
         uri = Pattern.compile("rtsp://(.+):(\\d+)/(.+)");
         userID = MySharedPereference.getInstance().getString(this, CUSTOMER_ID);
-        videoName = "mp4:" +WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTime(Utils.CURRENT_DATE_FORMAT);
+        videoName = WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTimeInMillisecond();
         streamVideoUrl = WOWZA_STREAM_URL + videoName;
         Matcher m = uri.matcher(streamVideoUrl);
         m.find();
@@ -178,7 +185,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
         mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
-        mWZBroadcastConfig.setStreamName(videoName);
+        mWZBroadcastConfig.setStreamName("mp4:" + videoName);
     }
 
     /**

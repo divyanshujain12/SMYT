@@ -150,10 +150,7 @@ public class RecordVideoActivity extends CameraActivityBase {
 
            // mWZBroadcast.endBroadcast();
             endBroadcast();
-         /*   Intent intent = new Intent(this, UploadNewVideoActivity.class);
-            intent.putExtra(Constants.VIDEO_NAME,videoName);
-            startActivity(intent);
-            finish();*/
+
         }
     }
 }

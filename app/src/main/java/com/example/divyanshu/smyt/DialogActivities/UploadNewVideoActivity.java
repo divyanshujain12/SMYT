@@ -140,7 +140,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     }
 
     private void isPremiumGenre() {
-        if (categoryID.equals("111")) {
+        if (categoryID.equals("5")) {
             setGenreSpinnerShow(false);
             genreTypesArray = getResources().getStringArray(R.array.genre_type);
             arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_sixteens_sp, genreTypesArray);
@@ -255,7 +255,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
                 finish();
                 break;
             case POST_VIDEO_PREVIOUS:
-                thumbnailGenerateModel = UniversalParser.getInstance().parseJsonObject(response, ThumbnailGenerateModel.class);
+                thumbnailGenerateModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), ThumbnailGenerateModel.class);
                 setUpVideoPlayer(thumbnailGenerateModel);
                 break;
         }
@@ -286,6 +286,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     private JSONObject createJsonForPostVideo() {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
+            jsonObject.put(Constants.CATEGORY_ID,MySharedPereference.getInstance().getString(this,Constants.CATEGORY_ID));
             jsonObject.put(Constants.TITLE, hashMap.get(videoTitleET));
             jsonObject.put(Constants.GENRE, genreTypeStr);
             jsonObject.put(Constants.SHARE_STATUS, shareWithStr);
