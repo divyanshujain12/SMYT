@@ -13,6 +13,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
@@ -35,13 +36,13 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 9/1/2016.
  */
-public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.SingleVideoHolder> implements SnackBarCallback, PopupItemClicked {
+public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.SingleVideoHolder> implements PopupItemClicked {
 
     public ArrayList<VideoModel> videoModels;
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
-    private int selectedVideoPos = -1;
+
     private String categoryID = "";
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
@@ -113,7 +114,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     }
 
     @Override
-    public void onPopupMenuClicked(View view, int position) {
+    public void onPopupMenuClicked(View view, final int position) {
         switch (view.getId()) {
             case R.id.addVideoToBannerTV:
                 recyclerViewClick.onClickItem(position, view);
@@ -122,49 +123,29 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
                 recyclerViewClick.onClickItem(position, view);
                 break;
             case R.id.deleteVideoTV:
-                selectedVideoPos = position;
-                deleteVideoAlert();
+                recyclerViewClick.onClickItem(position, view);
                 break;
         }
     }
-
-    private void deleteVideoAlert() {
-        CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_video_alert_msg), this);
-    }
-
 
     @Override
     public int getItemCount() {
         return videoModels.size();
     }
 
+
     public void addUserVideoData(ArrayList<VideoModel> userVideoModels) {
         videoModels = userVideoModels;
         notifyDataSetChanged();
     }
 
-    @Override
-    public void doAction() {
-        removeItem();
-        CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(), null);
-    }
-
-    private void removeItem() {
+    public void removeItem(int selectedVideoPos) {
         videoModels.remove(selectedVideoPos);
         notifyItemRemoved(selectedVideoPos);
         notifyItemRangeChanged(selectedVideoPos, getItemCount());
     }
 
-    private JSONObject createJsonForDeleteVideo() {
-        String videoId = videoModels.get(selectedVideoPos).getCustomers_videos_id();
-        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
-        try {
-            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, videoId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
-    }
+
 }
 
 

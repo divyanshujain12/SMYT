@@ -61,10 +61,17 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.all_video_top_rated_single_item, parent, false);
+        View itemView;
+        if (viewType == 1) {
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.all_video_top_rated_challenge_video, parent, false);
+            return new ChallengeVideosHolder(itemView);
+        } else {
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.all_video_top_rated_single_item, parent, false);
+            return new SingleVideoHolder(itemView);
+        }
 
-        return new ChallengeVideosHolder(itemView);
     }
 
     @Override
@@ -117,7 +124,19 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void addVideos(ArrayList<AllVideoModel> videoList) {
-        this.videoList = videoList;
-        notifyDataSetChanged();
+        if (videoList != null) {
+            this.videoList = videoList;
+            notifyDataSetChanged();
+        }
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (videoList.get(position).getType().equals("Challenge"))
+            return 1;
+        else return 0;
+
+
+    }
+
 }

@@ -3,6 +3,8 @@ package com.example.divyanshu.smyt.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by divyanshu.jain on 10/26/2016.
  */
@@ -35,6 +37,7 @@ public class AllVideoModel implements Parcelable {
     String vote1;
     String type;
     long edate;
+    ArrayList<AllVideoModel> banners;
     public AllVideoModel() {
     }
 
@@ -66,6 +69,7 @@ public class AllVideoModel implements Parcelable {
         vote1 = in.readString();
         type = in.readString();
         edate = in.readLong();
+        banners = in.readArrayList(ClassLoader.getSystemClassLoader());
     }
 
     public static final Creator<AllVideoModel> CREATOR = new Creator<AllVideoModel>() {
@@ -296,6 +300,13 @@ public class AllVideoModel implements Parcelable {
         this.edate = edate;
     }
 
+    public ArrayList<AllVideoModel> getBanners() {
+        return banners;
+    }
+
+    public void setBanners(ArrayList<AllVideoModel> banners) {
+        this.banners = banners;
+    }
 
     @Override
     public int describeContents() {
@@ -331,5 +342,6 @@ public class AllVideoModel implements Parcelable {
         dest.writeString(vote1);
         dest.writeString(type);
         dest.writeLong(edate);
+        dest.writeList(banners);
     }
 }

@@ -36,7 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeListener, OnPreparedListener, OnBufferingUpdateListener,
-        OnClickListener, OnSeekCompleteListener, AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener {
+        OnClickListener, OnSeekCompleteListener, AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener,MediaPlayer.OnCompletionListener {
     private TextView textViewPlayed;
     private TextView textViewLength;
     private SeekBar seekBarProgress;
@@ -57,6 +57,11 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     private int surfaceViewID = 10001;
     private Uri videoUri;
     private boolean hideControls = false;
+
+    @Override
+    public void onCompletion(MediaPlayer mediaPlayer) {
+        releaseVideo();
+    }
 
     public enum State {
         Retrieving,
@@ -134,7 +139,9 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
                 MediaPlayerHelper.getInstance().mediaPlayer.setScreenOnWhilePlaying(true);
                 MediaPlayerHelper.getInstance().mediaPlayer.setOnErrorListener(this);
                 MediaPlayerHelper.getInstance().mediaPlayer.setDataSource(getContext(), videoUri);
+                MediaPlayerHelper.getInstance().mediaPlayer.setOnCompletionListener(this);
                 MediaPlayerHelper.getInstance().mediaPlayer.prepareAsync();
+
                 updateUiForStartPreparing(true);
                 setmState(State.Preparing);
                 progressBarWait.setVisibility(View.VISIBLE);
@@ -315,7 +322,9 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void onSeekComplete(MediaPlayer mp) {
-        progressBarWait.setVisibility(View.GONE);
+      /*  handler.removeCallbacks(mUpdateTimeTask);
+        pauseVideoPlaying(MediaPlayerHelper.getInstance().getMediaPlayer());
+        progressBarWait.setVisibility(View.GONE);*/
     }
 
 

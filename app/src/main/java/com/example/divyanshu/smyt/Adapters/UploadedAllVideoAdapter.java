@@ -35,10 +35,10 @@ import java.util.ArrayList;
 public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked {
 
     private ArrayList<AllVideoModel> allVideoModels;
+    private ArrayList<AllVideoModel> bannerVideos;
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
-    private TopRatedVideosAdapter topRatedVideosAdapter;
 
 
     private class SingleVideoHolder extends RecyclerView.ViewHolder {
@@ -88,6 +88,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private class TopRatedVideoHolder extends RecyclerView.ViewHolder {
         private RecyclerView topRatedVideosRV;
+        private TopRatedVideosAdapter topRatedVideosAdapter;
 
         private TopRatedVideoHolder(View itemView) {
             super(itemView);
@@ -143,6 +144,9 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             SingleVideoHolder singleVideoHolder = (SingleVideoHolder) holder;
             setupSingleViewHolder(singleVideoHolder, allVideoModels.get(position));
         }
+        if (holder instanceof TopRatedVideoHolder) {
+            setUpTopRatedViewHolder((TopRatedVideoHolder) holder);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +155,10 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
 
 
+    }
+
+    private void setUpTopRatedViewHolder(TopRatedVideoHolder holder) {
+        holder.topRatedVideosAdapter.addVideos(bannerVideos);
     }
 
     private void setupSingleViewHolder(SingleVideoHolder holder, AllVideoModel allVideoModel) {
@@ -223,8 +231,9 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void addDataToBanner(ArrayList<AllVideoModel> allVideoModels) {
-        topRatedVideosAdapter.addVideos(allVideoModels);
+    public void addDataToBannerArray(ArrayList<AllVideoModel> allVideoModels) {
+        bannerVideos = allVideoModels;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -237,8 +246,14 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 recyclerViewClick.onClickItem(position, view);
                 break;
             case R.id.deleteVideoTV:
+                recyclerViewClick.onClickItem(position, view);
                 break;
         }
+    }
+    public void removeItem(int selectedVideoPos) {
+        allVideoModels.remove(selectedVideoPos);
+        notifyItemRemoved(selectedVideoPos);
+        notifyItemRangeChanged(selectedVideoPos, getItemCount());
     }
 }
 

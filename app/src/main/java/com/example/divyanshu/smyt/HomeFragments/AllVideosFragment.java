@@ -1,9 +1,13 @@
 package com.example.divyanshu.smyt.HomeFragments;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +21,9 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
+import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -37,7 +43,8 @@ import butterknife.InjectView;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
-import static com.example.divyanshu.smyt.Utils.Utils.CURRENT_DATE_FORMAT;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
+import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
 import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
@@ -53,7 +60,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     LinearLayout noVideoAvailableLL;
 
     private ArrayList<AllVideoModel> allVideoModels;
-    private ArrayList<AllVideoModel> videoModels;
+    private ArrayList<AllVideoModel> bannerVideoModels;
     private int selectedVideo;
 
     public static AllVideosFragment getInstance() {
@@ -95,8 +102,16 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         otherVideosRV.setAdapter(otherAllVideoAdapter);
         CommonFunctions.stopVideoOnScroll(otherVideosRV);
 
-        CallWebService.getInstance(getContext(), true, ALL_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.ALL_VIDEOS, createJsonForGetVideoData(), this);
+        hitAllVideosAPI();
+        hitBannerAPI();
+    }
+
+    private void hitBannerAPI() {
         CallWebService.getInstance(getContext(), false, BANNER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORY_BANNER, createJsonForGetBannerVideosData(), this);
+    }
+
+    private void hitAllVideosAPI() {
+        CallWebService.getInstance(getContext(), true, ALL_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.ALL_VIDEOS, createJsonForGetVideoData(), this);
     }
 
     @Override
@@ -110,8 +125,8 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
                 otherAllVideoAdapter.addData(allVideoModels);
                 break;
             case BANNER_VIDEOS:
-                videoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
-                otherAllVideoAdapter.addDataToBanner(allVideoModels);
+                bannerVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
+                otherAllVideoAdapter.addDataToBannerArray(bannerVideoModels);
                 break;
         }
     }
@@ -142,7 +157,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTime(CURRENT_DATE_FORMAT));
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -159,6 +174,31 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
 
+        videoDescriptionActivity(position);
+
+        selectedVideo = position;
+        switch (view.getId()) {
+            case R.id.addVideoToBannerTV:
+                if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
+                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
+                else
+                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
+                break;
+            case R.id.addVideoToPremiumTV:
+                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
+                break;
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(getContext(), allVideoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        otherAllVideoAdapter.removeItem(selectedVideo);
+                    }
+                });
+                break;
+        }
+    }
+
+    private void videoDescriptionActivity(int position) {
         Intent intent = null;
 
         switch (otherAllVideoAdapter.getItemViewType(position)) {
@@ -174,19 +214,6 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         }
         if (intent != null)
             startActivity(intent);
-
-        selectedVideo = position;
-        switch (view.getId()) {
-            case R.id.addVideoToBannerTV:
-                if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
-                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
-                else
-                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
-                break;
-            case R.id.addVideoToPremiumTV:
-                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
-                break;
-        }
     }
 
     private void checkAndPayForBannerVideo(int purchaseType) {
@@ -252,5 +279,47 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private BroadcastReceiver updateAllVideosUI = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int type = intent.getIntExtra(Constants.TYPE, -1);
+            switch (type) {
+                case BANNER_VIDEOS:
+                    hitBannerAPI();
+                    break;
+                case ALL_VIDEO_DATA:
+                    hitAllVideosAPI();
+                    break;
+                case DELETE_VIDEO:
+                    hitAllVideosAPI();
+                    break;
+                case COMMENT_COUNT:
+                    updateCount(intent);
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateAllVideosUI, new IntentFilter(Constants.ALL_VIDEO_TAB_UI));
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateAllVideosUI);
+    }
+    private void updateCount(Intent intent) {
+        String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
+        int commentCount = intent.getIntExtra(Constants.COUNT, 0);
+        VideoModel videoModel = new VideoModel();
+        videoModel.setCustomers_videos_id(customerVideoID);
+        allVideoModels.get(allVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
+        otherAllVideoAdapter.addData(allVideoModels);
     }
 }

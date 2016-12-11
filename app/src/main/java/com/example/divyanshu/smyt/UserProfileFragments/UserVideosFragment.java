@@ -21,6 +21,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -38,6 +39,9 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.USER_VIDEOS;
+import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
 import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
@@ -104,8 +108,12 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         videosRV.setAdapter(userVideoAdapter);
         continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithView(videosRV);
         CommonFunctions.showContinuousSB(continuousSB);
-        CallWebService.getInstance(getContext(), false, ApiCodes.USER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO, createJsonForUserVideos(), this);
+        getUserVideosAPI();
         CommonFunctions.stopVideoOnScroll(videosRV);
+    }
+
+    private void getUserVideosAPI() {
+        CallWebService.getInstance(getContext(), false, ApiCodes.USER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO, createJsonForUserVideos(), this);
     }
 
     @Override
@@ -125,7 +133,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
 
 
     @Override
-    public void onClickItem(int position, View view) {
+    public void onClickItem(final int position, View view) {
         super.onClickItem(position, view);
         selectedVideo = position;
         switch (view.getId()) {
@@ -140,6 +148,14 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
                 break;
             case R.id.addVideoToPremiumTV:
                 checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
+                break;
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(getContext(), userVideoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        userVideoAdapter.removeItem(position);
+                    }
+                });
                 break;
         }
 
@@ -175,14 +191,14 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateVideoCommentCountReceiver, new IntentFilter(Constants.UPDATE_COMMENT_COUNT));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateUiUserVideoFragment, new IntentFilter(Constants.UPDATE_UI_VIDEO_FRAGMENT));
 
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateVideoCommentCountReceiver);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateUiUserVideoFragment);
     }
 
 
@@ -248,16 +264,32 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         ButterKnife.reset(this);
     }
 
-    private BroadcastReceiver updateVideoCommentCountReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver updateUiUserVideoFragment = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
-            int commentCount = intent.getIntExtra(Constants.COUNT, 0);
-            VideoModel videoModel = new VideoModel();
-            videoModel.setCustomers_videos_id(customerVideoID);
-            userVideoModels.get(userVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
-            userVideoAdapter.addUserVideoData(userVideoModels);
+            int type = intent.getIntExtra(Constants.TYPE, -1);
+            switch (type) {
+                case COMMENT_COUNT:
+                    updateCount(intent);
+                    break;
+                case USER_VIDEOS:
+                    getUserVideosAPI();
+                    break;
+                case DELETE_VIDEO:
+                    getUserVideosAPI();
+                    break;
+            }
+
         }
     };
+
+    private void updateCount(Intent intent) {
+        String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
+        int commentCount = intent.getIntExtra(Constants.COUNT, 0);
+        VideoModel videoModel = new VideoModel();
+        videoModel.setCustomers_videos_id(customerVideoID);
+        userVideoModels.get(userVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
+        userVideoAdapter.addUserVideoData(userVideoModels);
+    }
 
 }

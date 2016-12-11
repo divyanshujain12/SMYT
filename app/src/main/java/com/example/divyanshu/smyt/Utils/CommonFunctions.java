@@ -14,8 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
+import com.example.divyanshu.smyt.Interfaces.AlertDialogInterface;
+import com.example.divyanshu.smyt.Interfaces.CallBackInterface;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.R;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
@@ -188,5 +195,27 @@ public class CommonFunctions {
         RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment = RuntimePermissionHeadlessFragment.newInstance(permissionCallback);
         activity.getSupportFragmentManager().beginTransaction().add(runtimePermissionHeadlessFragment, runtimePermissionHeadlessFragment.getClass().getName()).commit();
         return runtimePermissionHeadlessFragment;
+    }
+
+
+    public void deleteVideo(final Context context, final String customerVideoId, final DeleteVideoInterface deleteVideoInterface) {
+        CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_video_alert_msg), new SnackBarCallback() {
+            @Override
+            public void doAction() {
+                deleteVideoInterface.onDeleteVideo();
+                CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(context, customerVideoId), null);
+            }
+        });
+    }
+
+    private JSONObject createJsonForDeleteVideo(Context context, String customerVideoID) {
+
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
+        try {
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

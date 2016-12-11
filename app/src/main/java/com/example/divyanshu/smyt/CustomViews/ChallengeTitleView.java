@@ -49,9 +49,9 @@ public class ChallengeTitleView extends LinearLayout implements View.OnClickList
     }
 
     private void setUpPopupWindow(PopupItemClicked popupItemClicked) {
-        if (categoryID.equals(getContext().getString(R.string.premium_category)))
-            popupWindow = CustomViewsHandler.getInstance().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
-        else
+      //  if (categoryID.equals(getContext().getString(R.string.premium_category)))
+     //       popupWindow = CustomViewsHandler.getInstance().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
+     //   else
             popupWindow = CustomViewsHandler.getInstance().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
     }
 

@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
+
+import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 
 /**
  * Created by divyanshu on 9/24/2016.
@@ -102,9 +105,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
 
     public void sendLocalBroadCastForCommentCount(String customer_video_id, int commentCount) {
         Intent intent = new Intent();
-        intent.setAction(Constants.UPDATE_COMMENT_COUNT);
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
         intent.putExtra(Constants.COUNT, commentCount);
+        intent.putExtra(Constants.TYPE,COMMENT_COUNT);
+        intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 

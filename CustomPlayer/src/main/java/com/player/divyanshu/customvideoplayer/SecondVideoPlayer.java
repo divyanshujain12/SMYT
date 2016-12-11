@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -29,7 +30,7 @@ import android.widget.Toast;
  * Created by divyanshu on 10/16/2016.
  */
 
-public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener,
+public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, OnCompletionListener, MediaPlayer.OnBufferingUpdateListener,
         View.OnClickListener, MediaPlayer.OnSeekCompleteListener, Animation.AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener {
     private TextView textViewPlayed;
     private TextView textViewLength;
@@ -139,6 +140,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
                 //MediaPlayerHelper.getInstance().secondMediaPlayer.setOnErrorListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnInfoListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setDataSource(getContext(), videoUri);
+                MediaPlayerHelper.getInstance().secondMediaPlayer.setOnCompletionListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.prepareAsync();
                 updateUiForStartPreparing(true);
                 setmState(State.Preparing);
@@ -246,8 +248,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     public void onCompletion(MediaPlayer mp) {
 
-        setmState(State.Completed);
-        backPress(MediaPlayerHelper.getInstance().secondMediaPlayer);
+       releaseVideo();
     }
 
     /**

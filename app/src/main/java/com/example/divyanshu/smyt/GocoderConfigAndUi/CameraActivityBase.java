@@ -110,9 +110,9 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     @Override
     public void onWZStatus(final WZStatus goCoderStatus) {
         this.goCoderStatus = goCoderStatus;
-        handler.sendEmptyMessage(0);
+       // handler.sendEmptyMessage(0);
         //Toast.makeText(this,goCoderStatus.toString(),Toast.LENGTH_SHORT).show();
-      /*  new Handler(Looper.getMainLooper()).post(new Runnable() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 if (goCoderStatus.isRunning()) {
@@ -126,21 +126,21 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
                 if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
                 syncUIControlState();
             }
-        });*/
+        });
         System.out.println("in");
     }
 
     @Override
     public void onWZError(final WZStatus goCoderStatus) {
         this.goCoderStatus = goCoderStatus;
-        handler.sendEmptyMessage(0);
-     /*   new Handler(Looper.getMainLooper()).post(new Runnable() {
+        //handler.sendEmptyMessage(0);
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 if (mStatusView != null) mStatusView.setStatus(goCoderStatus);
                 syncUIControlState();
             }
-        });*/
+        });
     }
 
     Handler handler = new Handler(new Handler.Callback() {
@@ -185,7 +185,8 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
         mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
-        mWZBroadcastConfig.setStreamName("mp4:" + videoName);
+        mWZBroadcastConfig.setStreamName(/*"mp4:" +*/ videoName);
+        mWZBroadcastConfig.setVideoFramerate(30);
     }
 
     /**

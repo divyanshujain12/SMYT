@@ -32,7 +32,7 @@ public interface Constants {
     String ROUND_TIME = "round_time";
     String ROUND_DATE = "round_date";
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
-    String UPDATE_COMMENT_COUNT = "update_comment_count";
+    String UPDATE_UI_VIDEO_FRAGMENT = "update_comment_count";
     String UPDATE_USER_INFO = "update_user_info";
     String USER_ONGOING_CHALLENGE_FRAGMENT = "USER_ONGOING_CHALLENGE_FRAGMENT";
     String STATUS = "status";
@@ -75,6 +75,8 @@ public interface Constants {
     String BANNERS = "banners";
     String NEW_CHALLENGE = "new_challenge";
     String FCM_ID = "fcm_id";
+    String ALL_VIDEO_TAB_UI = "all_video_tab_ui";
+    int COMMENT_COUNT = 0;
     int REQUEST_TIMEOUT_TIME = 30000;
 
 
@@ -82,7 +84,10 @@ public interface Constants {
     String WOWZA_APPLICATION_NAME = "smytex";
     //String WOWZA_APPLICATION_NAME = "live";
     //String WOWZA_STREAM_URL = "rtsp://192.254.214.197:1935" + "/" + WOWZA_APPLICATION_NAME + "/";
-    String WOWZA_STREAM_URL = "rtsp://192.254.218.32:1935" + "/" + WOWZA_APPLICATION_NAME + "/";
+    String RTSP = "rtsp://";
+    String IP_ADDRESS = "192.254.218.31";
+    String PORT_NUMBER = "1935";
+    String WOWZA_STREAM_URL = RTSP + IP_ADDRESS + ":" + PORT_NUMBER + "/" + WOWZA_APPLICATION_NAME + "/";
     String WOWZA_USERNAME = "root";
     String WOWZA_PASSWORD = "skhRz4ecMuOk";
     String WOWZA_MYSTREAM_PREFIX = "myStream_";
