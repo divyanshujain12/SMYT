@@ -103,7 +103,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         return commentModels.size();
     }
 
-    public void sendLocalBroadCastForCommentCount(String customer_video_id, int commentCount) {
+   /* public void sendLocalBroadCastForCommentCount(String customer_video_id, int commentCount) {
         Intent intent = new Intent();
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
         intent.putExtra(Constants.COUNT, commentCount);
@@ -112,7 +112,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }
+    }*/
 
     public void addNewComment(CommentModel commentModel) {
         if (commentModels == null)

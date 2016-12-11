@@ -344,4 +344,8 @@ public class AllVideoModel implements Parcelable {
         dest.writeLong(edate);
         dest.writeList(banners);
     }
+    @Override
+    public boolean equals(Object o) {
+        return this.getCustomers_videos_id().equals(((AllVideoModel) o).getCustomers_videos_id());
+    }
 }

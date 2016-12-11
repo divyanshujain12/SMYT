@@ -23,7 +23,6 @@ import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -122,7 +121,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         switch (apiType) {
             case ALL_VIDEO_DATA:
                 allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
-                otherAllVideoAdapter.addData(allVideoModels);
+                otherAllVideoAdapter.updateData(allVideoModels);
                 break;
             case BANNER_VIDEOS:
                 bannerVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
@@ -317,9 +316,9 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     private void updateCount(Intent intent) {
         String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
-        VideoModel videoModel = new VideoModel();
-        videoModel.setCustomers_videos_id(customerVideoID);
-        allVideoModels.get(allVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
-        otherAllVideoAdapter.addData(allVideoModels);
+        AllVideoModel allVideoModel = new AllVideoModel();
+        allVideoModel.setCustomers_videos_id(customerVideoID);
+        allVideoModels.get(allVideoModels.indexOf(allVideoModel)).setVideo_comment_count(commentCount);
+        otherAllVideoAdapter.notifyDataSetChanged();
     }
 }

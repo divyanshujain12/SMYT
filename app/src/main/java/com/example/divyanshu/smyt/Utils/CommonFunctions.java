@@ -2,8 +2,10 @@ package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,6 +30,9 @@ import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
+import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -197,16 +202,17 @@ public class CommonFunctions {
         return runtimePermissionHeadlessFragment;
     }
 
-
     public void deleteVideo(final Context context, final String customerVideoId, final DeleteVideoInterface deleteVideoInterface) {
         CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_video_alert_msg), new SnackBarCallback() {
             @Override
             public void doAction() {
-                deleteVideoInterface.onDeleteVideo();
                 CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(context, customerVideoId), null);
+                sendDeleteCommentBroadcast(context);
+                deleteVideoInterface.onDeleteVideo();
             }
         });
     }
+
 
     private JSONObject createJsonForDeleteVideo(Context context, String customerVideoID) {
 
@@ -217,5 +223,25 @@ public class CommonFunctions {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    private void sendDeleteCommentBroadcast(Context context) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.TYPE,DELETE_VIDEO);
+        intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
+    public void sendCommentCountBroadcast(final Context context,String customer_video_id, int commentCount){
+        Intent intent = new Intent();
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
+        intent.putExtra(Constants.COUNT, commentCount);
+        intent.putExtra(Constants.TYPE,COMMENT_COUNT);
+        intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 }

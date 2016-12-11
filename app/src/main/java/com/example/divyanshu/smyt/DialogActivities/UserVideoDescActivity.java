@@ -17,6 +17,7 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -244,7 +245,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateCommentsCount() {
-        commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
+        CommonFunctions.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
+        //commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, videoDetailModel.getVideo_comment_count(), videoDetailModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
@@ -317,6 +319,14 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.addVideoToPremiumTV:
                 checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
+                break;
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(this, videoDetailModel.getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        finish();
+                    }
+                });
                 break;
         }
     }

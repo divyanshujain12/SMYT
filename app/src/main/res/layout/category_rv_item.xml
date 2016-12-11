@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_hundred_dp"
         android:layout_gravity="center"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five_dp"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="RAPH"
                 pixlui:typeface="RAVIE.TTF" />
         </LinearLayout>

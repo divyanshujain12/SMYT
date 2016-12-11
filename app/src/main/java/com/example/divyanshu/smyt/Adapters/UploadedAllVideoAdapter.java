@@ -225,9 +225,13 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    public void addData(ArrayList<AllVideoModel> allVideoModels) {
+    public void updateData(ArrayList<AllVideoModel> allVideoModels) {
         this.allVideoModels = allVideoModels;
         this.allVideoModels.add(0, new AllVideoModel());
+        notifyDataSetChanged();
+    }
+    public void addNewData(ArrayList<AllVideoModel> allVideoModels) {
+        this.allVideoModels.addAll(allVideoModels);
         notifyDataSetChanged();
     }
 
