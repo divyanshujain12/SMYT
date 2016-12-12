@@ -106,7 +106,6 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
             JSONObject jsonObject = new JSONObject(str);
             String error_code = jsonObject.getString("error_code");
             String productID = jsonObject.optString(Constants.CUSTOM_ID);
-            productID = Constants.OTHER_CATEGORY_BANNER_SINGLE_VIDEOS_PACK;
             if (error_code.equalsIgnoreCase("2")) {
                 if (productID != null && !productID.equals(""))
                     MyApp.getInstance().consumePurchase(productID);
