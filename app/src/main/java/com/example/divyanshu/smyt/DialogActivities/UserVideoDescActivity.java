@@ -24,6 +24,7 @@ import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -245,7 +246,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateCommentsCount() {
-        CommonFunctions.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
+        BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
         //commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, videoDetailModel.getVideo_comment_count(), videoDetailModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);

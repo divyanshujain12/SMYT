@@ -207,7 +207,7 @@ public class CommonFunctions {
             @Override
             public void doAction() {
                 CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(context, customerVideoId), null);
-                sendDeleteCommentBroadcast(context);
+                BroadcastSenderClass.getInstance().sendDeleteCommentBroadcast(context);
                 deleteVideoInterface.onDeleteVideo();
             }
         });
@@ -225,23 +225,5 @@ public class CommonFunctions {
         return jsonObject;
     }
 
-    private void sendDeleteCommentBroadcast(Context context) {
-        Intent intent = new Intent();
-        intent.putExtra(Constants.TYPE,DELETE_VIDEO);
-        intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }
 
-    public void sendCommentCountBroadcast(final Context context,String customer_video_id, int commentCount){
-        Intent intent = new Intent();
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
-        intent.putExtra(Constants.COUNT, commentCount);
-        intent.putExtra(Constants.TYPE,COMMENT_COUNT);
-        intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }
 }

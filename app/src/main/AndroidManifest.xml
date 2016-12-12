@@ -90,8 +90,7 @@
         <service android:name=".ServicesAndNotifications.NotificationService" />
         <service android:name=".ServicesAndNotifications.OtherUserAvailabilityService" />
 
-
-
+        <activity android:name=".activities.OrdersActivity"></activity>
     </application>
 
 </manifest>
