@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.GocoderConfigAndUi;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,11 +11,14 @@ import android.widget.Toast;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
+import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.PermissionUtil;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.wowza.gocoder.sdk.api.WowzaGoCoder;
 import com.wowza.gocoder.sdk.api.broadcast.WZBroadcast;
@@ -29,9 +33,6 @@ import com.wowza.gocoder.sdk.api.logging.WZLog;
 import com.wowza.gocoder.sdk.api.status.WZStatus;
 import com.wowza.gocoder.sdk.api.status.WZStatusCallback;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static com.example.divyanshu.smyt.Constants.Constants.CUSTOMER_ID;
 import static com.example.divyanshu.smyt.Constants.Constants.IP_ADDRESS;
 import static com.example.divyanshu.smyt.Constants.Constants.PORT_NUMBER;
@@ -45,7 +46,7 @@ import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_USERNAME;
  * Created by divyanshu on 11/12/16.
  */
 
-public class GocoderConfig extends BaseActivity implements WZStatusCallback {
+public class GocoderConfig extends BaseActivity implements WZStatusCallback, RuntimePermissionHeadlessFragment.PermissionCallback {
     private final static String TAG = GocoderConfig.class.getSimpleName();
     private static final String SDK_APP_LICENSE_KEY = "GOSK-9342-0100-3204-B878-FE0F";
     protected static WowzaGoCoder sGoCoderSDK = null;
@@ -71,6 +72,9 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback {
     protected String videoName = "";
     protected String streamVideoUrl = "";
     private String userID = "";
+    private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
+    private static final int CAMERA_REQUEST = 101;
+    protected String[] mRequiredPermissions = {};
 
     public WZBroadcastConfig getBroadcastConfig() {
         return mWZBroadcastConfig;
@@ -80,20 +84,20 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mRequiredPermissions = new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
+        };
+        runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
+
         if (sGoCoderSDK == null) {
-            // Enable detailed logging from the GoCoder SDK
             WZLog.LOGGING_ENABLED = true;
-
-            // Initialize the GoCoder SDK
             sGoCoderSDK = WowzaGoCoder.init(this, SDK_APP_LICENSE_KEY);
-
             if (sGoCoderSDK == null) {
                 WZLog.error(TAG, WowzaGoCoder.getLastError());
             }
         }
-
         if (sGoCoderSDK != null) {
-            // Create a GoCoder broadcaster and an associated broadcast configuration
             mWZBroadcast = new WZBroadcast();
             mWZBroadcastConfig = new WZBroadcastConfig();
             configureBroadcast();
@@ -104,7 +108,12 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback {
     @Override
     protected void onResume() {
         super.onResume();
+        if (PermissionUtil.isMNC())
+            runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
 
+    }
+
+    private void configureGocoderCamera() {
         if (!mUIInitialized)
             initUIControls();
         if (!mDevicesInitialized)
@@ -274,7 +283,8 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback {
         mWZBroadcastConfig.setStreamName(videoName);
 
     }
-    private void configureBroadcast(){
+
+    private void configureBroadcast() {
 
         mWZBroadcastConfig.setHostAddress(IP_ADDRESS);
         mWZBroadcastConfig.setPortNumber(Integer.parseInt(PORT_NUMBER));
@@ -316,5 +326,15 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback {
         }
 
         return disableControls;
+    }
+
+    @Override
+    public void onPermissionGranted(int permissionType) {
+        configureGocoderCamera();
+    }
+
+    @Override
+    public void onPermissionDenied(int permissionType) {
+        finish();
     }
 }

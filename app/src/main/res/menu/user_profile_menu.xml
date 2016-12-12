@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="in.co.eko.fundu.activities.EditProfileActivity">
     <item
+        android:id="@+id/action_recording"
+        android:icon="@drawable/fav_icon_postvideo"
+        android:orderInCategory="101"
+        android:title="@string/user_profile"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_user_setting"
         android:icon="@drawable/icon_settings"
         android:orderInCategory="101"

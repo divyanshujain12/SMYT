@@ -78,14 +78,17 @@ public class HomeActivity extends BaseActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
         switch (item.getItemId()) {
-
             case R.id.action_user_profile:
-                Intent intent = new Intent(this, UserProfileActivity.class);
-                //intent.putExtra(Constants.CATEGORY_ID, categoryModel.getId());
-                startActivity(intent);
-                return true;
+                intent = new Intent(this, UserProfileActivity.class);
+                break;
+            case R.id.action_recording:
+                intent = new Intent(this, RecordVideoActivity.class);
+                break;
         }
+        if (intent != null)
+            startActivity(intent);
         return true;
     }
 

@@ -147,12 +147,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (holder instanceof TopRatedVideoHolder) {
             setUpTopRatedViewHolder((TopRatedVideoHolder) holder);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
-            }
-        });
+
 
 
     }
@@ -161,7 +156,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.topRatedVideosAdapter.addVideos(bannerVideos);
     }
 
-    private void setupSingleViewHolder(SingleVideoHolder holder, AllVideoModel allVideoModel) {
+    private void setupSingleViewHolder(final SingleVideoHolder holder, AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
         holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
@@ -170,6 +165,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
+        holder.commentsTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
+            }
+        });
     }
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, AllVideoModel allVideoModel) {
@@ -183,6 +184,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
+        holder.commentsTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
+            }
+        });
     }
 
     private void setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {

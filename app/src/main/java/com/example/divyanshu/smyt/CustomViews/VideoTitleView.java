@@ -21,7 +21,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 public class VideoTitleView extends LinearLayout implements View.OnClickListener {
     private TextView titleTV;
     private ImageView moreIV;
-    private static PopupWindow popupWindow = null;
+    private PopupWindow popupWindow = null;
     private int position;
     private String categoryID = "";
 
@@ -53,7 +53,7 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
        // if (categoryID.equals(getContext().getString(R.string.premium_category)))
          //   popupWindow = CustomViewsHandler.getInstance().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
        // else
-            popupWindow = CustomViewsHandler.getInstance().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
         return moreIV;
     }
 
-    public static PopupWindow getPopupWindow() {
+    public PopupWindow getPopupWindow() {
         return popupWindow;
     }
 

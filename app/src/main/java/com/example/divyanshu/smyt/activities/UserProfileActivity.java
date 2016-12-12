@@ -267,13 +267,18 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
+        Intent intent = null;
+        switch (item.getItemId()) {
             case R.id.action_user_setting:
-                Intent intent = new Intent(this, UserSettingActivity.class);
-                startActivity(intent);
-                return true;
+                intent = new Intent(this, UserSettingActivity.class);
+                break;
+            case R.id.action_recording:
+                intent = new Intent(this, RecordVideoActivity.class);
+                break;
         }
+        if (intent != null)
+            startActivity(intent);
         return true;
     }
 

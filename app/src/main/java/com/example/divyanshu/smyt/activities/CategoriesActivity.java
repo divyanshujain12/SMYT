@@ -78,7 +78,7 @@ public class CategoriesActivity extends BaseActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_activity, menu);
+        getMenuInflater().inflate(R.menu.categories_activity_menu, menu);
         return true;
     }
 
@@ -87,7 +87,6 @@ public class CategoriesActivity extends BaseActivity {
 
             case R.id.action_user_profile:
                 Intent intent = new Intent(this, UserProfileActivity.class);
-                //intent.putExtra(Constants.CATEGORY_ID, categoryModel.getId());
                 startActivity(intent);
                 return true;
         }

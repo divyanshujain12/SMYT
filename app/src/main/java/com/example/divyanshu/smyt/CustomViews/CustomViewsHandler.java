@@ -16,20 +16,14 @@ import com.neopixl.pixlui.components.textview.TextView;
  * Created by divyanshu.jain on 10/3/2016.
  */
 public class CustomViewsHandler {
-    private CustomViewsHandler() {
+    private int pos;
+    public CustomViewsHandler() {
     }
 
     PopupWindow popupWindow;
-    static CustomViewsHandler customViewsHandler = new CustomViewsHandler();
 
-    public static CustomViewsHandler getInstance() {
-        if (customViewsHandler == null)
-            customViewsHandler = new CustomViewsHandler();
-
-        return customViewsHandler;
-    }
-
-    public PopupWindow createUserVideosPopupWindow(Context context, final PopupItemClicked popupItemClicked, final int position) {
+    public PopupWindow createUserVideosPopupWindow(Context context, final PopupItemClicked popupItemClicked, int position) {
+        this.pos = position;
         View view = LayoutInflater.from(context).inflate(R.layout.videos_popup_window, null);
         TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
         TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
@@ -46,14 +40,14 @@ public class CustomViewsHandler {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();
-                popupItemClicked.onPopupMenuClicked(v, position);
+                popupItemClicked.onPopupMenuClicked(v, pos);
             }
         });
         addVideoToPremiumTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();
-                popupItemClicked.onPopupMenuClicked(v, position);
+                popupItemClicked.onPopupMenuClicked(v, pos);
             }
         });
 
@@ -61,7 +55,7 @@ public class CustomViewsHandler {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();
-                popupItemClicked.onPopupMenuClicked(v, position);
+                popupItemClicked.onPopupMenuClicked(v, pos);
             }
         });
 
