@@ -84,6 +84,8 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     ScrollView contentSV;
     @InjectView(R.id.logoutTV)
     TextView logoutTV;
+    @InjectView(R.id.manageOrdersTV)
+    TextView manageOrdersTV;
     private UserModel userModel;
     private Validation validation;
     private HashMap<View, String> hashMap;
@@ -124,9 +126,13 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
         externalStoragePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
     }
 
-    @OnClick({R.id.aboutUsTV, R.id.contactUsTV, R.id.changeUserImageIV, R.id.updateTV})
+    @OnClick({R.id.aboutUsTV, R.id.contactUsTV, R.id.changeUserImageIV, R.id.updateTV, R.id.manageOrdersTV})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.manageOrdersTV:
+                Intent intent = new Intent(this, ManageOrdersActivity.class);
+                startActivity(intent);
+                break;
             case R.id.aboutUsTV:
 
                 break;

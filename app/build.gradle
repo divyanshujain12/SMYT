@@ -50,7 +50,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    // compile files('libs/universal-image-loader-1.9.3.jar')
+
     compile files('libs/pixlui.jar')
     compile 'com.android.support:appcompat-' + 'v7:23.3.0'
     compile project(':CustomPlayer')
@@ -61,11 +61,10 @@ dependencies {
     compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
     compile 'com.androidadvance:topsnackbar:1.1.1'
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'
-    //compile 'com.wowza.gocoder.sdk.android:com.wowza.gocoder.sdk:1.0@aar'
     compile 'com.wowza.gocoder.sdk.android:com.wowza.gocoder.sdk:1.0@aar'
-
-    compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.anjlab.android.iab.v3:library:1.0.+'
+    compile 'com.android.support:support-v4:23.4.0'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

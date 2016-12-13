@@ -143,5 +143,12 @@
     <string name="source">Source</string>
     <string name="new_challenges">New Challenges</string>
     <string name="log_out">Log Out</string>
+    <string name="orders">Orders</string>
+    <string name="in_app_packages">In App Packages</string>
+    <string name="your_orders">Your Orders</string>
+    <string name="manage_orders">Manage Orders</string>
+    <string name="add_video_to_banner_pckg">Add Videos To Banner Packages</string>
+    <string name="add_video_to_premium_cat_pckg">Add Videos To Premium Categories Packages</string>
+    <string name="add_video_to_premium_banner_pckg">Add Videos To Premium Category Banner Packages</string>
 
 </resources>

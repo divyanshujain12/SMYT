@@ -68,175 +68,10 @@
                 android:textSize="@dimen/eighteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent">
-
-                    <com.neopixl.pixlui.components.edittext.EditText
-                        android:id="@+id/firstNameET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:drawablePadding="@dimen/ten_dp"
-                        android:drawableStart="@drawable/icon_username"
-                        android:hint="@string/first_name"
-                        android:maxLines="1"
-                        android:padding="@dimen/ten_dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/sixteen_sp"
-                        pixlui:typeface="Roboto-Medium.ttf" />
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:src="@drawable/icon_edit" />
-            </FrameLayout>
+            <include layout="@layout/user_setting_form_view" />
 
             <include layout="@layout/horizontal_yellow_line" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent">
-
-                    <com.neopixl.pixlui.components.edittext.EditText
-                        android:id="@+id/lastNameET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:drawablePadding="@dimen/ten_dp"
-                        android:drawableStart="@drawable/icon_username"
-                        android:hint="@string/last_name"
-                        android:maxLines="1"
-                        android:padding="@dimen/ten_dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/sixteen_sp"
-                        pixlui:typeface="Roboto-Medium.ttf" />
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:src="@drawable/icon_edit" />
-            </FrameLayout>
-
-            <include layout="@layout/horizontal_yellow_line" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.neopixl.pixlui.components.edittext.EditText
-                        android:id="@+id/mobileET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:drawablePadding="@dimen/ten_dp"
-                        android:drawableStart="@drawable/icon_mobile"
-                        android:hint="@string/phone_number"
-                        android:maxLines="1"
-                        android:padding="@dimen/ten_dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/sixteen_sp"
-                        pixlui:typeface="Roboto-Medium.ttf" />
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:src="@drawable/icon_edit" />
-            </FrameLayout>
-
-            <include layout="@layout/horizontal_yellow_line" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.neopixl.pixlui.components.edittext.EditText
-                        android:id="@+id/statusET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:drawablePadding="@dimen/ten_dp"
-                        android:drawableStart="@drawable/icon_status"
-                        android:hint="@string/status"
-                        android:maxLines="1"
-                        android:padding="@dimen/ten_dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/sixteen_sp"
-                        pixlui:typeface="Roboto-Medium.ttf" />
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:src="@drawable/icon_edit" />
-            </FrameLayout>
-
-            <include layout="@layout/horizontal_yellow_line" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.neopixl.pixlui.components.edittext.EditText
-                        android:id="@+id/changePasswordET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:clickable="false"
-                        android:drawablePadding="@dimen/ten_dp"
-                        android:drawableStart="@drawable/password_icon"
-                        android:focusable="false"
-                        android:hint="@string/change_password"
-                        android:inputType="numberPassword"
-                        android:maxLines="1"
-                        android:padding="@dimen/ten_dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/sixteen_sp"
-                        pixlui:typeface="Roboto-Medium.ttf" />
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:src="@drawable/icon_edit" />
-            </FrameLayout>
-
-            <include layout="@layout/horizontal_yellow_line" />
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:layout_width="wrap_content"
@@ -245,6 +80,19 @@
                 android:text="@string/application"
                 android:textColor="@color/white"
                 android:textSize="@dimen/eighteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/manageOrdersTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:drawableLeft="@drawable/orders"
+                android:drawablePadding="@dimen/five_dp"
+                android:padding="@dimen/five_dp"
+                android:text="@string/manage_orders"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sixteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
             <com.neopixl.pixlui.components.textview.TextView

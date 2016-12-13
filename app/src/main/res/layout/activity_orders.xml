@@ -13,9 +13,10 @@
         android:id="@+id/tabs"
         style="@style/TabLayoutStyle"
         android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:layout_height="?attr/actionBarSize"
         app:tabContentStart="72dp"
-        app:tabMode="fixed" />
+        app:tabMode="scrollable" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

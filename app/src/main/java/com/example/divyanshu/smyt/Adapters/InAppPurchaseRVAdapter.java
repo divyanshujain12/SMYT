@@ -34,7 +34,7 @@ public class InAppPurchaseRVAdapter extends RecyclerView.Adapter<InAppPurchaseRV
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         SkuDetails skuDetails = skuDetailsList.get(position);
         holder.productDesc.setText(skuDetails.description);
         holder.productTitle.setText(skuDetails.title);
@@ -42,7 +42,7 @@ public class InAppPurchaseRVAdapter extends RecyclerView.Adapter<InAppPurchaseRV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewClick.onClickItem(position, v);
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
     }

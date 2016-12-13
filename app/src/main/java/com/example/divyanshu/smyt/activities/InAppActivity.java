@@ -60,17 +60,17 @@ public class InAppActivity extends AppCompatActivity implements RecyclerViewClic
 
         switch (type) {
             case OTHER_CATEGORY_BANNER:
-                purchaseTitle.setText("Add Videos To Banner Packages");
+                purchaseTitle.setText(R.string.add_video_to_banner_pckg);
                 skuDetailsList = billingProcessor.getPurchaseListingDetails(createOtherCategoryBannerArrayList());
 
                 break;
             case OTHER_CATEGORY_TO_PREMIUM:
-                purchaseTitle.setText("Add Videos On Premium Categories Packages");
+                purchaseTitle.setText(R.string.add_video_to_premium_cat_pckg);
                 skuDetailsList = billingProcessor.getPurchaseListingDetails(createOtherCategoryToPremium());
 
                 break;
             case PREMIUM_CATEGORY_BANNER:
-                purchaseTitle.setText("Add Videos On Premium Category Banner Packages");
+                purchaseTitle.setText(R.string.add_video_to_premium_banner_pckg);
                 skuDetailsList = billingProcessor.getPurchaseListingDetails(createPremiumCategoryBannerArrayList());
                 break;
         }
