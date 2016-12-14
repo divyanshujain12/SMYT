@@ -24,6 +24,7 @@ import com.wowza.gocoder.sdk.api.WowzaGoCoder;
 import com.wowza.gocoder.sdk.api.broadcast.WZBroadcast;
 import com.wowza.gocoder.sdk.api.broadcast.WZBroadcastConfig;
 import com.wowza.gocoder.sdk.api.configuration.WZMediaConfig;
+import com.wowza.gocoder.sdk.api.configuration.WZStreamConfig;
 import com.wowza.gocoder.sdk.api.devices.WZAudioDevice;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.devices.WZCameraView;
@@ -125,7 +126,7 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback, Run
             mWZCameraView.setCameraConfig(getBroadcastConfig());
             mWZCameraView.setScaleMode(WZMediaConfig.FILL_VIEW);
             mWZCameraView.setVideoBackgroundColor(WZColor.DARKGREY);
-
+            mWZCameraView.setCameraConfig(WZMediaConfig.FRAME_SIZE_640x480);
             if (mWZBroadcastConfig.isVideoEnabled()) {
                 if (mWZCameraView.isPreviewPaused())
                     mWZCameraView.onResume();
@@ -281,6 +282,7 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback, Run
     protected void createVideoUrl() {
         userID = MySharedPereference.getInstance().getString(this, CUSTOMER_ID);
         videoName = WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTimeInMillisecond();
+
         streamVideoUrl = WOWZA_STREAM_URL + videoName;
         mWZBroadcastConfig.setStreamName(videoName);
 
@@ -293,7 +295,8 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback, Run
         mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
-        mWZBroadcastConfig.setVideoFramerate(30);
+        mWZBroadcastConfig.set(WZMediaConfig.FRAME_SIZE_320x240);
+        mWZBroadcastConfig.setVideoFramerate(15);
     }
 
     protected void initUIControls() {

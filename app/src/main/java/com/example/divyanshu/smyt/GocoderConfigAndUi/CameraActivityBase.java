@@ -186,7 +186,9 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
         mWZBroadcastConfig.setStreamName(/*"mp4:" +*/ videoName);
-        mWZBroadcastConfig.setVideoFramerate(30);
+        mWZBroadcastConfig.setVideoSourceConfig(WZMediaConfig.FRAME_SIZE_176x144);
+
+        mWZBroadcastConfig.setVideoFramerate(15);
     }
 
     /**
