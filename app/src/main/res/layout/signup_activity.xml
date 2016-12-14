@@ -86,6 +86,7 @@
             android:text="@string/phone_number"
             android:textColor="@color/white"
             android:textSize="@dimen/fifteen_sp"
+            android:visibility="gone"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <com.neopixl.pixlui.components.edittext.EditText
@@ -94,6 +95,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_white_full"
             android:ems="10"
+            android:visibility="gone"
             android:inputType="phone"
             android:padding="@dimen/ten_dp"
             android:textColor="@color/black"

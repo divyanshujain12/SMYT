@@ -3,7 +3,10 @@ package com.example.divyanshu.smyt.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +33,8 @@ import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;

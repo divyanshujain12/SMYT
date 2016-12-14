@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,11 +68,11 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.videos_recycler_view, null);
@@ -86,7 +86,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated( Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         initViews();
@@ -172,9 +172,6 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-
-        videoDescriptionActivity(position);
-
         selectedVideo = position;
         switch (view.getId()) {
             case R.id.addVideoToBannerTV:
@@ -193,6 +190,9 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
                         otherAllVideoAdapter.removeItem(selectedVideo);
                     }
                 });
+                break;
+            default:
+                videoDescriptionActivity(position);
                 break;
         }
     }
@@ -313,6 +313,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         super.onDetach();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateAllVideosUI);
     }
+
     private void updateCount(Intent intent) {
         String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);

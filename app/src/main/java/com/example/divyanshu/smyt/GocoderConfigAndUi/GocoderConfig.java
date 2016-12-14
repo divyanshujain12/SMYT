@@ -110,6 +110,8 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback, Run
         super.onResume();
         if (PermissionUtil.isMNC())
             runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+        else
+            configureGocoderCamera();
 
     }
 

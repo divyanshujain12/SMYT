@@ -91,6 +91,7 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
                 break;
             case ADD_BANNER:
                 CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), context.getString(R.string.banner_added_success));
+                BroadcastSenderClass.getInstance().sendBannerVideoAddedBroadcast(context);
                 break;
             case ADD_VIDEO_TO_PREMIUM:
                 CommonFunctions.getInstance().showSuccessSnackBar(((Activity) context), context.getString(R.string.video_added_successfully));

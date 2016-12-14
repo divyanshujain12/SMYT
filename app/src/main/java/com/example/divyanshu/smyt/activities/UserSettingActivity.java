@@ -116,7 +116,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
         validation = new Validation();
         validation.addValidationField(new ValidationModel(firstNameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_first_name)));
         validation.addValidationField(new ValidationModel(lastNameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_last_name)));
-        validation.addValidationField(new ValidationModel(mobileET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_phone_number)));
+        //validation.addValidationField(new ValidationModel(mobileET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_phone_number)));
         validation.addValidationField(new ValidationModel(statusET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_status)));
         validation.addValidationField(new ValidationModel(changePasswordET, Validation.TYPE_PASSWORD_VALIDATION, getString(R.string.err_pass)));
     }
@@ -249,7 +249,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
             jsonObject.put(Constants.FIRST_NAME, hashMap.get(firstNameET));
             jsonObject.put(Constants.LAST_NAME, hashMap.get(lastNameET));
             jsonObject.put(Constants.EMAIl, userModel.getEmail());
-            jsonObject.put(Constants.PHONE_NUMBER, hashMap.get(mobileET));
+            //jsonObject.put(Constants.PHONE_NUMBER, hashMap.get(mobileET));
             jsonObject.put(Constants.DATE_OF_BIRTH, userModel.getDate_of_birth());
             jsonObject.put(Constants.PASSWORD, hashMap.get(changePasswordET));
             jsonObject.put(Constants.TIMELINE_MSG, hashMap.get(statusET));

@@ -98,6 +98,10 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     CollapsingToolbarLayout collapsingToolbar;
     @InjectView(R.id.fab)
     FloatingActionButton fab;
+    @InjectView(R.id.statusTV)
+    TextView statusTV;
+    @InjectView(R.id.statusFL)
+    FrameLayout statusFL;
     private int viewPagerPos = 0;
 
     private ViewPagerAdapter viewPagerAdapter;
@@ -244,6 +248,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         followingCountTV.setText(userModel.getFollowing());
         imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
         profileImage.setOnClickListener(this);
+        statusTV.setText(userModel.getTimeline_msg());
     }
 
     @Override

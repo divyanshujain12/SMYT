@@ -45,6 +45,9 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     public void setThumbnail(String firstThumbUrl) {
         imageLoading.LoadImage(firstThumbUrl, standardVideoPlayer.getVideoThumbnail(), null);
     }
+    public ImageView getThumbImageView(){
+        return standardVideoPlayer.getVideoThumbnail();
+    }
 
     @Override
     public void onClick(View view) {

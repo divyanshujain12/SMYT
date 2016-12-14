@@ -62,7 +62,7 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewClick.onClickItem(position, v);
+            //    recyclerViewClick.onClickItem(position, v);
             }
         });
     }

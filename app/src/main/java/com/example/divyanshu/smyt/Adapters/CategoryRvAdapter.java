@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -28,13 +29,14 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
     private ArrayList<CategoryModel> categoryModels;
     private Context context;
     private ImageLoading imageLoading;
+    private RecyclerViewClick recyclerViewClick;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView categoryNameTV, userTimeTV;
-        public ImageView categoryIV;
-        public FrameLayout joinedCatFL;
+    protected class MyViewHolder extends RecyclerView.ViewHolder {
+        private TextView categoryNameTV, userTimeTV;
+        private ImageView categoryIV;
+        private FrameLayout joinedCatFL;
 
-        public MyViewHolder(View view) {
+        private MyViewHolder(View view) {
             super(view);
             categoryNameTV = (TextView) view.findViewById(R.id.genreNameTV);
             categoryIV = (ImageView) view.findViewById(R.id.categoryIV);
@@ -42,10 +44,11 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
         }
     }
 
-    public CategoryRvAdapter(Context context, ArrayList<CategoryModel> categoryModels) {
+    public CategoryRvAdapter(Context context, ArrayList<CategoryModel> categoryModels, RecyclerViewClick recyclerViewClick) {
         this.categoryModels = categoryModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
+        this.recyclerViewClick = recyclerViewClick;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         final CategoryModel categoryModel = categoryModels.get(position);
 
         holder.categoryNameTV.setText(categoryModel.getcategory_name());
@@ -69,23 +72,15 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextActivityIntent(categoryModel);
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(),v);
+                //nextActivityIntent(categoryModel);
             }
         });
     }
 
-    private void nextActivityIntent(CategoryModel categoryModel) {
-        if (categoryModel.getJoin_status() == 0) {
-            Intent intent = new Intent(context, CategoryDescriptionActivity.class);
-            intent.putExtra(Constants.DATA, categoryModel);
-            context.startActivity(intent);
-        } else {
-            Intent intent = new Intent(context, HomeActivity.class);
-            intent.putExtra(Constants.DATA, categoryModel);
-            MySharedPereference.getInstance().setString(context, Constants.CATEGORY_ID, categoryModel.getId());
-            MySharedPereference.getInstance().setString(context, Constants.CATEGORY_NAME, categoryModel.getcategory_name());
-            context.startActivity(intent);
-        }
+    public void setJoinStatus(int adapterPosition) {
+        categoryModels.get(adapterPosition).setJoin_status(1);
+        notifyDataSetChanged();
     }
 
     @Override

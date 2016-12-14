@@ -119,7 +119,7 @@ public class SignUpActivity extends BaseActivity implements RadioGroup.OnChecked
         validation.addValidationField(new ValidationModel(firstnameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_first_name)));
         validation.addValidationField(new ValidationModel(lastnameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_last_name)));
         validation.addValidationField(new ValidationModel(userNameET, Validation.TYPE_NAME_VALIDATION, getString(R.string.err_user_name)));
-        validation.addValidationField(new ValidationModel(phoneNumberET, Validation.TYPE_PHONE_VALIDATION, getString(R.string.err_phone_number)));
+        //validation.addValidationField(new ValidationModel(phoneNumberET, Validation.TYPE_PHONE_VALIDATION, getString(R.string.err_phone_number)));
         validation.addValidationField(new ValidationModel(dobTV, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_dob)));
         validation.addValidationField(new ValidationModel(emailET, Validation.TYPE_EMAIL_VALIDATION, getString(R.string.err_email)));
         validation.addValidationField(new ValidationModel(passwordET, Validation.TYPE_PASSWORD_VALIDATION, getString(R.string.err_pass)));
@@ -132,7 +132,7 @@ public class SignUpActivity extends BaseActivity implements RadioGroup.OnChecked
             jsonObject.put(Constants.FIRST_NAME, formValues.get(firstnameET));
             jsonObject.put(Constants.LAST_NAME, formValues.get(lastnameET));
             jsonObject.put(Constants.USER_NAME, formValues.get(userNameET));
-            jsonObject.put(Constants.PHONE_NUMBER, formValues.get(phoneNumberET));
+            //jsonObject.put(Constants.PHONE_NUMBER, formValues.get(phoneNumberET));
             jsonObject.put(Constants.DATE_OF_BIRTH, formValues.get(dobTV));
             jsonObject.put(Constants.GENDER,genderStr);
             jsonObject.put(Constants.EMAIl, formValues.get(emailET));

@@ -1,7 +1,7 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -149,7 +149,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
 
-
     }
 
     private void setUpTopRatedViewHolder(TopRatedVideoHolder holder) {
@@ -159,7 +158,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void setupSingleViewHolder(final SingleVideoHolder holder, AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
-       // holder.firstVideoPlayer.setVideoUrl("rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4");
+        // holder.firstVideoPlayer.setVideoUrl("rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4");
+        //BitmapExtractor.getInstance().setImageBitmap(allVideoModel.getVideo_url(), holder.firstVideoPlayer.getThumbImageView());
         holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
@@ -209,7 +209,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             holder.challengeTitleView.showHideMoreIvButton(true);
     }
 
-    @NonNull
     private String setComment(AllVideoModel allVideoModel) {
         return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
     }
@@ -238,6 +237,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.allVideoModels.add(0, new AllVideoModel());
         notifyDataSetChanged();
     }
+
     public void addNewData(ArrayList<AllVideoModel> allVideoModels) {
         this.allVideoModels.addAll(allVideoModels);
         notifyDataSetChanged();
@@ -262,6 +262,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 break;
         }
     }
+
     public void removeItem(int selectedVideoPos) {
         allVideoModels.remove(selectedVideoPos);
         notifyItemRemoved(selectedVideoPos);

@@ -17,11 +17,27 @@
         android:layout_width="@dimen/one_hundred_fifty_five_dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/statusFL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/five_dp">
 
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/statusTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/dummy_number"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+        </FrameLayout>
         <FrameLayout
             android:id="@+id/nameFL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:padding="@dimen/five_dp">
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -47,6 +63,7 @@
             android:id="@+id/phoneNumberFL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:padding="@dimen/five_dp">
 
             <com.neopixl.pixlui.components.textview.TextView

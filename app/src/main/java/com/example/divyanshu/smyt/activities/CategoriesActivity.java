@@ -54,6 +54,7 @@ public class CategoriesActivity extends BaseActivity {
     private CategoryRvAdapter categoryRvAdapter;
     private ArrayList<CategoryModel> categoriesModels = new ArrayList<>();
     private ArrayList<UserModel> userModels = new ArrayList<>();
+    private int selectedCategoryPos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class CategoriesActivity extends BaseActivity {
         Intent intent = new Intent(this, NotificationService.class);
         startService(intent);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.categories_activity_menu, menu);
@@ -96,9 +98,8 @@ public class CategoriesActivity extends BaseActivity {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-      /*  Intent intent = new Intent(this, OtherUserProfileActivity.class);
-        intent.putExtra(Constants.USER_DATA, userModels.get(position));
-        startActivity(intent);*/
+        selectedCategoryPos = position;
+        checkAndHitJoinAPI(categoriesModels.get(position));
     }
 
     @Override
@@ -111,12 +112,30 @@ public class CategoriesActivity extends BaseActivity {
                 userModels = UserParser.getParsedUserData(data.optJSONArray(Constants.CUSTOMERS));
                 setUserAndCategoryAdapter();
                 break;
+            case ApiCodes.JOIN_CATEGORY:
+                categoryRvAdapter.setJoinStatus(selectedCategoryPos);
+                categoriesModels.get(selectedCategoryPos).setJoin_status(1);
+                checkAndHitJoinAPI(categoriesModels.get(selectedCategoryPos));
+                break;
         }
 
     }
 
+    private void checkAndHitJoinAPI(CategoryModel categoryModel) {
+        if (categoryModel.getJoin_status() == 0) {
+            CallWebService.getInstance(this, true, ApiCodes.JOIN_CATEGORY).hitJsonObjectRequestAPI(CallWebService.POST, API.JOIN_CATEGORY, createJsonForJoinCategory(categoryModel.getId()), this);
+        } else {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra(Constants.DATA, categoryModel);
+            MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryModel.getId());
+            MySharedPereference.getInstance().setString(this, Constants.CATEGORY_NAME, categoryModel.getcategory_name());
+            startActivity(intent);
+
+        }
+    }
+
     private void setUserAndCategoryAdapter() {
-        categoryRvAdapter = new CategoryRvAdapter(this, categoriesModels);
+        categoryRvAdapter = new CategoryRvAdapter(this, categoriesModels, this);
         categoryUserRvAdapter = new CategoryUserRvAdapter(this, userModels, this);
         categoryRV.setAdapter(categoryRvAdapter);
         userRV.setAdapter(categoryUserRvAdapter);
@@ -128,4 +147,16 @@ public class CategoriesActivity extends BaseActivity {
         if (categoriesModels == null || categoriesModels.isEmpty())
             CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, CommonFunctions.customerIdJsonObject(this), this);
     }
+
+    private JSONObject createJsonForJoinCategory(String categoryID) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
+        try {
+            jsonObject.put(Constants.CATEGORY_ID, categoryID);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 }

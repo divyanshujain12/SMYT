@@ -31,7 +31,6 @@ import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -81,6 +80,10 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     FloatingActionButton fab;
     @InjectView(R.id.main_content)
     CoordinatorLayout mainContent;
+    @InjectView(R.id.statusTV)
+    TextView statusTV;
+    @InjectView(R.id.statusFL)
+    FrameLayout statusFL;
     private int viewPagerPos = 0;
     private ImageLoading imageLoading;
     private ViewPagerAdapter viewPagerAdapter;
@@ -217,6 +220,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         followersCountTV.setText(userModel.getFollowers());
         followingCountTV.setText(userModel.getFollowing());
         imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
+        statusTV.setText(userModel.getTimeline_msg());
         if (userModel.getFollowStatus().equals("1"))
             followedButton.setTitle(R.string.unfollow);
         else
