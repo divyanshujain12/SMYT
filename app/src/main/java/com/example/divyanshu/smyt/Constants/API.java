@@ -53,5 +53,6 @@ public interface API {
     String USER_AVAILABILITY_SERVICE = BASE + "other_user_availability";
     String OTHER_CUSTOMER_VIDEO_URL = BASE + "getOtherCustomerVideoURL";
     String GET_UPCOMING_ROUND_INFO = BASE + "getUpcomingUrlInNext10Minutes";
+    String MANAGE_ORDERS = BASE + "manageorders";
 
 }

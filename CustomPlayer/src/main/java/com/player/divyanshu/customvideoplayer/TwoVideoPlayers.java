@@ -23,6 +23,9 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     private ImageLoading imageLoading;
     HomeWatcher mHomeWatcher;
     String firstUrl, secondUrl;
+    private PlayVideoInterface playVideoInterface;
+
+    private int playedVideoPos = 0;
 
     public TwoVideoPlayers(Context context) {
         super(context);
@@ -117,6 +120,8 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
         secondVideoPlayer.onPlayButtonClick();
         showHideBlackLayer(false);
         MediaPlayerHelper.getInstance().setStopPlayingInterface(this);
+        if(playVideoInterface!=null)
+            playVideoInterface.onVideoPlay(playedVideoPos);
     }
 
     protected void setShowPlayButton(boolean enabled) {
@@ -146,5 +151,21 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
 
     private void resetPlayers() {
         MediaPlayerHelper.getInstance().pauseVideos(((Activity) getContext()), mHomeWatcher);
+    }
+
+    public int getPlayedVideoPos() {
+        return playedVideoPos;
+    }
+
+    public void setPlayedVideoPos(int playedVideoPos) {
+        this.playedVideoPos = playedVideoPos;
+    }
+
+    public PlayVideoInterface getPlayVideoInterface() {
+        return playVideoInterface;
+    }
+
+    public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {
+        this.playVideoInterface = playVideoInterface;
     }
 }

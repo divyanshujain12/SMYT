@@ -17,7 +17,8 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     private ImageView playAllVideosIV;
     private LinearLayout layerLL;
     private ImageLoading imageLoading;
-
+    private PlayVideoInterface playVideoInterface;
+    private int playedVideoPos = 0;
     public SingleVideoPlayer(Context context) {
         super(context);
         setUp();
@@ -27,6 +28,7 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
         super(context, attrs);
         setUp();
     }
+
 
     private void setUp() {
         imageLoading = new ImageLoading(getContext());
@@ -73,11 +75,14 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     }
 
     public void playButtonClicked() {
+
         MediaPlayerHelper.getInstance().releaseAllVideos();
         setShowPlayButton(true);
         standardVideoPlayer.onPlayButtonClick();
         showHideBlackLayer(false);
         MediaPlayerHelper.getInstance().setStopPlayingInterface(this);
+        if(playVideoInterface!=null)
+            playVideoInterface.onVideoPlay(playedVideoPos);
     }
 
     public void setHideControls(boolean hide) {
@@ -86,5 +91,19 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
 
     public void playVideo() {
         standardVideoPlayer.playVideo();
+    }
+    public PlayVideoInterface getPlayVideoInterface() {
+        return playVideoInterface;
+    }
+
+    public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {
+        this.playVideoInterface = playVideoInterface;
+    }
+    public int getPlayedVideoPos() {
+        return playedVideoPos;
+    }
+
+    public void setPlayedVideoPos(int playedVideoPos) {
+        this.playedVideoPos = playedVideoPos;
     }
 }

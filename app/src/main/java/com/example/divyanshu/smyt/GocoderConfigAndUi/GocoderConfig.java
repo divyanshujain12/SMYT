@@ -1,7 +1,6 @@
 package com.example.divyanshu.smyt.GocoderConfigAndUi;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -24,7 +21,6 @@ import com.wowza.gocoder.sdk.api.WowzaGoCoder;
 import com.wowza.gocoder.sdk.api.broadcast.WZBroadcast;
 import com.wowza.gocoder.sdk.api.broadcast.WZBroadcastConfig;
 import com.wowza.gocoder.sdk.api.configuration.WZMediaConfig;
-import com.wowza.gocoder.sdk.api.configuration.WZStreamConfig;
 import com.wowza.gocoder.sdk.api.devices.WZAudioDevice;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.devices.WZCameraView;
@@ -81,6 +77,8 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback, Run
         return mWZBroadcastConfig;
     }
 
+
+    private GoCoderCallBack goCoderCallBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,13 +203,11 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback, Run
                 if (goCoderStatus.isRunning()) {
                     // Keep the screen on while we are broadcasting
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    goCoderCallBack.onVideoStart();
                 } else if (goCoderStatus.isIdle()) {
                     // Clear the "keep screen on" flag
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    Intent intent = new Intent(GocoderConfig.this, UploadNewVideoActivity.class);
-                    intent.putExtra(Constants.VIDEO_NAME, videoName);
-                    startActivity(intent);
-                    finish();
+                    goCoderCallBack.onVideoStop();
                 }
                 syncUIControlState();
             }
@@ -341,5 +337,19 @@ public class GocoderConfig extends BaseActivity implements WZStatusCallback, Run
     @Override
     public void onPermissionDenied(int permissionType) {
         finish();
+    }
+
+    public GoCoderCallBack getGoCoderCallBack() {
+        return goCoderCallBack;
+    }
+
+    public void setGoCoderCallBack(GoCoderCallBack goCoderCallBack) {
+        this.goCoderCallBack = goCoderCallBack;
+    }
+
+    public interface GoCoderCallBack {
+        void onVideoStart();
+
+        void onVideoStop();
     }
 }

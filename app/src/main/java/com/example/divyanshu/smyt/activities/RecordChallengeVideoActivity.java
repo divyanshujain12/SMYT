@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.GocoderConfig;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -40,7 +39,7 @@ import butterknife.InjectView;
  */
 
 public class RecordChallengeVideoActivity extends GocoderConfig
-        implements OtherUserAvailabilityService.UserAvailabilityInterface {
+        implements OtherUserAvailabilityService.UserAvailabilityInterface, GocoderConfig.GoCoderCallBack {
     @InjectView(R.id.ic_switch_camera)
     MultiStateButton icSwitchCamera;
     @InjectView(R.id.ic_torch)
@@ -92,6 +91,7 @@ public class RecordChallengeVideoActivity extends GocoderConfig
     @Override
     protected void onResume() {
         super.onResume();
+        setGoCoderCallBack(this);
     }
 
     public void onSwitchCamera(View v) {
@@ -177,16 +177,10 @@ public class RecordChallengeVideoActivity extends GocoderConfig
             if (configError != null) {
                 if (mStatusView != null)
                     mStatusView.setErrorMessage(configError.getErrorDescription());
-            } else {
-                CallWebService.getInstance(this, false, ApiCodes.START_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("1"), this);
             }
         } else {
             mWZBroadcast.endBroadcast();
             CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_END, createJsonForStartEndChallengeVideo("0"), this);
-           /* Intent intent = new Intent(this, UploadNewVideoActivity.class);
-            intent.putExtra(Constants.VIDEO_NAME, videoName);
-            startActivity(intent);
-            finish();*/
         }
     }
 
@@ -220,7 +214,7 @@ public class RecordChallengeVideoActivity extends GocoderConfig
             mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
 
         Intent intent = new Intent(this, OtherUserAvailabilityService.class);
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID,customerVideoID);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
         startService(intent);
         OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(this);
         serviceStarted = true;
@@ -258,6 +252,16 @@ public class RecordChallengeVideoActivity extends GocoderConfig
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    @Override
+    public void onVideoStart() {
+        CallWebService.getInstance(this, false, ApiCodes.START_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("1"), this);
+    }
+
+    @Override
+    public void onVideoStop() {
+        CallWebService.getInstance(this, false, ApiCodes.START_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("0"), this);
     }
 }
 

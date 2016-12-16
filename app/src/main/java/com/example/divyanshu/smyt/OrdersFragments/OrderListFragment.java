@@ -7,10 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserChallengesFragment;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 
@@ -51,6 +59,27 @@ public class OrderListFragment extends BaseFragment {
     }
 
     private void initViews() {
+        CallWebService.getInstance(getContext(),true, ApiCodes.MANAGE_ORDERS).hitJsonObjectRequestAPI(CallWebService.POST, API.MANAGE_ORDERS,createJsonForGetOrders(),this);
+    }
 
+    private JSONObject createJsonForGetOrders() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
     }
 }

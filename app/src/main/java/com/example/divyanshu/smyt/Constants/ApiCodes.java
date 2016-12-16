@@ -45,4 +45,5 @@ public interface ApiCodes {
     int START_CHALLENGE = 139;
     int END_CHALLENGE = 140;
     int FCM_ID = 141;
+    int MANAGE_ORDERS = 142;
 }

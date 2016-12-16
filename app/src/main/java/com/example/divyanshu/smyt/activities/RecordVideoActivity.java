@@ -9,7 +9,6 @@ import android.view.WindowManager;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
-import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.GocoderConfig;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -24,7 +23,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class RecordVideoActivity extends GocoderConfig {
+public class RecordVideoActivity extends GocoderConfig implements GocoderConfig.GoCoderCallBack {
 
 
     @InjectView(R.id.ic_switch_camera)
@@ -60,6 +59,8 @@ public class RecordVideoActivity extends GocoderConfig {
         super.onResume();
         if (mAutoFocusDetector == null)
             mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
+
+        setGoCoderCallBack(this);
     }
 
     public void onSwitchCamera(View v) {
@@ -147,10 +148,20 @@ public class RecordVideoActivity extends GocoderConfig {
                     mStatusView.setErrorMessage(configError.getErrorDescription());
             }
         } else {
-//sGoCoderSDK.endStreaming();
-            // mWZBroadcast.endBroadcast();
             endBroadcast(false);
-
         }
+    }
+
+    @Override
+    public void onVideoStart() {
+
+    }
+
+    @Override
+    public void onVideoStop() {
+        Intent intent = new Intent(this, UploadNewVideoActivity.class);
+        intent.putExtra(Constants.VIDEO_NAME, videoName);
+        startActivity(intent);
+        finish();
     }
 }
