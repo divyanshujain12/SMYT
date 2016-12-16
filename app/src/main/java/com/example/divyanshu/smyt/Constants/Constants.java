@@ -76,6 +76,7 @@ public interface Constants {
     String NEW_CHALLENGE = "new_challenge";
     String FCM_ID = "fcm_id";
     String ALL_VIDEO_TAB_UI = "all_video_tab_ui";
+    String FILTER = "filter";
     int COMMENT_COUNT = 0;
     int REQUEST_TIMEOUT_TIME = 30000;
 

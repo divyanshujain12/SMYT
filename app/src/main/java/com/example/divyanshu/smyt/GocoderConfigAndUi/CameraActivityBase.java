@@ -58,7 +58,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     protected String streamVideoUrl = "";
     private String userID = "";
     private WZStatus goCoderStatus;
-
+    private GoCoderCallBack goCoderCallBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,4 +268,17 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
 
         return disableControls;
     }
+
+    public GoCoderCallBack getGoCoderCallBack() {
+        return goCoderCallBack;
+    }
+    public void setGoCoderCallBack(GoCoderCallBack goCoderCallBack) {
+        this.goCoderCallBack = goCoderCallBack;
+    }
+    public interface GoCoderCallBack {
+        void onVideoStart();
+
+        void onVideoStop();
+    }
+
 }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.GocoderConfig;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -38,8 +39,8 @@ import butterknife.InjectView;
  * Created by divyanshu.jain on 12/6/2016.
  */
 
-public class RecordChallengeVideoActivity extends GocoderConfig
-        implements OtherUserAvailabilityService.UserAvailabilityInterface, GocoderConfig.GoCoderCallBack {
+public class RecordChallengeVideoActivity extends CameraActivityBase
+        implements OtherUserAvailabilityService.UserAvailabilityInterface, CameraActivityBase.GoCoderCallBack {
     @InjectView(R.id.ic_switch_camera)
     MultiStateButton icSwitchCamera;
     @InjectView(R.id.ic_torch)

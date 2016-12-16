@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
@@ -18,13 +20,19 @@ import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.PlayVideoInterface;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked {
+public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked, PlayVideoInterface {
 
     private ArrayList<AllVideoModel> allVideoModels;
     private ArrayList<AllVideoModel> bannerVideos;
@@ -60,6 +68,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
+
         }
     }
 
@@ -166,6 +175,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
+        holder.firstVideoPlayer.setPlayedVideoPos(holder.getAdapterPosition());
+        holder.firstVideoPlayer.setPlayVideoInterface(this);
         holder.commentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,6 +196,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
+        holder.twoVideoPlayers.setPlayedVideoPos(holder.getAdapterPosition());
+        holder.twoVideoPlayers.setPlayVideoInterface(this);
         holder.commentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,6 +280,22 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         allVideoModels.remove(selectedVideoPos);
         notifyItemRemoved(selectedVideoPos);
         notifyItemRangeChanged(selectedVideoPos, getItemCount());
+    }
+
+    @Override
+    public void onVideoPlay(int position) {
+        CallWebService.getInstance(context, false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(allVideoModels.get(position).getCustomers_videos_id()), null);
+    }
+
+    private JSONObject createJsonForUpdateViewsCount(String customerVideoID) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
+        try {
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
 

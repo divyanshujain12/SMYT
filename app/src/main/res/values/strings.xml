@@ -150,5 +150,6 @@
     <string name="add_video_to_banner_pckg">Add Videos To Banner Packages</string>
     <string name="add_video_to_premium_cat_pckg">Add Videos To Premium Categories Packages</string>
     <string name="add_video_to_premium_banner_pckg">Add Videos To Premium Category Banner Packages</string>
+    <string name="most_viewed">Most Viewed</string>
 
 </resources>

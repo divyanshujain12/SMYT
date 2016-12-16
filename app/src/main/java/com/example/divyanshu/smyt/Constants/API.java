@@ -54,5 +54,6 @@ public interface API {
     String OTHER_CUSTOMER_VIDEO_URL = BASE + "getOtherCustomerVideoURL";
     String GET_UPCOMING_ROUND_INFO = BASE + "getUpcomingUrlInNext10Minutes";
     String MANAGE_ORDERS = BASE + "manageorders";
+    String UPDATE_VIDEO_VIEWS_COUNT = BASE + "updateVideosViews";
 
 }

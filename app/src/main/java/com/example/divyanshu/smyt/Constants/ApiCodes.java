@@ -46,4 +46,5 @@ public interface ApiCodes {
     int END_CHALLENGE = 140;
     int FCM_ID = 141;
     int MANAGE_ORDERS = 142;
+    int UPDATE_VIDEO_VIEW_COUNT = 143;
 }

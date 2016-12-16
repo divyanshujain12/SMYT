@@ -6,13 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
@@ -51,24 +52,26 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class AllVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack {
+public class AllVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack, CompoundButton.OnCheckedChangeListener {
     @InjectView(R.id.videosRV)
     RecyclerView otherVideosRV;
     UploadedAllVideoAdapter otherAllVideoAdapter;
     @InjectView(R.id.noVideoAvailableLL)
     LinearLayout noVideoAvailableLL;
+    @InjectView(R.id.videoTypeTB)
+    SwitchCompat videoTypeTB;
 
     private ArrayList<AllVideoModel> allVideoModels;
     private ArrayList<AllVideoModel> bannerVideoModels;
     private int selectedVideo;
+    private String filterType = "0";
 
     public static AllVideosFragment getInstance() {
-        AllVideosFragment allVideosFragment = new AllVideosFragment();
-        return allVideosFragment;
+        return new AllVideosFragment();
     }
 
     @Override
-    public void onCreate( Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -86,15 +89,14 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     }
 
     @Override
-    public void onActivityCreated( Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         initViews();
     }
 
     private void initViews() {
-
-
+        videoTypeTB.setOnCheckedChangeListener(this);
         otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         allVideoModels = new ArrayList<>();
         otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), allVideoModels, this);
@@ -146,6 +148,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         try {
             jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+            jsonObject.put(Constants.FILTER, filterType);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -321,5 +324,15 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         allVideoModel.setCustomers_videos_id(customerVideoID);
         allVideoModels.get(allVideoModels.indexOf(allVideoModel)).setVideo_comment_count(commentCount);
         otherAllVideoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (!b) {
+            filterType = "0";
+        } else {
+            filterType = "1";
+        }
+        hitAllVideosAPI();
     }
 }

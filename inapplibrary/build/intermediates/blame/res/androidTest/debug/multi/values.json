@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\prs\\SMYT\\inapplibrary\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "/media/divyanshu/Data/projects/smyt/SMYT/inapplibrary/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "D:\\prs\\SMYT\\inapplibrary\\build\\intermediates\\exploded-aar\\com.android.support.test\\rules\\0.4.1\\res\\values\\values.xml",
+                    "file": "/media/divyanshu/Data/projects/smyt/SMYT/inapplibrary/build/intermediates/exploded-aar/com.android.support.test/rules/0.4.1/res/values/values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
+import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.GocoderConfig;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -23,7 +24,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class RecordVideoActivity extends GocoderConfig implements GocoderConfig.GoCoderCallBack {
+public class RecordVideoActivity extends CameraActivityBase implements CameraActivityBase.GoCoderCallBack {
 
 
     @InjectView(R.id.ic_switch_camera)
@@ -60,7 +61,7 @@ public class RecordVideoActivity extends GocoderConfig implements GocoderConfig.
         if (mAutoFocusDetector == null)
             mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
 
-        setGoCoderCallBack(this);
+       setGoCoderCallBack(this);
     }
 
     public void onSwitchCamera(View v) {
@@ -142,6 +143,7 @@ public class RecordVideoActivity extends GocoderConfig implements GocoderConfig.
         if (getBroadcast() == null) return;
 
         if (getBroadcast().getStatus().isIdle()) {
+            createVideoUrl();
             WZStreamingError configError = startBroadcast();
             if (configError != null) {
                 if (mStatusView != null)
