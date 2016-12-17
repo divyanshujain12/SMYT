@@ -25,26 +25,29 @@ public class BroadcastSenderClass {
 
     public void sendDeleteCommentBroadcast(Context context) {
         Intent intent = new Intent();
-        intent.putExtra(Constants.TYPE,DELETE_VIDEO);
+        intent.putExtra(Constants.TYPE, DELETE_VIDEO);
         intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
-    public void sendCommentCountBroadcast(Context context,String customer_video_id, int commentCount){
+    public void sendCommentCountBroadcast(Context context, String customer_video_id, int commentCount) {
         Intent intent = new Intent();
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
         intent.putExtra(Constants.COUNT, commentCount);
-        intent.putExtra(Constants.TYPE,COMMENT_COUNT);
+        intent.putExtra(Constants.TYPE, COMMENT_COUNT);
         intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.LIVE_CHALLENGES_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
-    public void sendBannerVideoAddedBroadcast(Context context){
+
+    public void sendBannerVideoAddedBroadcast(Context context) {
         Intent intent = new Intent();
-        intent.putExtra(Constants.TYPE,BANNER_VIDEOS);
+        intent.putExtra(Constants.TYPE, BANNER_VIDEOS);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }

@@ -177,7 +177,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
         holder.firstVideoPlayer.setPlayedVideoPos(holder.getAdapterPosition());
         holder.firstVideoPlayer.setPlayVideoInterface(this);
-        holder.commentsTV.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
@@ -198,7 +198,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         holder.twoVideoPlayers.setPlayedVideoPos(holder.getAdapterPosition());
         holder.twoVideoPlayers.setPlayVideoInterface(this);
-        holder.commentsTV.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);

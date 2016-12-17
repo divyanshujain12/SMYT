@@ -17,7 +17,7 @@ public interface ApiCodes {
     int DELETE_VIDEO = 111;
     int ADD_REMOVE_LIKE = 112;
     int FOLLOW_USER = 113;
-    int GET_FOLLOWERS = 114;
+    int GET_FOLLOWING = 114;
     int SEARCH_USER = 115;
     int ONGOING_CHALLENGES = 116;
     int COMPLETED_CHALLENGES = 117;
@@ -47,4 +47,5 @@ public interface ApiCodes {
     int FCM_ID = 141;
     int MANAGE_ORDERS = 142;
     int UPDATE_VIDEO_VIEW_COUNT = 143;
+    int NEW_CHALLENGE_NOTIFICATION = 144;
 }

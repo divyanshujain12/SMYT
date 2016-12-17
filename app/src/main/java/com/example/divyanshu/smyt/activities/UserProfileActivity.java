@@ -35,7 +35,7 @@ import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserChallengesFragment;
-import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
+import com.example.divyanshu.smyt.UserProfileFragments.UserFollowingFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
@@ -147,7 +147,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(UserVideosFragment.getInstance(customerID), getString(R.string.videos));
-        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(customerID), getString(R.string.followers));
+        viewPagerAdapter.addFragment(UserFollowingFragment.getInstance(customerID), getString(R.string.following));
         viewPagerAdapter.addFragment(UserChallengesFragment.getInstance(false), getString(R.string.challenges));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);

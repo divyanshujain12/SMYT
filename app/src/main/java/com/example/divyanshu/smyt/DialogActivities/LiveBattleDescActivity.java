@@ -24,6 +24,7 @@ import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -190,10 +191,10 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
                 CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
                 addNewCommentToList(commentModel);
-                updateCommentsCount();
+                updateAndSendCommentsCount();
                 break;
             case ApiCodes.DELETE_COMMENT:
-                //setCommentCount();
+                //updateAndSendCommentsCount();
                 break;
         }
     }
@@ -208,23 +209,30 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
         setupVideo();
         commentsAdapter = new CommentsAdapter(this, challengeVideoDescModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
-        updateCommentsCount();
+        updateAndSendCommentsCount();
         String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         if (!currentCustomerID.equals(challengeVideoDescModel.getCustomer_id()) || !currentCustomerID.equals(challengeVideoDescModel.getCustomer_id1()))
             challengeTitleView.showHideMoreIvButton(false);
 
     }
 
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        CallWebService.getInstance(this, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), this);
+        decreaseCommentCount();
+    }
+
     private void decreaseCommentCount() {
         challengeVideoDescModel.setVideo_comment_count(challengeVideoDescModel.getVideo_comment_count() - 1);
-        updateCommentsCount();
+        updateAndSendCommentsCount();
     }
 
     private void addNewCommentToList(CommentModel commentModel) {
 
         commentsAdapter.addNewComment(commentModel);
         challengeVideoDescModel.setVideo_comment_count(challengeVideoDescModel.getVideo_comment_count() + 1);
-        updateCommentsCount();
+        updateAndSendCommentsCount();
     }
 
     private void setupVideo() {
@@ -237,20 +245,14 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
         userTwoVoteCountTV.setText(String.valueOf(challengeVideoDescModel.getVote1()));
     }
 
-    private void updateCommentsCount() {
+    private void updateAndSendCommentsCount() {
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, challengeVideoDescModel.getVideo_comment_count(), challengeVideoDescModel.getVideo_comment_count());
+        BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this,challengeVideoDescModel.getCustomers_videos_id(),challengeVideoDescModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
 
     private void setCommentPBVisibility(int visibility) {
         commentPB.setVisibility(visibility);
-    }
-
-    @Override
-    public void onClickItem(int position, View view) {
-        super.onClickItem(position, view);
-        CallWebService.getInstance(this, false, ApiCodes.DELETE_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_COMMENT, createJsonForDeleteComment(position), this);
-        decreaseCommentCount();
     }
 
     private JSONObject createJsonForGettingChallengeInfo() {

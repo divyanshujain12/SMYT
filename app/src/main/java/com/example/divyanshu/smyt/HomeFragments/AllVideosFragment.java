@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
@@ -60,11 +61,17 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     LinearLayout noVideoAvailableLL;
     @InjectView(R.id.videoTypeTB)
     SwitchCompat videoTypeTB;
+    @InjectView(R.id.progressBar)
+    ProgressBar progressBar;
 
-    private ArrayList<AllVideoModel> allVideoModels;
+    private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
     private ArrayList<AllVideoModel> bannerVideoModels;
     private int selectedVideo;
     private String filterType = "0";
+    private int pageNo = 0;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean loading = false;
+    private boolean moreDataAvailable = true;
 
     public static AllVideosFragment getInstance() {
         return new AllVideosFragment();
@@ -97,14 +104,37 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
 
     private void initViews() {
         videoTypeTB.setOnCheckedChangeListener(this);
-        otherVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        otherVideosRV.setLayoutManager(linearLayoutManager);
         allVideoModels = new ArrayList<>();
+        allVideoModels.add(0, new AllVideoModel());
         otherAllVideoAdapter = new UploadedAllVideoAdapter(getContext(), allVideoModels, this);
         otherVideosRV.setAdapter(otherAllVideoAdapter);
         CommonFunctions.stopVideoOnScroll(otherVideosRV);
 
         hitAllVideosAPI();
         hitBannerAPI();
+
+        otherVideosRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) //check for scroll down
+                {
+                    int visibleItemCount = linearLayoutManager.getChildCount();
+                    int totalItemCount = linearLayoutManager.getItemCount();
+                    int pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+                    if (loading && moreDataAvailable) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            WebServiceCalled(true);
+                            hitAllVideosAPI();
+                        }
+                    }
+
+                }
+            }
+
+        });
     }
 
     private void hitBannerAPI() {
@@ -122,8 +152,10 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         noVideoAvailableLL.setVisibility(View.GONE);
         switch (apiType) {
             case ALL_VIDEO_DATA:
-                allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
-                otherAllVideoAdapter.updateData(allVideoModels);
+                WebServiceCalled(false);
+                allVideoModels.addAll(UniversalParser.getInstance().<AllVideoModel>parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class));
+                otherAllVideoAdapter.notifyDataSetChanged();
+                //otherAllVideoAdapter.updateData(allVideoModels);
                 break;
             case BANNER_VIDEOS:
                 bannerVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
@@ -137,8 +169,11 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         super.onFailure(str, apiType);
         switch (apiType) {
             case ALL_VIDEO_DATA:
-                noVideoAvailableLL.setVisibility(View.VISIBLE);
+                moreDataAvailable = false;
+                if (allVideoModels.isEmpty())
+                    noVideoAvailableLL.setVisibility(View.VISIBLE);
                 break;
+
 
         }
     }
@@ -149,6 +184,8 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
             jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
             jsonObject.put(Constants.FILTER, filterType);
+            jsonObject.put(Constants.PAGE_NO, pageNo);
+            pageNo++;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -298,7 +335,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
                     hitAllVideosAPI();
                     break;
                 case COMMENT_COUNT:
-                    updateCount(intent);
+                    updateCommentCount(intent);
                     break;
             }
         }
@@ -317,13 +354,24 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateAllVideosUI);
     }
 
-    private void updateCount(Intent intent) {
+    private void updateCommentCount(Intent intent) {
         String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setCustomers_videos_id(customerVideoID);
         allVideoModels.get(allVideoModels.indexOf(allVideoModel)).setVideo_comment_count(commentCount);
         otherAllVideoAdapter.notifyDataSetChanged();
+    }
+
+    private void WebServiceCalled(boolean yes) {
+        if (yes) {
+            progressBar.setVisibility(View.VISIBLE);
+            loading = false;
+        } else {
+            progressBar.setVisibility(View.GONE);
+            loading = true;
+        }
+
     }
 
     @Override

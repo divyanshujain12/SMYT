@@ -26,7 +26,7 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
+import com.example.divyanshu.smyt.UserProfileFragments.UserFollowingFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
@@ -114,7 +114,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     private void ConfigViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(UserVideosFragment.getInstance(otherCustomerID), getString(R.string.videos));
-        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(otherCustomerID), getString(R.string.followers));
+        viewPagerAdapter.addFragment(UserFollowingFragment.getInstance(otherCustomerID), getString(R.string.following));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(3);

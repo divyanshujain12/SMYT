@@ -12,7 +12,7 @@
     <string name="dob">Date Of Birth</string>
     <string name="phone_number">Phone Number</string>
     <string name="sign_up">Sign Up</string>
-    <string name="select_category">Select Category</string>
+    <string name="select_genre">Select Genre</string>
     <string name="description">Description</string>
     <string name="cat_desc">Details Here \nRock was best around 80s \nand has been prevelant \nthrough the 2005</string>
     <string name="about_dummy">I like being free and playing guitar</string>
@@ -30,7 +30,7 @@
     <string name="dummy_number">""</string>
     <string name="follow">Followed</string>
     <string name="challenges">Challenges</string>
-    <string name="followers">Followers</string>
+    <string name="following">Following</string>
     <string name="videos">Videos</string>
     <string name="user_profile">User Profile</string>
     <string name="accept">Accept</string>

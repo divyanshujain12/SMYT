@@ -200,6 +200,10 @@ public class Utils {
         milliseconds = milliseconds + 600000;
         return milliseconds;
     }
+    public static long getPreviousOneMinuteInMS(long milliseconds) {
+        milliseconds = milliseconds - 60000;
+        return milliseconds;
+    }
 
     public static boolean isTimeGone(long milliseconds) {
         long difference = milliseconds - getCurrentTimeInMillisecond();

@@ -7,15 +7,21 @@ import android.view.View;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Fcm.MyFirebaseInstanceIDService;
+import com.example.divyanshu.smyt.Fcm.MyFirebaseMessagingService;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.ServicesAndNotifications.NewChallengeNotificationService;
+import com.example.divyanshu.smyt.ServicesAndNotifications.UpcomingRoundNotificationService;
 import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -62,8 +68,8 @@ public class LoginActivity extends BaseActivity {
         validation = new Validation();
         validation.addValidationField(new ValidationModel(emailET, Validation.TYPE_EMAIL_VALIDATION, getString(R.string.err_email)));
         validation.addValidationField(new ValidationModel(passwordET, Validation.TYPE_PASSWORD_VALIDATION, getString(R.string.err_pass)));
-        emailET.setText("goeldeepak26@yahoo.com");
-        passwordET.setText("deepak");
+        emailET.setText("divyanshujain12@hotmail.com");
+        passwordET.setText("divyanshu");
     }
 
 
@@ -119,9 +125,35 @@ public class LoginActivity extends BaseActivity {
         MySharedPereference.getInstance().setString(this, Constants.CUSTOMER_ID, userModel.getCustomer_id());
         MySharedPereference.getInstance().setBoolean(this, Constants.IS_LOGGED_IN, true);
 
+        sendRegistrationToServer();
+        startServices();
+
         Intent categoryIntent = new Intent(this, CategoriesActivity.class);
         startActivity(categoryIntent);
         finish();
+    }
+
+    private void sendRegistrationToServer() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if (token != null && !token.equals(""))
+            CallWebService.getInstance(getBaseContext(), false, ApiCodes.FCM_ID).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_FCM_ID, createJsonForSavingFcmID(token), null);
+    }
+
+    private void startServices() {
+        Intent intent = new Intent(this, UpcomingRoundNotificationService.class);
+        startService(intent);
+        intent = new Intent(this, NewChallengeNotificationService.class);
+        startService(intent);
+    }
+
+    private JSONObject createJsonForSavingFcmID(String id) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
+        try {
+            jsonObject.put(Constants.FCM_ID, id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
 }

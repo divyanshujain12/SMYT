@@ -17,6 +17,7 @@ import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserOngoingChallengeFragment;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
@@ -62,6 +63,11 @@ public class HomeActivity extends BaseActivity {
         viewPagerAdapter.addFragment(SearchFragment.getInstance(categoryModel.getId()), getString(R.string.tab_search));
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(3);
+
+        if (getIntent().getBooleanExtra(Constants.FROM_NOTIFICATION, false)) {
+            homeViewPager.setCurrentItem(2);
+            MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryModel.getId());
+        }
         homeTabLayout.post(new Runnable() {
             @Override
             public void run() {

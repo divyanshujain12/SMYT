@@ -21,7 +21,9 @@ import android.util.Patterns;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
+import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.HomeActivity;
 
 import java.io.IOException;
@@ -182,6 +184,29 @@ public class NotificationUtils {
         Intent intent = new Intent(context, OngoingChallengeDescriptionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.CHALLENGE_ID, challengeID);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("New Challenge")
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), notificationBuilder.build());
+    }
+
+    public void sendNewChallengeNotification(Context context, String messageBody, CategoryModel categoryModel) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.DATA, categoryModel);
+        intent.putExtra(Constants.FROM_NOTIFICATION,true);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 

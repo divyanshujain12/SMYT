@@ -246,6 +246,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     private JSONObject createJsonForStartEndChallengeVideo(String status) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
+            jsonObject.put(Constants.VIDEO_NAME,videoName);
             jsonObject.put(Constants.VIDEO_URL, streamVideoUrl);
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
             jsonObject.put(Constants.LIVE_STATUS, status);

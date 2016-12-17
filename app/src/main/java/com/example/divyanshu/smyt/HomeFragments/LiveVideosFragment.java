@@ -1,9 +1,13 @@
 package com.example.divyanshu.smyt.HomeFragments;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +38,7 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Utils.Utils.CURRENT_DATE_FORMAT;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
@@ -42,12 +47,13 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack{
+public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack {
     @InjectView(R.id.liveVideosRV)
     RecyclerView liveVideosRV;
     private OngoingChallengesAdapter liveVideosAdapter;
     private ArrayList<ChallengeModel> challengeModels = new ArrayList<>();
     private int selectedVideo;
+
     public static LiveVideosFragment getInstance() {
         return new LiveVideosFragment();
     }
@@ -121,6 +127,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
                 break;
         }
     }
+
     private void checkAndPayForBannerVideo(int purchaseType) {
         setUpAvailabilityPurchase(purchaseType);
         InAppLocalApis.getInstance().checkBannerAvailability(getContext(), purchaseType);
@@ -130,6 +137,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
         setUpAvailabilityPurchase(purchaseType);
         InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
     }
+
     private void setUpAvailabilityPurchase(int purchaseType) {
         InAppLocalApis.getInstance().setCallback(this);
         InAppLocalApis.getInstance().setPurchaseType(purchaseType);
@@ -194,5 +202,39 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    private BroadcastReceiver updateLiveVideosTabUI = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int type = intent.getIntExtra(Constants.TYPE, -1);
+            switch (type) {
+                case COMMENT_COUNT:
+                    updateCommentCount(intent);
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateLiveVideosTabUI, new IntentFilter(Constants.LIVE_CHALLENGES_TAB_UI));
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateLiveVideosTabUI);
+    }
+
+    private void updateCommentCount(Intent intent) {
+        String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
+        int commentCount = intent.getIntExtra(Constants.COUNT, 0);
+        ChallengeModel challengeModel = new ChallengeModel();
+        challengeModel.setCustomers_videos_id(customerVideoID);
+        challengeModels.get(challengeModels.indexOf(challengeModel)).setVideo_comment_count(commentCount);
+        liveVideosAdapter.notifyDataSetChanged();
     }
 }

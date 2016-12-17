@@ -425,7 +425,6 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
             else
                 jsonObject.put(Constants.FRIEND_ID, "0");
-
             jsonObject.put(Constants.TOTAL_ROUND, roundCountStr);
             jsonObject.put(Constants.CATEGORY_ID, categoryID);
             jsonObject.put(Constants.ROUND_ARRAY, roundArray);

@@ -55,5 +55,6 @@ public interface API {
     String GET_UPCOMING_ROUND_INFO = BASE + "getUpcomingUrlInNext10Minutes";
     String MANAGE_ORDERS = BASE + "manageorders";
     String UPDATE_VIDEO_VIEWS_COUNT = BASE + "updateVideosViews";
+    String NEW_CHALLENGE_NOTIFICATION = BASE + "newChallengesNotification";
 
 }

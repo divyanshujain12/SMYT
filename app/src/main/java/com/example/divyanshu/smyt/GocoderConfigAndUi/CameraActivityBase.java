@@ -118,9 +118,11 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
                 if (goCoderStatus.isRunning()) {
                     // Keep the screen on while we are broadcasting
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    goCoderCallBack.onVideoStart();
                 } else if (goCoderStatus.isIdle()) {
                     // Clear the "keep screen on" flag
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    goCoderCallBack.onVideoStop();
                 }
 
                 if (mStatusView != null) mStatusView.setStatus(goCoderStatus);

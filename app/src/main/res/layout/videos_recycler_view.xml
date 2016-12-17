@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <LinearLayout
+        android:id="@+id/checkBoxLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end|center_vertical"
@@ -36,12 +38,21 @@
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/videosRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_below="@+id/checkBoxLL"
         android:padding="@dimen/five_dp" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/videosRV"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
     <include layout="@layout/no_video_available_view" />
-</LinearLayout>
+</RelativeLayout>

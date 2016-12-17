@@ -87,10 +87,11 @@
         <activity android:name=".activities.InAppActivity" />
         <activity android:name=".activities.RecordChallengeVideoActivity" />
 
-        <service android:name=".ServicesAndNotifications.NotificationService" />
+        <service android:name=".ServicesAndNotifications.UpcomingRoundNotificationService" />
         <service android:name=".ServicesAndNotifications.OtherUserAvailabilityService" />
+        <service android:name=".ServicesAndNotifications.NewChallengeNotificationService"/>
 
-        <activity android:name=".activities.ManageOrdersActivity"></activity>
+        <activity android:name=".activities.ManageOrdersActivity"/>
     </application>
 
 </manifest>

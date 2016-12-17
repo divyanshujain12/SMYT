@@ -21,10 +21,10 @@ import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UserParser;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.ServicesAndNotifications.NotificationService;
+import com.example.divyanshu.smyt.ServicesAndNotifications.NewChallengeNotificationService;
+import com.example.divyanshu.smyt.ServicesAndNotifications.UpcomingRoundNotificationService;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
-import com.example.divyanshu.smyt.Utils.ItemOffsetDecoration;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
@@ -69,13 +69,13 @@ public class CategoriesActivity extends BaseActivity {
 
         Utils.configureToolbarWithOutBackButton(this, toolbarView, getString(R.string.categories));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         categoryRV.setHasFixedSize(true);
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
         setUserAndCategoryAdapter();
-        Intent intent = new Intent(this, NotificationService.class);
-        startService(intent);
+
+
     }
 
     @Override
@@ -125,10 +125,10 @@ public class CategoriesActivity extends BaseActivity {
         if (categoryModel.getJoin_status() == 0) {
             CallWebService.getInstance(this, true, ApiCodes.JOIN_CATEGORY).hitJsonObjectRequestAPI(CallWebService.POST, API.JOIN_CATEGORY, createJsonForJoinCategory(categoryModel.getId()), this);
         } else {
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra(Constants.DATA, categoryModel);
             MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryModel.getId());
             MySharedPereference.getInstance().setString(this, Constants.CATEGORY_NAME, categoryModel.getcategory_name());
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra(Constants.DATA, categoryModel);
             startActivity(intent);
 
         }
@@ -144,6 +144,7 @@ public class CategoriesActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        startServices();
         if (categoriesModels == null || categoriesModels.isEmpty())
             CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, CommonFunctions.customerIdJsonObject(this), this);
     }
@@ -157,6 +158,13 @@ public class CategoriesActivity extends BaseActivity {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    private void startServices() {
+        Intent intent = new Intent(this, UpcomingRoundNotificationService.class);
+        startService(intent);
+        intent = new Intent(this, NewChallengeNotificationService.class);
+        startService(intent);
     }
 
 }
