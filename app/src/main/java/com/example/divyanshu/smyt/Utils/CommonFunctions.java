@@ -2,13 +2,8 @@ package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.MediaMetadataRetriever;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,13 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
-import com.example.divyanshu.smyt.Interfaces.AlertDialogInterface;
-import com.example.divyanshu.smyt.Interfaces.CallBackInterface;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.R;
@@ -33,11 +27,6 @@ import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-
-import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
-import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -51,8 +40,8 @@ public class CommonFunctions {
 
     public static CommonFunctions getInstance() {
 
-        CommonFunctions commonFunctions = new CommonFunctions();
-        return commonFunctions;
+
+        return new CommonFunctions();
     }
 
     public static void showShortLengthSnackbar(String message, View view) {

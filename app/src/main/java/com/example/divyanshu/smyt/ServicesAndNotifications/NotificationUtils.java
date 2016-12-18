@@ -14,7 +14,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -79,7 +79,7 @@ public class NotificationUtils {
                         PendingIntent.FLAG_CANCEL_CURRENT
                 );
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+        final Notification.Builder mBuilder = new Notification.Builder(
                 mContext);
 
         final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
@@ -104,9 +104,9 @@ public class NotificationUtils {
     }
 
 
-    public void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
+    public void showSmallNotification(Notification.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
 
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
 
         inboxStyle.addLine(message);
 
@@ -127,8 +127,8 @@ public class NotificationUtils {
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
-    private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+    private void showBigNotification(Bitmap bitmap, Notification.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
+        Notification.BigPictureStyle bigPictureStyle = new Notification.BigPictureStyle();
         bigPictureStyle.setBigContentTitle(title);
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
         bigPictureStyle.bigPicture(bitmap);
@@ -188,7 +188,7 @@ public class NotificationUtils {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+        Notification.Builder notificationBuilder = new Notification.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("New Challenge")
                 .setContentText(messageBody)
@@ -196,6 +196,8 @@ public class NotificationUtils {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
+        notificationBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        notificationBuilder.setSound(defaultSoundUri);
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -206,23 +208,26 @@ public class NotificationUtils {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.DATA, categoryModel);
-        intent.putExtra(Constants.FROM_NOTIFICATION,true);
+        intent.putExtra(Constants.FROM_NOTIFICATION, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Upcoming Round")
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+        final Notification.Builder builder = new Notification.Builder(context);
+        builder.setStyle(new Notification.BigTextStyle(builder)
+                .bigText(messageBody)
+                .setBigContentTitle("New Challenge")
+                .setSummaryText("summary"))
+                .setContentTitle("New Challenge")
+                .setContentText("Summary")
+                .setSmallIcon(R.mipmap.ic_launcher).setContentIntent(pendingIntent);
+        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        builder.setSound(defaultSoundUri);
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(0, builder.build());
     }
 
     /**

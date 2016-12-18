@@ -36,9 +36,9 @@ public class ImageLoading {
         imageLoader = ImageLoader.getInstance();
 
         options = new DisplayImageOptions.Builder()
-                .showImageOnFail(R.drawable.noimage)
-                .showStubImage(R.drawable.noimage)
-                .showImageForEmptyUri(R.drawable.noimage).cacheInMemory()
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .showStubImage(R.mipmap.ic_launcher)
+                .showImageForEmptyUri(R.mipmap.ic_launcher).cacheInMemory()
                 .cacheOnDisc().build();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 

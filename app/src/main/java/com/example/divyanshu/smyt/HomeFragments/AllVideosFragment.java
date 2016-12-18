@@ -359,8 +359,11 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setCustomers_videos_id(customerVideoID);
-        allVideoModels.get(allVideoModels.indexOf(allVideoModel)).setVideo_comment_count(commentCount);
-        otherAllVideoAdapter.notifyDataSetChanged();
+        int position = allVideoModels.indexOf(allVideoModel);
+        if (position > 0) {
+            allVideoModels.get(position).setVideo_comment_count(commentCount);
+            otherAllVideoAdapter.notifyDataSetChanged();
+        }
     }
 
     private void WebServiceCalled(boolean yes) {

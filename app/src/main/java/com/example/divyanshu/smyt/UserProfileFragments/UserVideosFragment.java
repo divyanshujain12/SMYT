@@ -288,6 +288,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
         VideoModel videoModel = new VideoModel();
         videoModel.setCustomers_videos_id(customerVideoID);
+
         userVideoModels.get(userVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
         userVideoAdapter.addUserVideoData(userVideoModels);
     }

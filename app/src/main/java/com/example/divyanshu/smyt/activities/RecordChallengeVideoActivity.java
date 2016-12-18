@@ -7,6 +7,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -14,7 +15,6 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
-import com.example.divyanshu.smyt.GocoderConfigAndUi.GocoderConfig;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
@@ -23,6 +23,7 @@ import com.example.divyanshu.smyt.ServicesAndNotifications.OtherUserAvailability
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.neopixl.pixlui.components.checkbox.CheckBox;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
@@ -40,7 +41,7 @@ import butterknife.InjectView;
  */
 
 public class RecordChallengeVideoActivity extends CameraActivityBase
-        implements OtherUserAvailabilityService.UserAvailabilityInterface, CameraActivityBase.GoCoderCallBack {
+        implements OtherUserAvailabilityService.UserAvailabilityInterface, CameraActivityBase.GoCoderCallBack, CompoundButton.OnCheckedChangeListener {
     @InjectView(R.id.ic_switch_camera)
     MultiStateButton icSwitchCamera;
     @InjectView(R.id.ic_torch)
@@ -61,10 +62,13 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     TextView otherUserWaitingTV;
     @InjectView(R.id.otherUserVideoPlayer)
     SingleVideoPlayer otherUserVideoPlayer;
+    @InjectView(R.id.autoStartCB)
+    CheckBox autoStartCB;
     private CountDownTimerClass countDownTimerClass;
     private String challengeID;
     private String customerVideoID = "";
     boolean serviceStarted = false;
+    boolean autoStartRecording = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         CountDownTimerClass countDownTimerClass = new CountDownTimerClass(remainingTime, 1000);
         countDownTimerClass.start();
         otherUserVideoPlayer.setHideControls(true);
+        autoStartCB.setOnCheckedChangeListener(this);
     }
 
 
@@ -170,6 +175,10 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     }
 
     public void onToggleBroadcast(View v) {
+        Broadcast();
+    }
+
+    private void Broadcast() {
         if (getBroadcast() == null) return;
 
         if (getBroadcast().getStatus().isIdle()) {
@@ -181,8 +190,13 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
             }
         } else {
             mWZBroadcast.endBroadcast();
-            CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_END, createJsonForStartEndChallengeVideo("0"), this);
+            //CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_END, createJsonForStartEndChallengeVideo("0"), this);
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        autoStartRecording = b;
     }
 
     private class CountDownTimerClass extends CountDownTimer {
@@ -219,6 +233,8 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         startService(intent);
         OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(this);
         serviceStarted = true;
+        if (autoStartRecording)
+            Broadcast();
     }
 
     @Override
@@ -246,7 +262,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     private JSONObject createJsonForStartEndChallengeVideo(String status) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
-            jsonObject.put(Constants.VIDEO_NAME,videoName);
+            jsonObject.put(Constants.VIDEO_NAME, videoName);
             jsonObject.put(Constants.VIDEO_URL, streamVideoUrl);
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
             jsonObject.put(Constants.LIVE_STATUS, status);
@@ -254,6 +270,12 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWZBroadcast.endBroadcast();
     }
 
     @Override

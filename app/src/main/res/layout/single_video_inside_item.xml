@@ -47,7 +47,7 @@
                 android:id="@+id/firstUserIV"
                 android:layout_width="@dimen/fourty_dp"
                 android:layout_height="@dimen/fourty_dp"
-                android:src="@drawable/user"
+                android:src="@drawable/noimage"
                 app:riv_corner_radius="100dp" />
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -56,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/five_dp"
                 android:maxLines="2"
-                android:text="Raghav"
                 android:textColor="@color/white"
                 android:textSize="@dimen/fourteen_sp"
                 pixlui:typeface="Roboto-Regular.ttf" />

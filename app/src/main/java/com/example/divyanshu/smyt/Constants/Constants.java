@@ -80,7 +80,10 @@ public interface Constants {
     String FILTER = "filter";
     String PAGE_NO = "page_no";
     String FROM_NOTIFICATION = "from_notification";
+    String VOTE_COUNT = "vote_count";
+    String USER_NUMBER = "user_number";
     int COMMENT_COUNT = 0;
+    int VOTE_COUNT_INT = 1;
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

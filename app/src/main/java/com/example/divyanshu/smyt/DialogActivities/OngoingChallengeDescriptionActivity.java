@@ -66,6 +66,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
 
     private ChallengeDescModel challengeDescModel;
     private ChallengeRoundDescRvAdapter challengeRoundDescRvAdapter;
+    public static boolean isRoundPlayed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +87,18 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         if (challengeAcceptStatus != 0) {
             hideAcceptDeclineBar();
         }
+        hitApiForGetChallengeInfo();
+    }
+
+    private void hitApiForGetChallengeInfo() {
         CallWebService.getInstance(this, true, ApiCodes.ONGOING_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_DESCRIPTION, createJsonForGetChallengeDesc(), this);
     }
 
     @Override
     public void onResume() {
-        if (challengeDescModel != null)
+        if (isRoundPlayed) {
+            hitApiForGetChallengeInfo();
+        } else if (challengeDescModel != null)
             challengeRoundDescRvAdapter.notifyDataSetChanged();
         super.onResume();
     }

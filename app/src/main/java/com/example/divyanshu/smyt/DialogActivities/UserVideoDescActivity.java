@@ -24,7 +24,7 @@ import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.Utils.BroadcastSenderClass;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;

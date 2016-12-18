@@ -39,6 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
+import static com.example.divyanshu.smyt.Constants.Constants.VOTE_COUNT_INT;
 import static com.example.divyanshu.smyt.Utils.Utils.CURRENT_DATE_FORMAT;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
@@ -212,6 +213,9 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
                 case COMMENT_COUNT:
                     updateCommentCount(intent);
                     break;
+                case VOTE_COUNT_INT:
+                    updateVoteCount(intent);
+                    break;
             }
         }
     };
@@ -230,11 +234,27 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     }
 
     private void updateCommentCount(Intent intent) {
-        String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
+        String challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
         ChallengeModel challengeModel = new ChallengeModel();
-        challengeModel.setCustomers_videos_id(customerVideoID);
+        challengeModel.setChallenge_id(challengeID);
         challengeModels.get(challengeModels.indexOf(challengeModel)).setVideo_comment_count(commentCount);
+        liveVideosAdapter.notifyDataSetChanged();
+    }
+
+    private void updateVoteCount(Intent intent) {
+        String challengeID = intent.getStringExtra(Constants.CHALLENGE_ID);
+        String voteCount = intent.getStringExtra(Constants.VOTE_COUNT);
+        ChallengeModel challengeModel = new ChallengeModel();
+        challengeModel.setChallenge_id(challengeID);
+        switch (intent.getIntExtra(Constants.USER_NUMBER, -1)) {
+            case 0:
+                challengeModels.get(challengeModels.indexOf(challengeModel)).setVote(voteCount);
+                break;
+            case 1:
+                challengeModels.get(challengeModels.indexOf(challengeModel)).setVote1(voteCount);
+                break;
+        }
         liveVideosAdapter.notifyDataSetChanged();
     }
 }

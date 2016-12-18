@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:padding="@dimen/five_dp"
     android:layout_height="wrap_content"
+    android:visibility="gone"
     tools:showIn="@layout/user_profile_header_view">
 
     <com.neopixl.pixlui.components.textview.TextView

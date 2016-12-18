@@ -24,7 +24,7 @@ import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.Utils.BroadcastSenderClass;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -140,14 +140,16 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
             case R.id.leftSideVotingView:
                 sendVote(challengeVideoDescModel.getCustomer_id());
                 challengeVideoDescModel.setVote(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote()) + 1));
-                setLikeCount();
+                setVoteCount();
                 changeLikeImage(userOneVideoLikeIV);
+                BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this,challengeVideoDescModel.getChallenge_id(),challengeVideoDescModel.getVote(),0);
                 break;
             case R.id.rightSideVotingView:
                 sendVote(challengeVideoDescModel.getCustomer_id1());
                 challengeVideoDescModel.setVote1(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote1()) + 1));
                 changeLikeImage(userTwoVideoLikeIV);
-                setLikeCount();
+                setVoteCount();
+                BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this,challengeVideoDescModel.getChallenge_id(),challengeVideoDescModel.getVote1(),1);
                 break;
             case R.id.sendCommentIV:
                 sendComment();
@@ -205,7 +207,7 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
         firstUserNameTV.setText(challengeVideoDescModel.getFirst_name());
         secondUserNameTV.setText(challengeVideoDescModel.getFirst_name1());
         challengeTitleView.setUp(challengeVideoDescModel.getTitle(), this, 0);
-        setLikeCount();
+        setVoteCount();
         setupVideo();
         commentsAdapter = new CommentsAdapter(this, challengeVideoDescModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
@@ -240,14 +242,14 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
         twoVideoPlayers.setThumbnail(challengeVideoDescModel.getThumbnail(), challengeVideoDescModel.getThumbnail1());
     }
 
-    private void setLikeCount() {
+    private void setVoteCount() {
         userOneVoteCountTV.setText(String.valueOf(challengeVideoDescModel.getVote()));
         userTwoVoteCountTV.setText(String.valueOf(challengeVideoDescModel.getVote1()));
     }
 
     private void updateAndSendCommentsCount() {
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, challengeVideoDescModel.getVideo_comment_count(), challengeVideoDescModel.getVideo_comment_count());
-        BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this,challengeVideoDescModel.getCustomers_videos_id(),challengeVideoDescModel.getVideo_comment_count());
+        BroadcastSenderClass.getInstance().sendCommentCountBroadcastToLiveTab(this,challengeVideoDescModel.getChallenge_id(),challengeVideoDescModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
 

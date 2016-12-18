@@ -164,26 +164,26 @@ public class Utils {
         return getDifferenceInString(currentTimeDifference);
     }
 
-    private static String getDifferenceInString(long currentTimeDifference) {
+    private static String getDifferenceInString(long time) {
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
         long daysInMilli = hoursInMilli * 24;
 
-        long elapsedDays = currentTimeDifference / daysInMilli;
-        currentTimeDifference = currentTimeDifference % daysInMilli;
+        long elapsedDays = time / daysInMilli;
+        time = time % daysInMilli;
 
-        long elapsedHours = currentTimeDifference / hoursInMilli;
-        currentTimeDifference = currentTimeDifference % hoursInMilli;
+        long elapsedHours = time / hoursInMilli;
+        time = time % hoursInMilli;
         if (elapsedDays != 0) {
             return String.format(Locale.getDefault(), "%d days, %d hr", elapsedDays, elapsedHours);
         }
-        long elapsedMinutes = currentTimeDifference / minutesInMilli;
-        currentTimeDifference = currentTimeDifference % minutesInMilli;
+        long elapsedMinutes = time / minutesInMilli;
+        time = time % minutesInMilli;
         if (elapsedHours != 0) {
             return String.format(Locale.getDefault(), "%d hr,%d min", elapsedHours, elapsedMinutes);
         }
-        long elapsedSeconds = currentTimeDifference / secondsInMilli;
+        long elapsedSeconds = time / secondsInMilli;
         return String.format(Locale.getDefault(), "%d min,%d sec", elapsedMinutes, elapsedSeconds);
     }
 
