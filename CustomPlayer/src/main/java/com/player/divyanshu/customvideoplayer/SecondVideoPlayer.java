@@ -137,7 +137,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnBufferingUpdateListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnSeekCompleteListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setScreenOnWhilePlaying(true);
-                //MediaPlayerHelper.getInstance().secondMediaPlayer.setOnErrorListener(this);
+                MediaPlayerHelper.getInstance().secondMediaPlayer.setOnErrorListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnInfoListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setDataSource(getContext(), videoUri);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnCompletionListener(this);
@@ -207,7 +207,14 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        // onError("Error in playing");
+        switch (what){
+            case -38:
+               // playVideo();
+                break;
+            case 263:
+                playVideo();
+                break;
+        }
         return false;
     }
 
@@ -248,7 +255,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     public void onCompletion(MediaPlayer mp) {
 
-       releaseVideo();
+      // releaseVideo();
     }
 
     /**

@@ -60,7 +60,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        releaseVideo();
+      //  releaseVideo();
     }
 
     public enum State {
@@ -206,6 +206,14 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
+        switch (what){
+            case -38:
+               // playVideo();
+                break;
+            case 263:
+                playVideo();
+                break;
+        }
         return false;
     }
 

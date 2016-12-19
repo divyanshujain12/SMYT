@@ -166,8 +166,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private void setupSingleViewHolder(final SingleVideoHolder holder, AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
-        //holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
-        holder.firstVideoPlayer.setVideoUrl("rtsp://192.254.218.31:1935/smytex/myStream_1_1481748981261");
+        holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
+        //holder.firstVideoPlayer.setVideoUrl("rtsp://192.254.218.31:1935/smytex/myStream_1_1481748981261");
         //BitmapExtractor.getInstance().setImageBitmap(allVideoModel.getVideo_url(), holder.firstVideoPlayer.getThumbImageView());
         holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
@@ -234,8 +234,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-
-
         if (position == 0)
             return 2;
         else if (allVideoModels.get(position).getType().equals("Challenge"))
