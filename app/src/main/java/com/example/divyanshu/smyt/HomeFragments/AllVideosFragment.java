@@ -379,11 +379,18 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        reInitValues();
         if (!b) {
             filterType = "0";
         } else {
             filterType = "1";
         }
         hitAllVideosAPI();
+    }
+
+    private void reInitValues() {
+        allVideoModels.clear();
+        moreDataAvailable = true;
+        pageNo = 0;
     }
 }

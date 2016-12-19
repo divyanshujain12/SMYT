@@ -201,7 +201,7 @@ public class CommonFunctions {
             @Override
             public void doAction() {
                 CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(context, customerVideoId), null);
-                BroadcastSenderClass.getInstance().sendDeleteCommentBroadcast(context);
+                BroadcastSenderClass.getInstance().sendDeleteVideoBroadcast(context);
                 deleteVideoInterface.onDeleteVideo();
             }
         });

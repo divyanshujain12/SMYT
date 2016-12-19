@@ -29,8 +29,7 @@ import butterknife.ButterKnife;
 public class OrderListFragment extends BaseFragment {
 
     public static OrderListFragment getInstance() {
-        OrderListFragment fragment = new OrderListFragment();
-        return fragment;
+        return new OrderListFragment();
     }
 
     @Override

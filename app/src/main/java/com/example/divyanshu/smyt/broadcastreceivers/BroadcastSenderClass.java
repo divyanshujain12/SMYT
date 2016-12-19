@@ -24,7 +24,7 @@ public class BroadcastSenderClass {
     private BroadcastSenderClass() {
     }
 
-    public void sendDeleteCommentBroadcast(Context context) {
+    public void sendDeleteVideoBroadcast(Context context) {
         Intent intent = new Intent();
         intent.putExtra(Constants.TYPE, DELETE_VIDEO);
         intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
@@ -41,8 +41,6 @@ public class BroadcastSenderClass {
         intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-        intent.setAction(Constants.LIVE_CHALLENGES_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
     public void sendCommentCountBroadcastToLiveTab(Context context, String challengeID, int commentCount) {
