@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: D:\\prs\\SMYT\\inapplibrary\\src\\main\\aidl\\com\\android\\vending\\billing\\IInAppBillingService.aidl
+ * Original file: /media/divyanshu/Data/projects/smyt/SMYT/inapplibrary/src/main/aidl/com/android/vending/billing/IInAppBillingService.aidl
  */
 package com.android.vending.billing;
 /**

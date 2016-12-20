@@ -16,6 +16,7 @@ import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -79,6 +80,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
                 removeComment(position);
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, OtherUserProfileActivity.class);
+                intent.putExtra(Constants.CUSTOM_ID,commentModel.getCustomer_id());
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void setDeleteCommentIvVisibility(MyViewHolder holder, CommentModel commentModel) {
@@ -103,16 +112,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         return commentModels.size();
     }
 
-   /* public void sendLocalBroadCastForCommentCount(String customer_video_id, int commentCount) {
-        Intent intent = new Intent();
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
-        intent.putExtra(Constants.COUNT, commentCount);
-        intent.putExtra(Constants.TYPE,COMMENT_COUNT);
-        intent.setAction(Constants.UPDATE_UI_VIDEO_FRAGMENT);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }*/
+
 
     public void addNewComment(CommentModel commentModel) {
         if (commentModels == null)

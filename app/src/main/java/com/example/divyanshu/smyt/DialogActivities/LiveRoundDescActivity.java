@@ -53,7 +53,7 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
  * Created by divyanshu.jain on 10/7/2016.
  */
 
-public class LiveBattleDescActivity extends BaseActivity implements PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
+public class LiveRoundDescActivity extends BaseActivity implements PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
 
     @InjectView(R.id.twoVideoPlayers)
     TwoVideoPlayers twoVideoPlayers;
@@ -141,15 +141,15 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
                 sendVote(challengeVideoDescModel.getCustomer_id());
                 challengeVideoDescModel.setVote(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote()) + 1));
                 setVoteCount();
-                changeLikeImage(userOneVideoLikeIV);
-                BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this,challengeVideoDescModel.getChallenge_id(),challengeVideoDescModel.getVote(),0);
+                setEnableDisableLikeImage(userOneVideoLikeIV);
+                BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this, challengeVideoDescModel.getChallenge_id(), challengeVideoDescModel.getVote(), 0);
                 break;
             case R.id.rightSideVotingView:
                 sendVote(challengeVideoDescModel.getCustomer_id1());
                 challengeVideoDescModel.setVote1(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote1()) + 1));
-                changeLikeImage(userTwoVideoLikeIV);
+                setEnableDisableLikeImage(userTwoVideoLikeIV);
                 setVoteCount();
-                BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this,challengeVideoDescModel.getChallenge_id(),challengeVideoDescModel.getVote1(),1);
+                BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this, challengeVideoDescModel.getChallenge_id(), challengeVideoDescModel.getVote1(), 1);
                 break;
             case R.id.sendCommentIV:
                 sendComment();
@@ -202,20 +202,40 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
     }
 
     private void updateUI() {
-        imageLoading.LoadImage(challengeVideoDescModel.getProfileimage(), firstUserIV, null);
-        imageLoading.LoadImage(challengeVideoDescModel.getProfileimage1(), secondUserIV, null);
-        firstUserNameTV.setText(challengeVideoDescModel.getFirst_name());
-        secondUserNameTV.setText(challengeVideoDescModel.getFirst_name1());
+        setUpUsersViews();
         challengeTitleView.setUp(challengeVideoDescModel.getTitle(), this, 0);
         setVoteCount();
         setupVideo();
-        commentsAdapter = new CommentsAdapter(this, challengeVideoDescModel.getCommentArray(), this);
-        commentsRV.setAdapter(commentsAdapter);
+        seetUpCommentAdapter();
         updateAndSendCommentsCount();
+        setVoteStatus();
         String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         if (!currentCustomerID.equals(challengeVideoDescModel.getCustomer_id()) || !currentCustomerID.equals(challengeVideoDescModel.getCustomer_id1()))
             challengeTitleView.showHideMoreIvButton(false);
 
+    }
+
+    private void seetUpCommentAdapter() {
+        commentsAdapter = new CommentsAdapter(this, challengeVideoDescModel.getCommentArray(), this);
+        commentsRV.setAdapter(commentsAdapter);
+    }
+
+    private void setUpUsersViews() {
+        imageLoading.LoadImage(challengeVideoDescModel.getProfileimage(), firstUserIV, null);
+        imageLoading.LoadImage(challengeVideoDescModel.getProfileimage1(), secondUserIV, null);
+        firstUserNameTV.setText(challengeVideoDescModel.getFirst_name());
+        secondUserNameTV.setText(challengeVideoDescModel.getFirst_name1());
+    }
+
+    private void setVoteStatus() {
+        switch (challengeVideoDescModel.getVote_status()) {
+            case 1:
+                setEnableDisableLikeImage(userOneVideoLikeIV);
+                break;
+            case 2:
+                setEnableDisableLikeImage(userTwoVideoLikeIV);
+                break;
+        }
     }
 
     @Override
@@ -249,7 +269,7 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
 
     private void updateAndSendCommentsCount() {
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, challengeVideoDescModel.getVideo_comment_count(), challengeVideoDescModel.getVideo_comment_count());
-        BroadcastSenderClass.getInstance().sendCommentCountBroadcastToLiveTab(this,challengeVideoDescModel.getChallenge_id(),challengeVideoDescModel.getVideo_comment_count());
+        BroadcastSenderClass.getInstance().sendCommentCountBroadcastToLiveTab(this, challengeVideoDescModel.getChallenge_id(), challengeVideoDescModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
 
@@ -301,7 +321,7 @@ public class LiveBattleDescActivity extends BaseActivity implements PopupItemCli
         return jsonObject;
     }
 
-    private void changeLikeImage(ImageView imageView) {
+    private void setEnableDisableLikeImage(ImageView imageView) {
         CommonFunctions.changeImageWithAnimation(this, imageView, R.drawable.thumb_on);
         leftSideVotingView.setEnabled(false);
         rightSideVotingView.setEnabled(false);

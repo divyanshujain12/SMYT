@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,14 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
@@ -45,10 +50,13 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         private ImageView firstUserIV, secondUserIV;
         TextView firstUserNameTV, secondUserNameTV;
         TextView userOneVoteCountTV,userTwoVoteCountTV;
+        private LinearLayout firstUserLL, secondUserLL;
 
         public BattleVideoHolder(View view) {
             super(view);
             challengeTitleView = (ChallengeTitleView) view.findViewById(R.id.challengeTitleView);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
+            secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
             firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
             secondUserNameTV = (TextView) view.findViewById(R.id.secondUserNameTV);
@@ -84,14 +92,12 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
     @Override
     public void onBindViewHolder(final BattleVideoHolder holder, int position) {
-        ChallengeModel challengeModel = challengeModels.get(position);
+       final ChallengeModel challengeModel = challengeModels.get(position);
 
         holder.challengeTitleView.setUp(challengeModel.getTitle(), this, position);
         holder.challengeTitleView.showHideMoreIvButton(false);
-        rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4
         holder.commentsTV.setText(setCommentCount(challengeModel));
         holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
-        //holder.twoVideoPlayers.setVideoUrls("rtsp://192.254.218.32:1935/smytex/mp4:myStream_2_2016-12-10 11:00:09", "rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4");
         holder.twoVideoPlayers.setThumbnail(challengeModel.getThumbnail(), challengeModel.getThumbnail1());
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
@@ -100,7 +106,18 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(challengeModel.getEdate()));
         holder.userOneVoteCountTV.setText(challengeModel.getVote());
         holder.userTwoVoteCountTV.setText(challengeModel.getVote1());
-
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id());
+            }
+        });
+        holder.secondUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id1());
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +160,13 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
     public void addItem(ArrayList<ChallengeModel> challengeModels) {
         this.challengeModels.addAll(challengeModels);
         notifyDataSetChanged();
+    }
+    private void goToUserDetailActivity(String customer_id) {
+        if (!customer_id.equals("") && !customer_id.equals(MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID))) {
+            Intent intent = new Intent(context, OtherUserProfileActivity.class);
+            intent.putExtra(Constants.CUSTOMER_ID, customer_id);
+            context.startActivity(intent);
+        }
     }
 }
 

@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.USER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
@@ -120,8 +121,10 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(continuousSB);
-        userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
-        userVideoAdapter.addUserVideoData(userVideoModels);
+        if(getUserVisibleHint()) {
+            userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
+            userVideoAdapter.addUserVideoData(userVideoModels);
+        }
     }
 
     @Override
@@ -191,7 +194,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateUiUserVideoFragment, new IntentFilter(Constants.UPDATE_UI_VIDEO_FRAGMENT));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateUiUserVideoFragment, new IntentFilter(Constants.USER_FRAGMENT_TAB_UI));
 
     }
 
@@ -276,6 +279,9 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
                     getUserVideosAPI();
                     break;
                 case DELETE_VIDEO:
+                    getUserVideosAPI();
+                    break;
+                case ALL_VIDEO_DATA:
                     getUserVideosAPI();
                     break;
             }

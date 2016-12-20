@@ -48,11 +48,19 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
         titleTV.setText(title);
         setUpPopupWindow(popupItemClicked);
     }
+    public void setUpForBannerVideo(String title, PopupItemClicked popupItemClicked, int position) {
+        this.position = position;
+        titleTV.setText(title);
+        if (categoryID.equals(getContext().getString(R.string.premium_category)))
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindowForPremiumBannerVideo(getContext(), popupItemClicked, position);
+        else
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindowForNormalBannerVideo(getContext(), popupItemClicked, position);
+    }
 
     private void setUpPopupWindow(PopupItemClicked popupItemClicked) {
-       // if (categoryID.equals(getContext().getString(R.string.premium_category)))
-         //   popupWindow = CustomViewsHandler.getInstance().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
-       // else
+        if (categoryID.equals(getContext().getString(R.string.premium_category)))
+            popupWindow = new CustomViewsHandler().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
+        else
             popupWindow = new CustomViewsHandler().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
     }
 

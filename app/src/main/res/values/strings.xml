@@ -134,7 +134,7 @@
     <string name="banner_added_success">Banner Added Successfully!</string>
     <string name="video_added_successfully">Video Added Succssfully!</string>
     <string name="no_video_available">No Video Available!</string>
-    <string name="premium_category">5</string>
+    <string name="premium_category">13</string>
     <string name="not_played">NOT PLAYED</string>
     <string name="round_start_in">Round Start In</string>
     <string name="waiting">waiting...</string>
@@ -152,5 +152,8 @@
     <string name="add_video_to_premium_banner_pckg">Add Videos To Premium Category Banner Packages</string>
     <string name="most_viewed">Most Viewed</string>
     <string name="auto_start_recording">Auto Start Recording</string>
+    <string name="valid_till">Valid Till - </string>
+    <string name="remaining_videos">Remaining Videos - </string>
+    <string name="voting_open">Voting Open</string>
 
 </resources>

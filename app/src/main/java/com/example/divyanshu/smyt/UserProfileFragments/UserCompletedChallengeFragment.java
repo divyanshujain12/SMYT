@@ -80,11 +80,13 @@ public class UserCompletedChallengeFragment extends BaseFragment {
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(tSnackbar);
-        switch (apiType) {
-            case ApiCodes.COMPLETED_CHALLENGES:
-                challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
-                userCompletedChallengesAdapter.addItems(challengeModels);
-                break;
+        if(getUserVisibleHint()) {
+            switch (apiType) {
+                case ApiCodes.COMPLETED_CHALLENGES:
+                    challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
+                    userCompletedChallengesAdapter.addItems(challengeModels);
+                    break;
+            }
         }
     }
 

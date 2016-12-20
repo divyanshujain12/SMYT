@@ -30,6 +30,7 @@ import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -114,7 +115,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
         categoryID = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID);
         videoName = getIntent().getStringExtra(Constants.VIDEO_NAME);
-
+        firstUserNameTV.setText(MySharedPereference.getInstance().getString(this, Constants.USER_NAME));
         validation = new Validation();
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_post_challenge_title)));
 
@@ -140,7 +141,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     }
 
     private void isPremiumGenre() {
-        if (categoryID.equals("5")) {
+        if (categoryID.equals(getString(R.string.premium_category))) {
             setGenreSpinnerShow(false);
             genreTypesArray = getResources().getStringArray(R.array.genre_type);
             arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_sixteens_sp, genreTypesArray);
@@ -252,6 +253,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
             case POST_USER_VIDEO:
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
+                BroadcastSenderClass.getInstance().reloadAllVideoData(this);
                 finish();
                 break;
             case POST_VIDEO_PREVIOUS:
@@ -286,7 +288,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     private JSONObject createJsonForPostVideo() {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
-            jsonObject.put(Constants.CATEGORY_ID,MySharedPereference.getInstance().getString(this,Constants.CATEGORY_ID));
+            jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID));
             jsonObject.put(Constants.TITLE, hashMap.get(videoTitleET));
             jsonObject.put(Constants.GENRE, genreTypeStr);
             jsonObject.put(Constants.SHARE_STATUS, shareWithStr);
@@ -295,8 +297,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
             if (shareWithStr.equals("Friend")) {
                 jsonObject.put(Constants.FRIEND_ID, userModel.getCustomer_id());
-            }
-            else{
+            } else {
                 jsonObject.put(Constants.FRIEND_ID, "0");
             }
         } catch (Exception e) {

@@ -24,6 +24,7 @@ public class ChallengeTitleView extends LinearLayout implements View.OnClickList
     private static PopupWindow popupWindow = null;
     private int position;
     private String categoryID = "";
+
     public ChallengeTitleView(Context context) {
         super(context);
     }
@@ -48,11 +49,20 @@ public class ChallengeTitleView extends LinearLayout implements View.OnClickList
         setUpPopupWindow(popupItemClicked);
     }
 
+    public void setUpForBannerVideo(String title, PopupItemClicked popupItemClicked, int position) {
+        this.position = position;
+        titleTV.setText(title);
+        if (categoryID.equals(getContext().getString(R.string.premium_category)))
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindowForPremiumBannerVideo(getContext(), popupItemClicked, position);
+        else
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindowForNormalBannerVideo(getContext(), popupItemClicked, position);
+    }
+
     private void setUpPopupWindow(PopupItemClicked popupItemClicked) {
-      //  if (categoryID.equals(getContext().getString(R.string.premium_category)))
-     //       popupWindow = CustomViewsHandler.getInstance().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
-     //   else
-            popupWindow =new CustomViewsHandler().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
+        if (categoryID.equals(getContext().getString(R.string.premium_category)))
+            popupWindow = new CustomViewsHandler().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
+        else
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
     }
 
     @Override

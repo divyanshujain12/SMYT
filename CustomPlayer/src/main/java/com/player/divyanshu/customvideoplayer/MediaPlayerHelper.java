@@ -2,6 +2,7 @@ package com.player.divyanshu.customvideoplayer;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.widget.FrameLayout;
 
 /**
  * Created by divyanshu on 10/16/2016.
@@ -38,6 +39,7 @@ public class MediaPlayerHelper {
     protected SecondVideoPlayer previousSecondVideoPlayer = null, CurrentSecondPlayer = null;
 
     private TwoVideoPlayers twoVideoPlayers;
+    private boolean standardVideoPlayed = false, secondVideoPlayed = false;
 
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
@@ -198,6 +200,7 @@ public class MediaPlayerHelper {
         previousStandardVideoPlayer = null;
         CurrentStandardPlayer = null;
         twoVideoPlayers = null;
+        standardVideoPlayed = false;
     }
 
     void resetSecondPlayer() {
@@ -208,10 +211,27 @@ public class MediaPlayerHelper {
         previousSecondVideoPlayer = null;
         CurrentSecondPlayer = null;
         twoVideoPlayers = null;
+        secondVideoPlayed = false;
     }
 
     void pauseVideos() {
 
+    }
+
+    public void setVideoPlayed(FrameLayout playerType) {
+        if (playerType instanceof StandardVideoPlayer) {
+            standardVideoPlayed = true;
+        } else if (playerType instanceof SecondVideoPlayer) {
+            secondVideoPlayed = true;
+        }
+
+    }
+
+    public boolean isBothVideoPlayed() {
+        if (standardVideoPlayed && secondVideoPlayed) {
+            return true;
+        } else
+            return false;
     }
 
     public void pauseVideos(Activity activity, HomeWatcher mHomeWatcher) {
@@ -223,4 +243,6 @@ public class MediaPlayerHelper {
         // activity.onBackPressed();
         mHomeWatcher.stopWatch();
     }
+
+
 }

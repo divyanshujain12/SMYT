@@ -8,14 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.example.divyanshu.smyt.activities.RecordChallengeVideoActivity;
+import com.example.divyanshu.smyt.activities.UserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -43,11 +47,13 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         private TextView firstUserNameTV, secondUserNameTV;
         private TextView roundNumberTV, genreNameTV;
         private TextView challengeTimeTV;
-
+        private LinearLayout firstUserLL, secondUserLL;
         private TextView dateTV;
 
         private RoundIncompleteDescViewHolder(View view) {
             super(view);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
+            secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
             firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
@@ -66,9 +72,13 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         private TextView firstUserNameTV, secondUserNameTV;
         private TextView roundNumberTV, genreNameTV;
         private FrameLayout userWinningBar;
+        private LinearLayout firstUserLL, secondUserLL;
+        private TextView userOneWinLoseTV;
 
         private RoundCompletedDescViewHolder(View view) {
             super(view);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
+            secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
             firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
@@ -76,6 +86,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
             roundNumberTV = (TextView) view.findViewById(R.id.roundNumberTV);
             genreNameTV = (TextView) view.findViewById(R.id.genreNameTV);
             userWinningBar = (FrameLayout) view.findViewById(R.id.userWinningBar);
+            userOneWinLoseTV = (TextView) view.findViewById(R.id.userOneWinLoseTV);
         }
 
     }
@@ -85,9 +96,12 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         private TextView firstUserNameTV, secondUserNameTV;
         private TextView roundNumberTV, genreNameTV;
         private FrameLayout userWinningBar;
+        private LinearLayout firstUserLL, secondUserLL;
 
         private RoundNotPlayedDescViewHolder(View view) {
             super(view);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
+            secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
             firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
@@ -131,7 +145,6 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     private void setViewForIncompleteRound(RoundIncompleteDescViewHolder holder, int position) {
 
         final ChallengeModel challengeModel = challengeModels.get(position);
-        //String[] splitDate = challengeModel.getRound_date().split(" ");
         long roundDateAndTime = Long.parseLong(challengeModel.getRound_date());
         String timeDifference = Utils.getChallengeTimeDifference(roundDateAndTime);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
@@ -142,38 +155,55 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTimeTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.TIME_FORMAT) + " (" + timeDifference + " left)");
         holder.dateTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.DATE_FORMAT));
-
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id());
+            }
+        });
+        holder.secondUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id1());
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RecordChallengeVideoActivity.class);
                 intent.putExtra(Constants.ROUND_TIME, challengeModel.getRound_date());
-                intent.putExtra(Constants.CHALLENGE_ID,challengeModel.getChallenge_id());
-                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID,challengeModel.getCustomers_videos_id());
+                intent.putExtra(Constants.CHALLENGE_ID, challengeModel.getChallenge_id());
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModel.getCustomers_videos_id());
                 context.startActivity(intent);
             }
         });
     }
 
+
     private void setViewForCompletedRound(final RoundCompletedDescViewHolder holder, int position) {
 
-        ChallengeModel challengeModel = challengeModels.get(position);
+        final ChallengeModel challengeModel = challengeModels.get(position);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
         holder.roundNumberTV.setText(context.getString(R.string.round_txt) + " " + challengeModel.getRound_no());
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());
         holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
         holder.genreNameTV.setText(challengeModel.getGenre());
-        int voteInt = Integer.parseInt(challengeModel.getVote());
-        int vote1Int = Integer.parseInt(challengeModel.getVote1());
+        setRoundStatusView(holder, challengeModel);
 
-        if (voteInt > vote1Int)
-            holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
-        else if (vote1Int > voteInt)
-            holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));
-        else
-            holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id());
+            }
+        });
+        holder.secondUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id1());
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,15 +212,45 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         });
     }
 
+    private void setRoundStatusView(RoundCompletedDescViewHolder holder, ChallengeModel challengeModel) {
+        int voteInt = Integer.parseInt(challengeModel.getVote());
+        int vote1Int = Integer.parseInt(challengeModel.getVote1());
+
+        if (Utils.isDifferenceLowerThanTwentyFourHours(Long.parseLong(challengeModel.getRound_date()))) {
+            holder.userOneWinLoseTV.setText(R.string.voting_open);
+            holder.userWinningBar.addView(addOpenVotingView(challengeModel.getVote(), challengeModel.getVote1()));
+        } else {
+            if (voteInt > vote1Int)
+                holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
+            else if (vote1Int > voteInt)
+                holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));
+            else
+                holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));
+        }
+    }
+
     private void setViewForNotPlayedRound(final RoundNotPlayedDescViewHolder holder, int position) {
 
-        ChallengeModel challengeModel = challengeModels.get(position);
+        final ChallengeModel challengeModel = challengeModels.get(position);
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
         holder.roundNumberTV.setText(context.getString(R.string.round_txt) + " " + challengeModel.getRound_no());
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());
         holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
         holder.genreNameTV.setText(challengeModel.getGenre());
+
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id());
+            }
+        });
+        holder.secondUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(challengeModel.getCustomer_id1());
+            }
+        });
     }
 
 
@@ -219,6 +279,24 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     public void addItems(ArrayList<ChallengeModel> challengeModels) {
         this.challengeModels = challengeModels;
         notifyDataSetChanged();
+    }
+
+    private void goToUserDetailActivity(String customer_id) {
+        if (!customer_id.equals("") && !customer_id.equals(MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID))) {
+            Intent intent = new Intent(context, OtherUserProfileActivity.class);
+            intent.putExtra(Constants.CUSTOMER_ID, customer_id);
+            context.startActivity(intent);
+        }
+    }
+
+    private View addOpenVotingView(String vote, String vote1) {
+        View view = LayoutInflater.from(context).inflate(R.layout.voting_view, null);
+        TextView userOneVoteCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
+        TextView userTwoVoteCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
+
+        userOneVoteCountTV.setText(vote);
+        userTwoVoteCountTV.setText(vote1);
+        return view;
     }
 }
 

@@ -108,7 +108,10 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
             else
                 Toast.makeText(getContext(), R.string.no_video_url, Toast.LENGTH_SHORT).show();
         } else if (view == playVideosInFullScreenIV) {
-            onPlayVideosInFullScreenClick();
+            if (MediaPlayerHelper.getInstance().isBothVideoPlayed())
+                onPlayVideosInFullScreenClick();
+            else
+                Toast.makeText(getContext(), "Please wait until both video played!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -120,7 +123,7 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
         secondVideoPlayer.onPlayButtonClick();
         showHideBlackLayer(false);
         MediaPlayerHelper.getInstance().setStopPlayingInterface(this);
-        if(playVideoInterface!=null)
+        if (playVideoInterface != null)
             playVideoInterface.onVideoPlay(playedVideoPos);
     }
 

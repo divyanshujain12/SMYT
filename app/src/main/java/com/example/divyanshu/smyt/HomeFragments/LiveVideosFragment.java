@@ -18,7 +18,7 @@ import com.example.divyanshu.smyt.Adapters.OngoingChallengesAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.LiveBattleDescActivity;
+import com.example.divyanshu.smyt.DialogActivities.LiveRoundDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.VOTE_COUNT_INT;
 import static com.example.divyanshu.smyt.Utils.Utils.CURRENT_DATE_FORMAT;
@@ -89,6 +90,10 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
         liveVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         liveVideosRV.setAdapter(liveVideosAdapter);
         CommonFunctions.stopVideoOnScroll(liveVideosRV);
+        hitOnGoingChallengeAPI();
+    }
+
+    private void hitOnGoingChallengeAPI() {
         CallWebService.getInstance(getContext(), false, ApiCodes.HOME_CHALLENGES_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.HOME_LIVE_VIDEOS, createJsonForGetVideoData(), this);
     }
 
@@ -101,9 +106,10 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-
-        challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
-        liveVideosAdapter.addItem(challengeModels);
+        if(getUserVisibleHint()) {
+            challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
+            liveVideosAdapter.addItem(challengeModels);
+        }
     }
 
     @Override
@@ -122,7 +128,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
                 break;
 
             default:
-                Intent intent = new Intent(getActivity(), LiveBattleDescActivity.class);
+                Intent intent = new Intent(getActivity(), LiveRoundDescActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModels.get(position).getCustomers_videos_id());
                 startActivity(intent);
                 break;
@@ -215,6 +221,9 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
                     break;
                 case VOTE_COUNT_INT:
                     updateVoteCount(intent);
+                    break;
+                case ALL_VIDEO_DATA:
+                    hitOnGoingChallengeAPI();
                     break;
             }
         }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
@@ -94,6 +95,7 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, UserVideoDescActivity.class);
+                intent.putExtra(Constants.FROM_BANNER,true);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, videoList.get(holder.getAdapterPosition()).getCustomers_videos_id());
                 context.startActivity(intent);
 
@@ -110,8 +112,9 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, UserVideoDescActivity.class);
+                Intent intent = new Intent(context, UploadedBattleRoundDescActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, videoList.get(holder.getAdapterPosition()).getCustomers_videos_id());
+                intent.putExtra(Constants.FROM_BANNER,true);
                 context.startActivity(intent);
 
             }

@@ -97,6 +97,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private CommentModel deleteCommentModel;
     private ImageLoading imageLoading;
     private String customerVideoID = "";
+    private boolean fromBanner = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initViews() {
-
+        fromBanner = getIntent().getBooleanExtra(Constants.FROM_BANNER, false);
         validation = new Validation();
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_cno_comment)));
         commentsRV.setLayoutManager(new LinearLayoutManager(this));
@@ -155,7 +156,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateUI() {
-        videoTitleView.setUp(videoDetailModel.getTitle(), this, 0);
+        setUpMoreOptionPopupWindow(videoDetailModel.getTitle());
         imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
         setLikeCountInUI();
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
@@ -167,6 +168,13 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         if (!currentCustomerID.equals(videoDetailModel.getCustomer_id()))
             videoTitleView.showHideMoreIvButton(false);
+    }
+
+    private void setUpMoreOptionPopupWindow(String title) {
+        if (fromBanner)
+            videoTitleView.setUpForBannerVideo(title, this, 0);
+        else
+            videoTitleView.setUp(title, this, 0);
     }
 
     private void decreaseCommentCount() {

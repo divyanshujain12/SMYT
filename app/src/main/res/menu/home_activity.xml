@@ -5,7 +5,7 @@
     tools:context="in.co.eko.fundu.activities.EditProfileActivity">
     <item
         android:id="@+id/action_recording"
-        android:icon="@drawable/fav_icon_postvideo"
+        android:icon="@drawable/ic_fav_icon_postvideo_header"
         android:title="@string/user_profile"
         app:showAsAction="ifRoom" />
     <item

@@ -196,10 +196,12 @@ public class Utils {
         milliseconds = milliseconds + 86400000;
         return milliseconds;
     }
+
     public static long getNextTenMinuteInMS(long milliseconds) {
         milliseconds = milliseconds + 600000;
         return milliseconds;
     }
+
     public static long getPreviousOneMinuteInMS(long milliseconds) {
         milliseconds = milliseconds - 60000;
         return milliseconds;
@@ -222,5 +224,14 @@ public class Utils {
                 TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 
+    }
+
+    public static boolean isDifferenceLowerThanTwentyFourHours(long milliseconds) {
+        long diff = (getCurrentTimeInMillisecond() - milliseconds) / (60 * 60 * 1000);
+        if (diff > 24)
+            return false;
+        else {
+            return true;
+        }
     }
 }

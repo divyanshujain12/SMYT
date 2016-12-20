@@ -86,8 +86,10 @@ public class UserFollowingFragment extends BaseFragment {
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
-        userFollowerAdapter.addItems(userModels);
+        if(getUserVisibleHint()) {
+            userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
+            userFollowerAdapter.addItems(userModels);
+        }
 
     }
 

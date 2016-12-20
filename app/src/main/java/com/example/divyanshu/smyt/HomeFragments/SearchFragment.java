@@ -127,11 +127,13 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        switch (apiType) {
-            case ApiCodes.SEARCH_USER:
-                userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
-                searchUserRvAdapter.setItem(userModels);
-                break;
+        if(getUserVisibleHint()) {
+            switch (apiType) {
+                case ApiCodes.SEARCH_USER:
+                    userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
+                    searchUserRvAdapter.setItem(userModels);
+                    break;
+            }
         }
     }
 

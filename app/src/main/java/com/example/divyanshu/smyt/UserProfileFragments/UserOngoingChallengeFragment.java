@@ -145,22 +145,24 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(tSnackbar);
-        switch (apiType) {
-            case ApiCodes.ONGOING_CHALLENGES:
-                challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
-                userOngoingChallengesAdapter.addItems(challengeModels);
-                break;
-            case CHALLENGE_ACCEPT:
-                if (getArguments().getBoolean(Constants.NEW_CHALLENGE))
+        if(getUserVisibleHint()) {
+            switch (apiType) {
+                case ApiCodes.ONGOING_CHALLENGES:
+                    challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
+                    userOngoingChallengesAdapter.addItems(challengeModels);
+                    break;
+                case CHALLENGE_ACCEPT:
+                    if (getArguments().getBoolean(Constants.NEW_CHALLENGE))
+                        userOngoingChallengesAdapter.removeItem(acceptRejectPos);
+                    else
+                        userOngoingChallengesAdapter.updateAcceptStatusIntoList(acceptRejectPos);
+                    CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
+                    break;
+                case CHALLENGE_REJECT:
                     userOngoingChallengesAdapter.removeItem(acceptRejectPos);
-                else
-                    userOngoingChallengesAdapter.updateAcceptStatusIntoList(acceptRejectPos);
-                CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
-                break;
-            case CHALLENGE_REJECT:
-                userOngoingChallengesAdapter.removeItem(acceptRejectPos);
-                CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
-                break;
+                    CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
+                    break;
+            }
         }
     }
 

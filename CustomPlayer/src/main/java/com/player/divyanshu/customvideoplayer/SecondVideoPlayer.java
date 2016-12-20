@@ -202,7 +202,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
         setmState(State.Prepared);
         isBuffering(false);
         startPlayingVideo(mp);
-
+        MediaPlayerHelper.getInstance().setVideoPlayed(this);
     }
 
     @Override
@@ -255,7 +255,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     public void onCompletion(MediaPlayer mp) {
 
-      // releaseVideo();
+       // resetPlayer(mp);
     }
 
     /**
@@ -565,26 +565,30 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
     }
 
     public void releaseVideo() {
-        setmState(State.Completed);
         backPress(MediaPlayerHelper.getInstance().secondMediaPlayer);
-        linearLayoutMediaController.setVisibility(View.GONE);
-        showHideThumbnail(true);
-        enableDisableTextureView(false);
-        surfaceViewFrame = null;
-        secondMediaPlayer = null;
+
     }
 
     public void backPress(MediaPlayer mediaPlayer) {
         if (MediaPlayerHelper.getInstance().getStopPlayingInterface() != null)
             MediaPlayerHelper.getInstance().getStopPlayingInterface().onStopVideoPlaying();
+        resetPlayer(mediaPlayer);
+
+    }
+
+    private void resetPlayer(MediaPlayer mediaPlayer) {
+        setmState(State.Completed);
         updatePlayButtonUi();
         mediaPlayer.stop();
         mediaPlayer.release();
         handler.removeCallbacks(mUpdateTimeTask);
         progressBarWait.setVisibility(View.GONE);
-        // imageViewPauseIndicator.setVisibility(View.VISIBLE);
         MediaPlayerHelper.getInstance().resetSecondPlayer();
-
+        linearLayoutMediaController.setVisibility(View.GONE);
+        showHideThumbnail(true);
+        enableDisableTextureView(false);
+        surfaceViewFrame = null;
+        secondMediaPlayer = null;
     }
 
     private void resetPreviousPlayer() {

@@ -60,7 +60,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-      //  releaseVideo();
+        //resetPlayer(mediaPlayer);
     }
 
     public enum State {
@@ -201,7 +201,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         setmState(State.Prepared);
         isBuffering(false);
         startPlayingVideo(mp);
-
+        MediaPlayerHelper.getInstance().setVideoPlayed(this);
     }
 
     @Override
@@ -552,26 +552,31 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void releaseVideo() {
-        setmState(State.Completed);
+
         backPress(MediaPlayerHelper.getInstance().mediaPlayer);
-        linearLayoutMediaController.setVisibility(View.GONE);
-        showHideThumbnail(true);
-        enableDisableTextureView(false);
-        surfaceViewFrame = null;
-        standardMediaPlayer = null;
+
     }
 
     public void backPress(MediaPlayer player) {
         if (MediaPlayerHelper.getInstance().getStopPlayingInterface() != null)
             MediaPlayerHelper.getInstance().getStopPlayingInterface().onStopVideoPlaying();
+        resetPlayer(player);
+
+    }
+
+    private void resetPlayer(MediaPlayer player) {
+        setmState(State.Completed);
         updatePlayButtonUi();
         player.stop();
         player.release();
         handler.removeCallbacks(mUpdateTimeTask);
         progressBarWait.setVisibility(View.GONE);
-        // imageViewPauseIndicator.setVisibility(View.VISIBLE);
         MediaPlayerHelper.getInstance().resetFirstPlayer();
-
+        linearLayoutMediaController.setVisibility(View.GONE);
+        showHideThumbnail(true);
+        enableDisableTextureView(false);
+        surfaceViewFrame = null;
+        standardMediaPlayer = null;
     }
 
     public ImageView getVideoThumbnail() {

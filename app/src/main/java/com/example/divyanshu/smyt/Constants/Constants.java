@@ -32,7 +32,7 @@ public interface Constants {
     String ROUND_TIME = "round_time";
     String ROUND_DATE = "round_date";
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
-    String UPDATE_UI_VIDEO_FRAGMENT = "update_comment_count";
+    String USER_FRAGMENT_TAB_UI = "user_fragment_tab_ui";
     String UPDATE_USER_INFO = "update_user_info";
     String USER_ONGOING_CHALLENGE_FRAGMENT = "USER_ONGOING_CHALLENGE_FRAGMENT";
     String STATUS = "status";
@@ -82,6 +82,7 @@ public interface Constants {
     String FROM_NOTIFICATION = "from_notification";
     String VOTE_COUNT = "vote_count";
     String USER_NUMBER = "user_number";
+    String FROM_BANNER = "from_banner";
     int COMMENT_COUNT = 0;
     int VOTE_COUNT_INT = 1;
     int REQUEST_TIMEOUT_TIME = 30000;

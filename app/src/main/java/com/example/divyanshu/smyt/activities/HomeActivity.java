@@ -2,14 +2,18 @@ package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
+import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
@@ -28,7 +32,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements ViewPager.OnPageChangeListener, OnClickListener {
     @InjectView(R.id.homeTabLayout)
     CustomTabLayout homeTabLayout;
     @InjectView(R.id.homeViewPager)
@@ -36,6 +40,8 @@ public class HomeActivity extends BaseActivity {
     ViewPagerAdapter viewPagerAdapter;
     @InjectView(R.id.toolbarView)
     Toolbar toolbarView;
+    @InjectView(R.id.fab)
+    FloatingActionButton fab;
     private CategoryModel categoryModel;
 
     @Override
@@ -47,10 +53,10 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initViews() {
-
+        fab.setVisibility(View.GONE);
         categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
         Utils.configureToolbarWithBackButton(this, toolbarView, categoryModel.getcategory_name() + "(" + categoryModel.getUsercount() + ")");
-
+        fab.setOnClickListener(this);
         configViewPager();
     }
 
@@ -61,13 +67,16 @@ public class HomeActivity extends BaseActivity {
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
         viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(true), getString(R.string.new_challenges));
         viewPagerAdapter.addFragment(SearchFragment.getInstance(categoryModel.getId()), getString(R.string.tab_search));
+
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(3);
+        homeViewPager.setOnPageChangeListener(this);
 
         if (getIntent().getBooleanExtra(Constants.FROM_NOTIFICATION, false)) {
             homeViewPager.setCurrentItem(2);
             MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryModel.getId());
         }
+
         homeTabLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -110,4 +119,27 @@ public class HomeActivity extends BaseActivity {
         MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (position == 2)
+            fab.setVisibility(View.VISIBLE);
+        else
+            fab.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        showDialogFragment(PostChallengeFragment.getInstance());
+    }
 }

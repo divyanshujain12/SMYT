@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
@@ -26,6 +28,7 @@ import com.example.divyanshu.smyt.Utils.CustomLinearLayoutManager;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.PlayVideoInterface;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
@@ -42,7 +45,7 @@ import java.util.ArrayList;
  */
 public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked, PlayVideoInterface {
 
-    private ArrayList<AllVideoModel> allVideoModels;
+    private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
     private ArrayList<AllVideoModel> bannerVideos;
     private Context context;
     private RecyclerViewClick recyclerViewClick;
@@ -56,10 +59,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         public FrameLayout videoFL;
         private RoundedImageView firstUserIV;
         private SingleVideoPlayer firstVideoPlayer;
+        private LinearLayout firstUserLL;
 
         private SingleVideoHolder(View view) {
             super(view);
             videoTitleView = (VideoTitleView) view.findViewById(R.id.videoTitleView);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
             firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
             commentsTV = (TextView) view.findViewById(R.id.commentsTV);
@@ -78,10 +83,13 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         public FrameLayout videoFL;
         private TwoVideoPlayers twoVideoPlayers;
         private RoundedImageView firstUserIV, secondUserIV;
+        private LinearLayout firstUserLL, secondUserLL;
 
         private BattleVideoHolder(View view) {
             super(view);
             challengeTitleView = (ChallengeTitleView) view.findViewById(R.id.challengeTitleView);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
+            secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
             firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
             secondUserNameTV = (TextView) view.findViewById(R.id.secondUserNameTV);
@@ -113,24 +121,21 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.allVideoModels = categoryModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
+        //allVideoModels.add(0,new AllVideoModel());
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
-
-
         switch (viewType) {
             case 0:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.single_video_item, parent, false);
                 return new SingleVideoHolder(itemView);
-
             case 1:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.uploaded_battle_video_item, parent, false);
                 return new BattleVideoHolder(itemView);
-
             case 2:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.top_rated_videos_rv, parent, false);
@@ -144,7 +149,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
         if (holder instanceof BattleVideoHolder) {
             BattleVideoHolder battleVideoHolder = (BattleVideoHolder) holder;
             setupBattleViewHolder(battleVideoHolder, allVideoModels.get(position));
@@ -156,19 +160,15 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (holder instanceof TopRatedVideoHolder) {
             setUpTopRatedViewHolder((TopRatedVideoHolder) holder);
         }
-
-
     }
 
     private void setUpTopRatedViewHolder(TopRatedVideoHolder holder) {
         holder.topRatedVideosAdapter.addVideos(bannerVideos);
     }
 
-    private void setupSingleViewHolder(final SingleVideoHolder holder, AllVideoModel allVideoModel) {
+    private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
-        //holder.firstVideoPlayer.setVideoUrl("rtsp://192.254.218.31:1935/smytex/myStream_1_1481748981261");
-        //BitmapExtractor.getInstance().setImageBitmap(allVideoModel.getVideo_url(), holder.firstVideoPlayer.getThumbImageView());
         holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
@@ -177,6 +177,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
         holder.firstVideoPlayer.setPlayedVideoPos(holder.getAdapterPosition());
         holder.firstVideoPlayer.setPlayVideoInterface(this);
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(allVideoModel.getCustomer_id());
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +191,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
-    private void setupBattleViewHolder(final BattleVideoHolder holder, AllVideoModel allVideoModel) {
+    private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.challengeTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         setUpMoreIvButtonVisibility(holder, allVideoModel);
         holder.twoVideoPlayers.setVideoUrls(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1());
@@ -198,6 +204,18 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         holder.twoVideoPlayers.setPlayedVideoPos(holder.getAdapterPosition());
         holder.twoVideoPlayers.setPlayVideoInterface(this);
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(allVideoModel.getCustomer_id());
+            }
+        });
+        holder.secondUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(allVideoModel.getCustomer_id1());
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +263,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public void updateData(ArrayList<AllVideoModel> allVideoModels) {
         this.allVideoModels = allVideoModels;
-        this.allVideoModels.add(0, new AllVideoModel());
+        //this.allVideoModels.add(0, new AllVideoModel());
         notifyDataSetChanged();
     }
 
@@ -294,6 +312,14 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    private void goToUserDetailActivity(String customer_id) {
+        if (!customer_id.equals("") && !customer_id.equals(MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID))) {
+            Intent intent = new Intent(context, OtherUserProfileActivity.class);
+            intent.putExtra(Constants.CUSTOMER_ID, customer_id);
+            context.startActivity(intent);
+        }
     }
 }
 

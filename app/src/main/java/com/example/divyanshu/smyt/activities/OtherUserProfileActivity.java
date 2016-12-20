@@ -102,7 +102,6 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     private void initViews(Intent intent) {
         imageLoading = new ImageLoading(this, 5);
-        //userModel = intent.getExtras().getParcelable(Constants.USER_DATA);
         otherCustomerID = intent.getStringExtra(Constants.CUSTOMER_ID);
         createAnimation();
         ConfigViewPager();

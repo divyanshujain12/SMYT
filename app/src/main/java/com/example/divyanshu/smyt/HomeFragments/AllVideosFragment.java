@@ -150,17 +150,22 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         super.onJsonObjectSuccess(response, apiType);
 
         noVideoAvailableLL.setVisibility(View.GONE);
-        switch (apiType) {
-            case ALL_VIDEO_DATA:
-                WebServiceCalled(false);
-                allVideoModels.addAll(UniversalParser.getInstance().<AllVideoModel>parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class));
-                otherAllVideoAdapter.notifyDataSetChanged();
-                //otherAllVideoAdapter.updateData(allVideoModels);
-                break;
-            case BANNER_VIDEOS:
-                bannerVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
-                otherAllVideoAdapter.addDataToBannerArray(bannerVideoModels);
-                break;
+        if(getUserVisibleHint()) {
+            switch (apiType) {
+                case ALL_VIDEO_DATA:
+                    WebServiceCalled(false);
+                    ArrayList<AllVideoModel> allVideoModelsData = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
+                    allVideoModels.addAll(allVideoModelsData);
+                    // if (pageNo == 1)
+                    otherAllVideoAdapter.updateData(allVideoModels);
+               /* else
+                    otherAllVideoAdapter.addNewData(allVideoModelsData);*/
+                    break;
+                case BANNER_VIDEOS:
+                    bannerVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
+                    otherAllVideoAdapter.addDataToBannerArray(bannerVideoModels);
+                    break;
+            }
         }
     }
 
@@ -329,6 +334,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
                     hitBannerAPI();
                     break;
                 case ALL_VIDEO_DATA:
+                    reInitValues();
                     hitAllVideosAPI();
                     break;
                 case DELETE_VIDEO:
@@ -386,10 +392,12 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
             filterType = "1";
         }
         hitAllVideosAPI();
+        hitBannerAPI();
     }
 
     private void reInitValues() {
         allVideoModels.clear();
+        allVideoModels.add(0,new AllVideoModel());
         moreDataAvailable = true;
         pageNo = 0;
     }

@@ -37,6 +37,8 @@ public class ChallengeVideoDescModel implements Parcelable {
     String vote;
     String vote1;
     int current_customer_video_status;
+    int vote_status;
+    int vote_status_customer_id;
 
     ArrayList<CommentModel> commentArray;
     ArrayList<LikeModel> likesArray;
@@ -72,6 +74,8 @@ public class ChallengeVideoDescModel implements Parcelable {
         vote = in.readString();
         vote1 = in.readString();
         current_customer_video_status = in.readInt();
+        vote_status = in.readInt();
+        vote_status_customer_id = in.readInt();
     }
 
     public static final Creator<ChallengeVideoDescModel> CREATOR = new Creator<ChallengeVideoDescModel>() {
@@ -318,6 +322,22 @@ public class ChallengeVideoDescModel implements Parcelable {
         this.likesArray = likesArray;
     }
 
+    public int getVote_status() {
+        return vote_status;
+    }
+
+    public void setVote_status(int vote_status) {
+        this.vote_status = vote_status;
+    }
+
+    public int getVote_status_customer_id() {
+        return vote_status_customer_id;
+    }
+
+    public void setVote_status_customer_id(int vote_status_customer_id) {
+        this.vote_status_customer_id = vote_status_customer_id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -352,5 +372,7 @@ public class ChallengeVideoDescModel implements Parcelable {
         dest.writeString(vote);
         dest.writeString(vote1);
         dest.writeInt(current_customer_video_status);
+        dest.writeInt(vote_status);
+        dest.writeInt(vote_status_customer_id);
     }
 }
