@@ -14,6 +14,7 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
@@ -83,9 +84,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, OtherUserProfileActivity.class);
-                intent.putExtra(Constants.CUSTOM_ID,commentModel.getCustomer_id());
-                context.startActivity(intent);
+                if(!CommonFunctions.getInstance().isThisMe(context,commentModel.getCustomer_id())) {
+                    Intent intent = new Intent(context, OtherUserProfileActivity.class);
+                    intent.putExtra(Constants.CUSTOMER_ID, commentModel.getCustomer_id());
+                    context.startActivity(intent);
+                }
             }
         });
     }

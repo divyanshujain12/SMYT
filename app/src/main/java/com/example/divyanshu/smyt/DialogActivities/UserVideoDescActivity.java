@@ -24,7 +24,6 @@ import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -33,6 +32,8 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.example.divyanshu.smyt.activities.InAppActivity;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
@@ -88,6 +89,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     RoundedImageView firstUserIV;
     @InjectView(R.id.videoTitleView)
     VideoTitleView videoTitleView;
+    @InjectView(R.id.firstUserLL)
+    LinearLayout firstUserLL;
 
 
     private Validation validation;
@@ -403,5 +406,14 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @OnClick(R.id.firstUserLL)
+    public void onClick() {
+        if (!CommonFunctions.getInstance().isThisMe(this, videoDetailModel.getCustomer_id())) {
+            Intent intent = new Intent(this, OtherUserProfileActivity.class);
+            intent.putExtra(Constants.CUSTOMER_ID, videoDetailModel.getCustomer_id());
+            startActivity(intent);
+        }
     }
 }

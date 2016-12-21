@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
-import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
@@ -23,6 +22,7 @@ import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
@@ -207,6 +207,9 @@ public class CommonFunctions {
         });
     }
 
+    public boolean isThisMe(Context context, String customerID) {
+        return customerID.equals(MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID));
+    }
 
     private JSONObject createJsonForDeleteVideo(Context context, String customerVideoID) {
 

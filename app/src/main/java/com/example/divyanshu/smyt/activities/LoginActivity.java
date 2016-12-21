@@ -68,8 +68,8 @@ public class LoginActivity extends BaseActivity {
         validation = new Validation();
         validation.addValidationField(new ValidationModel(emailET, Validation.TYPE_EMAIL_VALIDATION, getString(R.string.err_email)));
         validation.addValidationField(new ValidationModel(passwordET, Validation.TYPE_PASSWORD_VALIDATION, getString(R.string.err_pass)));
-        emailET.setText("divyanshujain12@hotmail.com");
-        passwordET.setText("divyanshu");
+        //emailET.setText("divyanshujain12@hotmail.com");
+        //passwordET.setText("divyanshu");
     }
 
 

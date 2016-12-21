@@ -3,6 +3,7 @@ package com.example.divyanshu.smyt.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -134,9 +135,12 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
                 startActivity(intent);
                 break;
             case R.id.aboutUsTV:
-
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://smytex.com"));
+                startActivity(browserIntent);
                 break;
             case R.id.contactUsTV:
+                Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://info@smytex.com"));
+                startActivity(intent1);
                 break;
             case R.id.changeUserImageIV:
                 CustomAlertDialogs.showImageSelectDialog(this, this);
