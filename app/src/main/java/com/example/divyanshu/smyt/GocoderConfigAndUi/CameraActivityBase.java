@@ -89,7 +89,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             }
 
             // Briefly display the video frame size from config
-            Toast.makeText(this, getBroadcastConfig().getLabel(true, true, false, true), Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, getBroadcastConfig().getLabel(true, true, false, true), Toast.LENGTH_LONG).show();
         }
 
         syncUIControlState();

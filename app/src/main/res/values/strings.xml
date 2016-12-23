@@ -2,7 +2,7 @@
     <string name="app_name">SMYT</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="sign_in_top_text">Sign in with SMYTEX account</string>
+    <string name="sign_in_top_text">Sign in with Smytex account</string>
     <string name="sign_in">Sign In</string>
     <string name="or">or</string>
     <string name="first_name">First Name</string>

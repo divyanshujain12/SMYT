@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.DialogActivities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,6 +31,7 @@ import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
+import com.example.divyanshu.smyt.activities.RecordVideoActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -225,8 +227,23 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
         friendAC.setText(userModel.getUsername());
     }
 
-    @OnClick(R.id.postVideoBT)
-    public void onClick() {
+    @OnClick({R.id.postVideoBT,R.id.discardAndRecordTV})
+    public void onClick(View view) {
+
+        switch (view.getId()){
+            case R.id.postVideoBT:
+                postVideo();
+                break;
+            case R.id.discardAndRecordTV:
+                Intent intent = new Intent(this, RecordVideoActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+
+    }
+
+    private void postVideo() {
         hashMap = validation.validate(friendAC);
         if (hashMap != null) {
             if (shareWithStr.equals("Friend") && userModel != null)

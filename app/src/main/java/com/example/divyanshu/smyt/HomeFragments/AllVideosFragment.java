@@ -156,10 +156,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
                     WebServiceCalled(false);
                     ArrayList<AllVideoModel> allVideoModelsData = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
                     allVideoModels.addAll(allVideoModelsData);
-                    // if (pageNo == 1)
                     otherAllVideoAdapter.updateData(allVideoModels);
-               /* else
-                    otherAllVideoAdapter.addNewData(allVideoModelsData);*/
                     break;
                 case BANNER_VIDEOS:
                     bannerVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.BANNERS), AllVideoModel.class);
