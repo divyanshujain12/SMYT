@@ -169,6 +169,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
+        //holder.firstVideoPlayer.setVideoUrl("rtsp://198.57.172.197:1935/vod/myStream_2_1482594479982.mp4");
         holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
