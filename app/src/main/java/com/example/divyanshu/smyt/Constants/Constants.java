@@ -97,9 +97,11 @@ public interface Constants {
     String IP_ADDRESS = "162.214.21.189";
     String PORT_NUMBER = "1935";
     String WOWZA_STREAM_URL = RTSP + IP_ADDRESS + ":" + PORT_NUMBER + "/" + WOWZA_APPLICATION_NAME + "/";
-    String WOWZA_USERNAME = "root";
+    //String WOWZA_USERNAME = "root";
+    String WOWZA_USERNAME = "smytex";
     //String WOWZA_PASSWORD = "skhRz4ecMuOk";
-    String WOWZA_PASSWORD = "lyqYmHePI4JbQSGrUovS";
+    //String WOWZA_PASSWORD = "lyqYmHePI4JbQSGrUovS";
+    String WOWZA_PASSWORD = "chris!@#$%^";
     String WOWZA_MYSTREAM_PREFIX = "myStream_";
 
     //IN-APP Purchase Ids
