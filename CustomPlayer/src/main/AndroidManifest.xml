@@ -13,13 +13,13 @@
             android:name="com.player.divyanshu.customvideoplayer.FullScreenStandardVideoPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_full_screen_video_plaer"
-            android:screenOrientation="landscape"
+
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name="com.player.divyanshu.customvideoplayer.FullScreenSecondPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_full_screen_video_plaer"
-            android:screenOrientation="landscape"
+
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name="com.player.divyanshu.customvideoplayer.TwoPlayerActivity"
