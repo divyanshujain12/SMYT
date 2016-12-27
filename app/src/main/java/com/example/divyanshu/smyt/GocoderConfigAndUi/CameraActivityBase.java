@@ -51,8 +51,8 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     protected WZCameraView mWZCameraView = null;
     protected WZAudioDevice mWZAudioDevice = null;
 
-    private boolean mDevicesInitialized = false;
-    private boolean mUIInitialized = false;
+    protected boolean mDevicesInitialized = false;
+    protected boolean mUIInitialized = false;
     private Pattern uri;
     protected String videoName = "";
     protected String streamVideoUrl = "";
@@ -71,6 +71,10 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     protected void onResume() {
         super.onResume();
 
+        configureGocoderAPI();
+    }
+
+    protected void configureGocoderAPI() {
         if (!mUIInitialized)
             initUIControls();
         if (!mDevicesInitialized)

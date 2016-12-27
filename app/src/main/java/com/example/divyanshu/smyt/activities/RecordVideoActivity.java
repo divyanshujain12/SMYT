@@ -10,21 +10,24 @@ import android.view.WindowManager;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
-import com.example.divyanshu.smyt.GocoderConfigAndUi.GocoderConfig;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.InAppLocalApis;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
+
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class RecordVideoActivity extends CameraActivityBase implements CameraActivityBase.GoCoderCallBack {
+public class RecordVideoActivity extends CameraActivityBase implements CameraActivityBase.GoCoderCallBack, InAppLocalApis.InAppAvailabilityCalBack {
 
 
     @InjectView(R.id.ic_switch_camera)
@@ -58,10 +61,21 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     @Override
     protected void onResume() {
         super.onResume();
-        if (mAutoFocusDetector == null)
-            mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
+        if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
+            checkAndPayForAddVideoToPremium();
+        } else {
+           // mDevicesInitialized = false;
+          //  mUIInitialized = false;
+            configureGocoder();
+        }
+    }
 
-       setGoCoderCallBack(this);
+    private void configureGocoder() {
+        if (mAutoFocusDetector == null) {
+            mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
+        }
+        configureGocoderAPI();
+        setGoCoderCallBack(this);
     }
 
     public void onSwitchCamera(View v) {
@@ -152,6 +166,44 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
         } else {
             endBroadcast(false);
         }
+    }
+
+    private void checkAndPayForAddVideoToPremium() {
+        setUpAvailabilityPurchase(OTHER_CATEGORY_TO_PREMIUM);
+        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(this);
+    }
+
+    private void setUpAvailabilityPurchase(int purchaseType) {
+        InAppLocalApis.getInstance().setCallback(this);
+        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
+    }
+
+    @Override
+    public void available(int purchaseType) {
+        configureGocoder();
+    }
+
+    @Override
+    public void notAvailable(int purchaseType) {
+        Intent intent = new Intent(this, InAppActivity.class);
+        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
+        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
+
+                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
+                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
+                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
+                    InAppLocalApis.getInstance().purchaseCategory(this, transactionID, productID);
+                    configureGocoder();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

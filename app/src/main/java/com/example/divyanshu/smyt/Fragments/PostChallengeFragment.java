@@ -33,10 +33,13 @@ import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
+import com.example.divyanshu.smyt.activities.InAppActivity;
+import com.example.divyanshu.smyt.activities.RecordVideoActivity;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -57,11 +60,12 @@ import butterknife.OnClick;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_CHALLENGE;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.SEARCH_USER;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
 
 /**
  * Created by divyanshu on 9/3/2016.
  */
-public class PostChallengeFragment extends BaseDialogFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, TextWatcher {
+public class PostChallengeFragment extends BaseDialogFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, TextWatcher, InAppLocalApis.InAppAvailabilityCalBack {
 
     @InjectView(R.id.declineTV)
     TextView declineTV;
@@ -148,6 +152,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.post_challenge_fragment, null);
+
         ButterKnife.inject(this, view);
         return view;
     }
@@ -162,6 +167,9 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         super.onActivityCreated(savedInstanceState);
 
         initViews();
+        if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
+            checkAndPayForAddVideoToPremium();
+        }
     }
 
     private void initViews() {
@@ -331,7 +339,8 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
               /*  if (i == 0 && diff <= 0) {
                     CustomDateTimePickerHelper.getInstance().showErrorMessage(getContext(), i, getString(R.string.one_hours_err_msg));
                     return false;
-                } else*/ if (i > 0 && diff < 24) {
+                } else*/
+                if (i > 0 && diff < 24) {
                     CustomDateTimePickerHelper.getInstance().showErrorMessage(getContext(), i, getString(R.string.twenty_four_hours_err_msg));
                     return false;
                 }
@@ -437,5 +446,44 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
     private void setProgressBarVisibility(boolean b) {
         loadFriendsPB.setVisibility(b ? View.VISIBLE : View.GONE);
+    }
+
+
+    private void checkAndPayForAddVideoToPremium() {
+        setUpAvailabilityPurchase(OTHER_CATEGORY_TO_PREMIUM);
+        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
+    }
+
+    private void setUpAvailabilityPurchase(int purchaseType) {
+        InAppLocalApis.getInstance().setCallback(this);
+        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
+    }
+
+    @Override
+    public void available(int purchaseType) {
+     /*   Intent intent = new Intent(getContext(), RecordVideoActivity.class);
+        startActivity(intent);*/
+    }
+
+    @Override
+    public void notAvailable(int purchaseType) {
+        Intent intent = new Intent(getContext(), InAppActivity.class);
+        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
+        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
+
+                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
+                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
+                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
+                    InAppLocalApis.getInstance().purchaseCategory(getContext(), transactionID, productID);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

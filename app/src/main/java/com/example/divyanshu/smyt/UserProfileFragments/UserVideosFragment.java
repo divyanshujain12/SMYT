@@ -208,7 +208,6 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     private void setUpAvailabilityPurchase(int purchaseType) {
         InAppLocalApis.getInstance().setCallback(this);
         InAppLocalApis.getInstance().setPurchaseType(purchaseType);
-
     }
 
     @Override
