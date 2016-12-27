@@ -218,15 +218,19 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     public void onClick() {
         switch (viewPagerPos) {
             case 0:
-                if (PermissionUtil.isMNC())
-                    runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
-                else goToRecordVideoActivity();
+                checkHasPermissions();
                 break;
             case 2:
                 showDialogFragment(PostChallengeFragment.getInstance());
                 break;
 
         }
+    }
+
+    private void checkHasPermissions() {
+        if (PermissionUtil.isMNC())
+            runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+        else goToRecordVideoActivity();
     }
 
     @Override
@@ -279,7 +283,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 intent = new Intent(this, UserSettingActivity.class);
                 break;
             case R.id.action_recording:
-                intent = new Intent(this, RecordVideoActivity.class);
+                checkHasPermissions();
                 break;
         }
         if (intent != null)

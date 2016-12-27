@@ -30,6 +30,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.PermissionUtil;
 import com.example.divyanshu.smyt.Utils.PictureHelper;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
@@ -92,6 +93,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     private HashMap<View, String> hashMap;
     private Bitmap bitmap;
     private ImageLoading imageLoading;
+    protected String[] mRequiredPermissions = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,11 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     }
 
     private void InitViews() {
+
+        mRequiredPermissions = new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
+        };
         contentSV.setVisibility(View.GONE);
         createPermission();
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.setting));
@@ -174,6 +181,10 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
                 break;
             case GALLERY_REQUEST:
                 PictureHelper.getInstance().takeFromGallery(this, getString(R.string.select_picture));
+                break;
+
+            default:
+                goToRecordVideoActivity();
                 break;
         }
     }
@@ -301,14 +312,21 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
         switch (item.getItemId()) {
             case R.id.action_recording:
-                intent = new Intent(this, RecordVideoActivity.class);
+                checkHasPermissions();
                 break;
         }
-        if (intent != null)
-            startActivity(intent);
         return true;
+    }
+
+    private void checkHasPermissions() {
+        if (PermissionUtil.isMNC())
+            runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+        else goToRecordVideoActivity();
+    }
+    private void goToRecordVideoActivity() {
+        Intent intent = new Intent(this, RecordVideoActivity.class);
+        startActivity(intent);
     }
 }

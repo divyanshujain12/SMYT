@@ -64,8 +64,8 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
         if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
             checkAndPayForAddVideoToPremium();
         } else {
-           // mDevicesInitialized = false;
-          //  mUIInitialized = false;
+            // mDevicesInitialized = false;
+            //  mUIInitialized = false;
             configureGocoder();
         }
     }
@@ -181,6 +181,7 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     @Override
     public void available(int purchaseType) {
         configureGocoder();
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
+import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
@@ -21,7 +23,9 @@ import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserOngoingChallengeFragment;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.PermissionUtil;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
@@ -32,7 +36,7 @@ import butterknife.InjectView;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class HomeActivity extends BaseActivity implements ViewPager.OnPageChangeListener, OnClickListener {
+public class HomeActivity extends BaseActivity implements ViewPager.OnPageChangeListener, OnClickListener,RuntimePermissionHeadlessFragment.PermissionCallback {
     @InjectView(R.id.homeTabLayout)
     CustomTabLayout homeTabLayout;
     @InjectView(R.id.homeViewPager)
@@ -44,6 +48,11 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
     FloatingActionButton fab;
     private CategoryModel categoryModel;
 
+    private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
+    private static final int CAMERA_REQUEST = 101;
+    protected String[] mRequiredPermissions = {};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +62,12 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void initViews() {
+
+        mRequiredPermissions = new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
+        };
+        runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
         fab.setVisibility(View.GONE);
         categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
         Utils.configureToolbarWithBackButton(this, toolbarView, categoryModel.getcategory_name() + "(" + categoryModel.getUsercount() + ")");
@@ -99,7 +114,7 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
                 intent = new Intent(this, UserProfileActivity.class);
                 break;
             case R.id.action_recording:
-                intent = new Intent(this, RecordVideoActivity.class);
+                checkHasPermissions();
                 break;
         }
         if (intent != null)
@@ -141,5 +156,25 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onClick(View view) {
         showDialogFragment(PostChallengeFragment.getInstance());
+    }
+
+    @Override
+    public void onPermissionGranted(int permissionType) {
+        goToRecordVideoActivity();
+    }
+
+    @Override
+    public void onPermissionDenied(int permissionType) {
+
+    }
+
+    private void checkHasPermissions() {
+        if (PermissionUtil.isMNC())
+            runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+        else goToRecordVideoActivity();
+    }
+    private void goToRecordVideoActivity() {
+        Intent intent = new Intent(this, RecordVideoActivity.class);
+        startActivity(intent);
     }
 }
