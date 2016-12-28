@@ -325,8 +325,15 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
             runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
         else goToRecordVideoActivity();
     }
+
     private void goToRecordVideoActivity() {
         Intent intent = new Intent(this, RecordVideoActivity.class);
+        startActivity(intent);
+    }
+
+    public void openWebsite(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(getString(R.string.developed_website)));
         startActivity(intent);
     }
 }

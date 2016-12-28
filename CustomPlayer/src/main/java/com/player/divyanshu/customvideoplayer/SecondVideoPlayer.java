@@ -557,8 +557,8 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
         surfaceViewFrame.setKeepScreenOn(true);
         FrameLayout.LayoutParams layoutParams =
                 new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
                         Gravity.CENTER);
         enableDisableTextureView(false);
         playerView.addView(surfaceViewFrame, layoutParams);
