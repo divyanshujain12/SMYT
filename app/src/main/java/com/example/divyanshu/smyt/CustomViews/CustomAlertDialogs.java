@@ -47,7 +47,7 @@ public class CustomAlertDialogs {
     }
 
 
-    public static void showAlertDialogWithCallBack(Context context, String title, String message, final SnackBarCallback snackBarCallback) {
+    public static void showAlertDialogWithCallBack(final Context context, String title, String message, final SnackBarCallback snackBarCallback) {
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -61,7 +61,9 @@ public class CustomAlertDialogs {
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                ((Activity)context).onBackPressed();
                 dialog.dismiss();
+
             }
         });
 

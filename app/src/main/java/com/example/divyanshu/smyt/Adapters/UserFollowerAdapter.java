@@ -58,20 +58,20 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         UserModel userModel = userList.get(position);
 
         holder.userNameTV.setText(userModel.getUsername());
         imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
         holder.ageAndGenderTV.setText(userModel.getDate_of_birth() + " " + userModel.getGender());
         holder.winsCountTV.setText("Wins: " + userModel.getTotal_wins());
-        holder.followersCountTV.setText("Followers: " + userModel.getFollowers());
+        holder.followersCountTV.setText("Followings: " + userModel.getFollowing());
         holder.aboutTV.setText(userModel.getTimeline_msg());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerViewClick.onClickItem(position, v);
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
     }

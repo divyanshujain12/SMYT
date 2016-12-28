@@ -65,7 +65,7 @@ public class SearchUserRvAdapter extends RecyclerView.Adapter<SearchUserRvAdapte
         imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
         holder.ageAndGenderTV.setText(userModel.getDate_of_birth() + " " + userModel.getGender());
         holder.winsCountTV.setText("Wins: " + userModel.getTotal_wins());
-        holder.followersCountTV.setText("Followers: " + userModel.getFollowers());
+        holder.followersCountTV.setText("Followings: " + userModel.getFollowing());
         holder.aboutTV.setText(userModel.getTimeline_msg());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

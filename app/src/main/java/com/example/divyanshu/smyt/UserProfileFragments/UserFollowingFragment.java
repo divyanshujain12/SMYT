@@ -39,6 +39,7 @@ public class UserFollowingFragment extends BaseFragment {
     private UserFollowerAdapter userFollowerAdapter;
     private String customerID = "";
     private ArrayList<UserModel> userModels;
+    private boolean isApiHit = false;
 
     public static UserFollowingFragment getInstance(String customerID) {
         UserFollowingFragment userFollowersFragment = new UserFollowingFragment();
@@ -80,13 +81,17 @@ public class UserFollowingFragment extends BaseFragment {
         userFollowerAdapter = new UserFollowerAdapter(getActivity(), this, userModels);
         followersRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         followersRV.setAdapter(userFollowerAdapter);
+        //hitFollowingAPI();
+    }
+
+    private void hitFollowingAPI() {
         CallWebService.getInstance(getContext(), false, ApiCodes.GET_FOLLOWING).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_FOLLOWING, createJsonForGetFollowing(), this);
     }
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        if(getUserVisibleHint()) {
+        if (getUserVisibleHint()) {
             userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
             userFollowerAdapter.addItems(userModels);
         }
@@ -117,4 +122,14 @@ public class UserFollowingFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !isApiHit) {
+            hitFollowingAPI();
+            isApiHit = true;
+        }
+    }
+
 }
