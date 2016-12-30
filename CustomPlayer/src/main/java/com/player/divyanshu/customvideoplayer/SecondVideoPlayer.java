@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.SurfaceTexture;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
+
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -26,11 +25,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.Vitamio;
+
 /**
  * Created by divyanshu on 10/16/2016.
  */
 
-public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, OnCompletionListener, MediaPlayer.OnBufferingUpdateListener,
+public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener,
         View.OnClickListener, MediaPlayer.OnSeekCompleteListener, Animation.AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener {
     private TextView textViewPlayed;
     private TextView textViewLength;
@@ -85,6 +87,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
     }
 
     public void setUp() {
+
         LayoutInflater.from(getContext()).inflate(R.layout.standard_video_player, this);
 
         playerView = (FrameLayout) findViewById(R.id.playerView);
@@ -128,10 +131,11 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
         }
         if (secondMediaPlayer == null || MediaPlayerHelper.getInstance().secondPlayermState == State.Completed) {
             try {
+                Vitamio.isInitialized(getContext());
                 //resetPreviousPlayer();
                 MediaPlayerHelper.getInstance().setPreviousSecondVideoPlayer(this);
                 MediaPlayerHelper.getInstance().setCurrentSecondPlayer(this);
-                secondMediaPlayer = new MediaPlayer();
+                secondMediaPlayer = new MediaPlayer(getContext());
                 MediaPlayerHelper.getInstance().setSecondMediaPlayer(secondMediaPlayer);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnPreparedListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnBufferingUpdateListener(this);
@@ -190,7 +194,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (MediaPlayerHelper.getInstance().secondMediaPlayer.isPlaying()) {
-            int totalDuration = MediaPlayerHelper.getInstance().secondMediaPlayer.getDuration();
+            int totalDuration = (int)MediaPlayerHelper.getInstance().secondMediaPlayer.getDuration();
             int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
             MediaPlayerHelper.getInstance().secondMediaPlayer.seekTo(currentPosition);
             updateProgressBar();
@@ -207,9 +211,9 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        switch (what){
+        switch (what) {
             case -38:
-               // playVideo();
+                // playVideo();
                 break;
             case 263:
                 playVideo();
@@ -221,10 +225,10 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
     @Override
     public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
         switch (what) {
-            case MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START: {
+           /* case MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START: {
                 isBuffering(false);
                 return true;
-            }
+            }*/
             case MediaPlayer.MEDIA_INFO_BUFFERING_START: {
                 isBuffering(true);
                 return true;
@@ -255,7 +259,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     public void onCompletion(MediaPlayer mp) {
 
-       // resetPlayer(mp);
+        // resetPlayer(mp);
     }
 
     /**
