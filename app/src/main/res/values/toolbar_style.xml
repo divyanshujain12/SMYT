@@ -8,4 +8,7 @@
         <item name="android:homeAsUpIndicator">@drawable/icon_back</item>
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
+    <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">@dimen/fourteen_sp</item>
+    </style>
 </resources>

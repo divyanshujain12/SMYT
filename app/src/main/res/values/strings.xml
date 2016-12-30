@@ -157,5 +157,6 @@
     <string name="voting_open">Voting Open</string>
     <string name="developed_by_text">Developed By: freshtechapps</string>
     <string name="developed_website">http://www.freshtechapps.com</string>
+    <string name="click_for_desc">Click For Description</string>
 
 </resources>
