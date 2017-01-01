@@ -1,5 +1,6 @@
 package com.player.divyanshu.customvideoplayer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 
 /**
  * Created by divyanshu.jain on 10/21/2016.
@@ -19,6 +21,7 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     private ImageLoading imageLoading;
     private PlayVideoInterface playVideoInterface;
     private int playedVideoPos = 0;
+
     public SingleVideoPlayer(Context context) {
         super(context);
         setUp();
@@ -47,7 +50,8 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     public void setThumbnail(String firstThumbUrl) {
         imageLoading.LoadImage(firstThumbUrl, standardVideoPlayer.getVideoThumbnail(), null);
     }
-    public ImageView getThumbImageView(){
+
+    public ImageView getThumbImageView() {
         return standardVideoPlayer.getVideoThumbnail();
     }
 
@@ -81,7 +85,7 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
         standardVideoPlayer.onPlayButtonClick();
         showHideBlackLayer(false);
         MediaPlayerHelper.getInstance().setStopPlayingInterface(this);
-        if(playVideoInterface!=null)
+        if (playVideoInterface != null)
             playVideoInterface.onVideoPlay(playedVideoPos);
     }
 
@@ -92,6 +96,7 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     public void playVideo() {
         standardVideoPlayer.playVideo();
     }
+
     public PlayVideoInterface getPlayVideoInterface() {
         return playVideoInterface;
     }
@@ -99,6 +104,7 @@ public class SingleVideoPlayer extends FrameLayout implements StopPlayingInterfa
     public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {
         this.playVideoInterface = playVideoInterface;
     }
+
     public int getPlayedVideoPos() {
         return playedVideoPos;
     }

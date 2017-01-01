@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.SurfaceTexture;
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -32,11 +33,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.Vitamio;
 
 public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener,
-        OnClickListener, MediaPlayer.OnSeekCompleteListener, AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener,MediaPlayer.OnCompletionListener {
+        OnClickListener, MediaPlayer.OnSeekCompleteListener, AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnCompletionListener {
     private TextView textViewPlayed;
     private TextView textViewLength;
     private SeekBar seekBarProgress;
@@ -122,6 +121,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void playVideo() {
+      //  videoUri = Uri.parse("rtmp://198.57.172.197:1935/vod/myStream_2_1482595610597.mp4");
         if (videoUri == null && !MediaPlayerHelper.getInstance().isStandardPlayerFullScreen()) {
             showToast("No Url");
             return;
@@ -130,11 +130,11 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
             addTextureView();
         if (standardMediaPlayer == null || MediaPlayerHelper.getInstance().mState == State.Completed) {
             try {
-                Vitamio.isInitialized(getContext());
                 MediaPlayerHelper.getInstance().releaseAllVideos();
                 MediaPlayerHelper.getInstance().setPreviousStandardVideoPlayer(this);
                 MediaPlayerHelper.getInstance().setCurrentStandardPlayer(this);
-                standardMediaPlayer = new MediaPlayer(getContext());
+
+                standardMediaPlayer = new MediaPlayer();
                 MediaPlayerHelper.getInstance().setMediaPlayer(standardMediaPlayer);
                 MediaPlayerHelper.getInstance().mediaPlayer.setOnPreparedListener(this);
                 MediaPlayerHelper.getInstance().mediaPlayer.setOnBufferingUpdateListener(this);
@@ -192,7 +192,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (MediaPlayerHelper.getInstance().mediaPlayer.isPlaying()) {
-            int totalDuration = (int)MediaPlayerHelper.getInstance().mediaPlayer.getDuration();
+            int totalDuration = (int) MediaPlayerHelper.getInstance().mediaPlayer.getDuration();
             int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
             MediaPlayerHelper.getInstance().mediaPlayer.seekTo(currentPosition);
             updateProgressBar();
@@ -209,9 +209,9 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        switch (what){
+        switch (what) {
             case -38:
-               // playVideo();
+                // playVideo();
                 break;
             case 263:
                 playVideo();

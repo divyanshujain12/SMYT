@@ -2,9 +2,10 @@ package com.player.divyanshu.customvideoplayer;
 
 import android.app.Activity;
 
+import android.media.MediaPlayer;
 import android.widget.FrameLayout;
 
-import io.vov.vitamio.MediaPlayer;
+
 
 /**
  * Created by divyanshu on 10/16/2016.

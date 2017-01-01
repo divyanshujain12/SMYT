@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.app.Activity;
 import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class MyApp extends Application implements BillingProcessor.IBillingHandl
 
     @Override
     public void onCreate() {
+
         super.onCreate();
         SingletonClass.initInstance();
         mInstance = this;

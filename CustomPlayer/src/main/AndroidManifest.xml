@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name="com.player.divyanshu.customvideoplayer.FullScreenStandardVideoPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -24,8 +25,8 @@
         <activity
             android:name="com.player.divyanshu.customvideoplayer.TwoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
             android:label="@string/title_activity_two_player"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
     </application>
