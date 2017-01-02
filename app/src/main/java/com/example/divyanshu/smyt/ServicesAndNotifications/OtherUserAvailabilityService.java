@@ -90,9 +90,19 @@ public class OtherUserAvailabilityService extends Service implements CallWebServ
     @Override
     public boolean stopService(Intent name) {
         // TODO Auto-generated method stub
-        mUserAvailabilityInterface = null;
-        scheduler.shutdown();
+        stopScheduler();
         return super.stopService(name);
 
+    }
+
+    private void stopScheduler() {
+        mUserAvailabilityInterface = null;
+        scheduler.shutdown();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopScheduler();
     }
 }

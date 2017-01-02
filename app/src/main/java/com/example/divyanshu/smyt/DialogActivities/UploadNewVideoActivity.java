@@ -36,6 +36,7 @@ import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 
 import org.json.JSONException;
@@ -227,10 +228,10 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
         friendAC.setText(userModel.getUsername());
     }
 
-    @OnClick({R.id.postVideoBT,R.id.discardAndRecordTV})
+    @OnClick({R.id.postVideoBT, R.id.discardAndRecordTV})
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.postVideoBT:
                 postVideo();
                 break;
@@ -325,5 +326,11 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
     private void setProgressBarVisible(boolean b) {
         loadFriendsPB.setVisibility(b ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 }

@@ -54,6 +54,7 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     }
 
     private void InitViews() {
+        txtTimer.setTenMinutesCallback(this);
 
     }
 

@@ -92,6 +92,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         CountDownTimerClass countDownTimerClass = new CountDownTimerClass(remainingTime, 1000);
         countDownTimerClass.start();
         otherUserVideoPlayer.setHideControls(true);
+        txtTimer.setTenMinutesCallback(this);
         autoStartCB.setOnCheckedChangeListener(this);
     }
 
@@ -277,6 +278,8 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     @Override
     protected void onPause() {
         super.onPause();
+        if (!OngoingChallengeDescriptionActivity.isRoundPlayed)
+            videoStopped();
         mWZBroadcast.endBroadcast();
     }
 
@@ -288,6 +291,10 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
 
     @Override
     public void onVideoStop() {
+        videoStopped();
+    }
+
+    private void videoStopped() {
         CallWebService.getInstance(this, false, ApiCodes.START_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("0"), this);
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
         finish();

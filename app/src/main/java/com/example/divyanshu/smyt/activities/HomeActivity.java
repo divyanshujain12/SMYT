@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this, this);
         fab.setVisibility(View.GONE);
         categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
-        Utils.configureToolbarForHomeActivity(this, toolbarView, categoryModel.getcategory_name() + "(" + categoryModel.getUsercount() + ")");
+        Utils.configureToolbarForHomeActivity(this, toolbarView, categoryModel.getcategory_name() /*+ "(" + categoryModel.getUsercount() + ")"*/);
         fab.setOnClickListener(this);
         configViewPager();
         toolbarView.setOnClickListener(this);
@@ -176,7 +176,7 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
                 onFabClick();
                 break;
             case R.id.toolbarView:
-                CustomAlertDialogs.showAlertDialog(this,getString(R.string.description),getString(R.string.dummy_content),this);
+                CustomAlertDialogs.showAlertDialog(this,getString(R.string.description),categoryModel.getDescription(),this);
                 break;
         }
     }

@@ -45,6 +45,7 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
     // GoCoder SDK top level interface
     protected static WowzaGoCoder sGoCoderSDK = null;
     private WZStatus goCoderStatus;
+
     /**
      * Build an array of WZMediaConfigs from the frame sizes supported by the active camera
      *
@@ -105,6 +106,9 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
             mWZBroadcastConfig.setLogLevel(WZLog.LOG_LEVEL_DEBUG);
             mWZBroadcastConfig.set(WZMediaConfig.FRAME_SIZE_320x240);
             mWZBroadcastConfig.setVideoFramerate(30);
+            mWZBroadcastConfig.setVideoBitRate(500);
+            mWZBroadcastConfig.setVideoFrameSize(640, 480);
+
         }
 
     }

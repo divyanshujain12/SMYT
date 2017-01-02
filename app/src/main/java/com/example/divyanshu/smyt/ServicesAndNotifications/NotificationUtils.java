@@ -124,6 +124,7 @@ public class NotificationUtils {
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
@@ -218,6 +219,7 @@ public class NotificationUtils {
                 .bigText(messageBody)
                 .setBigContentTitle("New Challenge")
                 .setSummaryText("summary"))
+                .setAutoCancel(true)
                 .setContentTitle("New Challenge")
                 .setContentText("Summary")
                 .setSmallIcon(R.mipmap.ic_launcher).setContentIntent(pendingIntent);

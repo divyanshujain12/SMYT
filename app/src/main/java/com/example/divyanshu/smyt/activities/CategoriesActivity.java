@@ -147,6 +147,7 @@ public class CategoriesActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         startServices();
+        MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, "");
         if (categoriesModels == null || categoriesModels.isEmpty())
             CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, CommonFunctions.customerIdJsonObject(this), this);
     }

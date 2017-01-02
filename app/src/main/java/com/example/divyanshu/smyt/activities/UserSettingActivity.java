@@ -131,7 +131,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
 
     private void createPermission() {
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        externalStoragePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        externalStoragePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
     @OnClick({R.id.aboutUsTV, R.id.contactUsTV, R.id.changeUserImageIV, R.id.updateTV, R.id.manageOrdersTV})

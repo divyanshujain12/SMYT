@@ -28,6 +28,8 @@ public class TimerView extends TextView {
         startTimer(DEFAULT_REFRESH_INTERVAL);
     }
 
+    public TenMinutesCallback tenMinutesCallback;
+
     public synchronized void startTimer(long refreshInterval) {
         if (mTimerThread != null) return;
 
@@ -45,7 +47,8 @@ public class TimerView extends TextView {
                         long hours = elapsedTime / 3600L,
                                 minutes = (elapsedTime / 60L) % 60L,
                                 seconds = elapsedTime % 60L;
-
+                        if (minutes >= 10)
+                            tenMinutesCallback.onTenMinuteRecords();
                         setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
                     }
                 });
@@ -66,6 +69,15 @@ public class TimerView extends TextView {
     }
 
     public synchronized boolean isRunning() {
+
         return (mTimerThread != null);
+    }
+
+    public void setTenMinutesCallback(TenMinutesCallback tenMinutesCallback) {
+        this.tenMinutesCallback = tenMinutesCallback;
+    }
+
+    public interface TenMinutesCallback {
+        void onTenMinuteRecords();
     }
 }

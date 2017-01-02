@@ -15,6 +15,8 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
+import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
+import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView.TenMinutesCallback;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
@@ -39,7 +41,7 @@ import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_STREAM_URL;
 import static com.example.divyanshu.smyt.Constants.Constants.WOWZA_USERNAME;
 
 abstract public class CameraActivityBase extends GoCoderSDKActivityBase
-        implements WZCameraView.PreviewStatusListener {
+        implements WZCameraView.PreviewStatusListener, TenMinutesCallback {
 
     private final static String TAG = CameraActivityBase.class.getSimpleName();
 
@@ -59,6 +61,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     private String userID = "";
     private WZStatus goCoderStatus;
     private GoCoderCallBack goCoderCallBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +96,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             }
 
             // Briefly display the video frame size from config
-           // Toast.makeText(this, getBroadcastConfig().getLabel(true, true, false, true), Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, getBroadcastConfig().getLabel(true, true, false, true), Toast.LENGTH_LONG).show();
         }
 
         syncUIControlState();
@@ -114,7 +117,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
     @Override
     public void onWZStatus(final WZStatus goCoderStatus) {
         this.goCoderStatus = goCoderStatus;
-       // handler.sendEmptyMessage(0);
+        // handler.sendEmptyMessage(0);
         //Toast.makeText(this,goCoderStatus.toString(),Toast.LENGTH_SHORT).show();
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -275,12 +278,20 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
         return disableControls;
     }
 
+    @Override
+    public void onTenMinuteRecords() {
+        endBroadcast();
+    }
+
+
     public GoCoderCallBack getGoCoderCallBack() {
         return goCoderCallBack;
     }
+
     public void setGoCoderCallBack(GoCoderCallBack goCoderCallBack) {
         this.goCoderCallBack = goCoderCallBack;
     }
+
     public interface GoCoderCallBack {
         void onVideoStart();
 

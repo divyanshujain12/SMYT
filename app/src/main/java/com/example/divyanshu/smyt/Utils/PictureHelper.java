@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -79,10 +81,12 @@ public class PictureHelper {
             } else
                 result = data.getData();
 
-           // String filePath = getRealPathFromURI(activity, result);
-            String filePath=   getPath(activity,result);
+            // String filePath = getRealPathFromURI(activity, result);
+            getOrientation(activity,result);
+            String filePath = getPath(activity, result);
             if (filePath != null && filePath.length() > 0) {
                 bitmap = getBitmap(activity, result);
+                bitmap = rotatePicInPortraitMode(filePath, bitmap);
                 Log.d(TAG, String.valueOf(bitmapSizeInKB(bitmap)));
                 HashMap<String, Bitmap> hashMap = new HashMap<>();
                 hashMap.put(filePath, bitmap);
@@ -116,8 +120,17 @@ public class PictureHelper {
         }
     }
 
+    private static int getOrientation(Context context, Uri imageUri) {
+        String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
+        Cursor cur = context.getContentResolver().query(imageUri, orientationColumn, null, null, null);
+        int orientation = -1;
+        if (cur != null && cur.moveToFirst()) {
+            orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
+        }
+        return orientation;
+    }
 
-    public static String getPath(final Context context, final Uri uri) {
+    private static String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
@@ -160,7 +173,7 @@ public class PictureHelper {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -183,6 +196,7 @@ public class PictureHelper {
 
         return null;
     }
+
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
 
@@ -233,6 +247,7 @@ public class PictureHelper {
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
+
     private String createCameraImageFileName() {
         //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -240,11 +255,11 @@ public class PictureHelper {
     }
 
 
-    /*private Bitmap rotatePicInPortraitMode(String photoPath, Bitmap bitmap) throws IOException {
+    private Bitmap rotatePicInPortraitMode(String photoPath, Bitmap bitmap) throws IOException {
         ExifInterface
                 ei = new ExifInterface(photoPath);
         int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_UNDEFINED);
+                1);
 
         switch (orientation) {
             case ExifInterface.ORIENTATION_ROTATE_90:
@@ -261,14 +276,14 @@ public class PictureHelper {
                 break;
         }
         return bitmap;
-    }*/
+    }
 
-  /*  private static Bitmap rotateImage(Bitmap source, float angle) {
+    private static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix,
                 true);
-    }*/
+    }
 
     private int bitmapSizeInKB(Bitmap bitmap) {
         return bitmap.getByteCount() / 1000;
@@ -277,7 +292,7 @@ public class PictureHelper {
     private Bitmap getBitmap(Context context, Uri uri) {
         InputStream in = null;
         try {
-            final int IMAGE_MAX_SIZE = 80000;
+            final int IMAGE_MAX_SIZE = 400000;
             in = context.getContentResolver().openInputStream(uri);
 
             // Decode image size

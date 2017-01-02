@@ -31,8 +31,10 @@ import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -205,7 +207,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         switch (apiType) {
             case ApiCodes.GET_USER_INFO:
                 userModel = UniversalParser.getInstance().parseJsonObject(response.getJSONArray(Constants.DATA).getJSONObject(0), UserModel.class);
-                fab.setVisibility(View.VISIBLE);
+                if (!MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(""))
+                    fab.setVisibility(View.VISIBLE);
                 updateUi();
                 break;
         }
@@ -280,6 +283,11 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         bundle.putParcelable(Constants.DATA, userModel);
         bundle.putBoolean(Constants.FROM_FOLLOWER, true);
         return bundle;
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 }
 

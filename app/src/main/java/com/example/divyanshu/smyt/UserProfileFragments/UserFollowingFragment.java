@@ -91,8 +91,8 @@ public class UserFollowingFragment extends BaseFragment {
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
+        userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
         if (getUserVisibleHint()) {
-            userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
             userFollowerAdapter.addItems(userModels);
         }
 
@@ -126,7 +126,7 @@ public class UserFollowingFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !isApiHit) {
+        if (userModels != null && userModels.size() <= 0 || isVisibleToUser && !isApiHit) {
             hitFollowingAPI();
             isApiHit = true;
         }

@@ -5,16 +5,19 @@ package com.example.divyanshu.smyt.Adapters;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -54,7 +57,7 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        UserModel userModel = userList.get(position);
+        final UserModel userModel = userList.get(position);
 
         holder.userNameTV.setText(userModel.getFirst_name());
         imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
@@ -62,7 +65,9 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    recyclerViewClick.onClickItem(position, v);
+                Intent intent = new Intent(context, OtherUserProfileActivity.class);
+                intent.putExtra(Constants.CUSTOMER_ID,userModel.getCustomer_id());
+                context.startActivity(intent);
             }
         });
     }
