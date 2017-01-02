@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -399,7 +400,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     protected void configurePlayerAfterTextureAvailable(SurfaceTexture surface) {
         if (MediaPlayerHelper.getInstance().secondMediaPlayer != null) {
-            MediaPlayerHelper.getInstance().secondMediaPlayer.setSurface(new Surface(surface));
+            MediaPlayerHelper.getInstance().secondMediaPlayer.setDisplay((SurfaceHolder)new Surface(surface));
             if (MediaPlayerHelper.getInstance().secondPlayermState == State.Playing || MediaPlayerHelper.getInstance().secondPlayermState == State.Paused)
                 setUiToPlayer();
 

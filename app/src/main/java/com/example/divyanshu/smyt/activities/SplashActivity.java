@@ -1,19 +1,23 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+
+import io.vov.vitamio.LibsChecker;
 
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LibsChecker.checkVitamioLibs(this);
         setContentView(R.layout.activity_splash);
 
         handler.postDelayed(new Runnable() {

@@ -10,9 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/CustomPlayer" />
+            <option value="$PROJECT_DIR$/VitamioPlayer-with-librtmp" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/inapplibrary" />
-            <option value="$PROJECT_DIR$/vitamio" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
