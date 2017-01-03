@@ -285,7 +285,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
 
     private void updateAndSendCommentsCount() {
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, challengeVideoDescModel.getVideo_comment_count(), challengeVideoDescModel.getVideo_comment_count());
-        BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this, challengeVideoDescModel.getCustomers_videos_id(), challengeVideoDescModel.getVideo_comment_count());
+        BroadcastSenderClass.getInstance().sendChallengeCommentCountBroadcast(this, challengeVideoDescModel.getCustomers_videos_id(), challengeVideoDescModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
 

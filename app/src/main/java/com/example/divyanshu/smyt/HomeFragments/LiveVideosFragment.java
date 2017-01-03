@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.LiveRoundDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.GlobalClasses.DummyJsons;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -106,10 +107,10 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        if(getUserVisibleHint()) {
-            challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
-            liveVideosAdapter.addItem(challengeModels);
-        }
+
+        challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
+        liveVideosAdapter.addItem(challengeModels);
+
     }
 
     @Override

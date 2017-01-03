@@ -44,6 +44,15 @@ public class BroadcastSenderClass {
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
+
+    public void sendChallengeCommentCountBroadcast(Context context, String customer_video_id, int commentCount) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
+        intent.putExtra(Constants.COUNT, commentCount);
+        intent.putExtra(Constants.TYPE, COMMENT_COUNT);
+        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
     public void sendCommentCountBroadcastToLiveTab(Context context, String challengeID, int commentCount) {
         Intent intent = new Intent();
         intent.putExtra(Constants.CHALLENGE_ID, challengeID);
