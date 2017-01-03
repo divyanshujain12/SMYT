@@ -2,26 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/single_video_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingStart="@dimen/five_dp"
+    android:orientation="horizontal"
     android:paddingEnd="@dimen/five_dp"
-    android:orientation="horizontal">
+    android:paddingStart="@dimen/five_dp"
+    tools:showIn="@layout/single_video_item">
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/commentsTV"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:alpha=".6"
-        android:maxLines="2"
-        android:paddingBottom="@dimen/eight_dp"
-        android:paddingTop="@dimen/eight_dp"
-        android:text="0 comment"
-        android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/commentsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:alpha=".6"
+            android:maxLines="2"
+            android:paddingBottom="@dimen/eight_dp"
+            android:paddingTop="@dimen/eight_dp"
+            android:text="0 comment"
+            android:textSize="@dimen/fourteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/viewsCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five_dp"
+            android:alpha=".6"
+            android:drawablePadding="@dimen/five_dp"
+            android:drawableStart="@drawable/eye"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:padding="@dimen/eight_dp"
+            android:text="0"
+            android:textSize="@dimen/fourteen_sp"
+            android:visibility="gone"
+            pixlui:typeface="Roboto-Regular.ttf" />
+    </LinearLayout>
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/uploadedTimeTV"

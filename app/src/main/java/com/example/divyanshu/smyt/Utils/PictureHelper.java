@@ -46,10 +46,10 @@ public class PictureHelper {
      */
     public void takeFromCamera(Activity activity, String title) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File cameraImageOutputFile = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                createCameraImageFileName());
-        cameraImageUri = Uri.fromFile(cameraImageOutputFile);
+        File photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                Uri.fromFile(photo));
+        cameraImageUri = Uri.fromFile(photo);
         // intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
         intent.putExtra("return-data", true);
         activity.startActivityForResult(intent, REQUEST_CAMERA);
@@ -75,9 +75,9 @@ public class PictureHelper {
             Uri result = null;
             Bitmap bitmap;
             if (requestCode == REQUEST_CAMERA) {
-                bitmap = (Bitmap) data.getExtras().get("data");
-                Log.d(TAG, String.valueOf(bitmapSizeInKB(bitmap)));
-                result = getImageUri(activity, bitmap);
+               // bitmap = (Bitmap) data.getExtras().get("data");
+                //Log.d(TAG, String.valueOf(bitmapSizeInKB(bitmap)));
+                result = cameraImageUri;
             } else
                 result = data.getData();
 
@@ -251,7 +251,7 @@ public class PictureHelper {
     private String createCameraImageFileName() {
         //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-        return "SmytProfile" + ".jpg";
+        return Utils.getCurrentTimeInMillisecond() + ".jpg";
     }
 
 

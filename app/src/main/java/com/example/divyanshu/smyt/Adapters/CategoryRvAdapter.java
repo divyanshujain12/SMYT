@@ -68,7 +68,7 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.My
         if (categoryModel.getJoin_status() == 0)
             holder.joinedCatFL.setVisibility(View.GONE);
         else
-            holder.joinedCatFL.setVisibility(View.VISIBLE);
+            holder.joinedCatFL.setVisibility(View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

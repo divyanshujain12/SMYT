@@ -60,7 +60,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private RoundedImageView firstUserIV;
         private SingleVideoPlayer firstVideoPlayer;
         private LinearLayout firstUserLL;
-
+        private TextView viewsCountTV;
         private SingleVideoHolder(View view) {
             super(view);
             videoTitleView = (VideoTitleView) view.findViewById(R.id.videoTitleView);
@@ -72,6 +72,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
+            viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
 
         }
@@ -84,6 +85,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private TwoVideoPlayers twoVideoPlayers;
         private RoundedImageView firstUserIV, secondUserIV;
         private LinearLayout firstUserLL, secondUserLL;
+        private TextView viewsCountTV;
 
         private BattleVideoHolder(View view) {
             super(view);
@@ -97,6 +99,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             twoVideoPlayers = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
+            viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
 
@@ -169,6 +172,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
+        holder.viewsCountTV.setText(allVideoModel.getViews());
         //holder.firstVideoPlayer.setVideoUrl("rtsp://198.57.172.197:1935/vod/myStream_2_1482594479982.mp4");
         holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
@@ -195,6 +199,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.challengeTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         setUpMoreIvButtonVisibility(holder, allVideoModel);
+        holder.viewsCountTV.setText(allVideoModel.getViews());
         holder.twoVideoPlayers.setVideoUrls(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1());
         holder.twoVideoPlayers.setThumbnail(allVideoModel.getThumbnail(), allVideoModel.getThumbnail1());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);

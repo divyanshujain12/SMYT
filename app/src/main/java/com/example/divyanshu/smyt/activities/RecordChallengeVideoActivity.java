@@ -27,6 +27,7 @@ import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.checkbox.CheckBox;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
@@ -281,6 +282,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         if (!OngoingChallengeDescriptionActivity.isRoundPlayed)
             videoStopped();
         mWZBroadcast.endBroadcast();
+        MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
     @Override

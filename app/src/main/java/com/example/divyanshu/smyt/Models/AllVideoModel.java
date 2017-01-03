@@ -37,6 +37,7 @@ public class AllVideoModel implements Parcelable {
     String vote1;
     String type;
     long edate;
+    String views;
     ArrayList<AllVideoModel> banners;
     public AllVideoModel() {
     }
@@ -67,6 +68,7 @@ public class AllVideoModel implements Parcelable {
         likes = in.readString();
         vote = in.readString();
         vote1 = in.readString();
+        views = in.readString();
         type = in.readString();
         edate = in.readLong();
         banners = in.readArrayList(ClassLoader.getSystemClassLoader());
@@ -308,6 +310,14 @@ public class AllVideoModel implements Parcelable {
         this.banners = banners;
     }
 
+    public String getViews() {
+        return views;
+    }
+
+    public void setViews(String views) {
+        this.views = views;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -341,6 +351,7 @@ public class AllVideoModel implements Parcelable {
         dest.writeString(vote);
         dest.writeString(vote1);
         dest.writeString(type);
+        dest.writeString(views);
         dest.writeLong(edate);
         dest.writeList(banners);
     }

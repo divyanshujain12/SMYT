@@ -38,12 +38,12 @@ public class UpcomingRoundNotificationService extends Service implements CallWeb
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate
+        /*scheduler.scheduleAtFixedRate
                 (new Runnable() {
                     public void run() {
                         CallWebService.getInstance(getBaseContext(), false, ApiCodes.UPCOMING_EVENTS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_UPCOMING_ROUND_INFO, createJsonForGetUpcomingEvents(), UpcomingRoundNotificationService.this);
                     }
-                }, 1, 5, TimeUnit.MINUTES);
+                }, 1, 5, TimeUnit.MINUTES);*/
 
         return START_STICKY;
     }
