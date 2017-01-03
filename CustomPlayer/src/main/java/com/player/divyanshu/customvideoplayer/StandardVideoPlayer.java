@@ -7,6 +7,7 @@ package com.player.divyanshu.customvideoplayer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.graphics.SurfaceTexture;
 import android.net.Uri;
 import android.os.Handler;
@@ -14,7 +15,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,15 +32,15 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import io.vov.vitamio.LibsChecker;
 import io.vov.vitamio.MediaPlayer;
 
 public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener,
-        OnClickListener, MediaPlayer.OnSeekCompleteListener, AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnCompletionListener {
+        OnClickListener, MediaPlayer.OnSeekCompleteListener, AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnCompletionListener, SurfaceHolder.Callback {
     private TextView textViewPlayed;
     private TextView textViewLength;
     private SeekBar seekBarProgress;
-    private ResizeTextureView surfaceViewFrame;
+    //private ResizeTextureView surfaceViewFrame;
+    private ResizeSurfaceView resizeSurfaceView;
     private ImageView imageViewPauseIndicator;
     private ImageView fullScreen;
     private ProgressBar progressBarWait;
@@ -55,12 +56,14 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     private FrameLayout playerView;
     private int surfaceViewID = 10001;
     private Uri videoUri;
+    private SurfaceHolder holder;
     private boolean hideControls = false;
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         //resetPlayer(mediaPlayer);
     }
+
 
     public enum State {
         Retrieving,
@@ -127,7 +130,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
             showToast("No Url");
             return;
         }
-        if (surfaceViewFrame == null)
+        if (resizeSurfaceView == null)
             addTextureView();
         if (standardMediaPlayer == null || MediaPlayerHelper.getInstance().mState == State.Completed) {
             try {
@@ -242,11 +245,13 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     protected void isBuffering(boolean buffering) {
         if (!buffering) {
             progressBarWait.setVisibility(View.GONE);
-            surfaceViewFrame.setClickable(true);
+            //surfaceViewFrame.setClickable(true);
+            resizeSurfaceView.setClickable(true);
             showHideMediaControls(true);
         } else {
             progressBarWait.setVisibility(View.VISIBLE);
-            surfaceViewFrame.setClickable(false);
+            //surfaceViewFrame.setClickable(false);
+            resizeSurfaceView.setClickable(false);
             showHideMediaControls(false);
         }
     }
@@ -366,7 +371,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        configurePlayerAfterTextureAvailable(surface);
+        //configurePlayerAfterTextureAvailable(surface);
     }
 
     @Override
@@ -391,6 +396,21 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         if (MediaPlayerHelper.getInstance().mediaPlayer != null) {
             //MediaPlayerHelper.getInstance().mediaPlayer.setSurface(new Surface(surface));
             //MediaPlayerHelper.getInstance().mediaPlayer.setDisplay((SurfaceHolder)new Surface(surface));
+            if (MediaPlayerHelper.getInstance().mState == State.Playing || MediaPlayerHelper.getInstance().mState == State.Paused)
+                setUiToPlayer();
+
+            if (MediaPlayerHelper.getInstance().mState == State.Paused)
+                showHideMediaControls(true);
+            updatePlayButtonUi();
+        }
+    }
+
+    protected void configurePlayerAfterSurfaceAvailable(SurfaceHolder surface) {
+
+
+        if (MediaPlayerHelper.getInstance().mediaPlayer != null) {
+            //MediaPlayerHelper.getInstance().mediaPlayer.setSurface(new Surface(surface));
+            MediaPlayerHelper.getInstance().mediaPlayer.setDisplay(surface);
             if (MediaPlayerHelper.getInstance().mState == State.Playing || MediaPlayerHelper.getInstance().mState == State.Paused)
                 setUiToPlayer();
 
@@ -434,7 +454,8 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     protected void pauseVideoPlaying(MediaPlayer mp) {
         imageViewPauseIndicator.setVisibility(View.VISIBLE);
-        surfaceViewFrame.setClickable(true);
+        //surfaceViewFrame.setClickable(true);
+        resizeSurfaceView.setClickable(true);
         mp.pause();
         setmState(State.Paused);
         updatePlayButtonUi();
@@ -519,11 +540,15 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     private void enableDisableTextureView(boolean enable) {
         if (!enable) {
-            surfaceViewFrame.setVisibility(GONE);
-            surfaceViewFrame.setClickable(false);
+           /* surfaceViewFrame.setVisibility(GONE);
+            surfaceViewFrame.setClickable(false);*/
+            resizeSurfaceView.setVisibility(GONE);
+            resizeSurfaceView.setClickable(false);
         } else {
-            surfaceViewFrame.setVisibility(VISIBLE);
-            surfaceViewFrame.setClickable(true);
+            /*surfaceViewFrame.setVisibility(VISIBLE);
+            surfaceViewFrame.setClickable(true);*/
+            resizeSurfaceView.setVisibility(VISIBLE);
+            resizeSurfaceView.setClickable(true);
         }
     }
 
@@ -542,8 +567,23 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void addTextureView() {
+        resizeSurfaceView = new ResizeSurfaceView(getContext());
+        resizeSurfaceView.setId(surfaceViewID);
+        FrameLayout.LayoutParams layoutParams =
+                new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        Gravity.CENTER);
+        enableDisableTextureView(false);
+        playerView.addView(resizeSurfaceView, layoutParams);
+        resizeSurfaceView.setOnClickListener(this);
+        holder = resizeSurfaceView.getHolder();
+        holder.addCallback(this);
+        holder.setFormat(PixelFormat.RGBA_8888);
+        resizeSurfaceView.setKeepScreenOn(true);
 
-        surfaceViewFrame = new ResizeTextureView(getContext());
+
+      /*  surfaceViewFrame = new ResizeTextureView(getContext());
         surfaceViewFrame.setId(surfaceViewID);
         FrameLayout.LayoutParams layoutParams =
                 new FrameLayout.LayoutParams(
@@ -554,7 +594,23 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         playerView.addView(surfaceViewFrame, layoutParams);
         surfaceViewFrame.setOnClickListener(this);
         surfaceViewFrame.setSurfaceTextureListener(this);
-        surfaceViewFrame.setKeepScreenOn(true);
+        surfaceViewFrame.setKeepScreenOn(true);*/
+    }
+
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        configurePlayerAfterSurfaceAvailable(surfaceHolder);
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
     }
 
     public void releaseVideo() {
@@ -581,7 +637,8 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         linearLayoutMediaController.setVisibility(View.GONE);
         showHideThumbnail(true);
         enableDisableTextureView(false);
-        surfaceViewFrame = null;
+        //surfaceViewFrame = null;
+        resizeSurfaceView = null;
         standardMediaPlayer = null;
     }
 
