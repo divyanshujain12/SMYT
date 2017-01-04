@@ -20,6 +20,7 @@ public class VideoModel implements Parcelable {
     int video_comment_count;
     String likes;
     long edate;
+    String views;
     public VideoModel() {
     }
 
@@ -44,6 +45,7 @@ public class VideoModel implements Parcelable {
         share_status = in.readString();
         video_comment_count = in.readInt();
         edate = in.readLong();
+        views = in.readString();
     }
 
     public static final Creator<VideoModel> CREATOR = new Creator<VideoModel>() {
@@ -156,6 +158,14 @@ public class VideoModel implements Parcelable {
 
 
 
+    public String getViews() {
+        return views;
+    }
+
+    public void setViews(String views) {
+        this.views = views;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -175,6 +185,7 @@ public class VideoModel implements Parcelable {
         dest.writeString(share_status);
         dest.writeInt(video_comment_count);
         dest.writeLong(edate);
+        dest.writeString(views);
     }
 
     @Override

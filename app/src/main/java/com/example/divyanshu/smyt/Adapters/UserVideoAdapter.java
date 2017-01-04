@@ -53,6 +53,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         private VideoTitleView videoTitleView;
         public FrameLayout videoFL;
         private SingleVideoPlayer firstVideoPlayer;
+        private TextView viewsCountTV;
 
         public SingleVideoHolder(View view) {
             super(view);
@@ -64,6 +65,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
             videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
+            viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
+
         }
 
     }
@@ -97,6 +100,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         holder.firstVideoPlayer.setVideoUrl(videoModel.getVideo_url());
         holder.firstVideoPlayer.setThumbnail(videoModel.getThumbnail());
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
+        holder.viewsCountTV.setText(videoModel.getViews());
         holder.commentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
