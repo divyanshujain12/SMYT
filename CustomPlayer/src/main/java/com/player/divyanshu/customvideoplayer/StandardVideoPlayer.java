@@ -33,6 +33,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.widget.CenterLayout;
+import io.vov.vitamio.widget.VideoView;
 
 public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener,
         OnClickListener, MediaPlayer.OnSeekCompleteListener, AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnCompletionListener, SurfaceHolder.Callback {
@@ -40,7 +42,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     private TextView textViewLength;
     private SeekBar seekBarProgress;
     //private ResizeTextureView surfaceViewFrame;
-    private ResizeSurfaceView resizeSurfaceView;
+    private VideoView resizeSurfaceView;
     private ImageView imageViewPauseIndicator;
     private ImageView fullScreen;
     private ProgressBar progressBarWait;
@@ -207,6 +209,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         setmState(State.Prepared);
         isBuffering(false);
         startPlayingVideo(mp);
+        //resizeSurfaceView.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH,0);
         MediaPlayerHelper.getInstance().setVideoPlayed(this);
     }
 
@@ -567,15 +570,17 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void addTextureView() {
-        resizeSurfaceView = new ResizeSurfaceView(getContext());
+        resizeSurfaceView = new VideoView(getContext());
         resizeSurfaceView.setId(surfaceViewID);
         FrameLayout.LayoutParams layoutParams =
                 new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
                         Gravity.CENTER);
         enableDisableTextureView(false);
-        playerView.addView(resizeSurfaceView, layoutParams);
+        CenterLayout centerLayout = new CenterLayout(getContext());
+        centerLayout.addView(resizeSurfaceView,layoutParams);
+        playerView.addView(centerLayout, layoutParams);
         resizeSurfaceView.setOnClickListener(this);
         holder = resizeSurfaceView.getHolder();
         holder.addCallback(this);
