@@ -7,6 +7,7 @@ package com.example.divyanshu.smyt.Models;
 public class UpcomingRoundInfoModel {
     private String customers_videos_id;
     private String challenge_id;
+    private String edate;
 
     public String getCustomers_videos_id() {
         return customers_videos_id;
@@ -22,5 +23,13 @@ public class UpcomingRoundInfoModel {
 
     public void setChallenge_id(String challenge_id) {
         this.challenge_id = challenge_id;
+    }
+
+    public String getEdate() {
+        return edate;
+    }
+
+    public void setEdate(String edate) {
+        this.edate = edate;
     }
 }

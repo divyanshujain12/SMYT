@@ -60,7 +60,6 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     private String customerID = "";
     private int selectedVideo = 0;
 
-
     public static UserVideosFragment getInstance(String customerID) {
         UserVideosFragment userVideosFragment = new UserVideosFragment();
         Bundle bundle = new Bundle();
@@ -102,7 +101,6 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     }
 
     private void initViews() {
-
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);

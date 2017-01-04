@@ -191,7 +191,7 @@ public class NotificationUtils {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Notification.Builder notificationBuilder = new Notification.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("New Challenge")
+                .setContentTitle("Upcoming Round")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

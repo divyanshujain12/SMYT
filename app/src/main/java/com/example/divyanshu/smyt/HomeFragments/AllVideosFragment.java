@@ -149,7 +149,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
 
-        noVideoAvailableLL.setVisibility(View.GONE);
+        //noVideoAvailableLL.setVisibility(View.GONE);
         if(getUserVisibleHint()) {
             switch (apiType) {
                 case ALL_VIDEO_DATA:

@@ -9,10 +9,18 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Models.UpcomingRoundInfoModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.ServicesAndNotifications.NotificationUtils;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.HomeActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -50,8 +58,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
-        sendNotification(remoteMessage.getNotification().getBody());
-        // Also if you intend on generating your own notifications as a result of a received FCM
+
+
+        if (remoteMessage.getData().size() > 0) {
+            sendNotification(remoteMessage.getData().toString());
+        }       // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
     }
     // [END receive_message]
@@ -62,23 +73,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("FCM Message")
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        try {
+            JSONObject jsonObject = new JSONObject(messageBody);
+            JSONObject pushData = jsonObject.getJSONObject(Constants.DATA).getJSONObject("push_data");
+            UpcomingRoundInfoModel upcomingRoundInfoModel = UniversalParser.getInstance().parseJsonObject(pushData, UpcomingRoundInfoModel.class);
+            NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round in" + Utils.getChallengeTimeDifference(Long.parseLong(upcomingRoundInfoModel.getEdate())) + "! Click here for more info!", upcomingRoundInfoModel.getChallenge_id());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
