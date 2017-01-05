@@ -8,11 +8,16 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.wowza.gocoder.sdk.api.devices.WZCameraView
-        android:id="@+id/cameraPreview"
+    <FrameLayout
+        android:id="@+id/surfaceViewFL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+        <com.wowza.gocoder.sdk.api.devices.WZCameraView
+            android:id="@+id/cameraPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <include layout="@layout/record_video_top_bar" />
 

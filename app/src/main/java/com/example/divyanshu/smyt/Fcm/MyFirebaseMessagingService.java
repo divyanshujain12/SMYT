@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UpcomingRoundInfoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -26,6 +27,8 @@ import org.json.JSONObject;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    private static final String NEW_CHALLENGE = "New Challenge";
+    private static final String UPCOMING_ROUND = "Upcoming Round";
 
     /**
      * Called when message is received.
@@ -75,11 +78,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(String messageBody) {
         try {
             JSONObject jsonObject = new JSONObject(messageBody);
-            JSONObject pushData = jsonObject.getJSONObject(Constants.DATA).getJSONObject("push_data");
-            UpcomingRoundInfoModel upcomingRoundInfoModel = UniversalParser.getInstance().parseJsonObject(pushData, UpcomingRoundInfoModel.class);
-            NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round in" + Utils.getChallengeTimeDifference(Long.parseLong(upcomingRoundInfoModel.getEdate())) + "! Click here for more info!", upcomingRoundInfoModel.getChallenge_id());
+            JSONObject data = jsonObject.getJSONObject(Constants.DATA);
+            String notificationType = data.getString(Constants.TITLE);
+            JSONObject pushData = data.getJSONObject(Constants.PUSH_DATA);
+
+            switch (notificationType) {
+                case NEW_CHALLENGE:
+                    generateNewChallengeNotification(pushData);
+                    break;
+                case UPCOMING_ROUND:
+                    generateUpcomingRoundNotification(pushData);
+                    break;
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void generateNewChallengeNotification(JSONObject pushData) {
+        CategoryModel categoryModel = UniversalParser.getInstance().parseJsonObject(pushData, CategoryModel.class);
+        NotificationUtils.getInstance(getBaseContext()).sendNewChallengeNotification(getBaseContext(), "New Challenges posted in " + categoryModel.getcategory_name(), categoryModel);
+    }
+
+    private void generateUpcomingRoundNotification(JSONObject pushData) {
+        UpcomingRoundInfoModel upcomingRoundInfoModel = UniversalParser.getInstance().parseJsonObject(pushData, UpcomingRoundInfoModel.class);
+        NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round in" + Utils.getChallengeTimeDifference(Long.parseLong(upcomingRoundInfoModel.getEdate())) + "! Click here for more info!", upcomingRoundInfoModel.getChallenge_id());
     }
 }

@@ -57,7 +57,7 @@ public class NewChallengeNotificationService extends Service implements CallWebS
     }
 
     private void startTask() {
-        mHandlerTask.run();
+       // mHandlerTask.run();
     }
 
     private void stopTask() {

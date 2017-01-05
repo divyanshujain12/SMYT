@@ -83,6 +83,7 @@ public interface Constants {
     String VOTE_COUNT = "vote_count";
     String USER_NUMBER = "user_number";
     String FROM_BANNER = "from_banner";
+    String PUSH_DATA = "push_data";
     int COMMENT_COUNT = 0;
     int VOTE_COUNT_INT = 1;
     int REQUEST_TIMEOUT_TIME = 30000;
@@ -90,17 +91,11 @@ public interface Constants {
 
     //WOWZA server ----------------------------------------------------------
     String WOWZA_APPLICATION_NAME = "smytex";
-    //String WOWZA_APPLICATION_NAME = "live";
-    //String WOWZA_STREAM_URL = "rtsp://192.254.214.197:1935" + "/" + WOWZA_APPLICATION_NAME + "/";
     String RTSP = "rtsp://";
-    //String IP_ADDRESS = "192.254.218.31";
     String IP_ADDRESS = "162.214.21.189";
     String PORT_NUMBER = "1935";
     String WOWZA_STREAM_URL = RTSP + IP_ADDRESS + ":" + PORT_NUMBER + "/" + WOWZA_APPLICATION_NAME + "/";
-    //String WOWZA_USERNAME = "root";
     String WOWZA_USERNAME = "smytex";
-    //String WOWZA_PASSWORD = "skhRz4ecMuOk";
-    //String WOWZA_PASSWORD = "lyqYmHePI4JbQSGrUovS";
     String WOWZA_PASSWORD = "chris!@#$%^";
     String WOWZA_MYSTREAM_PREFIX = "myStream_";
 

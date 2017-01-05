@@ -2,10 +2,12 @@ package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
@@ -14,6 +16,8 @@ import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.GetThumbnailFromUrlAsync;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
@@ -40,6 +44,9 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     TimerView txtTimer;
 
     protected GestureDetectorCompat mAutoFocusDetector = null;
+    public static String screenshotBaseImage;
+    @InjectView(R.id.surfaceViewFL)
+    FrameLayout surfaceViewFL;
 
 
     @Override
@@ -72,6 +79,7 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     }
 
     private void configureGocoder() {
+
         if (mAutoFocusDetector == null) {
             mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
         }
@@ -211,6 +219,14 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     @Override
     public void onVideoStart() {
 
+        /*Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new GetThumbnailFromUrlAsync().execute(streamVideoUrl);
+                //Do something after 100ms
+            }
+        }, 5000);*/
     }
 
     @Override

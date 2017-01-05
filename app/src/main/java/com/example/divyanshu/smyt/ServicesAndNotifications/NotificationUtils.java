@@ -189,20 +189,20 @@ public class NotificationUtils {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Notification.Builder notificationBuilder = new Notification.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Upcoming Round")
-                .setContentText(messageBody)
+        final Notification.Builder builder = new Notification.Builder(context);
+        builder.setStyle(new Notification.BigTextStyle(builder)
+                .bigText(messageBody)
+                .setBigContentTitle("Upcoming Round")
+                .setSummaryText(messageBody))
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-        notificationBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
-        notificationBuilder.setSound(defaultSoundUri);
+                .setContentTitle("New Challenge")
+                .setContentText(messageBody)
+                .setSmallIcon(R.mipmap.ic_launcher).setContentIntent(pendingIntent);
+        builder.setSound(defaultSoundUri);
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), notificationBuilder.build());
+        notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
     }
 
     public void sendNewChallengeNotification(Context context, String messageBody, CategoryModel categoryModel) {
@@ -229,7 +229,7 @@ public class NotificationUtils {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, builder.build());
+        notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
     }
 
     /**
