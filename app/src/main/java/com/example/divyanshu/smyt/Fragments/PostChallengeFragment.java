@@ -380,7 +380,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     private JSONObject createJsonForUserSearch(String queryText) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
-            jsonObject.put(Constants.CATEGORY_ID, categoryID);
+            jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
             jsonObject.put(Constants.SEARCH_TEXT, queryText);
 
         } catch (JSONException e) {

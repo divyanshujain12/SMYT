@@ -121,7 +121,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void playVideo() {
-      //  videoUri = Uri.parse("rtmp://198.57.172.197:1935/vod/myStream_2_1482595610597.mp4");
+      //  videoUri = Uri.parse("http://198.57.172.197:1935/vod/_definst_/myStream_2_1482595610597/playlist.m3u8 ");
         if (videoUri == null && !MediaPlayerHelper.getInstance().isStandardPlayerFullScreen()) {
             showToast("No Url");
             return;

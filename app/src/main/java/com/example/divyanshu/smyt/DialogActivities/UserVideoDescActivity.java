@@ -91,6 +91,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     VideoTitleView videoTitleView;
     @InjectView(R.id.firstUserLL)
     LinearLayout firstUserLL;
+    @InjectView(R.id.viewsCountTV)
+    TextView viewsCountTV;
 
 
     private Validation validation;
@@ -163,6 +165,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
         setLikeCountInUI();
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
+        viewsCountTV.setText(videoDetailModel.getViews());
         setupVideo();
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);

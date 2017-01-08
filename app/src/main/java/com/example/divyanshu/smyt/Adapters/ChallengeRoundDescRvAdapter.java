@@ -171,11 +171,13 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RecordChallengeVideoActivity.class);
-                intent.putExtra(Constants.ROUND_TIME, challengeModel.getRound_date());
-                intent.putExtra(Constants.CHALLENGE_ID, challengeModel.getChallenge_id());
-                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModel.getCustomers_videos_id());
-                context.startActivity(intent);
+                if (!challengeModel.getCustomer_id1().equals("")) {
+                    Intent intent = new Intent(context, RecordChallengeVideoActivity.class);
+                    intent.putExtra(Constants.ROUND_TIME, challengeModel.getRound_date());
+                    intent.putExtra(Constants.CHALLENGE_ID, challengeModel.getChallenge_id());
+                    intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModel.getCustomers_videos_id());
+                    context.startActivity(intent);
+                }
             }
         });
     }

@@ -25,7 +25,7 @@ public class MySharedPereference {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Key, Value);
-        editor.commit();
+        editor.apply();
     }
 
 
@@ -39,7 +39,7 @@ public class MySharedPereference {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(Key, Value);
-        editor.commit();
+        editor.apply();
     }
 
 
@@ -53,7 +53,7 @@ public class MySharedPereference {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
 }

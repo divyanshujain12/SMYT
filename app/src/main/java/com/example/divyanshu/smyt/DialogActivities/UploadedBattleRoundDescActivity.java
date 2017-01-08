@@ -108,6 +108,8 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     ChallengeTitleView challengeTitleView;
     @InjectView(R.id.userTwoVideoLikeIV)
     ImageView userTwoVideoLikeIV;
+    @InjectView(R.id.viewsCountTV)
+    TextView viewsCountTV;
 
     private Validation validation;
     private HashMap<View, String> validationMap;
@@ -213,6 +215,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     private void updateUI() {
         setUpUsersViews();
         setUpMoreOptionPopupWindow(challengeVideoDescModel.getTitle());
+        viewsCountTV.setText(challengeVideoDescModel.getViews());
         setVoteCount();
         setupVideo();
         setUpCommentAdapter();

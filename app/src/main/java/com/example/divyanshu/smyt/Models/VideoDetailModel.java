@@ -20,6 +20,7 @@ public class VideoDetailModel {
     int video_comment_count;
     String likes;
     int likestatus;
+    String views;
     ArrayList<CommentModel> commentArray;
     ArrayList<LikeModel> likesArray;
 
@@ -141,4 +142,12 @@ public class VideoDetailModel {
     public void setLikestatus(int likestatus) {
         this.likestatus = likestatus;
     }
+    public String getViews() {
+        return views;
+    }
+
+    public void setViews(String views) {
+        this.views = views;
+    }
+
 }

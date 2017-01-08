@@ -173,7 +173,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
         holder.viewsCountTV.setText(allVideoModel.getViews());
-        //holder.firstVideoPlayer.setVideoUrl("rtsp://198.57.172.197:1935/vod/myStream_2_1482594479982.mp4");
+        //holder.firstVideoPlayer.setVideoUrl("http://162.214.21.189:1935/smytex/_definst_/myStream_4_1483874636902/playlist.m3u8");
         holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
