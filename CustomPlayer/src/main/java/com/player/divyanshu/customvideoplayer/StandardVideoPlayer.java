@@ -580,7 +580,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
                         Gravity.CENTER);
         enableDisableTextureView(false);
         CenterLayout centerLayout = new CenterLayout(getContext());
-        centerLayout.addView(resizeSurfaceView,layoutParams);
+        centerLayout.addView(resizeSurfaceView, layoutParams);
         playerView.addView(centerLayout, layoutParams);
         playerView.setOnClickListener(this);
         holder = resizeSurfaceView.getHolder();
@@ -616,7 +616,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
+        MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
     public void releaseVideo() {
