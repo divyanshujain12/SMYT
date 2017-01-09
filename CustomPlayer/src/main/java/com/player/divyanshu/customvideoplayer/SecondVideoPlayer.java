@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.SurfaceTexture;
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -26,8 +27,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.Vitamio;
+
+
 
 /**
  * Created by divyanshu on 10/16/2016.
@@ -132,11 +133,11 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
         }
         if (secondMediaPlayer == null || MediaPlayerHelper.getInstance().secondPlayermState == State.Completed) {
             try {
-                Vitamio.isInitialized(getContext());
+              //  Vitamio.isInitialized(getContext());
                 //resetPreviousPlayer();
                 MediaPlayerHelper.getInstance().setPreviousSecondVideoPlayer(this);
                 MediaPlayerHelper.getInstance().setCurrentSecondPlayer(this);
-                secondMediaPlayer = new MediaPlayer(getContext());
+                secondMediaPlayer = new MediaPlayer();
                 MediaPlayerHelper.getInstance().setSecondMediaPlayer(secondMediaPlayer);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnPreparedListener(this);
                 MediaPlayerHelper.getInstance().secondMediaPlayer.setOnBufferingUpdateListener(this);

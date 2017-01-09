@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.SurfaceTexture;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -32,7 +33,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import io.vov.vitamio.MediaPlayer;
+
 import io.vov.vitamio.widget.CenterLayout;
 import io.vov.vitamio.widget.VideoView;
 
@@ -139,7 +140,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
                 MediaPlayerHelper.getInstance().releaseAllVideos();
                 MediaPlayerHelper.getInstance().setPreviousStandardVideoPlayer(this);
                 MediaPlayerHelper.getInstance().setCurrentStandardPlayer(this);
-                standardMediaPlayer = new MediaPlayer(getContext());
+                standardMediaPlayer = new MediaPlayer();
                 MediaPlayerHelper.getInstance().setMediaPlayer(standardMediaPlayer);
                 MediaPlayerHelper.getInstance().mediaPlayer.setOnPreparedListener(this);
                 MediaPlayerHelper.getInstance().mediaPlayer.setOnBufferingUpdateListener(this);
@@ -267,7 +268,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void onClick(View v) {
-        if (v.getId() == surfaceViewID) {
+        if (v.getId() == playerView.getId()) {
             if (linearLayoutMediaController.getVisibility() == View.GONE) {
                 showMediaControllerHandler();
                 hideMediaController();
@@ -545,13 +546,13 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         if (!enable) {
            /* surfaceViewFrame.setVisibility(GONE);
             surfaceViewFrame.setClickable(false);*/
-            resizeSurfaceView.setVisibility(GONE);
-            resizeSurfaceView.setClickable(false);
+            playerView.setVisibility(GONE);
+            playerView.setClickable(false);
         } else {
             /*surfaceViewFrame.setVisibility(VISIBLE);
             surfaceViewFrame.setClickable(true);*/
-            resizeSurfaceView.setVisibility(VISIBLE);
-            resizeSurfaceView.setClickable(true);
+            playerView.setVisibility(VISIBLE);
+            playerView.setClickable(true);
         }
     }
 
@@ -581,7 +582,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         CenterLayout centerLayout = new CenterLayout(getContext());
         centerLayout.addView(resizeSurfaceView,layoutParams);
         playerView.addView(centerLayout, layoutParams);
-        resizeSurfaceView.setOnClickListener(this);
+        playerView.setOnClickListener(this);
         holder = resizeSurfaceView.getHolder();
         holder.addCallback(this);
         holder.setFormat(PixelFormat.RGBA_8888);
