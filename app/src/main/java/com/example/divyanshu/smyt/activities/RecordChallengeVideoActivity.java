@@ -95,6 +95,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         otherUserVideoPlayer.setHideControls(true);
         txtTimer.setTenMinutesCallback(this);
         autoStartCB.setOnCheckedChangeListener(this);
+
     }
 
 

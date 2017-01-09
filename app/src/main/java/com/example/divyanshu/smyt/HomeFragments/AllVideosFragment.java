@@ -150,7 +150,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         super.onJsonObjectSuccess(response, apiType);
 
         //noVideoAvailableLL.setVisibility(View.GONE);
-        if(getUserVisibleHint()) {
+        if (getUserVisibleHint()) {
             switch (apiType) {
                 case ALL_VIDEO_DATA:
                     WebServiceCalled(false);
@@ -371,12 +371,14 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
 
     private void WebServiceCalled(boolean yes) {
         if (yes) {
-            progressBar.setVisibility(View.VISIBLE);
+
             loading = false;
         } else {
-            progressBar.setVisibility(View.GONE);
+
             loading = true;
         }
+        if (progressBar != null)
+            progressBar.setVisibility(yes ? View.VISIBLE : View.GONE);
 
     }
 
@@ -394,7 +396,7 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
 
     private void reInitValues() {
         allVideoModels.clear();
-        allVideoModels.add(0,new AllVideoModel());
+        allVideoModels.add(0, new AllVideoModel());
         moreDataAvailable = true;
         pageNo = 0;
     }

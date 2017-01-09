@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,11 +63,31 @@ public class CustomAlertDialogs {
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((Activity)context).onBackPressed();
+                ((Activity) context).onBackPressed();
                 dialog.dismiss();
 
             }
         });
+
+        alertDialog.show();
+    }
+
+    public static void showCategoryDescDialog(final Context context, String title, String message, final SnackBarCallback snackBarCallback) {
+        alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        TextView textView = new TextView(context);
+        textView.setText(Html.fromHtml(message));
+        textView.setPadding(20,10,10,10);
+        alertDialog.setView(textView);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                snackBarCallback.doAction();
+                dialog.dismiss();
+            }
+        });
+
 
         alertDialog.show();
     }
@@ -153,7 +174,6 @@ public class CustomAlertDialogs {
         if (alertDialog != null)
             alertDialog.dismiss();
     }
-
 
 
     private static void setupFullWidthDialog() {

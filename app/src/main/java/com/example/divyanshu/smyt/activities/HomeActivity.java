@@ -176,7 +176,7 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
                 onFabClick();
                 break;
             case R.id.toolbarView:
-                CustomAlertDialogs.showAlertDialog(this,getString(R.string.description),categoryModel.getDescription(),this);
+                CustomAlertDialogs.showCategoryDescDialog(this,getString(R.string.description),categoryModel.getDescription(),this);
                 break;
         }
     }
