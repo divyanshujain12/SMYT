@@ -56,10 +56,11 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     private int surfaceViewID = 10001;
     private Uri videoUri;
     private boolean hideControls = false;
+    TextView notPlayedTV;
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        //resetPlayer(mediaPlayer);
+        MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
     public enum State {
@@ -113,6 +114,7 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
         seekBarProgress.setOnSeekBarChangeListener(this);
         seekBarProgress.setProgress(0);
         progressBarWait = (ProgressBar) findViewById(R.id.progressBarWait);
+        notPlayedTV = (TextView) findViewById(R.id.notPlayedTV);
         setValuesForNewInstance();
         if (MediaPlayerHelper.getInstance().isStandardPlayerFullScreen()) {
             standardMediaPlayer = MediaPlayerHelper.getInstance().getMediaPlayer();
@@ -121,11 +123,17 @@ public class StandardVideoPlayer extends FrameLayout implements OnSeekBarChangeL
     }
 
     public void playVideo() {
-      //  videoUri = Uri.parse("http://198.57.172.197:1935/vod/_definst_/myStream_2_1482595610597/playlist.m3u8 ");
+        //  videoUri = Uri.parse("http://198.57.172.197:1935/vod/_definst_/myStream_2_1482595610597/playlist.m3u8 ");
         if (videoUri == null && !MediaPlayerHelper.getInstance().isStandardPlayerFullScreen()) {
-            showToast("No Url");
+            notPlayedTV.setVisibility(VISIBLE);
             return;
         }
+        if(videoUri!=null && videoUri.toString().equals("")){
+            notPlayedTV.setVisibility(VISIBLE);
+            return;
+        }
+        else
+            notPlayedTV.setVisibility(GONE);
         if (surfaceViewFrame == null)
             addTextureView();
         if (standardMediaPlayer == null || MediaPlayerHelper.getInstance().mState == State.Completed) {

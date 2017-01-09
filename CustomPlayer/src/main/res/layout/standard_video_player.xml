@@ -101,4 +101,16 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:src="@drawable/jc_click_play_selector" />
+    <TextView
+        android:id="@+id/notPlayedTV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="Not Played By User!"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
 </FrameLayout>

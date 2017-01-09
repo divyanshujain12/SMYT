@@ -144,7 +144,7 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
             showFab(position);
         else
             fab.setVisibility(View.GONE);
-
+        MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
     private void showFab(int position) {
@@ -171,12 +171,12 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.fab:
                 onFabClick();
                 break;
             case R.id.toolbarView:
-                CustomAlertDialogs.showCategoryDescDialog(this,getString(R.string.description),categoryModel.getDescription(),this);
+                CustomAlertDialogs.showCategoryDescDialog(this, getString(R.string.description), categoryModel.getDescription(), this);
                 break;
         }
     }
@@ -184,8 +184,7 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
     private void onFabClick() {
         if (viewPagerCurrentPos == 2)
             showDialogFragment(PostChallengeFragment.getInstance());
-        else if (viewPagerCurrentPos == 1)
-        {
+        else if (viewPagerCurrentPos == 1) {
 
         }
     }

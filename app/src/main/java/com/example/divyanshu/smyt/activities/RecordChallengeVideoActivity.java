@@ -103,6 +103,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     protected void onResume() {
         super.onResume();
         setGoCoderCallBack(this);
+        mWZCameraView.setKeepScreenOn(true);
     }
 
     public void onSwitchCamera(View v) {

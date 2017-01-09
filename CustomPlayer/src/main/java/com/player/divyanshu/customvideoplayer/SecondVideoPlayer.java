@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.SurfaceTexture;
-
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -27,13 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 /**
  * Created by divyanshu on 10/16/2016.
  */
 
 public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarChangeListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener,
         View.OnClickListener, MediaPlayer.OnSeekCompleteListener, Animation.AnimationListener, TextureView.SurfaceTextureListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener {
+
+    TextView notPlayedTV;
     private TextView textViewPlayed;
     private TextView textViewLength;
     private SeekBar seekBarProgress;
@@ -111,6 +111,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
         seekBarProgress = (SeekBar) findViewById(R.id.seekBarProgress);
         seekBarProgress.setOnSeekBarChangeListener(this);
         seekBarProgress.setProgress(0);
+        notPlayedTV = (TextView) findViewById(R.id.notPlayedTV);
 
         progressBarWait = (ProgressBar) findViewById(R.id.progressBarWait);
         setValuesForNewInstance();
@@ -122,10 +123,16 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
     }
 
     public void playVideo() {
-        if (videoUri == null && !MediaPlayerHelper.getInstance().isSecondPlayerFullScreen()) {
-            showToast("No Url");
+        if (videoUri == null  && !MediaPlayerHelper.getInstance().isSecondPlayerFullScreen()) {
+            notPlayedTV.setVisibility(VISIBLE);
             return;
         }
+        if(videoUri!=null && videoUri.toString().equals("")){
+            notPlayedTV.setVisibility(VISIBLE);
+            return;
+        }
+        else
+            notPlayedTV.setVisibility(GONE);
         if (surfaceViewFrame == null) {
             addTextureView();
         }
@@ -194,7 +201,7 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
 
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (MediaPlayerHelper.getInstance().secondMediaPlayer.isPlaying()) {
-            int totalDuration = (int)MediaPlayerHelper.getInstance().secondMediaPlayer.getDuration();
+            int totalDuration = (int) MediaPlayerHelper.getInstance().secondMediaPlayer.getDuration();
             int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
             MediaPlayerHelper.getInstance().secondMediaPlayer.seekTo(currentPosition);
             updateProgressBar();
@@ -559,8 +566,8 @@ public class SecondVideoPlayer extends FrameLayout implements SeekBar.OnSeekBarC
         surfaceViewFrame.setOnClickListener(this);
         surfaceViewFrame.setSurfaceTextureListener(this);
         surfaceViewFrame.setKeepScreenOn(true);
-        FrameLayout.LayoutParams layoutParams =
-                new FrameLayout.LayoutParams(
+        LayoutParams layoutParams =
+                new LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         Gravity.CENTER);

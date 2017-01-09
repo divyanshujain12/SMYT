@@ -60,7 +60,7 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     }
 
     public void setVideoUrls(String firstUrl, String secondUrl) {
-        if (firstUrl.equals(null) || secondUrl.equals(null))
+        if (firstUrl.equals(null) && secondUrl.equals(null))
             return;
         this.firstUrl = firstUrl;
         this.secondUrl = secondUrl;
@@ -103,7 +103,7 @@ public class TwoVideoPlayers extends FrameLayout implements StopPlayingInterface
     @Override
     public void onClick(View view) {
         if (view == playAllVideosIV) {
-            if (!firstUrl.isEmpty() && !secondUrl.isEmpty())
+            if (!firstUrl.isEmpty() || !secondUrl.isEmpty())
                 onPlayButtonClick();
             else
                 Toast.makeText(getContext(), R.string.no_video_url, Toast.LENGTH_SHORT).show();
