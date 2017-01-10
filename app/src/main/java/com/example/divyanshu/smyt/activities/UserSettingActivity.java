@@ -78,6 +78,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
     private static final int CAMERA_REQUEST = 101;
     private static final int GALLERY_REQUEST = 102;
+    private static final int VIDEO_RECORDING_REQUEST = 103;
     @InjectView(R.id.updateTV)
     TextView updateTV;
     @InjectView(R.id.changePasswordET)
@@ -182,7 +183,9 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
             case GALLERY_REQUEST:
                 PictureHelper.getInstance().takeFromGallery(this, getString(R.string.select_picture));
                 break;
-
+            case VIDEO_RECORDING_REQUEST:
+                goToRecordVideoActivity();
+                break;
             default:
                 goToRecordVideoActivity();
                 break;
@@ -322,7 +325,7 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
 
     private void checkHasPermissions() {
         if (PermissionUtil.isMNC())
-            runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+            runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, VIDEO_RECORDING_REQUEST);
         else goToRecordVideoActivity();
     }
 
