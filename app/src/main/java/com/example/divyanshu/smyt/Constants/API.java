@@ -56,5 +56,5 @@ public interface API {
     String MANAGE_ORDERS = BASE + "manageorders";
     String UPDATE_VIDEO_VIEWS_COUNT = BASE + "updateVideosViews";
     String NEW_CHALLENGE_NOTIFICATION = BASE + "newChallengesNotification";
-
+    String DELETE_CHALLENGE = BASE + "deleteChallenge";
 }

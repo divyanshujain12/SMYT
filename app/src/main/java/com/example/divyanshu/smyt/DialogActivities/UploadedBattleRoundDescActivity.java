@@ -15,7 +15,7 @@ import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
+import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
@@ -106,7 +106,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     @InjectView(R.id.secondUserIV)
     RoundedImageView secondUserIV;
     @InjectView(R.id.challengeTitleView)
-    ChallengeTitleView challengeTitleView;
+    ChallengeRoundTitleView challengeTitleView;
     @InjectView(R.id.userTwoVideoLikeIV)
     ImageView userTwoVideoLikeIV;
     @InjectView(R.id.viewsCountTV)

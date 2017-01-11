@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
+import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
@@ -79,7 +79,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private class BattleVideoHolder extends RecyclerView.ViewHolder {
-        private ChallengeTitleView challengeTitleView;
+        private ChallengeRoundTitleView challengeTitleView;
         public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
         public FrameLayout videoFL;
         private TwoVideoPlayers twoVideoPlayers;
@@ -89,7 +89,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private BattleVideoHolder(View view) {
             super(view);
-            challengeTitleView = (ChallengeTitleView) view.findViewById(R.id.challengeTitleView);
+            challengeTitleView = (ChallengeRoundTitleView) view.findViewById(R.id.challengeTitleView);
             firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
             secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
@@ -171,6 +171,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
+        setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
         holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
         holder.viewsCountTV.setText(allVideoModel.getViews());
         //holder.firstVideoPlayer.setVideoUrl("http://162.214.21.189:1935/smytex/_definst_/myStream_4_1483874636902/playlist.m3u8");
@@ -179,7 +180,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
-        setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
         holder.firstVideoPlayer.setPlayedVideoPos(holder.getAdapterPosition());
         holder.firstVideoPlayer.setPlayVideoInterface(this);
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {

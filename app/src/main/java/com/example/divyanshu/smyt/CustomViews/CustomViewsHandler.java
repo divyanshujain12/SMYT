@@ -21,9 +21,10 @@ public class CustomViewsHandler {
     }
 
     PopupWindow popupWindow;
-
-    public PopupWindow createUserVideosPopupWindow(Context context, final PopupItemClicked popupItemClicked, int position) {
+PopupItemClicked popupItemClicked;
+    public PopupWindow createUserVideosPopupWindow(Context context, PopupItemClicked clicked, int position) {
         this.pos = position;
+        this.popupItemClicked = clicked;
         View view = LayoutInflater.from(context).inflate(R.layout.videos_popup_window, null);
         TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
         TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
@@ -62,8 +63,9 @@ public class CustomViewsHandler {
         return popupWindow;
     }
 
-    public PopupWindow createUserVideosPopupWindowForNormalBannerVideo(Context context, final PopupItemClicked popupItemClicked, int position) {
+    public PopupWindow createUserVideosPopupWindowForNormalBannerVideo(Context context, PopupItemClicked clicked, int position) {
         this.pos = position;
+        this.popupItemClicked = clicked;
         View view = LayoutInflater.from(context).inflate(R.layout.banner_videos_popup_window, null);
         TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
         TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
@@ -96,7 +98,8 @@ public class CustomViewsHandler {
         return popupWindow;
     }
 
-    public PopupWindow createUserVideosPopupWindowForPremiumBannerVideo(Context context, final PopupItemClicked popupItemClicked, int position) {
+    public PopupWindow createUserVideosPopupWindowForPremiumBannerVideo(Context context, PopupItemClicked clicked, int position) {
+        this.popupItemClicked = clicked;
         this.pos = position;
         View view = LayoutInflater.from(context).inflate(R.layout.banner_videos_premium_popup_window, null);
         TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
@@ -121,7 +124,9 @@ public class CustomViewsHandler {
         return popupWindow;
     }
 
-    public PopupWindow createUserPremiumPopupWindow(Context context, final PopupItemClicked popupItemClicked, final int position) {
+    public PopupWindow createUserPremiumPopupWindow(Context context, PopupItemClicked clicked, int position) {
+        this.popupItemClicked = clicked;
+        this.pos = position;
         View view = LayoutInflater.from(context).inflate(R.layout.premium_popup_window, null);
         TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
         TextView deleteVideoTV = (TextView) view.findViewById(R.id.deleteVideoTV);
@@ -137,10 +142,35 @@ public class CustomViewsHandler {
             @Override
             public void onClick(View v) {
                 dismissPopupWindow();
-                popupItemClicked.onPopupMenuClicked(v, position);
+                popupItemClicked.onPopupMenuClicked(v, pos);
             }
         });
 
+        deleteVideoTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v, pos);
+            }
+        });
+
+        return popupWindow;
+    }
+
+
+    public PopupWindow createChallengesPopupWindow(Context context, PopupItemClicked clicked,final int position) {
+        this.popupItemClicked = clicked;
+        this.pos = position;
+        View view = LayoutInflater.from(context).inflate(R.layout.banner_videos_premium_popup_window, null);
+        TextView deleteVideoTV = (TextView) view.findViewById(R.id.deleteVideoTV);
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if (Build.VERSION.SDK_INT >= 21) {
+            popupWindow.setElevation(5.0f);
+        }
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
         deleteVideoTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -15,7 +15,7 @@ import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
+import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
@@ -103,7 +103,7 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
     @InjectView(R.id.secondUserIV)
     RoundedImageView secondUserIV;
     @InjectView(R.id.challengeTitleView)
-    ChallengeTitleView challengeTitleView;
+    ChallengeRoundTitleView challengeTitleView;
     @InjectView(R.id.userTwoVideoLikeIV)
     ImageView userTwoVideoLikeIV;
 

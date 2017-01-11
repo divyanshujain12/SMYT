@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
+import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
@@ -41,7 +41,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
 
         public TextView userTimeTV, commentsTV, uploadedTimeTV;
-        private ChallengeTitleView challengeTitleView;
+        private ChallengeRoundTitleView challengeTitleView;
         public FrameLayout videoFL;
         private ImageView playVideosIV;
         private FrameLayout fullscreenFL;
@@ -54,7 +54,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
         public BattleVideoHolder(View view) {
             super(view);
-            challengeTitleView = (ChallengeTitleView) view.findViewById(R.id.challengeTitleView);
+            challengeTitleView = (ChallengeRoundTitleView) view.findViewById(R.id.challengeTitleView);
             firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
             secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);

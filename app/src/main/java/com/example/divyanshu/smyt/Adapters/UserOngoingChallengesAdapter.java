@@ -8,10 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
+import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -20,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> {
+public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoingChallengesAdapter.MyViewHolder> implements PopupItemClicked {
 
 
     private ArrayList<ChallengeModel> challengeModels;
@@ -30,8 +34,9 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
     String round_count_string = "(%s/%s)";
     private int acceptRejectPos = -1;
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTV;
+        ChallengeTitleView challengeTitleView;
         ImageView moreIV;
         TextView genreNameTV;
         TextView challengeTypeTV;
@@ -43,7 +48,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
 
         public MyViewHolder(View view) {
             super(view);
-            titleTV = (TextView) view.findViewById(R.id.titleTV);
+            challengeTitleView = (ChallengeTitleView) view.findViewById(R.id.challengeTitleView);
             moreIV = (ImageView) view.findViewById(R.id.moreIV);
             genreNameTV = (TextView) view.findViewById(R.id.genreNameTV);
             challengeTypeTV = (TextView) view.findViewById(R.id.challengeTypeTV);
@@ -74,7 +79,9 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         final ChallengeModel challengeModel = challengeModels.get(position);
-        holder.titleTV.setText(challengeModel.getTitle());
+        holder.challengeTitleView.setUp(challengeModel.getTitle(), this, position);
+        setUpMoreIvButtonVisibilityForSingleVideo(holder, challengeModel);
+        //holder.titleTV.setText(challengeModel.getTitle());
         holder.genreNameTV.setText(challengeModel.getGenre());
         holder.challengeTypeTV.setText(challengeModel.getShare_status());
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
@@ -135,6 +142,18 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onPopupMenuClicked(View view, int position) {
+        recyclerViewClick.onClickItem(position, view);
+    }
 
+
+    private void setUpMoreIvButtonVisibilityForSingleVideo(MyViewHolder holder, ChallengeModel challengeModel) {
+        String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
+        if (!currentCustomerID.equals(challengeModel.getCustomer_id()))
+            holder.challengeTitleView.showHideMoreIvButton(false);
+        else
+            holder.challengeTitleView.showHideMoreIvButton(true);
+    }
 }
 

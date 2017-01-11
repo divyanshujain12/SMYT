@@ -7,6 +7,7 @@
         android:id="@+id/action_user_profile"
         android:icon="@drawable/icon_user"
         android:orderInCategory="101"
+        android:visible="false"
         android:title="@string/user_profile"
         app:showAsAction="always" />
 

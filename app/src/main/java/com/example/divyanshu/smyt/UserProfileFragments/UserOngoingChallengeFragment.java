@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -38,6 +39,7 @@ import butterknife.InjectView;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_ACCEPT;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_REJECT;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_CHALLENGE;
 
 public class UserOngoingChallengeFragment extends BaseFragment {
 
@@ -108,7 +110,7 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     }
 
     @Override
-    public void onClickItem(int position, View view) {
+    public void onClickItem(final int position, View view) {
         super.onClickItem(position, view);
         switch (view.getId()) {
             case R.id.acceptTV:
@@ -119,6 +121,16 @@ public class UserOngoingChallengeFragment extends BaseFragment {
                 acceptRejectPos = position;
                 CallWebService.getInstance(getContext(), true, CHALLENGE_REJECT).hitJsonObjectRequestAPI(CallWebService.POST, API.ACCEPT_REJECT_CHALLENGE, createJsonForAcceptRejectChallenge(challengeModels.get(position).getChallenge_id(), "0"), this);
                 break;
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteChallenge(getContext(), challengeModels.get(position).getChallenge_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        userOngoingChallengesAdapter.removeItem(position);
+                    }
+                });
+
+
+                break;
             default:
                 Intent intent = new Intent(getActivity(), OngoingChallengeDescriptionActivity.class);
                 intent.putExtra(Constants.CHALLENGE_ID, challengeModels.get(position).getChallenge_id());
@@ -128,6 +140,16 @@ public class UserOngoingChallengeFragment extends BaseFragment {
         }
 
 
+    }
+
+    private JSONObject createJsonForDeleteChallenge(String challengeID) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.CHALLENGE_ID, challengeID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     private void hitOnGoingChallengeApi() {
@@ -168,7 +190,8 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     }
 
     private void setAdapter() {
-        userOngoingChallengesAdapter.addItems(challengeModels);
+        if (userOngoingChallengesAdapter != null)
+            userOngoingChallengesAdapter.addItems(challengeModels);
     }
 
     @Override

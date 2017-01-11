@@ -7,7 +7,7 @@
     android:paddingEnd="@dimen/five_dp"
     android:paddingStart="@dimen/five_dp">
 
-    <com.example.divyanshu.smyt.CustomViews.ChallengeTitleView
+    <com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView
         android:id="@+id/challengeTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

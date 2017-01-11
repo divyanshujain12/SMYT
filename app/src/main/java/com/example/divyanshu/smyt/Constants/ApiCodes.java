@@ -48,4 +48,5 @@ public interface ApiCodes {
     int MANAGE_ORDERS = 142;
     int UPDATE_VIDEO_VIEW_COUNT = 143;
     int NEW_CHALLENGE_NOTIFICATION = 144;
+    int DELETE_CHALLENGE = 145;
 }

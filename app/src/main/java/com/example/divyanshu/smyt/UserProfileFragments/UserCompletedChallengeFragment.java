@@ -17,6 +17,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_CHALLENGE;
 
 public class UserCompletedChallengeFragment extends BaseFragment {
     @InjectView(R.id.challengesRV)
@@ -92,7 +95,8 @@ public class UserCompletedChallengeFragment extends BaseFragment {
     }
 
     private void setAdapter() {
-        userCompletedChallengesAdapter.addItems(challengeModels);
+        if (userCompletedChallengesAdapter != null)
+            userCompletedChallengesAdapter.addItems(challengeModels);
     }
 
     @Override
@@ -112,12 +116,24 @@ public class UserCompletedChallengeFragment extends BaseFragment {
     }
 
     @Override
-    public void onClickItem(int position, View view) {
+    public void onClickItem(final int position, View view) {
         super.onClickItem(position, view);
-        Intent intent = new Intent(getActivity(), OngoingChallengeDescriptionActivity.class);
-        intent.putExtra(Constants.CHALLENGE_ID, challengeModels.get(position).getChallenge_id());
-        intent.putExtra(Constants.ACCEPT_STATUS, 1);
-        startActivity(intent);
+        switch (view.getId()) {
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteChallenge(getContext(), challengeModels.get(position).getChallenge_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        userCompletedChallengesAdapter.removeItem(position);
+                    }
+                });
+                break;
+            default:
+                Intent intent = new Intent(getActivity(), OngoingChallengeDescriptionActivity.class);
+                intent.putExtra(Constants.CHALLENGE_ID, challengeModels.get(position).getChallenge_id());
+                intent.putExtra(Constants.ACCEPT_STATUS, 1);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override
@@ -146,6 +162,16 @@ public class UserCompletedChallengeFragment extends BaseFragment {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private JSONObject createJsonForDeleteChallenge(String challengeID) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.CHALLENGE_ID, challengeID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

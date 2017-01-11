@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/challange"
+                android:text="@string/challange_status"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/fourteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />

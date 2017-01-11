@@ -232,6 +232,16 @@ public class CommonFunctions {
         });
     }
 
+    public void deleteChallenge(final Context context, final String challengeID, final DeleteVideoInterface deleteVideoInterface) {
+        CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_challenge_alert_msg), new SnackBarCallback() {
+            @Override
+            public void doAction() {
+                CallWebService.getInstance(context, false, ApiCodes.DELETE_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CHALLENGE, createJsonForDeleteVideo(context, challengeID), null);
+                deleteVideoInterface.onDeleteVideo();
+            }
+        });
+    }
+
     public boolean isThisMe(Context context, String customerID) {
         return customerID.equals(MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID));
     }
@@ -240,7 +250,18 @@ public class CommonFunctions {
 
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
         try {
-            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+            jsonObject.put(Constants.CHALLENGE_ID, customerVideoID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private JSONObject createJsonForDeleteChallenge(Context context, String challengeID) {
+
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
+        try {
+            jsonObject.put(Constants.CHALLENGE_ID, challengeID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -248,12 +269,10 @@ public class CommonFunctions {
     }
 
     public Bitmap retrieveVideoFrameFromVideo(String videoPath)
-            throws Throwable
-    {
+            throws Throwable {
         Bitmap bitmap = null;
         MediaMetadataRetriever mediaMetadataRetriever = null;
-        try
-        {
+        try {
             mediaMetadataRetriever = new MediaMetadataRetriever();
             if (Build.VERSION.SDK_INT >= 14)
                 mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
@@ -261,19 +280,14 @@ public class CommonFunctions {
                 mediaMetadataRetriever.setDataSource(videoPath);
             //   mediaMetadataRetriever.setDataSource(videoPath);
             bitmap = mediaMetadataRetriever.getFrameAtTime();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new Throwable(
                     "Exception in retriveVideoFrameFromVideo(String videoPath)"
                             + e.getMessage());
 
-        }
-        finally
-        {
-            if (mediaMetadataRetriever != null)
-            {
+        } finally {
+            if (mediaMetadataRetriever != null) {
                 mediaMetadataRetriever.release();
             }
         }

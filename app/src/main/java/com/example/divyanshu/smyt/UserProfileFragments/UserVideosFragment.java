@@ -120,7 +120,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(continuousSB);
         userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
-        if(getUserVisibleHint()) {
+        if (getUserVisibleHint()) {
             setAdapter();
         }
     }
@@ -135,12 +135,13 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser && userVideoModels!=null)
+        if (isVisibleToUser && userVideoModels != null)
             setAdapter();
     }
 
     private void setAdapter() {
-        userVideoAdapter.addUserVideoData(userVideoModels);
+        if (userVideoAdapter != null)
+            userVideoAdapter.addUserVideoData(userVideoModels);
     }
 
 

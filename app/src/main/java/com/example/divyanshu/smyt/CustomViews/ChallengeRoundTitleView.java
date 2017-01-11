@@ -15,21 +15,21 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.neopixl.pixlui.components.textview.TextView;
 
 /**
- * Created by divyanshu on 1/11/2017.
+ * Created by divyanshu.jain on 11/22/2016.
  */
 
-public class ChallengeTitleView extends LinearLayout implements View.OnClickListener {
+public class ChallengeRoundTitleView extends LinearLayout implements View.OnClickListener {
     private TextView titleTV;
     private ImageView moreIV;
     private PopupWindow popupWindow = null;
     private int position;
     private String categoryID = "";
 
-    public ChallengeTitleView(Context context) {
+    public ChallengeRoundTitleView(Context context) {
         super(context);
     }
 
-    public ChallengeTitleView(Context context, AttributeSet attrs) {
+    public ChallengeRoundTitleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         InitViews();
     }
@@ -52,13 +52,17 @@ public class ChallengeTitleView extends LinearLayout implements View.OnClickList
     public void setUpForBannerVideo(String title, PopupItemClicked popupItemClicked, int position) {
         this.position = position;
         titleTV.setText(title);
-
-        popupWindow = new CustomViewsHandler().createChallengesPopupWindow(getContext(), popupItemClicked, position);
-
+        if (categoryID.equals(getContext().getString(R.string.premium_category)))
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindowForPremiumBannerVideo(getContext(), popupItemClicked, position);
+        else
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindowForNormalBannerVideo(getContext(), popupItemClicked, position);
     }
 
     private void setUpPopupWindow(PopupItemClicked popupItemClicked) {
-            popupWindow = new CustomViewsHandler().createChallengesPopupWindow(getContext(), popupItemClicked, position);
+        if (categoryID.equals(getContext().getString(R.string.premium_category)))
+            popupWindow = new CustomViewsHandler().createUserPremiumPopupWindow(getContext(), popupItemClicked, position);
+        else
+            popupWindow = new CustomViewsHandler().createUserVideosPopupWindow(getContext(), popupItemClicked, position);
     }
 
     @Override

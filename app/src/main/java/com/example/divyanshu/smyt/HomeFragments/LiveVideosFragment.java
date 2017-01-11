@@ -108,7 +108,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
         super.onJsonObjectSuccess(response, apiType);
         challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
         if (getUserVisibleHint()) {
-            liveVideosAdapter.addItem(challengeModels);
+            setAdapter();
         }
 
     }
@@ -247,9 +247,14 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && challengeModels != null) {
-            liveVideosAdapter.addItem(challengeModels);
+            setAdapter();
         }
 
+    }
+
+    private void setAdapter() {
+        if (liveVideosAdapter != null)
+            liveVideosAdapter.addItem(challengeModels);
     }
 
     private void updateCommentCount(Intent intent) {

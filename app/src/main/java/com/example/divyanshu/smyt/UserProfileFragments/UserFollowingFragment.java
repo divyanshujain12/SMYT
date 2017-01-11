@@ -99,7 +99,8 @@ public class UserFollowingFragment extends BaseFragment {
     }
 
     private void setAdapter() {
-        userFollowerAdapter.addItems(userModels);
+        if (userFollowerAdapter != null)
+            userFollowerAdapter.addItems(userModels);
     }
 
     private JSONObject createJsonForGetFollowing() {
