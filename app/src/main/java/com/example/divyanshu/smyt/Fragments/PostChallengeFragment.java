@@ -167,9 +167,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         super.onActivityCreated(savedInstanceState);
 
         initViews();
-        if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
-            checkAndPayForAddVideoToPremium();
-        }
+
     }
 
     private void initViews() {
@@ -206,7 +204,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
 
     private void isPremiumGenre() {
         if (categoryID.equals(getString(R.string.premium_category))) {
-            setGenreSpinnerShow(false);
+            setGenreSpinnerShow(true);
             genreTypesArray = getResources().getStringArray(R.array.genre_type);
             arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, genreTypesArray);
             genreTypeSP.setAdapter(arrayAdapter);
@@ -241,6 +239,9 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
     public void onResume() {
         super.onResume();
         getDialog().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
+            checkAndPayForAddVideoToPremium();
+        }
     }
 
 

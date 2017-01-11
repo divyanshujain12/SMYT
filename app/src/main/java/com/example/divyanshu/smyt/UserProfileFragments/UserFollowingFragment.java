@@ -81,7 +81,7 @@ public class UserFollowingFragment extends BaseFragment {
         userFollowerAdapter = new UserFollowerAdapter(getActivity(), this, userModels);
         followersRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         followersRV.setAdapter(userFollowerAdapter);
-        //hitFollowingAPI();
+        hitFollowingAPI();
     }
 
     private void hitFollowingAPI() {
@@ -93,9 +93,13 @@ public class UserFollowingFragment extends BaseFragment {
         super.onJsonObjectSuccess(response, apiType);
         userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
         if (getUserVisibleHint()) {
-            userFollowerAdapter.addItems(userModels);
+            setAdapter();
         }
 
+    }
+
+    private void setAdapter() {
+        userFollowerAdapter.addItems(userModels);
     }
 
     private JSONObject createJsonForGetFollowing() {
@@ -126,9 +130,8 @@ public class UserFollowingFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (userModels != null && userModels.size() <= 0 || isVisibleToUser && !isApiHit) {
-            hitFollowingAPI();
-            isApiHit = true;
+        if (isVisibleToUser && userModels != null) {
+            setAdapter();
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.divyanshu.smyt.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.view.GestureDetectorCompat;
@@ -32,9 +31,13 @@ import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -72,6 +75,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     private String customerVideoID = "";
     boolean serviceStarted = false;
     boolean autoStartRecording = false;
+    ScheduledExecutorService scheduler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         otherUserVideoPlayer.setHideControls(true);
         txtTimer.setTenMinutesCallback(this);
         autoStartCB.setOnCheckedChangeListener(this);
+        scheduler = Executors.newSingleThreadScheduledExecutor();
 
     }
 
@@ -195,6 +200,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
                     mStatusView.setErrorMessage(configError.getErrorDescription());
             }
         } else {
+            videoStopped();
             mWZBroadcast.endBroadcast();
             //CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_END, createJsonForStartEndChallengeVideo("0"), this);
         }
@@ -233,14 +239,33 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     private void initialize() {
         if (mAutoFocusDetector == null)
             mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
-
-        Intent intent = new Intent(this, OtherUserAvailabilityService.class);
+       /* Intent intent = new Intent(this, OtherUserAvailabilityService.class);
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
-        startService(intent);
-        OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(this);
-        serviceStarted = true;
+        startService(intent);*/
+        scheduler.scheduleAtFixedRate(runnable, 5, 5, TimeUnit.SECONDS);
+        // OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(this);
+        //  serviceStarted = true;
         if (autoStartRecording)
             Broadcast();
+    }
+
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            CallWebService.getInstance(getBaseContext(), false, ApiCodes.OTHER_USER_VIDEO_URL).hitJsonObjectRequestAPI(CallWebService.POST, API.OTHER_CUSTOMER_VIDEO_URL, createJsonForGetUserAvailability(customerVideoID), RecordChallengeVideoActivity.this);
+        }
+    };
+
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+        switch (apiType) {
+            case ApiCodes.OTHER_USER_VIDEO_URL:
+                if (!response.get(Constants.VIDEO_URL).equals(""))
+                    onAvailable(response.getString(Constants.VIDEO_URL));
+                break;
+        }
     }
 
     @Override
@@ -248,22 +273,26 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         otherUserWaitingTV.setVisibility(View.GONE);
         otherUserVideoPlayer.setVideoUrl(videoUrl);
         otherUserVideoPlayer.playButtonClicked();
-        OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(null);
-        stopService();
+        scheduler.shutdown();
+        /*OtherUserAvailabilityService.getInstance().setUserAvailabilityInterface(null);
+        stopService();*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (serviceStarted) {
-            stopService();
-        }
+        if (!scheduler.isShutdown())
+            scheduler.shutdown();
+      /*  if (serviceStarted) {
+
+            // stopService();
+        }*/
     }
 
-    private void stopService() {
+  /*  private void stopService() {
         Intent intent = new Intent(this, OtherUserAvailabilityService.class);
         stopService(intent);
-    }
+    }*/
 
     private JSONObject createJsonForStartEndChallengeVideo(String status) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
@@ -273,6 +302,17 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
             jsonObject.put(Constants.LIVE_STATUS, status);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private JSONObject createJsonForGetUserAvailability(String customerVideoID) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
+        try {
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
@@ -295,7 +335,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
 
     @Override
     public void onVideoStop() {
-        videoStopped();
+        // videoStopped();
     }
 
     private void videoStopped() {

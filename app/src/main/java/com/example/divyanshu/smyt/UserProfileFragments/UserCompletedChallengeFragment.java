@@ -80,14 +80,19 @@ public class UserCompletedChallengeFragment extends BaseFragment {
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(tSnackbar);
-        if(getUserVisibleHint()) {
+        if (getUserVisibleHint()) {
             switch (apiType) {
                 case ApiCodes.COMPLETED_CHALLENGES:
                     challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
-                    userCompletedChallengesAdapter.addItems(challengeModels);
+                    if (getUserVisibleHint())
+                        setAdapter();
                     break;
             }
         }
+    }
+
+    private void setAdapter() {
+        userCompletedChallengesAdapter.addItems(challengeModels);
     }
 
     @Override
@@ -95,6 +100,15 @@ public class UserCompletedChallengeFragment extends BaseFragment {
         super.onFailure(str, apiType);
         tSnackbar.setText(str);
         CommonFunctions.hideContinuousSB(tSnackbar);
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && challengeModels != null) {
+            setAdapter();
+        }
     }
 
     @Override
@@ -126,9 +140,10 @@ public class UserCompletedChallengeFragment extends BaseFragment {
         }
     }
 
+
     private JSONObject createJsonForGetChallenges() {
 
-        JSONObject jsonObject =CommonFunctions.customerIdJsonObject(getContext());
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {

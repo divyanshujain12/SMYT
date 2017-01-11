@@ -20,7 +20,6 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.LiveRoundDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
-import com.example.divyanshu.smyt.GlobalClasses.DummyJsons;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -107,9 +106,10 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-
         challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
-        liveVideosAdapter.addItem(challengeModels);
+        if (getUserVisibleHint()) {
+            liveVideosAdapter.addItem(challengeModels);
+        }
 
     }
 
@@ -241,6 +241,15 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     public void onDetach() {
         super.onDetach();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateLiveVideosTabUI);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && challengeModels != null) {
+            liveVideosAdapter.addItem(challengeModels);
+        }
+
     }
 
     private void updateCommentCount(Intent intent) {

@@ -119,9 +119,9 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(continuousSB);
+        userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
         if(getUserVisibleHint()) {
-            userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
-            userVideoAdapter.addUserVideoData(userVideoModels);
+            setAdapter();
         }
     }
 
@@ -130,6 +130,17 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         CommonFunctions.hideContinuousSB(continuousSB);
         super.onFailure(str, apiType);
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && userVideoModels!=null)
+            setAdapter();
+    }
+
+    private void setAdapter() {
+        userVideoAdapter.addUserVideoData(userVideoModels);
     }
 
 
@@ -293,7 +304,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         videoModel.setCustomers_videos_id(customerVideoID);
 
         userVideoModels.get(userVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
-        userVideoAdapter.addUserVideoData(userVideoModels);
+        setAdapter();
     }
 
 }

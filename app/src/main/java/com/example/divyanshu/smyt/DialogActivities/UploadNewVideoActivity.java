@@ -145,7 +145,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
     private void isPremiumGenre() {
         if (categoryID.equals(getString(R.string.premium_category))) {
-            setGenreSpinnerShow(false);
+            setGenreSpinnerShow(true);
             genreTypesArray = getResources().getStringArray(R.array.genre_type);
             arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_sixteens_sp, genreTypesArray);
             genreTypeSP.setAdapter(arrayAdapter);

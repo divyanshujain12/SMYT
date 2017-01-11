@@ -76,15 +76,6 @@ public class OrderListFragment extends BaseFragment {
         CallWebService.getInstance(getContext(), true, ApiCodes.MANAGE_ORDERS).hitJsonObjectRequestAPI(CallWebService.POST, API.MANAGE_ORDERS, createJsonForGetOrders(), this);
     }
 
-    private JSONObject createJsonForGetOrders() {
-        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
-        try {
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
-    }
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
@@ -92,6 +83,11 @@ public class OrderListFragment extends BaseFragment {
         parserJson(response);
 
 
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
     }
 
     private void parserJson(JSONObject response) {
@@ -135,10 +131,14 @@ public class OrderListFragment extends BaseFragment {
 
         ordersModels.add(ordersModel);
     }
-
-    @Override
-    public void onFailure(String str, int apiType) {
-        super.onFailure(str, apiType);
+    private JSONObject createJsonForGetOrders() {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     @Override

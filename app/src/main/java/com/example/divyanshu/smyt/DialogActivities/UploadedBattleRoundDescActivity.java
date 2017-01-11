@@ -16,6 +16,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
+import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
@@ -142,6 +143,12 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
 
     @OnClick({R.id.leftSideVotingView, R.id.rightSideVotingView, R.id.sendCommentIV})
     public void onClick(View view) {
+
+        if (challengeVideoDescModel.getIs_copy().equals("1")) {
+            CustomToasts.getInstance(this).showErrorToast(getString(R.string.err_msg_copy_challenge));
+            return;
+        }
+
         switch (view.getId()) {
 
             case R.id.leftSideVotingView:

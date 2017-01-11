@@ -322,6 +322,12 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    @Override
+    public boolean getUserVisibleHint() {
+        return super.getUserVisibleHint();
+    }
+
     private BroadcastReceiver updateAllVideosUI = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -371,10 +377,8 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
 
     private void WebServiceCalled(boolean yes) {
         if (yes) {
-
             loading = false;
         } else {
-
             loading = true;
         }
         if (progressBar != null)

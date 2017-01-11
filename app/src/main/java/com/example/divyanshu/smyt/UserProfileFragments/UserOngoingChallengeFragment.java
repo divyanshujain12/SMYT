@@ -145,11 +145,12 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(tSnackbar);
-        if(getUserVisibleHint()) {
+        if (getUserVisibleHint()) {
             switch (apiType) {
                 case ApiCodes.ONGOING_CHALLENGES:
                     challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
-                    userOngoingChallengesAdapter.addItems(challengeModels);
+                    if (getUserVisibleHint())
+                        setAdapter();
                     break;
                 case CHALLENGE_ACCEPT:
                     if (getArguments().getBoolean(Constants.NEW_CHALLENGE))
@@ -165,6 +166,27 @@ public class UserOngoingChallengeFragment extends BaseFragment {
             }
         }
     }
+
+    private void setAdapter() {
+        userOngoingChallengesAdapter.addItems(challengeModels);
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
+        tSnackbar.setText(str);
+        CommonFunctions.hideContinuousSB(tSnackbar);
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && challengeModels != null) {
+            setAdapter();
+        }
+    }
+
 
     private JSONObject createJsonForGetChallenges() {
 
@@ -188,13 +210,6 @@ public class UserOngoingChallengeFragment extends BaseFragment {
             e.printStackTrace();
         }
         return jsonObject;
-    }
-
-    @Override
-    public void onFailure(String str, int apiType) {
-        super.onFailure(str, apiType);
-        tSnackbar.setText(str);
-        CommonFunctions.hideContinuousSB(tSnackbar);
     }
 
     private BroadcastReceiver updateAcceptRejectReceiver = new BroadcastReceiver() {
