@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature
         android:name="android.hardware.camera.any"
@@ -140,7 +141,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.ShowLiveRecordVideoActivity"></activity>
+        <activity android:name=".activities.ShowLiveRecordVideoActivity"/>
     </application>
 
 </manifest>

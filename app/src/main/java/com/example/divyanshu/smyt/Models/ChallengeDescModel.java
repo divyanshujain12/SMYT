@@ -10,7 +10,17 @@ public class ChallengeDescModel {
     String title;
     String total_round;
     String thumbnail;
-    ArrayList<ChallengeModel> challenge_rounds;
+    ArrayList<ChallengeModel> challenge_rounds;// 0 - can accept, 1 - already accepted by him, 2 - decline by him, 3 - his video
+
+    public int getCurrent_customer_video_status() {
+        return current_customer_video_status;
+    }
+
+    public void setCurrent_customer_video_status(int current_customer_video_status) {
+        this.current_customer_video_status = current_customer_video_status;
+    }
+
+    int current_customer_video_status;
 
     public String getTitle() {
         return title;

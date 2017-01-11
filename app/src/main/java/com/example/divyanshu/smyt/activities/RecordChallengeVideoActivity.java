@@ -1,8 +1,10 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -77,6 +79,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     boolean serviceStarted = false;
     boolean autoStartRecording = false;
     int delay = 5000; //milliseconds
+    protected PowerManager.WakeLock mWakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,9 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         otherUserVideoPlayer.setHideControls(true);
         txtTimer.setTenMinutesCallback(this);
         autoStartCB.setOnCheckedChangeListener(this);
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
+        this.mWakeLock.acquire();
 
     }
 
@@ -248,7 +254,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         @Override
         public void run() {
             CallWebService.getInstance(getBaseContext(), false, ApiCodes.OTHER_USER_VIDEO_URL).hitJsonObjectRequestAPI(CallWebService.POST, API.OTHER_CUSTOMER_VIDEO_URL, createJsonForGetUserAvailability(customerVideoID), RecordChallengeVideoActivity.this);
-            h.postDelayed(this,delay);
+            h.postDelayed(this, delay);
         }
     };
 
@@ -276,8 +282,10 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         h.removeCallbacks(runnable);
         if (OngoingChallengeDescriptionActivity.isRoundPlayed)
             videoStopped();
+        mWakeLock.release();
 
     }
+
     private JSONObject createJsonForStartEndChallengeVideo(String status) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
