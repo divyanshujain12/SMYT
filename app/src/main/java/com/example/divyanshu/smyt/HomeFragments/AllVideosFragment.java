@@ -135,6 +135,18 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
             }
 
         });
+
+        otherVideosRV.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
+
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(View view) {
+
+            }
+        });
     }
 
     private void hitBannerAPI() {

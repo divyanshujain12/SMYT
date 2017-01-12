@@ -12,6 +12,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
@@ -52,7 +53,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         public ImageView videoThumbIV;
         private VideoTitleView videoTitleView;
         public FrameLayout videoFL;
-        private SingleVideoPlayer firstVideoPlayer;
+        private SingleVideoPlayerCustomView singleVideoPlayerView;
         private TextView viewsCountTV;
 
         public SingleVideoHolder(View view) {
@@ -64,7 +65,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
             videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
-            firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
+            singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
 
         }
@@ -84,21 +85,17 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_video_item, parent, false);
         return new SingleVideoHolder(itemView);
-
-
     }
 
     @Override
     public void onBindViewHolder(final UserVideoAdapter.SingleVideoHolder holder, int position) {
-
         VideoModel videoModel = videoModels.get(position);
         holder.videoTitleView.setUp(videoModel.getTitle(), this, position);
         setUpMoreIV(holder, videoModel);
         String commentsFound = context.getResources().getQuantityString(R.plurals.numberOfComments, videoModel.getVideo_comment_count(), videoModel.getVideo_comment_count() / 1);
         holder.commentsTV.setText(commentsFound);
         holder.firstUserNameTV.setText(videoModel.getFirst_name());
-        holder.firstVideoPlayer.setVideoUrl(videoModel.getVideo_url());
-        holder.firstVideoPlayer.setThumbnail(videoModel.getThumbnail());
+        holder.singleVideoPlayerView.setUp(videoModel.getVideo_url(),videoModel.getThumbnail(),videoModel.getCustomers_videos_id());
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
         holder.viewsCountTV.setText(videoModel.getViews());
         holder.commentsTV.setOnClickListener(new View.OnClickListener() {
@@ -148,8 +145,4 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         notifyItemRemoved(selectedVideoPos);
         notifyItemRangeChanged(selectedVideoPos, getItemCount());
     }
-
-
 }
-
-

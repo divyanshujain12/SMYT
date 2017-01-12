@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
+import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
@@ -55,8 +56,8 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 
 public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener, PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
 
-    @InjectView(R.id.firstVideoPlayer)
-    SingleVideoPlayer firstVideoPlayer;
+    @InjectView(R.id.singleVideoPlayerView)
+    SingleVideoPlayerCustomView singleVideoPlayerView;
     @InjectView(R.id.videoThumbIV)
     ImageView videoThumbIV;
     @InjectView(R.id.playVideoIV)
@@ -203,8 +204,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     private void setupVideo() {
-        firstVideoPlayer.setVideoUrl(videoDetailModel.getVideo_url());
-        firstVideoPlayer.setThumbnail(videoDetailModel.getThumbnail());
+        singleVideoPlayerView.setUp(videoDetailModel.getVideo_url(), videoDetailModel.getThumbnail(), videoDetailModel.getCustomers_videos_id());
     }
 
     @Override

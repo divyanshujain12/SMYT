@@ -16,18 +16,7 @@
 
         <include layout="@layout/challenge_title_bar" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/two_hundred_fifty_dp"
-              android:id="@+id/twoVideoPlayers"/>
-
-            <include layout="@layout/challenge_video_users_bar" />
-        </FrameLayout>
+        <include layout="@layout/challenge_videos_view" />
 
         <include layout="@layout/uploaded_video_comment_bar" />
     </LinearLayout>

@@ -17,6 +17,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
+import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Models.ChallengeVideoDescModel;
@@ -56,7 +57,7 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 public class LiveRoundDescActivity extends BaseActivity implements PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
 
     @InjectView(R.id.twoVideoPlayers)
-    TwoVideoPlayers twoVideoPlayers;
+    TwoVideoPlayerCustomView twoVideoPlayers;
     @InjectView(R.id.playVideoIV)
     ImageView playVideoIV;
     @InjectView(R.id.firstUserNameTV)
@@ -258,8 +259,7 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
     }
 
     private void setupVideo() {
-        twoVideoPlayers.setVideoUrls(challengeVideoDescModel.getVideo_url(), challengeVideoDescModel.getVideo_url1());
-        twoVideoPlayers.setThumbnail(challengeVideoDescModel.getThumbnail(), challengeVideoDescModel.getThumbnail1());
+        twoVideoPlayers.setUp(challengeVideoDescModel.getVideo_url(), challengeVideoDescModel.getVideo_url1(),challengeVideoDescModel.getThumbnail(), challengeVideoDescModel.getThumbnail1(),challengeVideoDescModel.getCustomers_videos_id());
     }
 
     private void setVoteCount() {

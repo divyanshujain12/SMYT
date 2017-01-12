@@ -204,10 +204,11 @@ public class UserOngoingChallengeFragment extends BaseFragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+
         if (isVisibleToUser && challengeModels != null) {
             setAdapter();
         }
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
 

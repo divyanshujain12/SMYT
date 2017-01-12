@@ -811,7 +811,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public static void releaseAllVideos() {
-        playVideoInterface.onVideoStopped();
+       // playVideoInterface.onVideoStopped();
         Log.d(TAG, "releaseAllVideos");
         JCVideoPlayerManager.completeAll();
         JCMediaManager.instance().releaseMediaPlayer();
@@ -1030,7 +1030,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public void showPlayButton(boolean show) {
-        startButton.setVisibility(show ? VISIBLE : GONE);
+      //  startButton.setVisibility(show ? VISIBLE : GONE);
     }
 
     public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {

@@ -54,12 +54,12 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
         secondVideoPlayer = (JCVideoPlayerStandardTwo) findViewById(R.id.secondVideoPlayer);
         fullscreenFL = (FrameLayout) findViewById(R.id.fullscreenFL);
         fullscreenIV = (ImageView) findViewById(R.id.fullscreenIV);
-        fullscreenIV.setOnClickListener(this);
+        fullscreenFL.setOnClickListener(this);
         playVideosIV = (ImageView) findViewById(R.id.playVideosIV);
         playVideosIV.setOnClickListener(this);
 
         firstVideoPlayer.setPlayVideoInterface(this);
-        //showPlayersStartButtons(false);
+        showPlayersStartButtons(false);
         resetPlayers();
         setUpVideoPlayers(getContext(), firstVideoUrl, secondVideoUrl, firstThumbUrl, secondThumbUrl);
     }
@@ -76,7 +76,7 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
             case R.id.playVideosIV:
                 onPlayButtonClicked();
                 break;
-            case R.id.fullscreenIV:
+            case R.id.fullscreenFL:
                 onFullScreenClicked();
                 break;
         }
@@ -128,9 +128,9 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
     }
 
     public void resetPlayers() {
-        showPlayersStartButtons(false);
-        fullscreenFL.setVisibility(GONE);
-        playVideosIV.setVisibility(VISIBLE);
+       // showPlayersStartButtons(false);
+        //fullscreenFL.setVisibility(GONE);
+        //playVideosIV.setVisibility(VISIBLE);
     }
 
     private void showPlayersStartButtons(boolean show) {

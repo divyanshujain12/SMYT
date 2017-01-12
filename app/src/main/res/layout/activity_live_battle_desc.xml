@@ -15,7 +15,7 @@
 
         <include layout="@layout/challenge_title_bar" />
 
-        <include layout="@layout/battle_video_inside_view" />
+        <include layout="@layout/challenge_videos_view" />
 
         <include layout="@layout/uploaded_video_comment_bar" />
 

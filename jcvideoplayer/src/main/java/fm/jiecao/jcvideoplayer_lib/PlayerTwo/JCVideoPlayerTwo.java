@@ -811,6 +811,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
     }
 
     public static void releaseAllVideos() {
+
         Log.d(TAG, "releaseAllVideos");
         JCVideoPlayerManagerTwo.completeAll();
         JCMediaManagerTwo.instance().releaseMediaPlayer();
@@ -1028,6 +1029,6 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
         return 0;
     }
     public void showPlayButton(boolean show) {
-        startButton.setVisibility(show ? VISIBLE : GONE);
+       // startButton.setVisibility(show ? VISIBLE : GONE);
     }
 }

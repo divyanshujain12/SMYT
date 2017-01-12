@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
+import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
@@ -46,7 +47,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         private ImageView playVideosIV;
         private FrameLayout fullscreenFL;
         private ImageView fullscreenIV;
-        private TwoVideoPlayers twoVideoPlayers;
+        private TwoVideoPlayerCustomView twoVideoPlayers;
         private ImageView firstUserIV, secondUserIV;
         TextView firstUserNameTV, secondUserNameTV;
         TextView userOneVoteCountTV,userTwoVoteCountTV;
@@ -68,7 +69,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
-            twoVideoPlayers = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
+            twoVideoPlayers = (TwoVideoPlayerCustomView) view.findViewById(R.id.twoVideoPlayers);
             userOneVoteCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
             userTwoVoteCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
         }
@@ -97,8 +98,9 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         holder.challengeTitleView.setUp(challengeModel.getTitle(), this, position);
         holder.challengeTitleView.showHideMoreIvButton(false);
         holder.commentsTV.setText(setCommentCount(challengeModel));
-        holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
-        holder.twoVideoPlayers.setThumbnail(challengeModel.getThumbnail(), challengeModel.getThumbnail1());
+        /*holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
+        holder.twoVideoPlayers.setThumbnail(challengeModel.getThumbnail(), challengeModel.getThumbnail1());*/
+        holder.twoVideoPlayers.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url), challengeModel.getCustomers_videos_id());
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());

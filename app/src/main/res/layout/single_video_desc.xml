@@ -18,7 +18,7 @@
 
         <include layout="@layout/video_title_bar" />
 
-        <include layout="@layout/single_video_inside_view" />
+        <include layout="@layout/single_video_view" />
 
         <include layout="@layout/uploaded_video_comment_bar" />
 

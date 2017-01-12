@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/single_video_item">
+
+
+    <com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView
+        android:id="@+id/singleVideoPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/two_hundred_fifty_dp" />
+
+    <include layout="@layout/single_video_user_view" />
+</FrameLayout>

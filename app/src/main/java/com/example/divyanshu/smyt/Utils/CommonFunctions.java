@@ -166,10 +166,6 @@ public class CommonFunctions {
                     JCVideoPlayer videoPlayer = (JCVideoPlayer) JCVideoPlayerManager.getCurrentScrollPlayerListener();
                     if (videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PAUSE) {
                         JCVideoPlayer.releaseAllVideos();
-                        //recyclerView.getAdapter().notifyDataSetChanged();
-                        SingleVideoPlayerCustomView singleVideoPlayerCustomView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
-                        if (singleVideoPlayerCustomView != null)
-                            singleVideoPlayerCustomView.resetPlayers();
                     }
                 }
                 if (JCVideoPlayerManagerTwo.getFirst() != null) {
@@ -177,9 +173,6 @@ public class CommonFunctions {
                     JCVideoPlayerTwo videoPlayer = (JCVideoPlayerTwo) JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener();
                     if (videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PAUSE) {
                         JCVideoPlayerTwo.releaseAllVideos();
-                        TwoVideoPlayerCustomView twoVideoPlayerCustomView = (TwoVideoPlayerCustomView) view.findViewById(R.id.twoVideoPlayers);
-                        if (twoVideoPlayerCustomView != null)
-                            twoVideoPlayerCustomView.resetPlayers();
                     }
                 }
             }
