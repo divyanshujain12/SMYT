@@ -87,7 +87,7 @@
     </plurals>
     <string name="delete">Delete</string>
     <string name="delete_challenge">Delete Challenge</string>
-    <string name="dummy_video_url">http://www.whatsupguys.in/demo/smyt/videos/video2.mp4</string>
+    <string name="dummy_video_url">http://198.57.172.197:1935/vod/_definst_/myStream_2_1482595610597/playlist.m3u8</string>
     <string name="dummy_image_url">http://www.whatsupguys.in/demo/smyt/thumbnail/img2.png</string>
     <string name="change_picture">Change Picture</string>
     <string name="status">Status</string>

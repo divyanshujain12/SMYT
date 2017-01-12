@@ -29,7 +29,7 @@
                 pixlui:typeface="Roboto-Medium.ttf" />
 
             <include
-                layout="@layout/single_video_inside_item"
+                layout="@layout/single_video_inside_view"
                 android:layout_width="@dimen/two_hundred_twenty_dp"
                 android:layout_height="@dimen/one_hundred_fourty_five_dp"
                 android:layout_gravity="center_horizontal" />

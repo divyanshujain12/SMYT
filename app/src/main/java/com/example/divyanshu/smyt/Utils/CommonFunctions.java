@@ -2,56 +2,42 @@ package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
+import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
-import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerManagerTwo;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -164,7 +150,42 @@ public class CommonFunctions {
         return jsonObject;
     }
 
-    public static void stopVideoOnScroll(RecyclerView recyclerView) {
+
+    public static void stopVideoOnScroll(final RecyclerView recyclerView) {
+        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
+
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(View view) {
+
+
+                if (JCVideoPlayerManager.getFirst() != null) {
+                    JCVideoPlayer videoPlayer = (JCVideoPlayer) JCVideoPlayerManager.getCurrentScrollPlayerListener();
+                    if (videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PAUSE) {
+                        JCVideoPlayer.releaseAllVideos();
+                        //recyclerView.getAdapter().notifyDataSetChanged();
+                        SingleVideoPlayerCustomView singleVideoPlayerCustomView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
+                        if (singleVideoPlayerCustomView != null)
+                            singleVideoPlayerCustomView.resetPlayers();
+                    }
+                }
+                if (JCVideoPlayerManagerTwo.getFirst() != null) {
+
+                    JCVideoPlayerTwo videoPlayer = (JCVideoPlayerTwo) JCVideoPlayerManagerTwo.getCurrentScrollPlayerListener();
+                    if (videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_ERROR || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PLAYING_BUFFERING_START || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PREPARING || videoPlayer.currentState == JCVideoPlayerTwo.CURRENT_STATE_PAUSE) {
+                        JCVideoPlayerTwo.releaseAllVideos();
+                        TwoVideoPlayerCustomView twoVideoPlayerCustomView = (TwoVideoPlayerCustomView) view.findViewById(R.id.twoVideoPlayers);
+                        if (twoVideoPlayerCustomView != null)
+                            twoVideoPlayerCustomView.resetPlayers();
+                    }
+                }
+            }
+        });
+    }
+   /* public static void stopVideoOnScroll(RecyclerView recyclerView) {
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
@@ -176,7 +197,7 @@ public class CommonFunctions {
                 MediaPlayerHelper.getInstance().releaseAllVideos();
             }
         });
-    }
+    }*/
 
     public static void changeImageWithAnimation(final Context context, final ImageView imageView, final int secondImageResourceID) {
         Animation fadeIn = AnimationUtils.loadAnimation(context, R.anim.fab_in);

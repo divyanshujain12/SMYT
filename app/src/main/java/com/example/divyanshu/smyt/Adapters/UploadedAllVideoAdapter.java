@@ -1,7 +1,6 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
-
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +16,8 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
+import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
+import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
@@ -31,8 +32,6 @@ import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.PlayVideoInterface;
-import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
-import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,9 +57,10 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private ImageView videoThumbIV;
         public FrameLayout videoFL;
         private RoundedImageView firstUserIV;
-        private SingleVideoPlayer firstVideoPlayer;
+        private SingleVideoPlayerCustomView singleVideoPlayerView;
         private LinearLayout firstUserLL;
         private TextView viewsCountTV;
+
         private SingleVideoHolder(View view) {
             super(view);
             videoTitleView = (VideoTitleView) view.findViewById(R.id.videoTitleView);
@@ -73,7 +73,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
-            firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
+            singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
 
         }
     }
@@ -82,7 +82,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private ChallengeRoundTitleView challengeTitleView;
         public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
         public FrameLayout videoFL;
-        private TwoVideoPlayers twoVideoPlayers;
+        // private TwoVideoPlayers twoVideoPlayers;
+        private TwoVideoPlayerCustomView twoVideoPlayers;
         private RoundedImageView firstUserIV, secondUserIV;
         private LinearLayout firstUserLL, secondUserLL;
         private TextView viewsCountTV;
@@ -98,7 +99,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             commentsTV = (TextView) view.findViewById(R.id.commentsTV);
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
-            twoVideoPlayers = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
+            twoVideoPlayers = (TwoVideoPlayerCustomView) view.findViewById(R.id.twoVideoPlayers);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
@@ -172,16 +173,13 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
-        holder.firstVideoPlayer.setVideoUrl(allVideoModel.getVideo_url());
+        //holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
+        holder.singleVideoPlayerView.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomer_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
-        //holder.firstVideoPlayer.setVideoUrl("http://162.214.21.189:1935/smytex/_definst_/myStream_4_1483874636902/playlist.m3u8");
-        holder.firstVideoPlayer.setThumbnail(allVideoModel.getThumbnail());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
-        holder.firstVideoPlayer.setPlayedVideoPos(holder.getAdapterPosition());
-        holder.firstVideoPlayer.setPlayVideoInterface(this);
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -200,16 +198,15 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.challengeTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         setUpMoreIvButtonVisibility(holder, allVideoModel);
         holder.viewsCountTV.setText(allVideoModel.getViews());
-        holder.twoVideoPlayers.setVideoUrls(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1());
-        holder.twoVideoPlayers.setThumbnail(allVideoModel.getThumbnail(), allVideoModel.getThumbnail1());
+
+        //holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
+        holder.twoVideoPlayers.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
-        holder.twoVideoPlayers.setPlayedVideoPos(holder.getAdapterPosition());
-        holder.twoVideoPlayers.setPlayVideoInterface(this);
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

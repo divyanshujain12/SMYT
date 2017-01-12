@@ -32,6 +32,8 @@ import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 
 /**
@@ -127,13 +129,19 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onBackPressed() {
-        MediaPlayerHelper.getInstance().releaseAllVideos();
-        super.onBackPressed();
+        if (JCVideoPlayerStandard.backPress() || JCVideoPlayerStandardTwo.backPress())
+            return;
+        else {
+            MediaPlayerHelper.getInstance().releaseAllVideos();
+            super.onBackPressed();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        JCVideoPlayerStandard.releaseAllVideos();
+        JCVideoPlayerStandardTwo.releaseAllVideos();
         MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
