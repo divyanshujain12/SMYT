@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/three_dp"
     tools:showIn="@layout/all_video_top_rated_single_item">
 
-    <com.player.divyanshu.customvideoplayer.SingleVideoPlayer
+    <com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView
         android:id="@+id/firstVideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

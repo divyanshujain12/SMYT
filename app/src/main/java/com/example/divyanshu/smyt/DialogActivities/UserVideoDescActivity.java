@@ -37,7 +37,6 @@ import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +46,8 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
@@ -310,12 +311,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onBackPressed() {
-        MediaPlayerHelper.getInstance().releaseAllVideos();
-        super.onBackPressed();
-    }
-
-    @Override
     public void onPopupMenuClicked(View view, int position) {
         switch (view.getId()) {
             case R.id.addVideoToBannerTV:
@@ -410,5 +405,28 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             intent.putExtra(Constants.CUSTOMER_ID, videoDetailModel.getCustomer_id());
             startActivity(intent);
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayerStandard.backPress())
+            return;
+        else if (JCVideoPlayerStandardTwo.backPress())
+            return;
+        else {
+      //      MediaPlayerHelper.getInstance().releaseAllVideos();
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseVideos();
+    }
+
+    private void releaseVideos() {
+        JCVideoPlayerStandard.releaseAllVideos();
+        JCVideoPlayerStandardTwo.releaseAllVideos();
+   //     MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 }

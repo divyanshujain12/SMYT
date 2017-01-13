@@ -218,7 +218,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         int vote1Int = Integer.parseInt(challengeModel.getVote1());
 
         if (Utils.isDifferenceLowerThanTwentyFourHours(Long.parseLong(challengeModel.getRound_date()))) {
-           // holder.userOneWinLoseTV.setText(R.string.voting_open);
+            // holder.userOneWinLoseTV.setText(R.string.voting_open);
             holder.userWinningBar.addView(addOpenVotingView(challengeModel.getVote(), challengeModel.getVote1()));
         } else {
             if (voteInt > vote1Int)
@@ -294,7 +294,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         View view = LayoutInflater.from(context).inflate(R.layout.voting_view, null);
         TextView userOneVoteCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
         TextView userTwoVoteCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
-
+        view.findViewById(R.id.votingStatusTV).setVisibility(View.GONE);
         userOneVoteCountTV.setText(vote);
         userTwoVoteCountTV.setText(vote1);
         return view;

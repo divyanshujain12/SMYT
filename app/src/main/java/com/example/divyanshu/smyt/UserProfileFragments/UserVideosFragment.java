@@ -57,14 +57,15 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     RecyclerView videosRV;
     ArrayList<VideoModel> userVideoModels = new ArrayList<>();
     private TSnackbar continuousSB = null;
-    private String customerID = "";
+    private static String customerID = "";
     private int selectedVideo = 0;
 
     public static UserVideosFragment getInstance(String customerID) {
         UserVideosFragment userVideosFragment = new UserVideosFragment();
-        Bundle bundle = new Bundle();
+/*        Bundle bundle = new Bundle();
         bundle.putString(Constants.CUSTOMER_ID, customerID);
-        userVideosFragment.setArguments(bundle);
+        userVideosFragment.setArguments(bundle);*/
+        UserVideosFragment.customerID = customerID;
         return userVideosFragment;
     }
 
@@ -84,6 +85,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_videos_fragment, null);
+       // customerID = getArguments().getString(Constants.CUSTOMER_ID);
         ButterKnife.inject(this, view);
         return view;
     }
@@ -101,7 +103,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     }
 
     private void initViews() {
-        customerID = getArguments().getString(Constants.CUSTOMER_ID);
+
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);
         videosRV.setAdapter(userVideoAdapter);

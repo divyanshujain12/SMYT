@@ -45,6 +45,8 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
@@ -412,5 +414,29 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayerStandard.backPress())
+            return;
+        else if (JCVideoPlayerStandardTwo.backPress())
+            return;
+        else {
+          //  MediaPlayerHelper.getInstance().releaseAllVideos();
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseVideos();
+    }
+
+    private void releaseVideos() {
+        JCVideoPlayerStandard.releaseAllVideos();
+        JCVideoPlayerStandardTwo.releaseAllVideos();
+      //  MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 }

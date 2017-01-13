@@ -31,7 +31,7 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.PlayVideoInterface;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked, PlayVideoInterface {
+public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked {
 
     private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
     private ArrayList<AllVideoModel> bannerVideos;
@@ -173,8 +173,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
-        //holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
-        holder.singleVideoPlayerView.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomer_id());
+        holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
+       // holder.singleVideoPlayerView.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomer_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
@@ -200,8 +200,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         setUpMoreIvButtonVisibility(holder, allVideoModel);
         holder.viewsCountTV.setText(allVideoModel.getViews());
 
-        //holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
-        holder.twoVideoPlayers.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomers_videos_id());
+        holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
+        //holder.twoVideoPlayers.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
@@ -300,11 +300,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         allVideoModels.remove(selectedVideoPos);
         notifyItemRemoved(selectedVideoPos);
         notifyItemRangeChanged(selectedVideoPos, getItemCount());
-    }
-
-    @Override
-    public void onVideoPlay(int position) {
-        CallWebService.getInstance(context, false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(allVideoModels.get(position).getCustomers_videos_id()), null);
     }
 
     private JSONObject createJsonForUpdateViewsCount(String customerVideoID) {

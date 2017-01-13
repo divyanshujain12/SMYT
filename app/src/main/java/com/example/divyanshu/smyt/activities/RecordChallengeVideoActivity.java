@@ -30,7 +30,6 @@ import com.example.divyanshu.smyt.Utils.VideoSetupUtils;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.checkbox.CheckBox;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
@@ -42,6 +41,7 @@ import java.text.ParseException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 /**
  * Created by divyanshu.jain on 12/6/2016.
@@ -308,13 +308,32 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     }
 
     @Override
+    public void onBackPressed() {
+        if (JCVideoPlayerStandard.backPress())
+            return;
+        else if (JCVideoPlayerStandardTwo.backPress())
+            return;
+        else {
+            // MediaPlayerHelper.getInstance().releaseAllVideos();
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+        JCVideoPlayerStandard.releaseAllVideos();
+        JCVideoPlayerStandardTwo.releaseAllVideos();
         if (!OngoingChallengeDescriptionActivity.isRoundPlayed)
             videoStopped();
         mWZBroadcast.endBroadcast();
-        MediaPlayerHelper.getInstance().releaseAllVideos();
+        //MediaPlayerHelper.getInstance().releaseAllVideos();
     }
+
+
+
+
+
 
     @Override
     public void onVideoStart() {

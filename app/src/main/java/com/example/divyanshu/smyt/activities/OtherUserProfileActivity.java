@@ -34,7 +34,6 @@ import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +41,8 @@ import org.json.JSONObject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -134,6 +135,11 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     @Override
     public void onPageSelected(int position) {
+        if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals("")) {
+            fab.setVisibility(View.GONE);
+            return;
+        }
+
         viewPagerPos = position;
         switch (position) {
             case 0:
@@ -284,10 +290,25 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         bundle.putBoolean(Constants.FROM_FOLLOWER, true);
         return bundle;
     }
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayerStandard.backPress())
+            return;
+        else if (JCVideoPlayerStandardTwo.backPress())
+            return;
+        else {
+            // MediaPlayerHelper.getInstance().releaseAllVideos();
+            super.onBackPressed();
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        MediaPlayerHelper.getInstance().releaseAllVideos();
+        JCVideoPlayerStandard.releaseAllVideos();
+        JCVideoPlayerStandardTwo.releaseAllVideos();
+        //MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 }
 

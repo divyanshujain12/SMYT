@@ -82,7 +82,7 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
     }
 
     public void addItems(ArrayList<UserModel> userModels) {
-        this.userList.addAll(userModels);
+        this.userList = userModels;
         notifyDataSetChanged();
     }
 }

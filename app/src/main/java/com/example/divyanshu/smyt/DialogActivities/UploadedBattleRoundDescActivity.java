@@ -46,6 +46,8 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.VOTE;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
@@ -450,5 +452,29 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayerStandard.backPress())
+            return;
+        else if (JCVideoPlayerStandardTwo.backPress())
+            return;
+        else {
+      //      MediaPlayerHelper.getInstance().releaseAllVideos();
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseVideos();
+    }
+
+    private void releaseVideos() {
+        JCVideoPlayerStandard.releaseAllVideos();
+        JCVideoPlayerStandardTwo.releaseAllVideos();
+     //   MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 }

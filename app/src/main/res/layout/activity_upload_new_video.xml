@@ -28,11 +28,22 @@
                 android:textSize="@dimen/eighteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
-            <include
-                layout="@layout/single_video_inside_view"
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="@dimen/two_hundred_twenty_dp"
                 android:layout_height="@dimen/one_hundred_fourty_five_dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                tools:showIn="@layout/single_video_item">
+
+
+                <com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView
+                    android:id="@+id/singleVideoPlayerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <include layout="@layout/single_video_user_view" />
+            </FrameLayout>
+
             <!--<ImageView
                 android:id="@+id/videoThumbIV"
                 android:layout_width="@dimen/two_hundred_twenty_dp"

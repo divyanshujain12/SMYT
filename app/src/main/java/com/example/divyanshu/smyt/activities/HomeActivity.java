@@ -28,7 +28,6 @@ import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.PermissionUtil;
 import com.example.divyanshu.smyt.Utils.Utils;
-import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -129,10 +128,12 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onBackPressed() {
-        if (JCVideoPlayerStandard.backPress() || JCVideoPlayerStandardTwo.backPress())
+        if (JCVideoPlayerStandard.backPress())
+            return;
+        else if (JCVideoPlayerStandardTwo.backPress())
             return;
         else {
-            MediaPlayerHelper.getInstance().releaseAllVideos();
+           // MediaPlayerHelper.getInstance().releaseAllVideos();
             super.onBackPressed();
         }
     }
@@ -142,17 +143,17 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onPause();
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
-        MediaPlayerHelper.getInstance().releaseAllVideos();
+        //MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         viewPagerCurrentPos = position;
-        if (position == 2 || position == 1)
+        if (position == 2 /*|| position == 1*/)
             showFab(position);
         else
             fab.setVisibility(View.GONE);
-        MediaPlayerHelper.getInstance().releaseAllVideos();
+        //MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
     private void showFab(int position) {

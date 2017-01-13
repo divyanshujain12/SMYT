@@ -182,15 +182,15 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
         uri = Pattern.compile("rtsp://(.+):(\\d+)/(.+)");
         userID = MySharedPereference.getInstance().getString(this, CUSTOMER_ID);
         videoName = WOWZA_MYSTREAM_PREFIX + userID + "_" + Utils.getCurrentTimeInMillisecond();
-        streamVideoUrl = WOWZA_STREAM_URL + videoName;
+        streamVideoUrl = WOWZA_STREAM_URL + videoName + "/playlist.m3u8?DVR";
         Matcher m = uri.matcher(streamVideoUrl);
-        m.find();
-        String ip = m.group(1);
-        String port = m.group(2);
+        // m.find();
+        // String ip = m.group(1);
+        // String port = m.group(2);
         // String path = m.group(3);
 
-        mWZBroadcastConfig.setHostAddress(ip);
-        mWZBroadcastConfig.setPortNumber(Integer.parseInt(port));
+        mWZBroadcastConfig.setHostAddress(Constants.IP_ADDRESS);
+        mWZBroadcastConfig.setPortNumber(Integer.parseInt(Constants.PORT_NUMBER));
         mWZBroadcastConfig.setUsername(WOWZA_USERNAME);
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);

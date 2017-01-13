@@ -23,7 +23,6 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import java.util.ArrayList;
 
@@ -50,7 +49,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         private TwoVideoPlayerCustomView twoVideoPlayers;
         private ImageView firstUserIV, secondUserIV;
         TextView firstUserNameTV, secondUserNameTV;
-        TextView userOneVoteCountTV,userTwoVoteCountTV;
+        TextView userOneVoteCountTV, userTwoVoteCountTV;
         private LinearLayout firstUserLL, secondUserLL;
 
         public BattleVideoHolder(View view) {
@@ -93,7 +92,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
 
     @Override
     public void onBindViewHolder(final BattleVideoHolder holder, int position) {
-       final ChallengeModel challengeModel = challengeModels.get(position);
+        final ChallengeModel challengeModel = challengeModels.get(position);
 
         holder.challengeTitleView.setUp(challengeModel.getTitle(), this, position);
         holder.challengeTitleView.showHideMoreIvButton(false);
@@ -160,9 +159,10 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
     }
 
     public void addItem(ArrayList<ChallengeModel> challengeModels) {
-        this.challengeModels.addAll(challengeModels);
+        this.challengeModels = challengeModels;
         notifyDataSetChanged();
     }
+
     private void goToUserDetailActivity(String customer_id) {
         if (!customer_id.equals("") && !customer_id.equals(MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID))) {
             Intent intent = new Intent(context, OtherUserProfileActivity.class);

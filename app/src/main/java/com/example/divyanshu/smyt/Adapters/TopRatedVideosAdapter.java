@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
+import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
@@ -15,8 +17,6 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
-import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import java.util.ArrayList;
 
@@ -38,25 +38,25 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private class SingleVideoHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, userTimeTV;
-        public SingleVideoPlayer firstVideoPlayer;
+        public SingleVideoPlayerCustomView firstVideoPlayer;
 
         public SingleVideoHolder(View view) {
             super(view);
             userNameTV = (TextView) view.findViewById(R.id.userNameTV);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
-            firstVideoPlayer = (SingleVideoPlayer) view.findViewById(R.id.firstVideoPlayer);
+            firstVideoPlayer = (SingleVideoPlayerCustomView) view.findViewById(R.id.firstVideoPlayer);
         }
     }
 
     private class ChallengeVideosHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, userTimeTV;
-        private TwoVideoPlayers twoVideoPlayer;
+        private TwoVideoPlayerCustomView twoVideoPlayer;
 
         private ChallengeVideosHolder(View view) {
             super(view);
             userNameTV = (TextView) view.findViewById(R.id.userNameTV);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
-            twoVideoPlayer = (TwoVideoPlayers) view.findViewById(R.id.twoVideoPlayers);
+            twoVideoPlayer = (TwoVideoPlayerCustomView) view.findViewById(R.id.twoVideoPlayers);
         }
     }
 
@@ -86,16 +86,16 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void setUpForSingleVideo(final SingleVideoHolder holder, AllVideoModel videoModel) {
+
         holder.userNameTV.setText(videoModel.getFirst_name());
-        holder.firstVideoPlayer.setThumbnail(videoModel.getThumbnail());
-        holder.firstVideoPlayer.setVideoUrl(videoModel.getVideo_url());
+        holder.firstVideoPlayer.setUp(videoModel.getVideo_url(), videoModel.getThumbnail(), videoModel.getCustomers_videos_id());
         holder.userTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, UserVideoDescActivity.class);
-                intent.putExtra(Constants.FROM_BANNER,true);
+                intent.putExtra(Constants.FROM_BANNER, true);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, videoList.get(holder.getAdapterPosition()).getCustomers_videos_id());
                 context.startActivity(intent);
 
@@ -105,8 +105,7 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void setUpForTwoVideo(final ChallengeVideosHolder holder, AllVideoModel videoModel) {
         holder.userNameTV.setText(videoModel.getFirst_name());
-        holder.twoVideoPlayer.setThumbnail(videoModel.getThumbnail(), videoModel.getThumbnail1());
-        holder.twoVideoPlayer.setVideoUrls(videoModel.getVideo_url(), videoModel.getVideo_url1());
+        holder.twoVideoPlayer.setUp(videoModel.getVideo_url(), videoModel.getVideo_url1(), videoModel.getThumbnail(), videoModel.getThumbnail1(), videoModel.getCustomers_videos_id());
         holder.userTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +113,7 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 Intent intent = new Intent(context, UploadedBattleRoundDescActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, videoList.get(holder.getAdapterPosition()).getCustomers_videos_id());
-                intent.putExtra(Constants.FROM_BANNER,true);
+                intent.putExtra(Constants.FROM_BANNER, true);
                 context.startActivity(intent);
 
             }

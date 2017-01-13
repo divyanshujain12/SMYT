@@ -102,7 +102,7 @@ public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCom
     }
 
     public void addItems(ArrayList<ChallengeModel> challengeModels) {
-        this.challengeModels.addAll(challengeModels);
+        this.challengeModels = challengeModels;
         notifyDataSetChanged();
     }
 

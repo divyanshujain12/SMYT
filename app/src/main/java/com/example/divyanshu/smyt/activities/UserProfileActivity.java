@@ -44,7 +44,6 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.PermissionUtil;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +51,8 @@ import org.json.JSONObject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 
@@ -168,7 +169,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
-        MediaPlayerHelper.getInstance().releaseAllVideos();
+        releaseVideos();
         viewPagerPos = position;
         switch (position) {
             case 0:
@@ -255,16 +256,29 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         statusTV.setText(userModel.getTimeline_msg());
     }
 
+
     @Override
     public void onBackPressed() {
-        MediaPlayerHelper.getInstance().releaseAllVideos();
-        super.onBackPressed();
+        if (JCVideoPlayerStandard.backPress())
+            return;
+        else if (JCVideoPlayerStandardTwo.backPress())
+            return;
+        else {
+        //    MediaPlayerHelper.getInstance().releaseAllVideos();
+            super.onBackPressed();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MediaPlayerHelper.getInstance().releaseAllVideos();
+        releaseVideos();
+    }
+
+    private void releaseVideos() {
+        JCVideoPlayerStandard.releaseAllVideos();
+        JCVideoPlayerStandardTwo.releaseAllVideos();
+      //  MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
 

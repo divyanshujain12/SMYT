@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -18,6 +17,8 @@ import com.example.divyanshu.smyt.Adapters.AutoCompleteArrayAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
+import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.ThumbnailGenerateModel;
 import com.example.divyanshu.smyt.Models.UserModel;
@@ -36,8 +37,6 @@ import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
-import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +47,7 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_USER_VIDEO;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_VIDEO_PREVIOUS;
@@ -58,8 +58,19 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.SEARCH_USER;
  */
 
 public class UploadNewVideoActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
+
+
+    ArrayAdapter<String> arrayAdapter;
     @InjectView(R.id.declineTV)
     TextView declineTV;
+    @InjectView(R.id.singleVideoPlayerView)
+    SingleVideoPlayerCustomView singleVideoPlayerView;
+    @InjectView(R.id.firstUserIV)
+    RoundedImageView firstUserIV;
+    @InjectView(R.id.firstUserNameTV)
+    TextView firstUserNameTV;
+    @InjectView(R.id.firstUserLL)
+    LinearLayout firstUserLL;
     @InjectView(R.id.discardAndRecordTV)
     TextView discardAndRecordTV;
     @InjectView(R.id.videoTitleET)
@@ -68,6 +79,8 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     LinearLayout titleLL;
     @InjectView(R.id.genreTypeSP)
     Spinner genreTypeSP;
+    @InjectView(R.id.genreNameTV)
+    TextView genreNameTV;
     @InjectView(R.id.genreLL)
     LinearLayout genreLL;
     @InjectView(R.id.shareWithSP)
@@ -80,19 +93,10 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     ProgressBar loadFriendsPB;
     @InjectView(R.id.searchFriendLL)
     LinearLayout searchFriendLL;
-    @InjectView(R.id.postVideoBT)
-    Button postVideoBT;
-    ArrayAdapter<String> arrayAdapter;
     @InjectView(R.id.scrollView)
     ScrollView scrollView;
-    @InjectView(R.id.firstVideoPlayer)
-    SingleVideoPlayer firstVideoPlayer;
-    @InjectView(R.id.firstUserNameTV)
-    TextView firstUserNameTV;
-    @InjectView(R.id.videoFL)
-    FrameLayout videoFL;
-    @InjectView(R.id.genreNameTV)
-    TextView genreNameTV;
+    @InjectView(R.id.postVideoBT)
+    Button postVideoBT;
     private String[] genreTypesArray = null, shareWithArray = null;
     private Validation validation;
     private String genreTypeStr, shareWithStr;
@@ -164,8 +168,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
 
     private void setUpVideoPlayer(ThumbnailGenerateModel thumbnailGenerateModel) {
         imageLoading = new ImageLoading(this);
-        firstVideoPlayer.setVideoUrl(thumbnailGenerateModel.getVideo_url());
-        firstVideoPlayer.setThumbnail(thumbnailGenerateModel.getThumbnail());
+        singleVideoPlayerView.setUp(thumbnailGenerateModel.getVideo_url(), thumbnailGenerateModel.getThumbnail(), "");
     }
 
     @Override
@@ -331,6 +334,6 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     @Override
     protected void onPause() {
         super.onPause();
-        MediaPlayerHelper.getInstance().releaseAllVideos();
+        JCVideoPlayerStandard.releaseAllVideos();
     }
 }

@@ -68,7 +68,8 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
 
     private void onPlayButtonClicked() {
         firstVideoPlayer.startPlayLogic();
-        CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
+        if (customerVideoID.length() > 0)
+            CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
         playVideoIV.setVisibility(GONE);
 
     }
@@ -102,6 +103,7 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
     public void onVideoPlay(View view) {
         // CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
     }
+
     @Override
     public void onVideoStopped() {
         resetPlayers();
