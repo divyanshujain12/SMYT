@@ -146,10 +146,9 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
             CustomToasts.getInstance(this).showErrorToast(getString(R.string.err_msg_copy_challenge));
             return;
         }
-
         switch (view.getId()) {
             case R.id.leftSideVotingView:
-                if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date())) {
+                if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date()) && !MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID).equals(challengeVideoDescModel.getCustomer_id())) {
                     sendVote(challengeVideoDescModel.getCustomer_id());
                     challengeVideoDescModel.setVote(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote()) + 1));
                     setVoteCount();
@@ -157,7 +156,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
                 }
                 break;
             case R.id.rightSideVotingView:
-                if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date())) {
+                if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date()) && !MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID).equals(challengeVideoDescModel.getCustomer_id1())) {
                     sendVote(challengeVideoDescModel.getCustomer_id1());
                     challengeVideoDescModel.setVote1(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote1()) + 1));
                     setEnableDisableLikeImage(userTwoVideoLikeIV);
@@ -461,7 +460,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
         else if (JCVideoPlayerStandardTwo.backPress())
             return;
         else {
-      //      MediaPlayerHelper.getInstance().releaseAllVideos();
+            //      MediaPlayerHelper.getInstance().releaseAllVideos();
             super.onBackPressed();
         }
     }
@@ -475,6 +474,6 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     private void releaseVideos() {
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
-     //   MediaPlayerHelper.getInstance().releaseAllVideos();
+        //   MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 }
