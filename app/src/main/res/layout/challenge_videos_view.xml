@@ -9,9 +9,9 @@
 
 
     <com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView
+        android:id="@+id/twoVideoPlayers"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/two_hundred_fifty_dp"
-        android:id="@+id/twoVideoPlayers" />
+        android:layout_height="@dimen/two_hundred_fifty_dp" />
 
     <include layout="@layout/challenge_video_users_bar" />
 </FrameLayout>

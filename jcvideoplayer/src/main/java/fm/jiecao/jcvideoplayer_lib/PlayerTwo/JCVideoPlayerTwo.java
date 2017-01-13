@@ -42,6 +42,7 @@ import fm.jiecao.jcvideoplayer_lib.JCResizeTextureView;
 import fm.jiecao.jcvideoplayer_lib.JCUtils;
 
 
+import fm.jiecao.jcvideoplayer_lib.PlayVideoInterface;
 import fm.jiecao.jcvideoplayer_lib.R;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -111,7 +112,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
     protected int mDownPosition;
     protected int mGestureDownVolume;
     protected int mSeekTimePosition;
-
+    protected PlayVideoInterface playVideoInterface;
     public JCVideoPlayerTwo(Context context) {
         super(context);
         init(context);
@@ -194,6 +195,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
                     return;
                 }*/
                 prepareVideo();
+                playVideoInterface.onVideoPlay(this);
                 onEvent(currentState != CURRENT_STATE_ERROR ? JCBuriedPoint.ON_CLICK_START_ICON : JCBuriedPoint.ON_CLICK_START_ERROR);
             } else if (currentState == CURRENT_STATE_PLAYING) {
                 onEvent(JCBuriedPoint.ON_CLICK_PAUSE);
@@ -1029,6 +1031,10 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
         return 0;
     }
     public void showPlayButton(boolean show) {
-       // startButton.setVisibility(show ? VISIBLE : GONE);
+        startButton.setVisibility(show ? VISIBLE : GONE);
+    }
+
+    public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {
+        this.playVideoInterface = playVideoInterface;
     }
 }

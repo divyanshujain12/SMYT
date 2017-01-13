@@ -112,7 +112,7 @@
             android:layout_height="100dp"
             android:layout_gravity="bottom|start">
 
-            <com.player.divyanshu.customvideoplayer.SingleVideoPlayer
+            <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
                 android:id="@+id/otherUserVideoPlayer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

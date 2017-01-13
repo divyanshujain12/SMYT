@@ -161,5 +161,6 @@
     <string name="developed_website">http://www.freshtechapps.com</string>
     <string name="click_for_desc">Click For Description</string>
     <string name="err_msg_copy_challenge">This is the copy of challenge, You can not vote on this</string>
+    <string name="voting_closed">Voting Closed</string>
 
 </resources>

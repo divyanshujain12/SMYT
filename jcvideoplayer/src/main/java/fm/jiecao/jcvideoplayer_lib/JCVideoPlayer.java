@@ -192,6 +192,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                 }*/
                 prepareVideo();
                 onEvent(currentState != CURRENT_STATE_ERROR ? JCBuriedPoint.ON_CLICK_START_ICON : JCBuriedPoint.ON_CLICK_START_ERROR);
+                //playVideoInterface.onVideoPlay(this);
             } else if (currentState == CURRENT_STATE_PLAYING) {
                 onEvent(JCBuriedPoint.ON_CLICK_PAUSE);
                 Log.d(TAG, "pauseVideo [" + this.hashCode() + "] ");
@@ -811,10 +812,10 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public static void releaseAllVideos() {
-       // playVideoInterface.onVideoStopped();
         Log.d(TAG, "releaseAllVideos");
         JCVideoPlayerManager.completeAll();
         JCMediaManager.instance().releaseMediaPlayer();
+        //playVideoInterface.onVideoStopped();
     }
 
     public static void setJcBuriedPoint(JCBuriedPoint jcBuriedPoint) {
@@ -1030,7 +1031,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public void showPlayButton(boolean show) {
-      //  startButton.setVisibility(show ? VISIBLE : GONE);
+        startButton.setVisibility(show ? VISIBLE : GONE);
     }
 
     public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {

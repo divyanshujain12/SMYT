@@ -136,6 +136,24 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
             challengeHeaderTV.setText(challengeDescModel.getTitle());
             totalRoundsTV.setText(challengeDescModel.getTotal_round());
             challengeRoundDescRvAdapter.addItems(challengeDescModel.getChallenge_rounds());
+            setUpCurrentStatus();
+        }
+    }
+
+    private void setUpCurrentStatus() {
+        switch (challengeDescModel.getCurrent_customer_video_status()) {
+            case 0:
+                challengeTypeTV.setText("Pending");
+                break;
+            case 1:
+                challengeTypeTV.setText("Accepted");
+                break;
+            case 2:
+                challengeTypeTV.setText("Rejected");
+                break;
+           /* case 3:
+                challengeTypeTV.setText("Your Challenge");
+                break;*/
         }
     }
 

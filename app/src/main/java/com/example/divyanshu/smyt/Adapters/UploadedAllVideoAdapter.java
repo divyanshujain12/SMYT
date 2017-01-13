@@ -195,7 +195,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
-        holder.challengeTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
+        String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
+        holder.challengeTitleView.setUp(title, this, holder.getAdapterPosition());
         setUpMoreIvButtonVisibility(holder, allVideoModel);
         holder.viewsCountTV.setText(allVideoModel.getViews());
 

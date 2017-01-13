@@ -6,6 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
+
     android:gravity="center_vertical"
     android:orientation="horizontal"
     tools:showIn="@layout/voting_view">

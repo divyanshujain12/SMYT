@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/voteRL"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/five_dp">
 
     <include layout="@layout/left_side_voting_view" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/votingStatusTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:alpha=".6"
+        android:text="@string/voting_open"
+        android:textSize="@dimen/eighteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
 
     <include layout="@layout/right_side_voting_view" />
 

@@ -26,11 +26,11 @@ import com.example.divyanshu.smyt.ServicesAndNotifications.OtherUserAvailability
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.Utils.VideoSetupUtils;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.checkbox.CheckBox;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
-import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
 
@@ -38,12 +38,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by divyanshu.jain on 12/6/2016.
@@ -69,10 +67,10 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     LinearLayout timerLL;
     @InjectView(R.id.otherUserWaitingTV)
     TextView otherUserWaitingTV;
-    @InjectView(R.id.otherUserVideoPlayer)
-    SingleVideoPlayer otherUserVideoPlayer;
     @InjectView(R.id.autoStartCB)
     CheckBox autoStartCB;
+    @InjectView(R.id.otherUserVideoPlayer)
+    JCVideoPlayerStandard otherUserVideoPlayer;
     private CountDownTimerClass countDownTimerClass;
     private String challengeID;
     private String customerVideoID = "";
@@ -100,7 +98,6 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         long remainingTime = Utils.getTimeDifferenceFromCurrent(roundDateAndTime);
         CountDownTimerClass countDownTimerClass = new CountDownTimerClass(remainingTime, 1000);
         countDownTimerClass.start();
-        otherUserVideoPlayer.setHideControls(true);
         txtTimer.setTenMinutesCallback(this);
         autoStartCB.setOnCheckedChangeListener(this);
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -272,8 +269,8 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     @Override
     public void onAvailable(String videoUrl) {
         otherUserWaitingTV.setVisibility(View.GONE);
-        otherUserVideoPlayer.setVideoUrl(videoUrl);
-        otherUserVideoPlayer.playButtonClicked();
+        VideoSetupUtils.getInstance(this).setUpFirstVideoPlayer(otherUserVideoPlayer, videoUrl, "");
+        otherUserVideoPlayer.startPlayLogic();
     }
 
     @Override

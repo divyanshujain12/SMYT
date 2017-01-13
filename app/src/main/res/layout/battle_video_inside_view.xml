@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/fullscreenIV"
@@ -53,11 +53,17 @@
             android:src="@drawable/full_screen_videos" />
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/playVideosIV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/icon_play"
-        android:visibility="gone" />
+    <FrameLayout
+        android:id="@+id/playVideosFL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/playVideosIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_play"
+            android:visibility="visible" />
+    </FrameLayout>
 </FrameLayout>

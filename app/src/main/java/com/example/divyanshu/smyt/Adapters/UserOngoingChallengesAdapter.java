@@ -120,7 +120,7 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
     }
 
     public void addItems(ArrayList<ChallengeModel> challengeModels) {
-        this.challengeModels.addAll(challengeModels);
+        this.challengeModels = challengeModels;
         notifyDataSetChanged();
     }
 

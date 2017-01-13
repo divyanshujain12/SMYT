@@ -37,7 +37,6 @@ import com.example.divyanshu.smyt.activities.InAppActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static com.example.divyanshu.smyt.Constants.ApiCodes.VOTE;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
 import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
 import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
@@ -59,24 +59,27 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 
 public class UploadedBattleRoundDescActivity extends BaseActivity implements PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
 
+
+    @InjectView(R.id.challengeTitleView)
+    ChallengeRoundTitleView challengeTitleView;
     @InjectView(R.id.twoVideoPlayers)
     TwoVideoPlayerCustomView twoVideoPlayers;
-    @InjectView(R.id.playVideoIV)
-    ImageView playVideoIV;
+    @InjectView(R.id.firstUserIV)
+    RoundedImageView firstUserIV;
     @InjectView(R.id.firstUserNameTV)
     TextView firstUserNameTV;
+    @InjectView(R.id.firstUserLL)
+    LinearLayout firstUserLL;
     @InjectView(R.id.secondUserNameTV)
     TextView secondUserNameTV;
-    @InjectView(R.id.fullscreenIV)
-    ImageView fullscreenIV;
-    @InjectView(R.id.fullscreenFL)
-    FrameLayout fullscreenFL;
-    @InjectView(R.id.playVideosIV)
-    ImageView playVideosIV;
-    @InjectView(R.id.videoFL)
-    FrameLayout videoFL;
+    @InjectView(R.id.secondUserIV)
+    RoundedImageView secondUserIV;
+    @InjectView(R.id.secondUserLL)
+    LinearLayout secondUserLL;
     @InjectView(R.id.commentsTV)
     TextView commentsTV;
+    @InjectView(R.id.viewsCountTV)
+    TextView viewsCountTV;
     @InjectView(R.id.uploadedTimeTV)
     TextView uploadedTimeTV;
     @InjectView(R.id.userOneVideoLikeIV)
@@ -87,6 +90,8 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     LinearLayout leftSideVotingView;
     @InjectView(R.id.userTwoVoteCountTV)
     TextView userTwoVoteCountTV;
+    @InjectView(R.id.userTwoVideoLikeIV)
+    ImageView userTwoVideoLikeIV;
     @InjectView(R.id.rightSideVotingView)
     LinearLayout rightSideVotingView;
     @InjectView(R.id.voteRL)
@@ -101,18 +106,8 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     ProgressBar commentPB;
     @InjectView(R.id.commentBar)
     FrameLayout commentBar;
-
-    @InjectView(R.id.firstUserIV)
-    RoundedImageView firstUserIV;
-    @InjectView(R.id.secondUserIV)
-    RoundedImageView secondUserIV;
-    @InjectView(R.id.challengeTitleView)
-    ChallengeRoundTitleView challengeTitleView;
-    @InjectView(R.id.userTwoVideoLikeIV)
-    ImageView userTwoVideoLikeIV;
-    @InjectView(R.id.viewsCountTV)
-    TextView viewsCountTV;
-
+    @InjectView(R.id.votingStatusTV)
+    TextView votingStatusTV;
     private Validation validation;
     private HashMap<View, String> validationMap;
     private String customerVideoID;
@@ -151,14 +146,12 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
         }
 
         switch (view.getId()) {
-
             case R.id.leftSideVotingView:
                 if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date())) {
                     sendVote(challengeVideoDescModel.getCustomer_id());
                     challengeVideoDescModel.setVote(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote()) + 1));
                     setVoteCount();
                     setEnableDisableLikeImage(userOneVideoLikeIV);
-                    // BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this, challengeVideoDescModel.getChallenge_id(), challengeVideoDescModel.getVote(), 0);
                 }
                 break;
             case R.id.rightSideVotingView:
@@ -167,7 +160,6 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
                     challengeVideoDescModel.setVote1(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote1()) + 1));
                     setEnableDisableLikeImage(userTwoVideoLikeIV);
                     setVoteCount();
-                    //BroadcastSenderClass.getInstance().sendVoteCountBroadcastToLiveTab(this, challengeVideoDescModel.getChallenge_id(), challengeVideoDescModel.getVote1(), 1);
                 }
                 break;
             case R.id.sendCommentIV:
@@ -186,7 +178,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     }
 
     private void sendVote(String votingCustomerID) {
-        CallWebService.getInstance(this, false, ApiCodes.VOTE).hitJsonObjectRequestAPI(CallWebService.POST, API.VOTE_UP, createJsonForVoting(votingCustomerID), this);
+        CallWebService.getInstance(this, false, VOTE).hitJsonObjectRequestAPI(CallWebService.POST, API.VOTE_UP, createJsonForVoting(votingCustomerID), this);
     }
 
     @Override
@@ -208,19 +200,28 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
                 updateUI();
                 break;
             case ApiCodes.POST_COMMENT:
-                setCommentPBVisibility(View.GONE);
-                CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
-                CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
-                addNewCommentToList(commentModel);
-                updateAndSendCommentsCount();
+                onPostComment(response);
                 break;
             case ApiCodes.DELETE_COMMENT:
-                //updateAndSendCommentsCount();
+                break;
+            case VOTE:
+
                 break;
         }
     }
 
+    @Override
+    public void onFailure(String str, int apiType) {
+        switch (apiType) {
+            case VOTE:
+
+                break;
+        }
+        CommonFunctions.getInstance().showErrorSnackBar(this, str);
+    }
+
     private void updateUI() {
+        setVotingStatus();
         setUpUsersViews();
         setUpMoreOptionPopupWindow(challengeVideoDescModel.getTitle());
         viewsCountTV.setText(challengeVideoDescModel.getViews());
@@ -233,6 +234,22 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
         if (!currentCustomerID.equals(challengeVideoDescModel.getCustomer_id()) && !currentCustomerID.equals(challengeVideoDescModel.getCustomer_id1()))
             challengeTitleView.showHideMoreIvButton(false);
 
+    }
+
+    private void setVotingStatus() {
+        if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date())) {
+            votingStatusTV.setText(R.string.voting_open);
+        } else {
+            votingStatusTV.setText(R.string.voting_closed);
+        }
+    }
+
+    private void onPostComment(JSONObject response) throws JSONException {
+        setCommentPBVisibility(View.GONE);
+        CommentModel commentModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), CommentModel.class);
+        CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
+        addNewCommentToList(commentModel);
+        updateAndSendCommentsCount();
     }
 
     private void setUpMoreOptionPopupWindow(String title) {
@@ -285,7 +302,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
     }
 
     private void setupVideo() {
-        twoVideoPlayers.setUp(challengeVideoDescModel.getVideo_url(), challengeVideoDescModel.getVideo_url1(),challengeVideoDescModel.getThumbnail(), challengeVideoDescModel.getThumbnail1(),challengeVideoDescModel.getCustomers_videos_id());
+        twoVideoPlayers.setUp(challengeVideoDescModel.getVideo_url(), challengeVideoDescModel.getVideo_url1(), challengeVideoDescModel.getThumbnail(), challengeVideoDescModel.getThumbnail1(), challengeVideoDescModel.getCustomers_videos_id());
     }
 
     private void setVoteCount() {

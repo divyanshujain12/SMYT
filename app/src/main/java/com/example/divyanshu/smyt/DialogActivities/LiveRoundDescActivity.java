@@ -25,17 +25,17 @@ import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.example.divyanshu.smyt.activities.InAppActivity;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.player.divyanshu.customvideoplayer.TwoVideoPlayers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,24 +56,27 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 
 public class LiveRoundDescActivity extends BaseActivity implements PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
 
+
+    @InjectView(R.id.challengeTitleView)
+    ChallengeRoundTitleView challengeTitleView;
     @InjectView(R.id.twoVideoPlayers)
     TwoVideoPlayerCustomView twoVideoPlayers;
-    @InjectView(R.id.playVideoIV)
-    ImageView playVideoIV;
+    @InjectView(R.id.firstUserIV)
+    RoundedImageView firstUserIV;
     @InjectView(R.id.firstUserNameTV)
     TextView firstUserNameTV;
+    @InjectView(R.id.firstUserLL)
+    LinearLayout firstUserLL;
     @InjectView(R.id.secondUserNameTV)
     TextView secondUserNameTV;
-    @InjectView(R.id.fullscreenIV)
-    ImageView fullscreenIV;
-    @InjectView(R.id.fullscreenFL)
-    FrameLayout fullscreenFL;
-    @InjectView(R.id.playVideosIV)
-    ImageView playVideosIV;
-    @InjectView(R.id.videoFL)
-    FrameLayout videoFL;
+    @InjectView(R.id.secondUserIV)
+    RoundedImageView secondUserIV;
+    @InjectView(R.id.secondUserLL)
+    LinearLayout secondUserLL;
     @InjectView(R.id.commentsTV)
     TextView commentsTV;
+    @InjectView(R.id.viewsCountTV)
+    TextView viewsCountTV;
     @InjectView(R.id.uploadedTimeTV)
     TextView uploadedTimeTV;
     @InjectView(R.id.userOneVideoLikeIV)
@@ -84,6 +87,8 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
     LinearLayout leftSideVotingView;
     @InjectView(R.id.userTwoVoteCountTV)
     TextView userTwoVoteCountTV;
+    @InjectView(R.id.userTwoVideoLikeIV)
+    ImageView userTwoVideoLikeIV;
     @InjectView(R.id.rightSideVotingView)
     LinearLayout rightSideVotingView;
     @InjectView(R.id.voteRL)
@@ -98,16 +103,8 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
     ProgressBar commentPB;
     @InjectView(R.id.commentBar)
     FrameLayout commentBar;
-
-    @InjectView(R.id.firstUserIV)
-    RoundedImageView firstUserIV;
-    @InjectView(R.id.secondUserIV)
-    RoundedImageView secondUserIV;
-    @InjectView(R.id.challengeTitleView)
-    ChallengeRoundTitleView challengeTitleView;
-    @InjectView(R.id.userTwoVideoLikeIV)
-    ImageView userTwoVideoLikeIV;
-
+    @InjectView(R.id.votingStatusTV)
+    TextView votingStatusTV;
     private Validation validation;
     private HashMap<View, String> validationMap;
     private String customerVideoID;
@@ -203,6 +200,7 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
     }
 
     private void updateUI() {
+        setVotingStatus();
         setUpUsersViews();
         challengeTitleView.setUp(challengeVideoDescModel.getTitle(), this, 0);
         setVoteCount();
@@ -216,6 +214,13 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
 
     }
 
+    private void setVotingStatus() {
+        if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date())) {
+            votingStatusTV.setText(R.string.voting_open);
+        } else {
+            votingStatusTV.setText(R.string.voting_closed);
+        }
+    }
     private void seetUpCommentAdapter() {
         commentsAdapter = new CommentsAdapter(this, challengeVideoDescModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
@@ -259,7 +264,7 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
     }
 
     private void setupVideo() {
-        twoVideoPlayers.setUp(challengeVideoDescModel.getVideo_url(), challengeVideoDescModel.getVideo_url1(),challengeVideoDescModel.getThumbnail(), challengeVideoDescModel.getThumbnail1(),challengeVideoDescModel.getCustomers_videos_id());
+        twoVideoPlayers.setUp(challengeVideoDescModel.getVideo_url(), challengeVideoDescModel.getVideo_url1(), challengeVideoDescModel.getThumbnail(), challengeVideoDescModel.getThumbnail1(), challengeVideoDescModel.getCustomers_videos_id());
     }
 
     private void setVoteCount() {

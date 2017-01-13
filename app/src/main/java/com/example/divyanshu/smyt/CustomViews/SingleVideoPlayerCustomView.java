@@ -99,7 +99,7 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
     }
 
     @Override
-    public void onVideoPlay() {
+    public void onVideoPlay(View view) {
         // CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
     }
     @Override

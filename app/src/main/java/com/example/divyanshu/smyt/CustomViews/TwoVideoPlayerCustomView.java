@@ -36,7 +36,8 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
     private ImageView fullscreenIV;
     private ImageView playVideosIV;
     private String customerVideoID;
-
+    private FrameLayout playVideosFL;
+    private boolean firstPlayerVideoPlayed = false, secondPlayerVideoPlayed = false;
 
     public TwoVideoPlayerCustomView(Context context) {
         super(context);
@@ -52,14 +53,17 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
         LayoutInflater.from(getContext()).inflate(R.layout.battle_video_inside_view, this);
         firstVideoPlayer = (JCVideoPlayerStandard) findViewById(R.id.firstVideoPlayer);
         secondVideoPlayer = (JCVideoPlayerStandardTwo) findViewById(R.id.secondVideoPlayer);
+
+        playVideosFL = (FrameLayout) findViewById(R.id.playVideosFL);
+        playVideosIV = (ImageView) findViewById(R.id.playVideosIV);
+
         fullscreenFL = (FrameLayout) findViewById(R.id.fullscreenFL);
         fullscreenIV = (ImageView) findViewById(R.id.fullscreenIV);
-        fullscreenFL.setOnClickListener(this);
-        playVideosIV = (ImageView) findViewById(R.id.playVideosIV);
-        playVideosIV.setOnClickListener(this);
 
+        fullscreenFL.setOnClickListener(this);
+        playVideosFL.setOnClickListener(this);
         firstVideoPlayer.setPlayVideoInterface(this);
-        showPlayersStartButtons(false);
+
         resetPlayers();
         setUpVideoPlayers(getContext(), firstVideoUrl, secondVideoUrl, firstThumbUrl, secondThumbUrl);
     }
@@ -73,7 +77,7 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.playVideosIV:
+            case R.id.playVideosFL:
                 onPlayButtonClicked();
                 break;
             case R.id.fullscreenFL:
@@ -86,9 +90,9 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
         showPlayersStartButtons(true);
         VideoSetupUtils.getInstance(getContext()).playMusic(firstVideoPlayer, secondVideoPlayer);
         CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
-        fullscreenFL.setVisibility(VISIBLE);
-        playVideosIV.setVisibility(GONE);
+        resetPlayButtonView(VISIBLE, GONE);
     }
+
 
     private void onFullScreenClicked() {
         VideoSetupUtils.getInstance(getContext()).playMusic(firstVideoPlayer, secondVideoPlayer);
@@ -128,9 +132,8 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
     }
 
     public void resetPlayers() {
-       // showPlayersStartButtons(false);
-        //fullscreenFL.setVisibility(GONE);
-        //playVideosIV.setVisibility(VISIBLE);
+        showPlayersStartButtons(false);
+        resetPlayButtonView(GONE, VISIBLE);
     }
 
     private void showPlayersStartButtons(boolean show) {
@@ -139,8 +142,22 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
     }
 
     @Override
-    public void onVideoPlay() {
-        CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
+    public void onVideoPlay(View view) {
+       /* if (view instanceof JCVideoPlayerStandard)
+            firstPlayerVideoPlayed = true;
+        else if (view instanceof JCVideoPlayerStandardTwo)
+            secondPlayerVideoPlayed = true;
+
+        if (firstPlayerVideoPlayed && secondPlayerVideoPlayed) {
+            CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
+            firstPlayerVideoPlayed = false;
+            secondPlayerVideoPlayed = false;
+        }*/
+    }
+
+    private void resetPlayButtonView(int visible, int gone) {
+        fullscreenFL.setVisibility(visible);
+        playVideosFL.setVisibility(gone);
     }
 
     @Override

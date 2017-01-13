@@ -38,7 +38,6 @@ import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.player.divyanshu.customvideoplayer.MediaPlayerHelper;
-import com.player.divyanshu.customvideoplayer.SingleVideoPlayer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,46 +55,39 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 
 public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener, PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
 
+
+    @InjectView(R.id.videoTitleView)
+    VideoTitleView videoTitleView;
     @InjectView(R.id.singleVideoPlayerView)
     SingleVideoPlayerCustomView singleVideoPlayerView;
-    @InjectView(R.id.videoThumbIV)
-    ImageView videoThumbIV;
-    @InjectView(R.id.playVideoIV)
-    ImageView playVideoIV;
+    @InjectView(R.id.firstUserIV)
+    RoundedImageView firstUserIV;
     @InjectView(R.id.firstUserNameTV)
     TextView firstUserNameTV;
-    @InjectView(R.id.videoFL)
-    FrameLayout videoFL;
+    @InjectView(R.id.firstUserLL)
+    LinearLayout firstUserLL;
     @InjectView(R.id.commentsTV)
     TextView commentsTV;
+    @InjectView(R.id.viewsCountTV)
+    TextView viewsCountTV;
     @InjectView(R.id.uploadedTimeTV)
     TextView uploadedTimeTV;
+    @InjectView(R.id.userOneVideoLikeIV)
+    ImageView userOneVideoLikeIV;
     @InjectView(R.id.userOneVoteCountTV)
     TextView userOneVoteCountTV;
-    @InjectView(R.id.userOneVideoLikeIV)
-    ImageView videoLikeIV;
     @InjectView(R.id.leftSideVotingView)
     LinearLayout leftSideVotingView;
     @InjectView(R.id.commentsRV)
     RecyclerView commentsRV;
     @InjectView(R.id.commentsET)
     EditText commentsET;
-    @InjectView(R.id.commentBar)
-    FrameLayout commentBar;
     @InjectView(R.id.sendCommentIV)
     ImageView sendCommentIV;
     @InjectView(R.id.commentPB)
     ProgressBar commentPB;
-    @InjectView(R.id.firstUserIV)
-    RoundedImageView firstUserIV;
-    @InjectView(R.id.videoTitleView)
-    VideoTitleView videoTitleView;
-    @InjectView(R.id.firstUserLL)
-    LinearLayout firstUserLL;
-    @InjectView(R.id.viewsCountTV)
-    TextView viewsCountTV;
-
-
+    @InjectView(R.id.commentBar)
+    FrameLayout commentBar;
     private Validation validation;
     private HashMap<View, String> validationMap;
     private VideoDetailModel videoDetailModel;
@@ -248,9 +240,9 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void setLikeIV() {
         if (videoDetailModel.getLikestatus() == 1) {
-            CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_on);
+            CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_on);
         } else {
-            CommonFunctions.changeImageWithAnimation(this, videoLikeIV, R.drawable.thumb_off);
+            CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_off);
         }
     }
 

@@ -19,7 +19,6 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.example.divyanshu.smyt.activities.RecordChallengeVideoActivity;
-import com.example.divyanshu.smyt.activities.UserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
@@ -219,7 +218,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         int vote1Int = Integer.parseInt(challengeModel.getVote1());
 
         if (Utils.isDifferenceLowerThanTwentyFourHours(Long.parseLong(challengeModel.getRound_date()))) {
-            holder.userOneWinLoseTV.setText(R.string.voting_open);
+           // holder.userOneWinLoseTV.setText(R.string.voting_open);
             holder.userWinningBar.addView(addOpenVotingView(challengeModel.getVote(), challengeModel.getVote1()));
         } else {
             if (voteInt > vote1Int)
