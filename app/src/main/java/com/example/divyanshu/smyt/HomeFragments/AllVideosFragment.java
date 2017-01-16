@@ -416,4 +416,10 @@ public class AllVideosFragment extends BaseFragment implements InAppLocalApis.In
         moreDataAvailable = true;
         pageNo = 0;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        otherVideosRV.getAdapter().notifyDataSetChanged();
+    }
 }

@@ -85,7 +85,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_videos_fragment, null);
-       // customerID = getArguments().getString(Constants.CUSTOMER_ID);
+        // customerID = getArguments().getString(Constants.CUSTOMER_ID);
         ButterKnife.inject(this, view);
         return view;
     }
@@ -310,4 +310,9 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         setAdapter();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        videosRV.getAdapter().notifyDataSetChanged();
+    }
 }

@@ -281,4 +281,9 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
         }
         liveVideosAdapter.notifyDataSetChanged();
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+        liveVideosRV.getAdapter().notifyDataSetChanged();
+    }
 }
