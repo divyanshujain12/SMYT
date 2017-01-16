@@ -260,8 +260,10 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         super.onJsonObjectSuccess(response, apiType);
         switch (apiType) {
             case ApiCodes.OTHER_USER_VIDEO_URL:
-                if (!response.get(Constants.VIDEO_URL).equals(""))
+                if (!response.get(Constants.VIDEO_URL).equals("")) {
                     onAvailable(response.getString(Constants.VIDEO_URL));
+                    h.removeCallbacks(runnable);
+                }
                 break;
         }
     }
@@ -330,11 +332,6 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         //MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
-
-
-
-
-
     @Override
     public void onVideoStart() {
         CallWebService.getInstance(this, false, ApiCodes.START_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("1"), this);
@@ -351,7 +348,5 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
         finish();
     }
-
     Handler h = new Handler();
 }
-

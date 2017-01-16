@@ -315,6 +315,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
             jsonObject.put(Constants.SHARE_STATUS, shareWithStr);
             jsonObject.put(Constants.VIDEO_URL, thumbnailGenerateModel.getVideo_url());
             jsonObject.put(Constants.THUMBNAIL, thumbnailGenerateModel.getThumbnail());
+            jsonObject.put(Constants.VIDEO_NAME,videoName);
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
             if (shareWithStr.equals("Friend")) {
                 jsonObject.put(Constants.FRIEND_ID, userModel.getCustomer_id());

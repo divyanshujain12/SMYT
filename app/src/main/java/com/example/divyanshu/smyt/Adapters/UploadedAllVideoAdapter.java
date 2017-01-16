@@ -200,7 +200,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         setUpMoreIvButtonVisibility(holder, allVideoModel);
         holder.viewsCountTV.setText(allVideoModel.getViews());
 
-        holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
+        holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
         //holder.twoVideoPlayers.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);

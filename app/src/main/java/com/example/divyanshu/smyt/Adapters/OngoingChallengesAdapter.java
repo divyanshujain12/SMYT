@@ -99,7 +99,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         holder.commentsTV.setText(setCommentCount(challengeModel));
         /*holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
         holder.twoVideoPlayers.setThumbnail(challengeModel.getThumbnail(), challengeModel.getThumbnail1());*/
-        holder.twoVideoPlayers.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url), challengeModel.getCustomers_videos_id());
+        holder.twoVideoPlayers.setUp(challengeModel.getVideo_url(), challengeModel.getVideo_url1(), challengeModel.getThumbnail(), challengeModel.getThumbnail1(), challengeModel.getCustomers_videos_id());
         imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());
