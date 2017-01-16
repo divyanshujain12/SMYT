@@ -106,7 +106,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     protected int mSeekTimePosition;
 
 
-    protected static PlayVideoInterface playVideoInterface;
+   // protected static PlayVideoInterface playVideoInterface;
 
 
     public JCVideoPlayer(Context context) {
@@ -1035,6 +1035,6 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {
-        this.playVideoInterface = playVideoInterface;
+      //  this.playVideoInterface = playVideoInterface;
     }
 }

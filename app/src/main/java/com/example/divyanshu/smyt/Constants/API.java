@@ -6,7 +6,8 @@ package com.example.divyanshu.smyt.Constants;
 public interface API {
 
     //  String BASE = "http://www.whatsupguys.in/demo/smyt/api/";
-    String BASE = "http://whatsupguys.in/demo/smyt/api/";
+   // String BASE = "http://whatsupguys.in/demo/smyt/api/";
+    String BASE = "http://smytex.com/api/api/";
     String REGISTRATION = BASE + "registration";
     String LOGIN = BASE + "login";
     String FORGOT_PASSWORD = BASE + "forgetpassword";

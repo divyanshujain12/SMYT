@@ -112,7 +112,7 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
     protected int mDownPosition;
     protected int mGestureDownVolume;
     protected int mSeekTimePosition;
-    protected PlayVideoInterface playVideoInterface;
+  //  protected PlayVideoInterface playVideoInterface;
     public JCVideoPlayerTwo(Context context) {
         super(context);
         init(context);
@@ -195,7 +195,8 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
                     return;
                 }*/
                 prepareVideo();
-                playVideoInterface.onVideoPlay(this);
+
+                //playVideoInterface.onVideoPlay(this);
                 onEvent(currentState != CURRENT_STATE_ERROR ? JCBuriedPoint.ON_CLICK_START_ICON : JCBuriedPoint.ON_CLICK_START_ERROR);
             } else if (currentState == CURRENT_STATE_PLAYING) {
                 onEvent(JCBuriedPoint.ON_CLICK_PAUSE);
@@ -1035,6 +1036,6 @@ public abstract class JCVideoPlayerTwo extends FrameLayout implements JCMediaPla
     }
 
     public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {
-        this.playVideoInterface = playVideoInterface;
+       // this.playVideoInterface = playVideoInterface;
     }
 }
