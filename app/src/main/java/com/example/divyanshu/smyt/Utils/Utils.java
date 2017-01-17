@@ -64,6 +64,7 @@ public class Utils {
             }
         });
     }
+
     public static void configureToolbarForHomeActivity(final AppCompatActivity appCompatActivity, Toolbar toolbar, String name) {
         appCompatActivity.setSupportActionBar(toolbar);
         ActionBar actionBar = appCompatActivity.getSupportActionBar();
@@ -187,7 +188,7 @@ public class Utils {
         long daysInMilli = hoursInMilli * 24;
 
         long elapsedDays = time / daysInMilli;
-        if(elapsedDays>0){
+        if (elapsedDays > 0) {
             return String.format(Locale.getDefault(), "%d days", elapsedDays);
         }
         time = time % daysInMilli;
@@ -211,8 +212,8 @@ public class Utils {
         return Calendar.getInstance().getTimeInMillis();
     }
 
-    public static long getNextTwentyFourHoursInMS(long milliseconds) {
-        milliseconds = milliseconds + 86400000;
+    public static long getNextSeventyTwoHoursInMS(long milliseconds) {
+        milliseconds = milliseconds + (86400000 * 3);
         return milliseconds;
     }
 

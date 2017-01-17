@@ -175,7 +175,7 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
             long currentTime = Utils.getCurrentTimeInMillisecond();
             jsonObject.put(Constants.E_DATE, currentTime);
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
-            jsonObject.put(Constants.VALID_TILL, Utils.getNextTwentyFourHoursInMS(currentTime));
+            jsonObject.put(Constants.VALID_TILL, Utils.getNextSeventyTwoHoursInMS(currentTime));
         } catch (JSONException e) {
             e.printStackTrace();
         }

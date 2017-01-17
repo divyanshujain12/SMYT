@@ -63,6 +63,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     @InjectView(R.id.acceptAndDeclineLL)
     LinearLayout acceptAndDeclineLL;
     private ImageLoading imageLoading;
+    private int userOneVoteCount = 0, userTwoVoteCount = 0;
 
     private ChallengeDescModel challengeDescModel;
     private ChallengeRoundDescRvAdapter challengeRoundDescRvAdapter;
@@ -188,6 +189,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
             jsonObject.put(Constants.CHALLENGE_ID, challengeID);
+            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
