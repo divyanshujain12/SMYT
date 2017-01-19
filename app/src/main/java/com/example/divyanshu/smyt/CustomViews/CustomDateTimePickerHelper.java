@@ -96,7 +96,6 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
         roundInfoLL.removeAllViews();
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         for (int i = 0; i < roundCount; i++) {
-
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             View customView = layoutInflater.inflate(R.layout.post_challenge_round_info_bar, null);
             TextView roundTimeTV = (TextView) customView.findViewById(R.id.roundTimeTV);

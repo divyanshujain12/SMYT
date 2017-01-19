@@ -35,6 +35,7 @@ public class ChallengeModel implements Parcelable {
     String vote1;
     int current_customer_video_status;
 
+
     public ChallengeModel() {
 
     }

@@ -284,7 +284,7 @@ public class CommonFunctions {
         CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_challenge_alert_msg), new SnackBarCallback() {
             @Override
             public void doAction() {
-                CallWebService.getInstance(context, false, ApiCodes.DELETE_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CHALLENGE, createJsonForDeleteVideo(context, challengeID), null);
+                CallWebService.getInstance(context, false, ApiCodes.DELETE_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CHALLENGE, createJsonForDeleteChallenge(context, challengeID), null);
                 deleteVideoInterface.onDeleteVideo();
             }
         });
@@ -298,7 +298,7 @@ public class CommonFunctions {
 
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
         try {
-            jsonObject.put(Constants.CHALLENGE_ID, customerVideoID);
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

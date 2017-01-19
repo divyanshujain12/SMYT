@@ -95,20 +95,6 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         CallWebService.getInstance(this, true, ApiCodes.ONGOING_CHALLENGES).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_DESCRIPTION, createJsonForGetChallengeDesc(), this);
     }
 
-    @Override
-    public void onResume() {
-        if (isRoundPlayed) {
-            hitApiForGetChallengeInfo();
-        } else if (challengeDescModel != null)
-            challengeRoundDescRvAdapter.notifyDataSetChanged();
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.reset(this);
-    }
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
@@ -130,6 +116,13 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
                 break;
         }
     }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
+        CommonFunctions.getInstance().showErrorSnackBar(this, str);
+    }
+
 
     private void updateUI() {
         if (profileImage != null) {
@@ -178,18 +171,13 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    @Override
-    public void onFailure(String str, int apiType) {
-        super.onFailure(str, apiType);
-        CommonFunctions.getInstance().showErrorSnackBar(this, str);
-    }
 
     private JSONObject createJsonForGetChallengeDesc() {
 
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(this);
         try {
             jsonObject.put(Constants.CHALLENGE_ID, challengeID);
-            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -220,6 +208,22 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeDescModel.getChallenge_rounds().get(position).getCustomers_videos_id());
         startActivity(intent);
     }
+
+    @Override
+    public void onResume() {
+        if (isRoundPlayed) {
+            hitApiForGetChallengeInfo();
+        } else if (challengeDescModel != null)
+            challengeRoundDescRvAdapter.notifyDataSetChanged();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.reset(this);
+    }
+
 }
 
 
