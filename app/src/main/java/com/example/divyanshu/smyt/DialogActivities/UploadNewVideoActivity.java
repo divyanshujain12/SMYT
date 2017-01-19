@@ -179,7 +179,7 @@ public class UploadNewVideoActivity extends BaseActivity implements AdapterView.
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        if (s.length() > 0 && !friendSelected) {
+        if (s.length() > 0 || !friendSelected) {
             friendSelected = false;
             setProgressBarVisible(true);
             CallWebService.getInstance(this, true, SEARCH_USER).hitJsonObjectRequestAPI(CallWebService.POST, API.USER_SEARCH, createJsonForUserSearch(s.toString()), this);

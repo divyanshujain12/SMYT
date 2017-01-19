@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.ChallengeDescModel;
+import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -26,6 +27,8 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -64,10 +67,12 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     LinearLayout acceptAndDeclineLL;
     private ImageLoading imageLoading;
     private int userOneVoteCount = 0, userTwoVoteCount = 0;
+    private boolean isChallengeCompleted = true;
 
     private ChallengeDescModel challengeDescModel;
     private ChallengeRoundDescRvAdapter challengeRoundDescRvAdapter;
     public static boolean isRoundPlayed = false;
+    private String userOneName = "", userTwoName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,20 +140,48 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     }
 
     private void setUpCurrentStatus() {
-        switch (challengeDescModel.getCurrent_customer_video_status()) {
-            case 0:
-                challengeTypeTV.setText("Pending");
-                break;
-            case 1:
-                challengeTypeTV.setText("Accepted");
-                break;
-            case 2:
-                challengeTypeTV.setText("Rejected");
-                break;
+        checkChallengeStatus();
+        if (isChallengeCompleted) {
+            setStatusToTextView();
+        } else {
+            switch (challengeDescModel.getCurrent_customer_video_status()) {
+                case 0:
+                    challengeTypeTV.setText("Pending");
+                    break;
+                case 1:
+                    challengeTypeTV.setText("Accepted");
+                    break;
+                case 2:
+                    challengeTypeTV.setText("Rejected");
+                    break;
            /* case 3:
                 challengeTypeTV.setText("Your Challenge");
                 break;*/
+            }
         }
+    }
+
+    private void checkChallengeStatus() {
+        ArrayList<ChallengeModel> challengeModels = challengeDescModel.getChallenge_rounds();
+        userOneName = challengeModels.get(0).getFirst_name();
+        userTwoName = challengeModels.get(0).getFirst_name1();
+        for (ChallengeModel challengeModel : challengeModels) {
+            userOneVoteCount = userOneVoteCount + Integer.parseInt(challengeModel.getVote());
+            userTwoVoteCount = userTwoVoteCount + Integer.parseInt(challengeModel.getVote1());
+            if (challengeModel.getComplete_status().equals("0")) {
+                isChallengeCompleted = false;
+                break;
+            }
+        }
+    }
+
+    private void setStatusToTextView() {
+        if (userOneVoteCount > userTwoVoteCount)
+            challengeTypeTV.setText(userOneName + " Win!");
+        else if (userOneVoteCount == userTwoVoteCount)
+            challengeTypeTV.setText("Draw!");
+        else
+            challengeTypeTV.setText(userTwoName + " Win!");
     }
 
     @OnClick({R.id.acceptBT, R.id.declineBT})

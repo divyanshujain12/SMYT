@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Models.ChallengeVideoDescModel;
 import com.example.divyanshu.smyt.Models.CommentModel;
@@ -384,6 +385,16 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Pop
                 break;
             case R.id.addVideoToPremiumTV:
                 checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
+                break;
+
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(this, challengeVideoDescModel.getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        BroadcastSenderClass.getInstance().reloadAllVideoData(UploadedBattleRoundDescActivity.this);
+                        finish();
+                    }
+                });;
                 break;
         }
     }

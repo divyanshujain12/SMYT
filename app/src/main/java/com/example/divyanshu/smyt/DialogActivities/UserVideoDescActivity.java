@@ -326,6 +326,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 CommonFunctions.getInstance().deleteVideo(this, videoDetailModel.getCustomers_videos_id(), new DeleteVideoInterface() {
                     @Override
                     public void onDeleteVideo() {
+                        BroadcastSenderClass.getInstance().reloadAllVideoData(UserVideoDescActivity.this);
                         finish();
                     }
                 });
