@@ -18,6 +18,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomToasts;
+import com.example.divyanshu.smyt.DialogActivities.RecordNewVideoDataActivity;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.ChangePasswordInterface;
@@ -184,10 +185,10 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
                 PictureHelper.getInstance().takeFromGallery(this, getString(R.string.select_picture));
                 break;
             case VIDEO_RECORDING_REQUEST:
-                goToRecordVideoActivity();
+                goToRecordNewVideoDataActivity();
                 break;
             default:
-                goToRecordVideoActivity();
+                goToRecordNewVideoDataActivity();
                 break;
         }
     }
@@ -326,11 +327,11 @@ public class UserSettingActivity extends BaseActivity implements ImagePickDialog
     private void checkHasPermissions() {
         if (PermissionUtil.isMNC())
             runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, VIDEO_RECORDING_REQUEST);
-        else goToRecordVideoActivity();
+        else goToRecordNewVideoDataActivity();
     }
 
-    private void goToRecordVideoActivity() {
-        Intent intent = new Intent(this, RecordVideoActivity.class);
+    private void goToRecordNewVideoDataActivity() {
+        Intent intent = new Intent(this, RecordNewVideoDataActivity.class);
         startActivity(intent);
     }
 

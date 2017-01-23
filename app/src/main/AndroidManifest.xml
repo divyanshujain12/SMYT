@@ -83,7 +83,7 @@
             android:configChanges="orientation|screenSize|keyboard|screenLayout"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DialogActivities.UploadNewVideoActivity"
+            android:name=".DialogActivities.RecordNewVideoDataActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DialogActivities.LiveRoundDescActivity"
@@ -141,7 +141,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.ShowLiveRecordVideoActivity"/>
+        <activity android:name=".activities.ShowLiveRecordVideoActivity" />
+        <activity android:name=".activities.PostNewVideoActivity"/>
     </application>
 
 </manifest>

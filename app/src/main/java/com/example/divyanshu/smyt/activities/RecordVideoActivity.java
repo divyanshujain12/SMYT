@@ -2,26 +2,29 @@ package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.Utils.CommonFunctions;
-import com.example.divyanshu.smyt.Utils.GetThumbnailFromUrlAsync;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.wowza.gocoder.sdk.api.devices.WZCamera;
 import com.wowza.gocoder.sdk.api.errors.WZStreamingError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -47,7 +50,9 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     public static String screenshotBaseImage;
     @InjectView(R.id.surfaceViewFL)
     FrameLayout surfaceViewFL;
-
+    private boolean isLive = false;
+    private String postVideoData = "";
+    private String customerVideoID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +66,9 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     }
 
     private void InitViews() {
+        postVideoData = getIntent().getStringExtra(Constants.POST_VIDEO_DATA);
+        isLive = getIntent().getBooleanExtra(Constants.LIVE_STATUS, false);
         txtTimer.setTenMinutesCallback(this);
-
     }
 
 
@@ -72,8 +78,6 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
         if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
             checkAndPayForAddVideoToPremium();
         } else {
-            // mDevicesInitialized = false;
-            //  mUIInitialized = false;
             configureGocoder();
         }
     }
@@ -162,6 +166,20 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
         return disableControls;
     }
 
+    @Override
+    public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+        super.onJsonObjectSuccess(response, apiType);
+
+        switch (apiType) {
+            case ApiCodes.POST_LIVE_VIDEO_ONE:
+                customerVideoID = response.getString(Constants.CUSTOMERS_VIDEO_ID);
+                break;
+            case ApiCodes.POST_LIVE_VIDEO_ZERO:
+                //endBroadcast();
+                break;
+        }
+    }
+
     public void onToggleBroadcast(View v) {
         if (getBroadcast() == null) return;
 
@@ -173,6 +191,9 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
                     mStatusView.setErrorMessage(configError.getErrorDescription());
             }
         } else {
+            if (isLive) {
+                CallWebService.getInstance(this, false, ApiCodes.POST_LIVE_VIDEO_ZERO).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_SINGLE_LIVE_VIDEOS, createJsonForPostLiveVideo("0"), this);
+            }
             endBroadcast(false);
         }
     }
@@ -218,22 +239,39 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
 
     @Override
     public void onVideoStart() {
-
-        /*Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new GetThumbnailFromUrlAsync().execute(streamVideoUrl);
-                //Do something after 100ms
-            }
-        }, 5000);*/
+        if (isLive) {
+            CallWebService.getInstance(this, false, ApiCodes.POST_LIVE_VIDEO_ONE).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_SINGLE_LIVE_VIDEOS, createJsonForPostLiveVideo("1"), this);
+        }
     }
 
     @Override
     public void onVideoStop() {
-        Intent intent = new Intent(this, UploadNewVideoActivity.class);
+        Intent intent = new Intent(this, PostNewVideoActivity.class);
         intent.putExtra(Constants.VIDEO_NAME, videoName);
+        intent.putExtra(Constants.POST_VIDEO_DATA, postVideoData);
         startActivity(intent);
         finish();
+    }
+
+    private JSONObject createJsonForPostLiveVideo(String liveStatus) {
+        try {
+            JSONObject jsonObject = new JSONObject(postVideoData);
+            jsonObject.put(Constants.VIDEO_URL, streamVideoUrl);
+            jsonObject.put(Constants.VIDEO_NAME, videoName);
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+            jsonObject.put(Constants.LIVE_STATUS, liveStatus);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+            return jsonObject;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!getBroadcast().getStatus().isIdle())
+            endBroadcast(false);
     }
 }

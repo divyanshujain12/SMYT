@@ -86,6 +86,7 @@ public interface Constants {
     String PUSH_DATA = "push_data";
     int COMMENT_COUNT = 0;
     int VOTE_COUNT_INT = 1;
+    String POST_VIDEO_DATA = "post_video_data";
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

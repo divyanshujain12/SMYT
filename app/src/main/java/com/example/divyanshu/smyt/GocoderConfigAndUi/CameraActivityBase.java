@@ -1,21 +1,16 @@
 package com.example.divyanshu.smyt.GocoderConfigAndUi;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.UploadNewVideoActivity;
+import com.example.divyanshu.smyt.DialogActivities.RecordNewVideoDataActivity;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
-import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView.TenMinutesCallback;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
@@ -161,7 +156,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             } else if (goCoderStatus.isIdle()) {
                 // Clear the "keep screen on" flag
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                Intent intent = new Intent(CameraActivityBase.this, UploadNewVideoActivity.class);
+                Intent intent = new Intent(CameraActivityBase.this, RecordNewVideoDataActivity.class);
                 intent.putExtra(Constants.VIDEO_NAME, videoName);
                 startActivity(intent);
                 finish();

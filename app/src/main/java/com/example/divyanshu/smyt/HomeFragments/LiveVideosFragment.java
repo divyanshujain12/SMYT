@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.LiveRoundDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -53,7 +54,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     @InjectView(R.id.liveVideosRV)
     RecyclerView liveVideosRV;
     private OngoingChallengesAdapter liveVideosAdapter;
-    private ArrayList<ChallengeModel> challengeModels = new ArrayList<>();
+    private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
     private int selectedVideo;
 
     public static LiveVideosFragment getInstance() {
@@ -86,7 +87,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     }
 
     private void initViews() {
-        liveVideosAdapter = new OngoingChallengesAdapter(getContext(), challengeModels, this);
+        liveVideosAdapter = new OngoingChallengesAdapter(getContext(), allVideoModels, this);
         liveVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         liveVideosRV.setAdapter(liveVideosAdapter);
         CommonFunctions.stopVideoOnScroll(liveVideosRV);
@@ -106,7 +107,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        challengeModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), ChallengeModel.class);
+        allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
         if (getUserVisibleHint()) {
             setAdapter();
         }
@@ -130,7 +131,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
 
             default:
                 Intent intent = new Intent(getActivity(), LiveRoundDescActivity.class);
-                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, challengeModels.get(position).getCustomers_videos_id());
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
                 startActivity(intent);
                 break;
         }
@@ -156,13 +157,13 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     public void available(int purchaseType) {
         switch (purchaseType) {
             case OTHER_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(getContext(), challengeModels.get(selectedVideo).getCustomers_videos_id());
+                InAppLocalApis.getInstance().addBannerToCategory(getContext(), allVideoModels.get(selectedVideo).getCustomers_videos_id());
                 break;
             case OTHER_CATEGORY_TO_PREMIUM:
-                InAppLocalApis.getInstance().addVideoToPremiumCategory(getContext(), challengeModels.get(selectedVideo).getCustomers_videos_id());
+                InAppLocalApis.getInstance().addVideoToPremiumCategory(getContext(), allVideoModels.get(selectedVideo).getCustomers_videos_id());
                 break;
             case PREMIUM_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(getContext(), challengeModels.get(selectedVideo).getCustomers_videos_id());
+                InAppLocalApis.getInstance().addBannerToCategory(getContext(), allVideoModels.get(selectedVideo).getCustomers_videos_id());
                 break;
         }
     }
@@ -246,7 +247,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && challengeModels != null) {
+        if (isVisibleToUser && allVideoModels != null) {
             setAdapter();
         }
 
@@ -254,7 +255,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
 
     private void setAdapter() {
         if (liveVideosAdapter != null)
-            liveVideosAdapter.addItem(challengeModels);
+            liveVideosAdapter.addItem(allVideoModels);
     }
 
     private void updateCommentCount(Intent intent) {
@@ -262,7 +263,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
         ChallengeModel challengeModel = new ChallengeModel();
         challengeModel.setChallenge_id(challengeID);
-        challengeModels.get(challengeModels.indexOf(challengeModel)).setVideo_comment_count(commentCount);
+        allVideoModels.get(allVideoModels.indexOf(challengeModel)).setVideo_comment_count(commentCount);
         liveVideosAdapter.notifyDataSetChanged();
     }
 
@@ -273,10 +274,10 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
         challengeModel.setChallenge_id(challengeID);
         switch (intent.getIntExtra(Constants.USER_NUMBER, -1)) {
             case 0:
-                challengeModels.get(challengeModels.indexOf(challengeModel)).setVote(voteCount);
+                allVideoModels.get(allVideoModels.indexOf(challengeModel)).setVote(voteCount);
                 break;
             case 1:
-                challengeModels.get(challengeModels.indexOf(challengeModel)).setVote1(voteCount);
+                allVideoModels.get(allVideoModels.indexOf(challengeModel)).setVote1(voteCount);
                 break;
         }
         liveVideosAdapter.notifyDataSetChanged();

@@ -174,7 +174,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
         holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
-       // holder.singleVideoPlayerView.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomer_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
@@ -201,7 +200,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.viewsCountTV.setText(allVideoModel.getViews());
 
         holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
-        //holder.twoVideoPlayers.setUp(context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_video_url), context.getString(R.string.dummy_image_url), context.getString(R.string.dummy_image_url), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
@@ -261,8 +259,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         else if (allVideoModels.get(position).getType().equals("Challenge"))
             return 1;
         else return 0;
-
-
     }
 
     public void updateData(ArrayList<AllVideoModel> allVideoModels) {

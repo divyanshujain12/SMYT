@@ -13,10 +13,13 @@ import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
+import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
+import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
-import com.example.divyanshu.smyt.Models.ChallengeModel;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
@@ -30,19 +33,46 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChallengesAdapter.BattleVideoHolder> implements PopupItemClicked {
+public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked {
 
-    private ArrayList<ChallengeModel> challengeModels;
+    private ArrayList<AllVideoModel> allVideoModels;
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
 
-    public class BattleVideoHolder extends RecyclerView.ViewHolder {
+
+    private class SingleVideoHolder extends RecyclerView.ViewHolder {
+        private VideoTitleView videoTitleView;
+        public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
+        private ImageView videoThumbIV;
+        private FrameLayout videoFL;
+        private RoundedImageView firstUserIV;
+        private SingleVideoPlayerCustomView singleVideoPlayerView;
+        private LinearLayout firstUserLL;
+        private TextView viewsCountTV;
+
+        private SingleVideoHolder(View view) {
+            super(view);
+            videoTitleView = (VideoTitleView) view.findViewById(R.id.videoTitleView);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
+            userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
+            firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
+            commentsTV = (TextView) view.findViewById(R.id.commentsTV);
+            uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
+            videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
+            videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
+            firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
+            viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
+            singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
+
+        }
+    }
 
 
+    private class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView userTimeTV, commentsTV, uploadedTimeTV;
         private ChallengeRoundTitleView challengeTitleView;
-        public FrameLayout videoFL;
+        private FrameLayout videoFL;
         private ImageView playVideosIV;
         private FrameLayout fullscreenFL;
         private ImageView fullscreenIV;
@@ -52,7 +82,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         TextView userOneVoteCountTV, userTwoVoteCountTV;
         private LinearLayout firstUserLL, secondUserLL;
 
-        public BattleVideoHolder(View view) {
+        private BattleVideoHolder(View view) {
             super(view);
             challengeTitleView = (ChallengeRoundTitleView) view.findViewById(R.id.challengeTitleView);
             firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
@@ -74,49 +104,55 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
         }
     }
 
-    public OngoingChallengesAdapter(Context context, ArrayList<ChallengeModel> categoryModels, RecyclerViewClick recyclerViewClick) {
+    public OngoingChallengesAdapter(Context context, ArrayList<AllVideoModel> allVideoModels, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
-        this.challengeModels = categoryModels;
+        this.allVideoModels = allVideoModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
     }
 
     @Override
-    public BattleVideoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = null;
-        itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.live_battle_video_item, parent, false);
-        return new BattleVideoHolder(itemView);
+
+        switch (viewType) {
+            case 0:
+                itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.single_video_item, parent, false);
+                return new SingleVideoHolder(itemView);
+            case 1:
+                itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.live_battle_video_item, parent, false);
+                return new BattleVideoHolder(itemView);
+        }
+        return null;
 
     }
 
     @Override
-    public void onBindViewHolder(final BattleVideoHolder holder, int position) {
-        final ChallengeModel challengeModel = challengeModels.get(position);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final AllVideoModel allVideoModel = allVideoModels.get(position);
+        if (holder instanceof SingleVideoHolder)
+            setupSingleViewHolder((SingleVideoHolder) holder, allVideoModel);
+        else if (holder instanceof BattleVideoHolder)
+            setupBattleViewHolder((BattleVideoHolder) holder, position, allVideoModel);
 
-        holder.challengeTitleView.setUp(challengeModel.getTitle(), this, position);
-        holder.challengeTitleView.showHideMoreIvButton(false);
-        holder.commentsTV.setText(setCommentCount(challengeModel));
-        /*holder.twoVideoPlayers.setVideoUrls(challengeModel.getVideo_url(), challengeModel.getVideo_url1());
-        holder.twoVideoPlayers.setThumbnail(challengeModel.getThumbnail(), challengeModel.getThumbnail1());*/
-        holder.twoVideoPlayers.setUp(challengeModel.getVideo_url(), challengeModel.getVideo_url1(), challengeModel.getThumbnail(), challengeModel.getThumbnail1(), challengeModel.getCustomers_videos_id());
-        imageLoading.LoadImage(challengeModel.getProfileimage(), holder.firstUserIV, null);
-        imageLoading.LoadImage(challengeModel.getProfileimage1(), holder.secondUserIV, null);
-        holder.firstUserNameTV.setText(challengeModel.getFirst_name());
-        holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
-        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(challengeModel.getEdate()));
-        holder.userOneVoteCountTV.setText(challengeModel.getVote());
-        holder.userTwoVoteCountTV.setText(challengeModel.getVote1());
+
+    }
+
+    private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
+        holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
+        holder.videoTitleView.showHideMoreIvButton(false);
+        holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
+        holder.viewsCountTV.setText(allVideoModel.getViews());
+        imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
+        holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
+        holder.commentsTV.setText(setComment(allVideoModel));
+        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToUserDetailActivity(challengeModel.getCustomer_id());
-            }
-        });
-        holder.secondUserLL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToUserDetailActivity(challengeModel.getCustomer_id1());
+                goToUserDetailActivity(allVideoModel.getCustomer_id());
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -125,18 +161,55 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
                 recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
-
     }
 
 
+    private void setupBattleViewHolder(final BattleVideoHolder holder, int position, final AllVideoModel allVideoModel) {
+        holder.challengeTitleView.setUp(allVideoModel.getTitle(), this, position);
+        holder.challengeTitleView.showHideMoreIvButton(false);
+        holder.commentsTV.setText(setCommentCount(allVideoModel));
+        holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
+        imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
+        imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);
+        holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
+        holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
+        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
+        holder.userOneVoteCountTV.setText(allVideoModel.getVote());
+        holder.userTwoVoteCountTV.setText(allVideoModel.getVote1());
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(allVideoModel.getCustomer_id());
+            }
+        });
+        holder.secondUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(allVideoModel.getCustomer_id1());
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
+            }
+        });
+    }
+
+    private String setComment(AllVideoModel allVideoModel) {
+        return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
+    }
+
     @Override
     public int getItemCount() {
-        return challengeModels.size();
+        return allVideoModels.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position % 2;
+        if (allVideoModels.get(position).getType().equals("Challenge"))
+            return 1;
+        else return 0;
     }
 
     @Override
@@ -154,12 +227,12 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<OngoingChalle
     }
 
     @NonNull
-    private String setCommentCount(ChallengeModel challengeModel) {
+    private String setCommentCount(AllVideoModel challengeModel) {
         return context.getResources().getQuantityString(R.plurals.numberOfComments, challengeModel.getVideo_comment_count(), challengeModel.getVideo_comment_count());
     }
 
-    public void addItem(ArrayList<ChallengeModel> challengeModels) {
-        this.challengeModels = challengeModels;
+    public void addItem(ArrayList<AllVideoModel> challengeModels) {
+        this.allVideoModels = challengeModels;
         notifyDataSetChanged();
     }
 

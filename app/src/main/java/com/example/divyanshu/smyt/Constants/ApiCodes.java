@@ -49,4 +49,7 @@ public interface ApiCodes {
     int UPDATE_VIDEO_VIEW_COUNT = 143;
     int NEW_CHALLENGE_NOTIFICATION = 144;
     int DELETE_CHALLENGE = 145;
+    int POST_LIVE_VIDEO_ONE = 146;
+    int POST_LIVE_VIDEO_ZERO = 147;
+    int GET_RULES = 148;
 }

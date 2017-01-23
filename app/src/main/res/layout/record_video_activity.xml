@@ -105,4 +105,15 @@
         android:src="@drawable/playing_video_recording_btn"
         sampleui:offSrc="@drawable/stopped_video_recording_btn" />
 
+    <com.neopixl.pixlui.components.checkbox.CheckBox
+        android:id="@+id/liveCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make It Live"
+        android:padding="@dimen/five_dp"
+        android:visibility="gone"
+        android:layout_gravity="end|bottom"
+        android:textColor="@color/white"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
 </FrameLayout>

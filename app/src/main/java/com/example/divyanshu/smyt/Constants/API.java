@@ -6,7 +6,7 @@ package com.example.divyanshu.smyt.Constants;
 public interface API {
 
     //  String BASE = "http://www.whatsupguys.in/demo/smyt/api/";
-   // String BASE = "http://whatsupguys.in/demo/smyt/api/";
+    // String BASE = "http://whatsupguys.in/demo/smyt/api/";
     String BASE = "http://smytex.com/api/api/";
     String REGISTRATION = BASE + "registration";
     String LOGIN = BASE + "login";
@@ -58,4 +58,6 @@ public interface API {
     String UPDATE_VIDEO_VIEWS_COUNT = BASE + "updateVideosViews";
     String NEW_CHALLENGE_NOTIFICATION = BASE + "newChallengesNotification";
     String DELETE_CHALLENGE = BASE + "deleteChallenge";
+    String POST_SINGLE_LIVE_VIDEOS = BASE + "PostLiveVideo";
+    String GET_RULES = BASE + "getrules";
 }

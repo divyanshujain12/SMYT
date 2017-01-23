@@ -28,6 +28,7 @@ import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
+import com.example.divyanshu.smyt.DialogActivities.RecordNewVideoDataActivity;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
@@ -231,7 +232,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     private void checkHasPermissions() {
         if (PermissionUtil.isMNC())
             runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
-        else goToRecordVideoActivity();
+        else goToRecordNewVideoDataActivity();
     }
 
     @Override
@@ -332,11 +333,11 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onPermissionGranted(int permissionType) {
-        goToRecordVideoActivity();
+        goToRecordNewVideoDataActivity();
     }
 
-    private void goToRecordVideoActivity() {
-        Intent intent = new Intent(this, RecordVideoActivity.class);
+    private void goToRecordNewVideoDataActivity() {
+        Intent intent = new Intent(this, RecordNewVideoDataActivity.class);
         startActivity(intent);
     }
 

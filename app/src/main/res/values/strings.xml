@@ -162,5 +162,8 @@
     <string name="click_for_desc">Click For Description</string>
     <string name="err_msg_copy_challenge">This is the copy of challenge, You can not vote on this</string>
     <string name="voting_closed">Voting Closed</string>
+    <string name="make_it_live">Make It Live</string>
+    <string name="start_recording_video">Start Recording Video</string>
+    <string name="delete_video">Delete Video</string>
 
 </resources>
