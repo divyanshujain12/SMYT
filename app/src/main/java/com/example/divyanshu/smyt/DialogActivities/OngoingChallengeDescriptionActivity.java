@@ -140,10 +140,13 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     }
 
     private void setUpCurrentStatus() {
-        checkChallengeStatus();
-        if (isChallengeCompleted) {
+        // checkChallengeStatus();
+        if (!challengeDescModel.getWho_won().equals("0")) {
+            challengeTypeTV.setText(challengeDescModel.getWho_won_name() + " Win!");
+        }
+       /* if (isChallengeCompleted) {
             setStatusToTextView();
-        } else {
+        }*/ else {
             switch (challengeDescModel.getCurrent_customer_video_status()) {
                 case 0:
                     challengeTypeTV.setText("Pending");
@@ -161,7 +164,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         }
     }
 
-    private void checkChallengeStatus() {
+    /*private void checkChallengeStatus() {
         ArrayList<ChallengeModel> challengeModels = challengeDescModel.getChallenge_rounds();
         userOneName = challengeModels.get(0).getFirst_name();
         userTwoName = challengeModels.get(0).getFirst_name1();
@@ -173,7 +176,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
                 break;
             }
         }
-    }
+    }*/
 
     private void setStatusToTextView() {
         if (userOneVoteCount > userTwoVoteCount)

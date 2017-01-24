@@ -221,12 +221,25 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
             // holder.userOneWinLoseTV.setText(R.string.voting_open);
             holder.userWinningBar.addView(addOpenVotingView(challengeModel.getVote(), challengeModel.getVote1()));
         } else {
-            if (voteInt > vote1Int)
+
+            switch (challengeModel.getWho_won()){
+                case "1":
+                    holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
+                    break;
+                case "2":
+                    holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));
+                    break;
+                case "3":
+                    holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));
+                    break;
+            }
+
+            /*if (voteInt > vote1Int)
                 holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
             else if (vote1Int > voteInt)
                 holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));
             else
-                holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));
+                holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));*/
         }
     }
 

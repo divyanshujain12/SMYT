@@ -10,6 +10,8 @@ public class ChallengeDescModel {
     String title;
     String total_round;
     String thumbnail;
+    String who_won;
+    String who_won_name;
     ArrayList<ChallengeModel> challenge_rounds;// 0 - can accept, 1 - already accepted by him, 2 - decline by him, 3 - his video
 
     public int getCurrent_customer_video_status() {
@@ -52,5 +54,21 @@ public class ChallengeDescModel {
 
     public void setChallenge_rounds(ArrayList<ChallengeModel> challenge_rounds) {
         this.challenge_rounds = challenge_rounds;
+    }
+
+    public String getWho_won() {
+        return who_won;
+    }
+
+    public void setWho_won(String who_won) {
+        this.who_won = who_won;
+    }
+
+    public String getWho_won_name() {
+        return who_won_name;
+    }
+
+    public void setWho_won_name(String who_won_name) {
+        this.who_won_name = who_won_name;
     }
 }

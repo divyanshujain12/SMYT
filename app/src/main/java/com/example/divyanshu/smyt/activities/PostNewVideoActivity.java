@@ -10,6 +10,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.ThumbnailGenerateModel;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -67,12 +68,24 @@ public class PostNewVideoActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.deleteVideoTV:
-
+                if (!thumbnailGenerateModel.getCustomer_video_id().equals("0"))
+                    deleteVideo();
+                else
+                    finish();
                 break;
             case R.id.postVideoTV:
                 CallWebService.getInstance(this, true, POST_USER_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_VIDEO, createJsonForPostVideo(), this);
                 break;
         }
+    }
+
+    private void deleteVideo() {
+        CommonFunctions.getInstance().deleteVideo(this, thumbnailGenerateModel.getCustomer_video_id(), new DeleteVideoInterface() {
+            @Override
+            public void onDeleteVideo() {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -108,8 +121,6 @@ public class PostNewVideoActivity extends BaseActivity {
     }
 
     private JSONObject createJsonForPostVideo() {
-
-
         try {
             JSONObject jsonObject = new JSONObject(postVideoData);
             jsonObject.put(Constants.VIDEO_URL, thumbnailGenerateModel.getVideo_url());

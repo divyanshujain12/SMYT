@@ -24,4 +24,14 @@ public class ThumbnailGenerateModel {
     }
 
     String thumbnail;
+
+    public String getCustomer_video_id() {
+        return customer_video_id;
+    }
+
+    public void setCustomer_video_id(String customer_video_id) {
+        this.customer_video_id = customer_video_id;
+    }
+
+    String customer_video_id;
 }

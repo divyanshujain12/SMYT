@@ -275,6 +275,7 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
         intent.putExtra(Constants.POST_VIDEO_DATA, postVideoJson);
         intent.putExtra(Constants.LIVE_STATUS, isLive);
         startActivity(intent);
+        finish();
     }
 
     @Override

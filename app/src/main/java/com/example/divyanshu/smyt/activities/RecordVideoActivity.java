@@ -175,7 +175,7 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
                 customerVideoID = response.getString(Constants.CUSTOMERS_VIDEO_ID);
                 break;
             case ApiCodes.POST_LIVE_VIDEO_ZERO:
-                //endBroadcast();
+                endBroadcast();
                 break;
         }
     }
@@ -193,7 +193,7 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
         } else {
             if (isLive) {
                 CallWebService.getInstance(this, false, ApiCodes.POST_LIVE_VIDEO_ZERO).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_SINGLE_LIVE_VIDEOS, createJsonForPostLiveVideo("0"), this);
-            }
+            }else
             endBroadcast(false);
         }
     }
