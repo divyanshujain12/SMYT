@@ -41,6 +41,7 @@ public class ChallengeVideoDescModel implements Parcelable {
     int vote_status_customer_id;
     String views;
     String is_copy;
+    int favourite_status;
 
     ArrayList<CommentModel> commentArray;
     ArrayList<LikeModel> likesArray;
@@ -80,6 +81,7 @@ public class ChallengeVideoDescModel implements Parcelable {
         vote_status_customer_id = in.readInt();
         views = in.readString();
         is_copy = in.readString();
+        favourite_status = in.readInt();
     }
 
     public static final Creator<ChallengeVideoDescModel> CREATOR = new Creator<ChallengeVideoDescModel>() {
@@ -358,6 +360,14 @@ public class ChallengeVideoDescModel implements Parcelable {
         this.is_copy = is_copy;
     }
 
+    public int getFavourite_status() {
+        return favourite_status;
+    }
+
+    public void setFavourite_status(int favourite_status) {
+        this.favourite_status = favourite_status;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -396,5 +406,6 @@ public class ChallengeVideoDescModel implements Parcelable {
         dest.writeInt(vote_status_customer_id);
         dest.writeString(views);
         dest.writeString(is_copy);
+        dest.writeInt(favourite_status);
     }
 }

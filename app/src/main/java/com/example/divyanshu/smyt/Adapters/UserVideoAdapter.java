@@ -11,10 +11,13 @@ import android.widget.ImageView;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 9/1/2016.
  */
-public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.SingleVideoHolder> implements PopupItemClicked {
+public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.SingleVideoHolder> implements PopupItemClicked, TitleBarButtonClickCallback {
 
     public ArrayList<VideoModel> videoModels;
     private Context context;
@@ -34,6 +37,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     private ImageLoading imageLoading;
 
     private String categoryID = "";
+
 
     public class SingleVideoHolder extends RecyclerView.ViewHolder {
 
@@ -79,12 +83,12 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     @Override
     public void onBindViewHolder(final UserVideoAdapter.SingleVideoHolder holder, int position) {
         VideoModel videoModel = videoModels.get(position);
-        holder.videoTitleView.setUp(videoModel.getTitle(), this, position);
+        holder.videoTitleView.setUpViewsForListing(videoModel.getTitle(), holder.getAdapterPosition(), videoModel.getCustomers_videos_id(), this);
         setUpMoreIV(holder, videoModel);
         String commentsFound = context.getResources().getQuantityString(R.plurals.numberOfComments, videoModel.getVideo_comment_count(), videoModel.getVideo_comment_count() / 1);
         holder.commentsTV.setText(commentsFound);
         holder.firstUserNameTV.setText(videoModel.getFirst_name());
-        holder.singleVideoPlayerView.setUp(videoModel.getVideo_url(),videoModel.getThumbnail(),videoModel.getCustomers_videos_id());
+        holder.singleVideoPlayerView.setUp(videoModel.getVideo_url(), videoModel.getThumbnail(), videoModel.getCustomers_videos_id());
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
         holder.viewsCountTV.setText(videoModel.getViews());
         holder.commentsTV.setOnClickListener(new View.OnClickListener() {
@@ -133,5 +137,15 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
         videoModels.remove(selectedVideoPos);
         notifyItemRemoved(selectedVideoPos);
         notifyItemRangeChanged(selectedVideoPos, getItemCount());
+    }
+
+    @Override
+    public void onTitleBarButtonClicked(View view,final int position) {
+        CommonFunctions.getInstance().deleteVideo(context, videoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
+            @Override
+            public void onDeleteVideo() {
+                removeItem(position);
+            }
+        });
     }
 }

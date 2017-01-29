@@ -19,7 +19,7 @@ import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
-import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Models.ChallengeVideoDescModel;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -32,7 +32,6 @@ import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
-import com.example.divyanshu.smyt.activities.InAppActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -48,15 +47,11 @@ import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
-import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
-
 /**
  * Created by divyanshu.jain on 10/7/2016.
  */
 
-public class LiveRoundDescActivity extends BaseActivity implements PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
+public class LiveRoundDescActivity extends BaseActivity implements TitleBarButtonClickCallback {
 
 
     @InjectView(R.id.challengeTitleView)
@@ -128,7 +123,7 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
         imageLoading = new ImageLoading(this);
         validation = new Validation();
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_cno_comment)));
-        challengeTitleView.setUp("", this, 0);
+        challengeTitleView.setUpViewsForListing("",  0,"",this);
         CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_off);
         CommonFunctions.changeImageWithAnimation(this, userTwoVideoLikeIV, R.drawable.thumb_off);
     }
@@ -204,7 +199,7 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
     private void updateUI() {
         setVotingStatus();
         setUpUsersViews();
-        challengeTitleView.setUp(challengeVideoDescModel.getTitle(), this, 0);
+        challengeTitleView.setUpViewsForListing(challengeVideoDescModel.getTitle(),  0,challengeVideoDescModel.getCustomers_videos_id(),this);
         setVoteCount();
         setupVideo();
         seetUpCommentAdapter();
@@ -335,84 +330,9 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
         leftSideVotingView.setClickable(false);
         rightSideVotingView.setClickable(false);
     }
-
-    @Override
-    public void onPopupMenuClicked(View view, int position) {
-        switch (view.getId()) {
-            case R.id.addVideoToBannerTV:
-                if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
-                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
-                else
-                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
-                break;
-            case R.id.addVideoToPremiumTV:
-                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
-                break;
-        }
-    }
-
-    private void checkAndPayForBannerVideo(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkBannerAvailability(this, purchaseType);
-    }
-
-    private void checkAndPayForAddVideoToPremium(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(this);
-    }
-
-    private void setUpAvailabilityPurchase(int purchaseType) {
-        InAppLocalApis.getInstance().setCallback(this);
-        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
-
-    }
-
-    @Override
-    public void available(int purchaseType) {
-        switch (purchaseType) {
-            case OTHER_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(this, challengeVideoDescModel.getCustomers_videos_id());
-                break;
-            case OTHER_CATEGORY_TO_PREMIUM:
-                InAppLocalApis.getInstance().addVideoToPremiumCategory(this, challengeVideoDescModel.getCustomers_videos_id());
-                break;
-            case PREMIUM_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(this, challengeVideoDescModel.getCustomers_videos_id());
-                break;
-        }
-    }
-
-    @Override
-    public void notAvailable(int purchaseType) {
-        Intent intent = new Intent(this, InAppActivity.class);
-        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
-        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
-
-                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
-
-                    int type = data.getIntExtra(Constants.TYPE, 0);
-                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
-                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
-                    switch (type) {
-                        case OTHER_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(this, transactionID, productID);
-                            break;
-                        case OTHER_CATEGORY_TO_PREMIUM:
-                            InAppLocalApis.getInstance().purchaseCategory(this, transactionID, productID);
-                            break;
-                        case PREMIUM_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(this, transactionID, productID);
-                            break;
-                    }
-                }
-            }
-        }
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(this,requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -438,5 +358,10 @@ public class LiveRoundDescActivity extends BaseActivity implements PopupItemClic
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
       //  MediaPlayerHelper.getInstance().releaseAllVideos();
+    }
+
+    @Override
+    public void onTitleBarButtonClicked(View view,int position) {
+
     }
 }

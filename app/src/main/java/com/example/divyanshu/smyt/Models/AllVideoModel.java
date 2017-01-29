@@ -38,6 +38,7 @@ public class AllVideoModel implements Parcelable {
     String type;
     long edate;
     String views;
+    int favourite_status;
     ArrayList<AllVideoModel> banners;
     public AllVideoModel() {
     }
@@ -71,6 +72,7 @@ public class AllVideoModel implements Parcelable {
         views = in.readString();
         type = in.readString();
         edate = in.readLong();
+        favourite_status = in.readInt();
         banners = in.readArrayList(ClassLoader.getSystemClassLoader());
     }
 
@@ -318,6 +320,14 @@ public class AllVideoModel implements Parcelable {
         this.views = views;
     }
 
+    public int getFavourite_status() {
+        return favourite_status;
+    }
+
+    public void setFavourite_status(int favourite_status) {
+        this.favourite_status = favourite_status;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -354,6 +364,7 @@ public class AllVideoModel implements Parcelable {
         dest.writeString(views);
         dest.writeLong(edate);
         dest.writeList(banners);
+        dest.writeInt(favourite_status);
     }
     @Override
     public boolean equals(Object o) {

@@ -17,7 +17,7 @@ import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
-import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked {
+public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements TitleBarButtonClickCallback {
 
     private ArrayList<AllVideoModel> allVideoModels;
     private Context context;
@@ -141,8 +141,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
-        holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
-        holder.videoTitleView.showHideMoreIvButton(false);
+        setUpSingleVideoTitleBar(holder, allVideoModel);
         holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
@@ -165,8 +164,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
 
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, int position, final AllVideoModel allVideoModel) {
-        holder.challengeTitleView.setUp(allVideoModel.getTitle(), this, position);
-        holder.challengeTitleView.showHideMoreIvButton(false);
+        setUpBattleTitleBar(holder, allVideoModel);
         holder.commentsTV.setText(setCommentCount(allVideoModel));
         holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
@@ -196,6 +194,18 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
         });
     }
 
+    private void setUpSingleVideoTitleBar(SingleVideoHolder holder, AllVideoModel allVideoModel) {
+        holder.videoTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        holder.videoTitleView.showHideMoreIvButton(false);
+        holder.videoTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
+    }
+
+    private void setUpBattleTitleBar(BattleVideoHolder holder, AllVideoModel allVideoModel) {
+        holder.challengeTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        holder.challengeTitleView.showHideMoreIvButton(false);
+        holder.challengeTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
+    }
+
     private String setComment(AllVideoModel allVideoModel) {
         return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
     }
@@ -210,20 +220,6 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
         if (allVideoModels.get(position).getType().equals("Challenge"))
             return 1;
         else return 0;
-    }
-
-    @Override
-    public void onPopupMenuClicked(View view, int position) {
-        switch (view.getId()) {
-            case R.id.addVideoToBannerTV:
-                recyclerViewClick.onClickItem(position, view);
-                break;
-            case R.id.addVideoToPremiumTV:
-                recyclerViewClick.onClickItem(position, view);
-                break;
-            case R.id.deleteVideoTV:
-                break;
-        }
     }
 
     @NonNull
@@ -243,6 +239,12 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
             context.startActivity(intent);
         }
     }
+
+    @Override
+    public void onTitleBarButtonClicked(View view, int position) {
+
+    }
+
 }
 
 

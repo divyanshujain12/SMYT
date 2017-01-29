@@ -19,6 +19,8 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.LiveRoundDescActivity;
+import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
+import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
@@ -50,7 +52,7 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack {
+public class LiveVideosFragment extends BaseFragment{
     @InjectView(R.id.liveVideosRV)
     RecyclerView liveVideosRV;
     private OngoingChallengesAdapter liveVideosAdapter;
@@ -118,87 +120,30 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
         selectedVideo = position;
-        switch (view.getId()) {
-            case R.id.addVideoToBannerTV:
-                if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
-                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
-                else
-                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
-                break;
-            case R.id.addVideoToPremiumTV:
-                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
-                break;
+        videoDescriptionActivity(position);
+    }
 
-            default:
-                Intent intent = new Intent(getActivity(), LiveRoundDescActivity.class);
+    private void videoDescriptionActivity(int position) {
+        Intent intent = null;
+
+        switch (liveVideosAdapter.getItemViewType(position)) {
+            case 0:
+                intent = new Intent(getActivity(), UserVideoDescActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
-                startActivity(intent);
                 break;
+            case 1:
+                intent = new Intent(getActivity(), UploadedBattleRoundDescActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
+                break;
+
         }
-    }
-
-    private void checkAndPayForBannerVideo(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkBannerAvailability(getContext(), purchaseType);
-    }
-
-    private void checkAndPayForAddVideoToPremium(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
-    }
-
-    private void setUpAvailabilityPurchase(int purchaseType) {
-        InAppLocalApis.getInstance().setCallback(this);
-        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
-
-    }
-
-    @Override
-    public void available(int purchaseType) {
-        switch (purchaseType) {
-            case OTHER_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(getContext(), allVideoModels.get(selectedVideo).getCustomers_videos_id());
-                break;
-            case OTHER_CATEGORY_TO_PREMIUM:
-                InAppLocalApis.getInstance().addVideoToPremiumCategory(getContext(), allVideoModels.get(selectedVideo).getCustomers_videos_id());
-                break;
-            case PREMIUM_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(getContext(), allVideoModels.get(selectedVideo).getCustomers_videos_id());
-                break;
-        }
-    }
-
-    @Override
-    public void notAvailable(int purchaseType) {
-        Intent intent = new Intent(getContext(), InAppActivity.class);
-        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
-        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+        if (intent != null)
+            startActivity(intent);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
-
-                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
-
-                    int type = data.getIntExtra(Constants.TYPE, 0);
-                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
-                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
-                    switch (type) {
-                        case OTHER_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
-                            break;
-                        case OTHER_CATEGORY_TO_PREMIUM:
-                            InAppLocalApis.getInstance().purchaseCategory(getContext(), transactionID, productID);
-                            break;
-                        case PREMIUM_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
-                            break;
-                    }
-                }
-            }
-        }
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(getContext(),requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -282,6 +227,7 @@ public class LiveVideosFragment extends BaseFragment implements InAppLocalApis.I
         }
         liveVideosAdapter.notifyDataSetChanged();
     }
+
     @Override
     public void onPause() {
         super.onPause();

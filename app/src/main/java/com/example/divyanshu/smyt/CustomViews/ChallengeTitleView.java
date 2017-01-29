@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.CustomViews;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,9 @@ import com.neopixl.pixlui.components.textview.TextView;
  * Created by divyanshu on 1/11/2017.
  */
 
-public class ChallengeTitleView extends LinearLayout implements View.OnClickListener {
+public class ChallengeTitleView extends LinearLayout implements View.OnClickListener, PopupItemClicked {
     private TextView titleTV;
-    private ImageView moreIV;
+    private ImageView moreIV, favIV;
     private PopupWindow popupWindow = null;
     private int position;
     private String categoryID = "";
@@ -39,12 +40,15 @@ public class ChallengeTitleView extends LinearLayout implements View.OnClickList
         layoutInflater.inflate(R.layout.title_view, this);
         titleTV = (TextView) findViewById(R.id.titleTV);
         moreIV = (ImageView) findViewById(R.id.moreIV);
+        favIV = (ImageView) findViewById(R.id.favIV);
+        favIV.setVisibility(GONE);
         moreIV.setOnClickListener(this);
         categoryID = MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID);
     }
 
     public void setUp(String title, PopupItemClicked popupItemClicked, int position) {
         this.position = position;
+
         titleTV.setText(title);
         setUpPopupWindow(popupItemClicked);
     }
@@ -58,7 +62,7 @@ public class ChallengeTitleView extends LinearLayout implements View.OnClickList
     }
 
     private void setUpPopupWindow(PopupItemClicked popupItemClicked) {
-            popupWindow = new CustomViewsHandler().createChallengesPopupWindow(getContext(), popupItemClicked, position);
+        popupWindow = new CustomViewsHandler().createChallengesPopupWindow(getContext(), popupItemClicked, position);
     }
 
     @Override
@@ -83,5 +87,10 @@ public class ChallengeTitleView extends LinearLayout implements View.OnClickList
 
     public void showHideMoreIvButton(boolean show) {
         moreIV.setVisibility(show ? VISIBLE : GONE);
+    }
+
+    @Override
+    public void onPopupMenuClicked(View view, int position) {
+
     }
 }

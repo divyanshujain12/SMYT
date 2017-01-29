@@ -18,8 +18,8 @@ import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
-import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
@@ -32,7 +32,6 @@ import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
-import com.example.divyanshu.smyt.activities.InAppActivity;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -49,12 +48,8 @@ import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
-import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
 
-
-public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener, PopupItemClicked, InAppLocalApis.InAppAvailabilityCalBack {
+public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener,TitleBarButtonClickCallback {
 
 
     @InjectView(R.id.videoTitleView)
@@ -172,9 +167,9 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void setUpMoreOptionPopupWindow(String title) {
         if (fromBanner)
-            videoTitleView.setUpForBannerVideo(title, this, 0);
+            videoTitleView.setUpForBannerVideo(videoDetailModel.getTitle(),0,videoDetailModel.getCustomers_videos_id(),this);
         else
-            videoTitleView.setUp(title, this, 0);
+            videoTitleView.setUpForSingleVideo(videoDetailModel.getTitle(),0,videoDetailModel.getCustomers_videos_id(),this);
     }
 
     private void decreaseCommentCount() {
@@ -309,93 +304,9 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         }
         return jsonObject;
     }
-
-    @Override
-    public void onPopupMenuClicked(View view, int position) {
-        switch (view.getId()) {
-            case R.id.addVideoToBannerTV:
-                if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
-                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
-                else
-                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
-                break;
-            case R.id.addVideoToPremiumTV:
-                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
-                break;
-            case R.id.deleteVideoTV:
-                CommonFunctions.getInstance().deleteVideo(this, videoDetailModel.getCustomers_videos_id(), new DeleteVideoInterface() {
-                    @Override
-                    public void onDeleteVideo() {
-                        BroadcastSenderClass.getInstance().reloadAllVideoData(UserVideoDescActivity.this);
-                        finish();
-                    }
-                });
-                break;
-        }
-    }
-
-    private void checkAndPayForBannerVideo(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkBannerAvailability(this, purchaseType);
-    }
-
-    private void checkAndPayForAddVideoToPremium(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(this);
-    }
-
-    private void setUpAvailabilityPurchase(int purchaseType) {
-        InAppLocalApis.getInstance().setCallback(this);
-        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
-
-    }
-
-    @Override
-    public void available(int purchaseType) {
-        switch (purchaseType) {
-            case OTHER_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(this, videoDetailModel.getCustomers_videos_id());
-                break;
-            case OTHER_CATEGORY_TO_PREMIUM:
-                InAppLocalApis.getInstance().addVideoToPremiumCategory(this, videoDetailModel.getCustomers_videos_id());
-                break;
-            case PREMIUM_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(this, videoDetailModel.getCustomers_videos_id());
-                break;
-        }
-    }
-
-    @Override
-    public void notAvailable(int purchaseType) {
-        Intent intent = new Intent(this, InAppActivity.class);
-        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
-        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
-
-                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
-
-                    int type = data.getIntExtra(Constants.TYPE, 0);
-                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
-                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
-                    switch (type) {
-                        case OTHER_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(this, transactionID, productID);
-                            break;
-                        case OTHER_CATEGORY_TO_PREMIUM:
-                            InAppLocalApis.getInstance().purchaseCategory(this, transactionID, productID);
-                            break;
-                        case PREMIUM_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(this, transactionID, productID);
-                            break;
-                    }
-                }
-            }
-        }
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(this,requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -429,5 +340,16 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
    //     MediaPlayerHelper.getInstance().releaseAllVideos();
+    }
+
+    @Override
+    public void onTitleBarButtonClicked(View view,int position) {
+        CommonFunctions.getInstance().deleteVideo(this, videoDetailModel.getCustomers_videos_id(), new DeleteVideoInterface() {
+            @Override
+            public void onDeleteVideo() {
+                BroadcastSenderClass.getInstance().reloadAllVideoData(UserVideoDescActivity.this);
+                finish();
+            }
+        });
     }
 }

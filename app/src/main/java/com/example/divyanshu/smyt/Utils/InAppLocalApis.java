@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Constants.API;
@@ -20,6 +21,9 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.ADD_BANNER;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.ADD_VIDEO_TO_PREMIUM;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.CHECK_BANNER_SUBSCRIPTION;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.CHECK_CATEGORY_SUBSCRIPTION_FOR_NEW_VIDEO;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
+import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
 
 /**
  * Created by divyanshu on 3/12/16.
@@ -80,6 +84,31 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
         CallWebService.getInstance(context, true, ApiCodes.ADD_VIDEO_TO_PREMIUM).hitJsonObjectRequestAPI(CallWebService.POST, API.ADD_VIDEO_OTHER_TO_PREMIUM_CATEGORY, createJsonForAddVideoToPremium(customerVideoID), this);
     }
 
+
+    public void sendPurchasedDataToBackend(Context context, int requestCode, Intent data) {
+        if (data != null) {
+            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
+
+                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
+
+                    int type = data.getIntExtra(Constants.TYPE, 0);
+                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
+                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
+                    switch (type) {
+                        case OTHER_CATEGORY_BANNER:
+                            purchaseBanner(context, transactionID, productID);
+                            break;
+                        case OTHER_CATEGORY_TO_PREMIUM:
+                            purchaseCategory(context, transactionID, productID);
+                            break;
+                        case PREMIUM_CATEGORY_BANNER:
+                            purchaseBanner(context, transactionID, productID);
+                            break;
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {

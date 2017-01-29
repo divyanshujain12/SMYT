@@ -87,6 +87,7 @@ public interface Constants {
     int COMMENT_COUNT = 0;
     int VOTE_COUNT_INT = 1;
     String POST_VIDEO_DATA = "post_video_data";
+    String FAVORITE = "favourite";
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

@@ -60,4 +60,5 @@ public interface API {
     String DELETE_CHALLENGE = BASE + "deleteChallenge";
     String POST_SINGLE_LIVE_VIDEOS = BASE + "PostLiveVideo";
     String GET_RULES = BASE + "getrules";
+    String ACTION_FAVORITE = BASE + "actionFavourite";
 }

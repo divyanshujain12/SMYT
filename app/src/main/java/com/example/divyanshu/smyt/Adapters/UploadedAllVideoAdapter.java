@@ -19,7 +19,8 @@ import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
-import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
+import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupItemClicked {
+public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements TitleBarButtonClickCallback {
 
     private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
     private ArrayList<AllVideoModel> bannerVideos;
@@ -171,8 +172,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
-        holder.videoTitleView.setUp(allVideoModel.getTitle(), this, holder.getAdapterPosition());
-        setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
+        setUpSingleVideoTitleBar(holder, allVideoModel);
         holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
@@ -195,10 +195,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
         String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
-        holder.challengeTitleView.setUp(title, this, holder.getAdapterPosition());
-        setUpMoreIvButtonVisibility(holder, allVideoModel);
+        setUpBattleTitleBar(holder, allVideoModel);
         holder.viewsCountTV.setText(allVideoModel.getViews());
-
         holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);
@@ -225,6 +223,19 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });
     }
+
+    private void setUpSingleVideoTitleBar(SingleVideoHolder holder, AllVideoModel allVideoModel) {
+        holder.videoTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
+        holder.videoTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
+    }
+
+    private void setUpBattleTitleBar(BattleVideoHolder holder, AllVideoModel allVideoModel) {
+        holder.challengeTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        setUpMoreIvButtonVisibility(holder, allVideoModel);
+        holder.challengeTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
+    }
+
 
     private void setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {
         String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
@@ -277,21 +288,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    @Override
-    public void onPopupMenuClicked(View view, int position) {
-        switch (view.getId()) {
-            case R.id.addVideoToBannerTV:
-                recyclerViewClick.onClickItem(position, view);
-                break;
-            case R.id.addVideoToPremiumTV:
-                recyclerViewClick.onClickItem(position, view);
-                break;
-            case R.id.deleteVideoTV:
-                recyclerViewClick.onClickItem(position, view);
-                break;
-        }
-    }
-
     public void removeItem(int selectedVideoPos) {
         allVideoModels.remove(selectedVideoPos);
         notifyItemRemoved(selectedVideoPos);
@@ -316,5 +312,53 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             context.startActivity(intent);
         }
     }
+
+    @Override
+    public void onTitleBarButtonClicked(View view, final int position) {
+
+        switch (view.getId()) {
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(context, allVideoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        removeItem(position);
+                    }
+                });
+                break;
+            case R.id.favIV:
+                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, createJsonForActionFav(allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                break;
+        }
+
+    }
+
+    private int updateUiForFavClick(ImageView view, int position) {
+        int favStatus = allVideoModels.get(position).getFavourite_status();
+        if (favStatus == 0) {
+            view.setImageResource(R.drawable.icon_heart_on);
+            favStatus = 1;
+        } else {
+            view.setImageResource(R.drawable.icon_heart_off);
+            favStatus = 0;
+        }
+        allVideoModels.get(position).setFavourite_status(favStatus);
+        notifyDataSetChanged();
+        return favStatus;
+    }
+
+    private JSONObject createJsonForActionFav(String customerVideoID, int favStatus) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
+        try {
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+            jsonObject.put(Constants.FAVORITE, favStatus);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+
+            return jsonObject;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
 

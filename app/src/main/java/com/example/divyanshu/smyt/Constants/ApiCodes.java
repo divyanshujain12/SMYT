@@ -52,4 +52,5 @@ public interface ApiCodes {
     int POST_LIVE_VIDEO_ONE = 146;
     int POST_LIVE_VIDEO_ZERO = 147;
     int GET_RULES = 148;
+    int ACTION_FAVORITE = 149;
 }

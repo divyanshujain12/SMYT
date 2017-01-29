@@ -21,6 +21,7 @@ public class VideoDetailModel {
     String likes;
     int likestatus;
     String views;
+    int  favourite_status;
     ArrayList<CommentModel> commentArray;
     ArrayList<LikeModel> likesArray;
 

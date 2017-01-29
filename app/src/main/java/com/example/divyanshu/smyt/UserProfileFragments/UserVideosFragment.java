@@ -50,7 +50,7 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 /**
  * Created by divyanshu.jain on 8/31/2016.
  */
-public class UserVideosFragment extends BaseFragment implements InAppLocalApis.InAppAvailabilityCalBack {
+public class UserVideosFragment extends BaseFragment {
 
     UserVideoAdapter userVideoAdapter;
     @InjectView(R.id.videosRV)
@@ -155,36 +155,7 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
             case R.id.commentsTV:
                 goVideoDescActivity(selectedVideo);
                 break;
-            case R.id.addVideoToBannerTV:
-                if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category)))
-                    checkAndPayForBannerVideo(PREMIUM_CATEGORY_BANNER);
-                else
-                    checkAndPayForBannerVideo(OTHER_CATEGORY_BANNER);
-                break;
-            case R.id.addVideoToPremiumTV:
-                checkAndPayForAddVideoToPremium(OTHER_CATEGORY_TO_PREMIUM);
-                break;
-            case R.id.deleteVideoTV:
-                CommonFunctions.getInstance().deleteVideo(getContext(), userVideoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
-                    @Override
-                    public void onDeleteVideo() {
-                        userVideoAdapter.removeItem(position);
-                    }
-                });
-                break;
         }
-
-
-    }
-
-    private void checkAndPayForBannerVideo(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkBannerAvailability(getContext(), purchaseType);
-    }
-
-    private void checkAndPayForAddVideoToPremium(int purchaseType) {
-        setUpAvailabilityPurchase(purchaseType);
-        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
     }
 
     private void goVideoDescActivity(int position) {
@@ -216,58 +187,9 @@ public class UserVideosFragment extends BaseFragment implements InAppLocalApis.I
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateUiUserVideoFragment);
     }
 
-
-    private void setUpAvailabilityPurchase(int purchaseType) {
-        InAppLocalApis.getInstance().setCallback(this);
-        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
-    }
-
-    @Override
-    public void available(int purchaseType) {
-        switch (purchaseType) {
-            case OTHER_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(getContext(), userVideoModels.get(selectedVideo).getCustomers_videos_id());
-                break;
-            case OTHER_CATEGORY_TO_PREMIUM:
-                InAppLocalApis.getInstance().addVideoToPremiumCategory(getContext(), userVideoModels.get(selectedVideo).getCustomers_videos_id());
-                break;
-            case PREMIUM_CATEGORY_BANNER:
-                InAppLocalApis.getInstance().addBannerToCategory(getContext(), userVideoModels.get(selectedVideo).getCustomers_videos_id());
-                break;
-        }
-    }
-
-    @Override
-    public void notAvailable(int purchaseType) {
-        Intent intent = new Intent(getContext(), InAppActivity.class);
-        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
-        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
-
-                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
-
-                    int type = data.getIntExtra(Constants.TYPE, 0);
-                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
-                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
-                    switch (type) {
-                        case OTHER_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
-                            break;
-                        case OTHER_CATEGORY_TO_PREMIUM:
-                            InAppLocalApis.getInstance().purchaseCategory(getContext(), transactionID, productID);
-                            break;
-                        case PREMIUM_CATEGORY_BANNER:
-                            InAppLocalApis.getInstance().purchaseBanner(getContext(), transactionID, productID);
-                            break;
-                    }
-                }
-            }
-        }
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(getContext(), requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
