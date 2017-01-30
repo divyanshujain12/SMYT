@@ -341,4 +341,18 @@ public class CommonFunctions {
         }
         return bitmap;
     }
+
+    public JSONObject createJsonForActionFav(Context context,String customerVideoID, int favStatus) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
+        try {
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+            jsonObject.put(Constants.FAVORITE, favStatus);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+
+            return jsonObject;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -344,12 +344,33 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onTitleBarButtonClicked(View view,int position) {
-        CommonFunctions.getInstance().deleteVideo(this, videoDetailModel.getCustomers_videos_id(), new DeleteVideoInterface() {
-            @Override
-            public void onDeleteVideo() {
-                BroadcastSenderClass.getInstance().reloadAllVideoData(UserVideoDescActivity.this);
-                finish();
-            }
-        });
+        switch (view.getId()) {
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(this, videoDetailModel.getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        BroadcastSenderClass.getInstance().reloadAllVideoData(UserVideoDescActivity.this);
+                        finish();
+                    }
+                });
+                break;
+            case R.id.favIV:
+                CallWebService.getInstance(this, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(this,videoDetailModel.getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                break;
+        }
     }
+
+    private int updateUiForFavClick(ImageView view, int position) {
+        int favStatus = videoDetailModel.getFavourite_status();
+        if (favStatus == 0) {
+            view.setImageResource(R.drawable.icon_heart_on);
+            favStatus = 1;
+        } else {
+            view.setImageResource(R.drawable.icon_heart_off);
+            favStatus = 0;
+        }
+        videoDetailModel.setFavourite_status(favStatus);
+        return favStatus;
+    }
+
 }

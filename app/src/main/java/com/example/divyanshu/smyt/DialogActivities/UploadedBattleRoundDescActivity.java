@@ -402,13 +402,35 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
 
     @Override
     public void onTitleBarButtonClicked(View view,int position) {
-        CommonFunctions.getInstance().deleteVideo(this, challengeVideoDescModel.getCustomers_videos_id(), new DeleteVideoInterface() {
-            @Override
-            public void onDeleteVideo() {
-                BroadcastSenderClass.getInstance().reloadAllVideoData(UploadedBattleRoundDescActivity.this);
-                finish();
-            }
-        });
-        ;
+        switch (view.getId()) {
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(this, challengeVideoDescModel.getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        BroadcastSenderClass.getInstance().reloadAllVideoData(UploadedBattleRoundDescActivity.this);
+                        finish();
+                    }
+                });
+                break;
+            case R.id.favIV:
+                CallWebService.getInstance(this, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(this,challengeVideoDescModel.getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                break;
+        }
     }
+
+    private int updateUiForFavClick(ImageView view, int position) {
+        int favStatus = challengeVideoDescModel.getFavourite_status();
+        if (favStatus == 0) {
+            view.setImageResource(R.drawable.icon_heart_on);
+            favStatus = 1;
+        } else {
+            view.setImageResource(R.drawable.icon_heart_off);
+            favStatus = 0;
+        }
+        challengeVideoDescModel.setFavourite_status(favStatus);
+        return favStatus;
+    }
+
+
+
 }

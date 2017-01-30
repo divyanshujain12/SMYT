@@ -197,13 +197,13 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
     private void setUpSingleVideoTitleBar(SingleVideoHolder holder, AllVideoModel allVideoModel) {
         holder.videoTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
         holder.videoTitleView.showHideMoreIvButton(false);
-        holder.videoTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
+        holder.videoTitleView.hideFavButton();
     }
 
     private void setUpBattleTitleBar(BattleVideoHolder holder, AllVideoModel allVideoModel) {
         holder.challengeTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
         holder.challengeTitleView.showHideMoreIvButton(false);
-        holder.challengeTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
+        holder.challengeTitleView.hideFavButton();
     }
 
     private String setComment(AllVideoModel allVideoModel) {

@@ -151,4 +151,11 @@ public class VideoDetailModel {
         this.views = views;
     }
 
+    public int getFavourite_status() {
+        return favourite_status;
+    }
+
+    public void setFavourite_status(int favourite_status) {
+        this.favourite_status = favourite_status;
+    }
 }

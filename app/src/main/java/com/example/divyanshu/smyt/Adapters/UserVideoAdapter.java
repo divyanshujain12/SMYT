@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
@@ -17,6 +19,7 @@ import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
@@ -140,12 +143,36 @@ public class UserVideoAdapter extends RecyclerView.Adapter<UserVideoAdapter.Sing
     }
 
     @Override
-    public void onTitleBarButtonClicked(View view,final int position) {
-        CommonFunctions.getInstance().deleteVideo(context, videoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
-            @Override
-            public void onDeleteVideo() {
-                removeItem(position);
-            }
-        });
+    public void onTitleBarButtonClicked(View view, final int position) {
+
+
+        switch (view.getId()) {
+            case R.id.deleteVideoTV:
+                CommonFunctions.getInstance().deleteVideo(context, videoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
+                    @Override
+                    public void onDeleteVideo() {
+                        removeItem(position);
+                    }
+                });
+                break;
+            case R.id.favIV:
+                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(context, videoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                break;
+        }
+
+    }
+
+    private int updateUiForFavClick(ImageView view, int position) {
+        int favStatus = videoModels.get(position).getFavourite_status();
+        if (favStatus == 0) {
+            view.setImageResource(R.drawable.icon_heart_on);
+            favStatus = 1;
+        } else {
+            view.setImageResource(R.drawable.icon_heart_off);
+            favStatus = 0;
+        }
+        videoModels.get(position).setFavourite_status(favStatus);
+        notifyDataSetChanged();
+        return favStatus;
     }
 }

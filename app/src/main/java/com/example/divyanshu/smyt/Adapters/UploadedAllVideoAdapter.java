@@ -194,7 +194,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
-        String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
+        //String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
         setUpBattleTitleBar(holder, allVideoModel);
         holder.viewsCountTV.setText(allVideoModel.getViews());
         holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
@@ -231,7 +231,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void setUpBattleTitleBar(BattleVideoHolder holder, AllVideoModel allVideoModel) {
-        holder.challengeTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        holder.challengeTitleView.setUpViewsForListing(allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")", holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
         setUpMoreIvButtonVisibility(holder, allVideoModel);
         holder.challengeTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
     }
@@ -315,7 +315,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onTitleBarButtonClicked(View view, final int position) {
-
         switch (view.getId()) {
             case R.id.deleteVideoTV:
                 CommonFunctions.getInstance().deleteVideo(context, allVideoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
@@ -326,7 +325,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 });
                 break;
             case R.id.favIV:
-                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, createJsonForActionFav(allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(context,allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
                 break;
         }
 
@@ -345,20 +344,5 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
         return favStatus;
     }
-
-    private JSONObject createJsonForActionFav(String customerVideoID, int favStatus) {
-        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
-        try {
-            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
-            jsonObject.put(Constants.FAVORITE, favStatus);
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
-
-            return jsonObject;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }
 
