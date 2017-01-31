@@ -19,17 +19,16 @@ import com.example.divyanshu.smyt.Adapters.UserVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
-import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
-import com.example.divyanshu.smyt.Utils.MySharedPereference;
-import com.example.divyanshu.smyt.activities.InAppActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,9 +42,6 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.USER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
-import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
 
 /**
  * Created by divyanshu.jain on 8/31/2016.
@@ -55,7 +51,7 @@ public class UserVideosFragment extends BaseFragment {
     UserVideoAdapter userVideoAdapter;
     @InjectView(R.id.videosRV)
     RecyclerView videosRV;
-    ArrayList<VideoModel> userVideoModels = new ArrayList<>();
+    ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
     private TSnackbar continuousSB = null;
     private static String customerID = "";
     private int selectedVideo = 0;
@@ -105,7 +101,7 @@ public class UserVideosFragment extends BaseFragment {
     private void initViews() {
 
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        userVideoAdapter = new UserVideoAdapter(getContext(), userVideoModels, this);
+        userVideoAdapter = new UserVideoAdapter(getContext(), allVideoModels, this);
         videosRV.setAdapter(userVideoAdapter);
         continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithView(videosRV);
         CommonFunctions.showContinuousSB(continuousSB);
@@ -121,7 +117,7 @@ public class UserVideosFragment extends BaseFragment {
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
         CommonFunctions.hideContinuousSB(continuousSB);
-        userVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), VideoModel.class);
+        allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
         if (getUserVisibleHint()) {
             setAdapter();
         }
@@ -137,13 +133,13 @@ public class UserVideosFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && userVideoModels != null)
+        if (isVisibleToUser && allVideoModels != null)
             setAdapter();
     }
 
     private void setAdapter() {
         if (userVideoAdapter != null)
-            userVideoAdapter.addUserVideoData(userVideoModels);
+            userVideoAdapter.addNewData(allVideoModels);
     }
 
 
@@ -151,16 +147,32 @@ public class UserVideosFragment extends BaseFragment {
     public void onClickItem(final int position, View view) {
         super.onClickItem(position, view);
         selectedVideo = position;
-        switch (view.getId()) {
-            case R.id.commentsTV:
-                goVideoDescActivity(selectedVideo);
-                break;
-        }
+       /* switch (view.getId()) {
+            case R.id.commentsTV:*/
+                videoDescriptionActivity(selectedVideo);
+              /*  break;
+        }*/
     }
+    private void videoDescriptionActivity(int position) {
+        Intent intent = null;
 
+        switch (userVideoAdapter.getItemViewType(position)) {
+            case 0:
+                intent = new Intent(getActivity(), UserVideoDescActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
+                break;
+            case 1:
+                intent = new Intent(getActivity(), UploadedBattleRoundDescActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
+                break;
+
+        }
+        if (intent != null)
+            startActivity(intent);
+    }
     private void goVideoDescActivity(int position) {
         Intent intent = new Intent(getActivity(), UserVideoDescActivity.class);
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoAdapter.videoModels.get(position).getCustomers_videos_id());
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoAdapter.allVideoModels.get(position).getCustomers_videos_id());
         startActivity(intent);
     }
 
@@ -228,7 +240,7 @@ public class UserVideosFragment extends BaseFragment {
         VideoModel videoModel = new VideoModel();
         videoModel.setCustomers_videos_id(customerVideoID);
 
-        userVideoModels.get(userVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
+        allVideoModels.get(allVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
         setAdapter();
     }
 

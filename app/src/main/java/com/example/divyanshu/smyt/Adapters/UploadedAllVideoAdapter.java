@@ -45,7 +45,7 @@ import java.util.ArrayList;
  */
 public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements TitleBarButtonClickCallback {
 
-    private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
+    public ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
     private ArrayList<AllVideoModel> bannerVideos;
     private Context context;
     private RecyclerViewClick recyclerViewClick;

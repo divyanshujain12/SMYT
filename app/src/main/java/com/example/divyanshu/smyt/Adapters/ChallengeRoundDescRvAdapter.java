@@ -170,7 +170,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!challengeModel.getCustomer_id1().equals("")) {
+                if (!challengeModel.getCustomer_id1().equals("") && challengeModel.getCurrent_customer_video_status() != 0) {
                     Intent intent = new Intent(context, RecordChallengeVideoActivity.class);
                     intent.putExtra(Constants.ROUND_TIME, challengeModel.getRound_date());
                     intent.putExtra(Constants.CHALLENGE_ID, challengeModel.getChallenge_id());
@@ -222,7 +222,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
             holder.userWinningBar.addView(addOpenVotingView(challengeModel.getVote(), challengeModel.getVote1()));
         } else {
 
-            switch (challengeModel.getWho_won()){
+            switch (challengeModel.getWho_won()) {
                 case "1":
                     holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
                     break;

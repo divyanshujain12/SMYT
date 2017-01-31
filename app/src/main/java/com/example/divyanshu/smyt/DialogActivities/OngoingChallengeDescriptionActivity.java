@@ -140,13 +140,12 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     }
 
     private void setUpCurrentStatus() {
-        // checkChallengeStatus();
-        if (!challengeDescModel.getWho_won().equals("0")) {
+
+        if (challengeDescModel.getWho_won() != null && !challengeDescModel.getWho_won().equals("0")) {
             challengeTypeTV.setText(challengeDescModel.getWho_won_name() + " Win!");
         }
-       /* if (isChallengeCompleted) {
-            setStatusToTextView();
-        }*/ else {
+
+        else {
             switch (challengeDescModel.getCurrent_customer_video_status()) {
                 case 0:
                     challengeTypeTV.setText("Pending");
@@ -157,34 +156,8 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
                 case 2:
                     challengeTypeTV.setText("Rejected");
                     break;
-           /* case 3:
-                challengeTypeTV.setText("Your Challenge");
-                break;*/
             }
         }
-    }
-
-    /*private void checkChallengeStatus() {
-        ArrayList<ChallengeModel> challengeModels = challengeDescModel.getChallenge_rounds();
-        userOneName = challengeModels.get(0).getFirst_name();
-        userTwoName = challengeModels.get(0).getFirst_name1();
-        for (ChallengeModel challengeModel : challengeModels) {
-            userOneVoteCount = userOneVoteCount + Integer.parseInt(challengeModel.getVote());
-            userTwoVoteCount = userTwoVoteCount + Integer.parseInt(challengeModel.getVote1());
-            if (challengeModel.getComplete_status().equals("0")) {
-                isChallengeCompleted = false;
-                break;
-            }
-        }
-    }*/
-
-    private void setStatusToTextView() {
-        if (userOneVoteCount > userTwoVoteCount)
-            challengeTypeTV.setText(userOneName + " Win!");
-        else if (userOneVoteCount == userTwoVoteCount)
-            challengeTypeTV.setText("Draw!");
-        else
-            challengeTypeTV.setText(userTwoName + " Win!");
     }
 
     @OnClick({R.id.acceptBT, R.id.declineBT})
