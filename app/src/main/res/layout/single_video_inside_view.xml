@@ -23,13 +23,27 @@
         android:scaleType="fitXY"
         android:visibility="gone" />
 
-    <ImageView
+    <FrameLayout
+        android:id="@+id/playVideosFL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/playVideoIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_play"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!--<ImageView
         android:id="@+id/playVideoIV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/icon_play"
-        android:visibility="gone" />
+        android:visibility="gone" />-->
 
 
 </FrameLayout>

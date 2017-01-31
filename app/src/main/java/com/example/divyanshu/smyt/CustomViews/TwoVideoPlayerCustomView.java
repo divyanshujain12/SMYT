@@ -143,16 +143,7 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
 
     @Override
     public void onVideoPlay(View view) {
-       /* if (view instanceof JCVideoPlayerStandard)
-            firstPlayerVideoPlayed = true;
-        else if (view instanceof JCVideoPlayerStandardTwo)
-            secondPlayerVideoPlayed = true;
 
-        if (firstPlayerVideoPlayed && secondPlayerVideoPlayed) {
-            CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
-            firstPlayerVideoPlayed = false;
-            secondPlayerVideoPlayed = false;
-        }*/
     }
 
     private void resetPlayButtonView(int visible, int gone) {

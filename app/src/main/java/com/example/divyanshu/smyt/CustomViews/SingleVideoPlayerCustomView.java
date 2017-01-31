@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -30,7 +31,7 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
     private JCVideoPlayerStandard firstVideoPlayer;
     private ImageView playVideoIV;
     private String customerVideoID;
-
+    private FrameLayout playVideosFL;
 
     public SingleVideoPlayerCustomView(Context context) {
         super(context);
@@ -45,9 +46,10 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
         this.customerVideoID = customerVideoID;
         LayoutInflater.from(getContext()).inflate(R.layout.single_video_inside_view, this);
         firstVideoPlayer = (JCVideoPlayerStandard) findViewById(R.id.firstVideoPlayer);
+        playVideosFL = (FrameLayout) findViewById(R.id.playVideosFL);
         playVideoIV = (ImageView) findViewById(R.id.playVideoIV);
         setUpVideoPlayers(getContext(), firstVideoUrl, firstThumbUrl);
-        playVideoIV.setOnClickListener(this);
+        playVideosFL.setOnClickListener(this);
         resetPlayers();
         firstVideoPlayer.setPlayVideoInterface(this);
     }
@@ -60,7 +62,7 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.playVideoIV:
+            case R.id.playVideosFL:
                 onPlayButtonClicked();
                 break;
         }
@@ -70,7 +72,7 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
         firstVideoPlayer.startPlayLogic();
         if (customerVideoID.length() > 0)
             CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(customerVideoID), null);
-        playVideoIV.setVisibility(GONE);
+        playVideosFL.setVisibility(GONE);
 
     }
 
@@ -95,7 +97,7 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
     }
 
     public void resetPlayers() {
-        playVideoIV.setVisibility(VISIBLE);
+        playVideosFL.setVisibility(VISIBLE);
         firstVideoPlayer.showPlayButton(false);
     }
 

@@ -166,7 +166,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         setUpSingleVideoTitleBar(holder, allVideoModel);
-        holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomer_id());
+        holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomers_videos_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
