@@ -35,9 +35,10 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserVideosFragment;
+import com.example.divyanshu.smyt.UserProfileFragments.FeedsParentFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserChallengesFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowingFragment;
-import com.example.divyanshu.smyt.UserProfileFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -141,6 +142,8 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         hitgetUserInfoApi();
     }
 
+
+
     private void hitgetUserInfoApi() {
         CallWebService.getInstance(this, true, GET_USER_INFO).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_DETAIL, CommonFunctions.customerIdJsonObject(this), this);
     }
@@ -154,6 +157,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(3);
+
 
         tabs.post(new Runnable() {
             @Override
@@ -172,6 +176,8 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     public void onPageSelected(int position) {
         releaseVideos();
         viewPagerPos = position;
+        if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals(""))
+            return;
         switch (position) {
             case 0:
                 fab.setImageResource(R.drawable.fav_icon_postvideo);
@@ -265,7 +271,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         else if (JCVideoPlayerStandardTwo.backPress())
             return;
         else {
-        //    MediaPlayerHelper.getInstance().releaseAllVideos();
+            //    MediaPlayerHelper.getInstance().releaseAllVideos();
             super.onBackPressed();
         }
     }
@@ -279,7 +285,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     private void releaseVideos() {
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
-      //  MediaPlayerHelper.getInstance().releaseAllVideos();
+        //  MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
 
@@ -287,6 +293,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.user_profile_menu, menu);
+        checkAndHideButtons(menu);
         return true;
     }
 
@@ -317,6 +324,13 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(updateUserInfo);
+    }
+
+    private void checkAndHideButtons(Menu menu) {
+        if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals("")) {
+            fab.setVisibility(View.GONE);
+            menu.findItem(R.id.action_recording).setVisible(false);
+        }
     }
 
     @Override

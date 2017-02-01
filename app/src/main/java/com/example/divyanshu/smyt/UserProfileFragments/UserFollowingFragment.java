@@ -19,7 +19,9 @@ import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
+import com.example.divyanshu.smyt.activities.UserProfileActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,7 +119,10 @@ public class UserFollowingFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
+        String customerID = userModels.get(position).getCustomer_id();
         Intent intent = new Intent(getActivity(), OtherUserProfileActivity.class);
+        if (customerID.equals(MySharedPereference.getInstance().getString(getContext(), Constants.CUSTOMER_ID)))
+            intent = new Intent(getActivity(), UserProfileActivity.class);
         intent.putExtra(Constants.CUSTOMER_ID, userModels.get(position).getCustomer_id());
         startActivity(intent);
     }
