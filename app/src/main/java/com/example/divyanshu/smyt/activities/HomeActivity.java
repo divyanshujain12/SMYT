@@ -210,8 +210,10 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void checkHasPermissions() {
-        if (PermissionUtil.isMNC())
+        if (PermissionUtil.isMNC()) {
+            runtimePermissionHeadlessFragment.setmCallback(this);
             runtimePermissionHeadlessFragment.addAndCheckPermission(mRequiredPermissions, CAMERA_REQUEST);
+        }
         else goToRecordNewVideoDataActivity();
     }
 

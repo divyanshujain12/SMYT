@@ -26,6 +26,10 @@ public class RuntimePermissionHeadlessFragment extends Fragment {
         return new RuntimePermissionHeadlessFragment();
     }
 
+    public void setmCallback(PermissionCallback callLogPermissionCallback) {
+        mCallback = callLogPermissionCallback;
+    }
+
     public void addAndCheckPermission(String[] permissionRequired, int permissionType) {
         this.permissionRequired = permissionRequired;
         PERMISSION_TYPE = permissionType;
@@ -63,6 +67,7 @@ public class RuntimePermissionHeadlessFragment extends Fragment {
             }
         }
     }
+
     /**
      * Callback received when a permissions request has been completed.
      */
