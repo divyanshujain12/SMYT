@@ -42,6 +42,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.USER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
+import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
 
 /**
  * Created by divyanshu.jain on 8/31/2016.
@@ -146,10 +147,11 @@ public class UserVideosFragment extends BaseFragment {
         selectedVideo = position;
        /* switch (view.getId()) {
             case R.id.commentsTV:*/
-                videoDescriptionActivity(selectedVideo);
+        videoDescriptionActivity(selectedVideo);
               /*  break;
         }*/
     }
+
     private void videoDescriptionActivity(int position) {
         Intent intent = null;
 
@@ -166,11 +168,6 @@ public class UserVideosFragment extends BaseFragment {
         }
         if (intent != null)
             startActivity(intent);
-    }
-    private void goVideoDescActivity(int position) {
-        Intent intent = new Intent(getActivity(), UserVideoDescActivity.class);
-        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, userVideoAdapter.allVideoModels.get(position).getCustomers_videos_id());
-        startActivity(intent);
     }
 
     private JSONObject createJsonForUserVideos() {
@@ -226,15 +223,28 @@ public class UserVideosFragment extends BaseFragment {
                 case ALL_VIDEO_DATA:
                     getUserVideosAPI();
                     break;
+                case FAVORITE_STATUS:
+                    updateFavStatus(intent);
+                    break;
             }
-
         }
     };
+
+    private void updateFavStatus(Intent intent) {
+        AllVideoModel videoModel = intent.getParcelableExtra(Constants.DATA);
+        int status = intent.getIntExtra(Constants.STATUS, 0);
+        int position = allVideoModels.indexOf(videoModel);
+        if (position >= 0) {
+            allVideoModels.get(position).setFavourite_status(status);
+            setAdapter();
+
+        }
+    }
 
     private void updateCount(Intent intent) {
         String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
-        VideoModel videoModel = new VideoModel();
+        AllVideoModel videoModel = new AllVideoModel();
         videoModel.setCustomers_videos_id(customerVideoID);
 
         allVideoModels.get(allVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);

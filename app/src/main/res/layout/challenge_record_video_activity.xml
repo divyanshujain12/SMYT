@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black_with_ninety_nine"
     android:fitsSystemWindows="true"
+    android:keepScreenOn="true"
     android:orientation="vertical">
 
     <FrameLayout

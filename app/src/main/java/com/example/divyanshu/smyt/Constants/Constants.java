@@ -33,6 +33,7 @@ public interface Constants {
     String ROUND_DATE = "round_date";
     String CUSTOMERS_VIDEO_ID = "customers_videos_id";
     String USER_FRAGMENT_TAB_UI = "user_fragment_tab_ui";
+    String USER_FAV_FRAGMENT_TAB_UI = "user_fav_fragment_tab_ui";
     String UPDATE_USER_INFO = "update_user_info";
     String USER_ONGOING_CHALLENGE_FRAGMENT = "USER_ONGOING_CHALLENGE_FRAGMENT";
     String STATUS = "status";
@@ -86,8 +87,10 @@ public interface Constants {
     String PUSH_DATA = "push_data";
     int COMMENT_COUNT = 0;
     int VOTE_COUNT_INT = 1;
+    int FAVORITE_STATUS = 102;
     String POST_VIDEO_DATA = "post_video_data";
     String FAVORITE = "favourite";
+    String IS_FAVORITE = "is_favourite";
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
+import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
 import static com.example.divyanshu.smyt.Constants.Constants.VOTE_COUNT_INT;
 
 /**
@@ -53,6 +55,7 @@ public class BroadcastSenderClass {
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
+
     public void sendCommentCountBroadcastToLiveTab(Context context, String challengeID, int commentCount) {
         Intent intent = new Intent();
         intent.putExtra(Constants.CHALLENGE_ID, challengeID);
@@ -61,13 +64,14 @@ public class BroadcastSenderClass {
         intent.setAction(Constants.LIVE_CHALLENGES_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
-    public void sendVoteCountBroadcastToLiveTab(Context context, String challengeID, String voteCount,int userNumber) {
+
+    public void sendVoteCountBroadcastToLiveTab(Context context, String challengeID, String voteCount, int userNumber) {
         Intent intent = new Intent();
         intent.putExtra(Constants.CHALLENGE_ID, challengeID);
         intent.putExtra(Constants.TYPE, VOTE_COUNT_INT);
         intent.setAction(Constants.LIVE_CHALLENGES_TAB_UI);
-        intent.putExtra(Constants.VOTE_COUNT,voteCount);
-        intent.putExtra(Constants.USER_NUMBER,userNumber);
+        intent.putExtra(Constants.VOTE_COUNT, voteCount);
+        intent.putExtra(Constants.USER_NUMBER, userNumber);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
@@ -77,7 +81,21 @@ public class BroadcastSenderClass {
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
-    public void reloadAllVideoData(Context context){
+
+    public void sendVideoLikeBroadcast(Context context, AllVideoModel allVideoModel, int status) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.TYPE, FAVORITE_STATUS);
+        intent.putExtra(Constants.DATA, allVideoModel);
+        intent.putExtra(Constants.STATUS, status);
+        intent.setAction(Constants.USER_FAV_FRAGMENT_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.USER_FRAGMENT_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
+    public void reloadAllVideoData(Context context) {
         Intent intent = new Intent();
         intent.putExtra(Constants.TYPE, ALL_VIDEO_DATA);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);

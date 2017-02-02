@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,6 +18,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
+import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -79,11 +81,13 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     int delay = 5000; //milliseconds
     protected PowerManager.WakeLock mWakeLock;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.challenge_record_video_activity);
         ButterKnife.inject(this);
 
@@ -282,6 +286,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         if (OngoingChallengeDescriptionActivity.isRoundPlayed)
             videoStopped();
         mWakeLock.release();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 
@@ -348,5 +353,6 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
         finish();
     }
+
     Handler h = new Handler();
 }

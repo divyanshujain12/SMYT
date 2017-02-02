@@ -33,6 +33,7 @@ import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
@@ -51,6 +52,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
+
     public UserVideoAdapter(Context context, ArrayList<AllVideoModel> categoryModels, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
         this.allVideoModels = categoryModels;
@@ -129,7 +131,6 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
@@ -161,7 +162,6 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
     }
-
 
 
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
@@ -270,7 +270,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void addNewData(ArrayList<AllVideoModel> allVideoModels) {
-        this.allVideoModels.addAll(allVideoModels);
+        this.allVideoModels = (allVideoModels);
         notifyDataSetChanged();
     }
 
@@ -316,7 +316,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 });
                 break;
             case R.id.favIV:
-                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(context,allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(context, allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
                 break;
         }
 
@@ -333,6 +333,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         allVideoModels.get(position).setFavourite_status(favStatus);
         notifyDataSetChanged();
+        BroadcastSenderClass.getInstance().sendVideoLikeBroadcast(context, allVideoModels.get(position), favStatus);
         return favStatus;
     }
 }

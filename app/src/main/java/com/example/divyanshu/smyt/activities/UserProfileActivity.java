@@ -35,6 +35,7 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserFavoriteFeeds;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsParentFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserChallengesFragment;
@@ -143,7 +144,6 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     }
 
 
-
     private void hitgetUserInfoApi() {
         CallWebService.getInstance(this, true, GET_USER_INFO).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_DETAIL, CommonFunctions.customerIdJsonObject(this), this);
     }
@@ -152,6 +152,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(UserVideosFragment.getInstance(customerID), getString(R.string.videos));
+        viewPagerAdapter.addFragment(UserFavoriteFeeds.getInstance(customerID), getString(R.string.favorites));
         viewPagerAdapter.addFragment(UserFollowingFragment.getInstance(customerID), getString(R.string.following));
         viewPagerAdapter.addFragment(UserChallengesFragment.getInstance(false), getString(R.string.challenges));
         viewPager.setAdapter(viewPagerAdapter);
@@ -187,6 +188,9 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 fab.startAnimation(fabOut);
                 break;
             case 2:
+                fab.startAnimation(fabOut);
+                break;
+            case 3:
                 fab.setImageResource(R.drawable.fav_icon_broadcast);
                 fab.startAnimation(fabIn);
                 break;
