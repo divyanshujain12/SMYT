@@ -168,12 +168,15 @@ public class Utils {
     }
 
 
-    public static String getChallengeTimeDifference(long different) {
-        System.out.println("different : " + different);
-        long currentTimeDifference = getCurrentTimeInMillisecond() - different;
-        if (currentTimeDifference < 0)
-            currentTimeDifference = different - getCurrentTimeInMillisecond();
-        return getDifferenceInString(currentTimeDifference);
+    public static String getChallengeTimeDifference(long difference) {
+        String timePostString = "ago";
+        System.out.println("different : " + difference);
+        long currentTimeDifference = getCurrentTimeInMillisecond() - difference;
+        if (currentTimeDifference < 0) {
+            currentTimeDifference = difference - getCurrentTimeInMillisecond();
+            timePostString = "left";
+        }
+        return getDifferenceInString(currentTimeDifference) + timePostString;
     }
 
     public static String getVideoUploadTimeDifference(long different) {
@@ -228,7 +231,7 @@ public class Utils {
     }
 
     public static boolean isTimeGone(long milliseconds) {
-        long difference = milliseconds - getCurrentTimeInMillisecond();
+        long difference = (milliseconds + 600000) - getCurrentTimeInMillisecond();
         if (difference > 0)
             return false;
         else

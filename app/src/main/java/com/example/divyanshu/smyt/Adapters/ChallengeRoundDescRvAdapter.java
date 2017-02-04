@@ -152,7 +152,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.firstUserNameTV.setText(challengeModel.getFirst_name());
         holder.secondUserNameTV.setText(challengeModel.getFirst_name1());
         holder.genreNameTV.setText(challengeModel.getGenre());
-        holder.challengeTimeTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.TIME_FORMAT) + " (" + timeDifference + " left)");
+        holder.challengeTimeTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.TIME_FORMAT) + " (" + timeDifference + " )");
         holder.dateTV.setText(Utils.formatDateAndTime(roundDateAndTime, Utils.DATE_FORMAT));
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,11 +214,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     private void setRoundStatusView(RoundCompletedDescViewHolder holder, ChallengeModel challengeModel) {
-        int voteInt = Integer.parseInt(challengeModel.getVote());
-        int vote1Int = Integer.parseInt(challengeModel.getVote1());
-
         if (Utils.isDifferenceLowerThanTwentyFourHours(Long.parseLong(challengeModel.getRound_date()))) {
-            // holder.userOneWinLoseTV.setText(R.string.voting_open);
             holder.userWinningBar.addView(addOpenVotingView(challengeModel.getVote(), challengeModel.getVote1()));
         } else {
 
@@ -233,13 +229,6 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
                     holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));
                     break;
             }
-
-            /*if (voteInt > vote1Int)
-                holder.userWinningBar.addView(UserWinnerBar(R.layout.first_user_win_bar));
-            else if (vote1Int > voteInt)
-                holder.userWinningBar.addView(UserWinnerBar(R.layout.second_user_win_bar));
-            else
-                holder.userWinningBar.addView(UserWinnerBar(R.layout.round_tie));*/
         }
     }
 

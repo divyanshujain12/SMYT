@@ -208,7 +208,6 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
             }
         } else {
             videoStopped();
-            mWZBroadcast.endBroadcast();
         }
     }
 
@@ -269,6 +268,9 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
                     h.removeCallbacks(runnable);
                 }
                 break;
+            case ApiCodes.END_CHALLENGE:
+                mWZBroadcast.endBroadcast();
+                break;
         }
     }
 
@@ -321,7 +323,6 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         else if (JCVideoPlayerStandardTwo.backPress())
             return;
         else {
-            // MediaPlayerHelper.getInstance().releaseAllVideos();
             super.onBackPressed();
         }
     }
@@ -331,9 +332,8 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         super.onPause();
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
-        if (!OngoingChallengeDescriptionActivity.isRoundPlayed)
+        if (OngoingChallengeDescriptionActivity.isRoundPlayed)
             videoStopped();
-        mWZBroadcast.endBroadcast();
         //MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
@@ -345,14 +345,13 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
 
     @Override
     public void onVideoStop() {
+        finish();
         // videoStopped();
     }
 
     private void videoStopped() {
-        CallWebService.getInstance(this, false, ApiCodes.START_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("0"), this);
+        CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("0"), this);
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
-        finish();
     }
-
     Handler h = new Handler();
 }
