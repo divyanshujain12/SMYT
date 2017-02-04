@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/userOneVideoLikeIV"
-        android:layout_width="@dimen/thirty_dp"
-        android:layout_height="@dimen/thirty_dp"
+        android:layout_width="@dimen/twenty_five_dp"
+        android:layout_height="@dimen/twenty_five_dp"
         android:src="@drawable/thumb_on" />
 
     <com.neopixl.pixlui.components.textview.TextView
@@ -23,6 +23,6 @@
         android:layout_marginLeft="@dimen/ten_dp"
         android:alpha=".6"
         android:text="0"
-        android:textSize="@dimen/fourteen_sp"
+        android:textSize="@dimen/twelve_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 </LinearLayout>

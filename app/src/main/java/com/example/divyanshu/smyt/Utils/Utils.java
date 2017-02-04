@@ -169,7 +169,7 @@ public class Utils {
 
 
     public static String getChallengeTimeDifference(long difference) {
-        String timePostString = "ago";
+        String timePostString = " ago";
         System.out.println("different : " + difference);
         long currentTimeDifference = getCurrentTimeInMillisecond() - difference;
         if (currentTimeDifference < 0) {

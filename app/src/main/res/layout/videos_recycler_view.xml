@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/seven_dp"
             android:text="@string/tab_all_videos"
-            android:textSize="@dimen/fourteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <android.support.v7.widget.SwitchCompat
@@ -33,9 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/seven_dp"
+            android:textAllCaps="true"
             android:text="@string/most_viewed"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/fourteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
 
@@ -44,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkBoxLL"
-        android:padding="@dimen/five_dp" />
+        android:padding="@dimen/two_dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"

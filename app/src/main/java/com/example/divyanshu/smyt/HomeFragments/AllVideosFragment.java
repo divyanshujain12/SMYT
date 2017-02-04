@@ -56,7 +56,7 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 public class AllVideosFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
     @InjectView(R.id.videosRV)
     RecyclerView otherVideosRV;
-    UploadedAllVideoAdapter otherAllVideoAdapter;
+
     @InjectView(R.id.noVideoAvailableLL)
     LinearLayout noVideoAvailableLL;
     @InjectView(R.id.videoTypeTB)
@@ -65,6 +65,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     ProgressBar progressBar;
 
     private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
+    UploadedAllVideoAdapter otherAllVideoAdapter;
     private ArrayList<AllVideoModel> bannerVideoModels;
     private int selectedVideo;
     private String filterType = "0";
@@ -260,6 +261,16 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
         return super.getUserVisibleHint();
     }
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(!isVisibleToUser && otherAllVideoAdapter!=null)
+        {
+            reserAdapter();
+        }
+    }
+
     private BroadcastReceiver updateAllVideosUI = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -340,6 +351,10 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     @Override
     public void onPause() {
         super.onPause();
+        reserAdapter();
+    }
+
+    private void reserAdapter() {
         otherVideosRV.getAdapter().notifyDataSetChanged();
     }
 }

@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/profileImage"
-        android:layout_width="@dimen/one_hundred_twenty_dp"
-        android:layout_height="@dimen/one_hundred_twenty_dp"
+        android:layout_width="@dimen/one_hundred_dp"
+        android:layout_height="@dimen/one_hundred_dp"
         android:layout_gravity="right"
         android:scaleType="centerCrop"
         android:src="@drawable/user" />
@@ -27,7 +27,7 @@
             android:padding="@dimen/five_dp"
             android:text="Challenge"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/fourteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <LinearLayout
@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:text="@string/total_round"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/fourteen_sp"
+                android:textSize="@dimen/twelve_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -56,7 +56,7 @@
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/fourteen_sp"
+                android:textSize="@dimen/twelve_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
         </LinearLayout>
 
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:text="@string/challange_status"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/fourteen_sp"
+                android:textSize="@dimen/twelve_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -86,7 +86,7 @@
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/fourteen_sp"
+                android:textSize="@dimen/twelve_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
         </LinearLayout>
     </LinearLayout>

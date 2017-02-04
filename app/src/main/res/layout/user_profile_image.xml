@@ -2,8 +2,8 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:layout_width="@dimen/one_hundred_fifty_five_dp"
-    android:layout_height="@dimen/one_hundred_fifty_five_dp"
+    android:layout_width="@dimen/one_hundred_twenty_dp"
+    android:layout_height="@dimen/one_hundred_twenty_dp"
     android:layout_alignParentRight="true"
     android:orientation="vertical">
 
@@ -24,6 +24,6 @@
         android:padding="@dimen/five_dp"
         android:text="@string/dummy_name"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/sixteen_sp"
+        android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
 </FrameLayout>

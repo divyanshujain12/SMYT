@@ -18,6 +18,6 @@
         android:gravity="center"
         android:text="Win"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/fifteen_sp"
+        android:textSize="@dimen/twelve_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 </LinearLayout>

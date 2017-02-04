@@ -3,17 +3,20 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/tools"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:layout_width="@dimen/two_hundred_dp"
-    android:layout_height="@dimen/two_hundred_dp"
+    android:layout_width="@dimen/one_hundred_fifty_five_dp"
+    android:layout_height="wrap_content"
     card_view:cardCornerRadius="@dimen/card_corner_radius"
     android:layout_margin="@dimen/five_dp"
     card_view:cardElevation="@dimen/five_dp"
     card_view:cardUseCompatPadding="true">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <ImageView
         android:id="@+id/userIV"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/one_hundred_fifty_five_dp"
+        android:layout_height="@dimen/one_hundred_twenty_dp"
         android:background="@drawable/top_corner_white"
         android:padding="3dp"
         android:scaleType="fitXY"
@@ -21,7 +24,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/fourty_five_dp"
+        android:layout_height="@dimen/thirty_dp"
         android:layout_gravity="bottom"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -35,7 +38,7 @@
             android:alpha=".65"
             android:maxLines="2"
             android:text="Neanda"
-            android:textSize="@dimen/fifteen_sp"
+            android:textSize="@dimen/thirteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <com.neopixl.pixlui.components.textview.TextView
@@ -45,8 +48,9 @@
             android:layout_weight="6"
             android:gravity="right"
             android:text="22 min ago"
-            android:textSize="@dimen/thirteen_sp"
+            android:textSize="@dimen/ten_sp"
             pixlui:typeface="Roboto-Regular.ttf" />
 
     </LinearLayout>
+</LinearLayout>
 </android.support.v7.widget.CardView>

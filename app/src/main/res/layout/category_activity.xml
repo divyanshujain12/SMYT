@@ -36,7 +36,7 @@
                 android:alpha=".9"
                 android:gravity="right"
                 android:text="@string/select_genre"
-                android:textSize="@dimen/eighteen_sp"
+                android:textSize="@dimen/fifteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
             <android.support.v7.widget.RecyclerView

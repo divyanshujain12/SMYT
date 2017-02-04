@@ -18,7 +18,7 @@
             android:paddingBottom="@dimen/ten_dp"
             android:text="@string/challenge_dummy_text"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/eighteen_sp"
+            android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <include layout="@layout/challenge_header" />
@@ -32,7 +32,7 @@
             android:paddingBottom="@dimen/ten_dp"
             android:text="@string/details"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/eighteen_sp"
+            android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <android.support.v7.widget.RecyclerView

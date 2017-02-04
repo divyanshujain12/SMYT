@@ -183,7 +183,7 @@ public class NotificationUtils {
 
     public void sendUpcomingRoundNotification(Context context, String messageBody, String challengeID) {
         Intent intent = new Intent(context, OngoingChallengeDescriptionActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(Constants.CHALLENGE_ID, challengeID);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -207,8 +207,10 @@ public class NotificationUtils {
 
     public void sendNewChallengeNotification(Context context, String messageBody, CategoryModel categoryModel) {
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constants.DATA, categoryModel);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //intent.putExtra(Constants.DATA, categoryModel);
+        intent.putExtra(Constants.CHALLENGE_ID, categoryModel.getId());
+        intent.putExtra(Constants.ACCEPT_STATUS, 0);
         intent.putExtra(Constants.FROM_NOTIFICATION, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

@@ -24,27 +24,25 @@
         <com.neopixl.pixlui.components.button.Button
             android:id="@+id/acceptBT"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/ten_dp"
             android:layout_weight="1"
             android:background="@drawable/flat_yellow_thick_border"
             android:text="@string/accept"
             android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/color_primary_with_eight_eight"
-            android:textSize="@dimen/eighteen_sp"
+            android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <com.neopixl.pixlui.components.button.Button
             android:id="@+id/declineBT"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
             android:layout_weight="1"
             android:background="@drawable/flat_black_thick_border"
             android:text="@string/decline"
             android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/color_primary_with_eight_eight"
-            android:textSize="@dimen/eighteen_sp"
+            android:textSize="@dimen/sixteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
 </LinearLayout>

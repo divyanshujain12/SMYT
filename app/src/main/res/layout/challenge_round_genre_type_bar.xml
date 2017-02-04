@@ -14,13 +14,13 @@
         android:layout_marginTop="@dimen/five_dp"
         android:maxLines="2"
         android:text="Round"
-        android:textSize="@dimen/sixteen_sp"
+        android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/eight_dp"
+        android:layout_marginTop="@dimen/two_dp"
         android:orientation="horizontal">
 
         <com.neopixl.pixlui.components.textview.TextView
@@ -29,7 +29,7 @@
             android:alpha=".6"
             android:text="Genre:"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/fourteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
 
         <com.neopixl.pixlui.components.textview.TextView
@@ -40,7 +40,7 @@
             android:alpha=".6"
             android:text="Rock"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/fourteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
     </LinearLayout>
 </LinearLayout>

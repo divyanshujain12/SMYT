@@ -61,7 +61,7 @@ public class CategoryUserRvAdapter extends RecyclerView.Adapter<CategoryUserRvAd
 
         holder.userNameTV.setText(userModel.getFirst_name());
         imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
-        holder.userTimeTV.setText(userModel.getActive_before() + " " + context.getString(R.string.ago));
+        holder.userTimeTV.setText(userModel.getActive_before());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

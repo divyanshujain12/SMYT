@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/fifty_dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -17,8 +17,8 @@
 
         <com.example.divyanshu.smyt.CustomViews.RoundedImageView
             android:id="@+id/firstUserIV"
-            android:layout_width="@dimen/fourty_dp"
-            android:layout_height="@dimen/fourty_dp"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
             android:src="@drawable/noimage"
             app:riv_corner_radius="100dp" />
 
@@ -30,7 +30,7 @@
             android:layout_marginStart="@dimen/five_dp"
             android:maxLines="2"
             android:textColor="@color/white"
-            android:textSize="@dimen/fourteen_sp" />
+            android:textSize="@dimen/twelve_sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,12 +50,12 @@
             android:layout_marginEnd="@dimen/five_dp"
             android:maxLines="2"
             android:textColor="@color/white"
-            android:textSize="@dimen/fourteen_sp" />
+            android:textSize="@dimen/twelve_sp" />
 
         <com.example.divyanshu.smyt.CustomViews.RoundedImageView
             android:id="@+id/secondUserIV"
-            android:layout_width="@dimen/fourty_dp"
-            android:layout_height="@dimen/fourty_dp"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
             android:src="@drawable/noimage"
             app:riv_corner_radius="100dp" />
     </LinearLayout>

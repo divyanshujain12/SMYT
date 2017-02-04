@@ -5,7 +5,7 @@
     android:id="@+id/voteRL"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/five_dp">
+    android:layout_marginTop="@dimen/three_dp">
 
     <include layout="@layout/left_side_voting_view" />
 
@@ -16,7 +16,7 @@
         android:layout_centerInParent="true"
         android:alpha=".6"
         android:text="@string/voting_open"
-        android:textSize="@dimen/eighteen_sp"
+        android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 
     <include layout="@layout/right_side_voting_view" />

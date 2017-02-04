@@ -26,7 +26,7 @@
             android:gravity="center"
             android:text="@string/draw"
             android:textColor="@color/round_draw"
-            android:textSize="@dimen/fifteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 
@@ -49,7 +49,7 @@
             android:gravity="center"
             android:text="@string/draw"
             android:textColor="@color/round_draw"
-            android:textSize="@dimen/fifteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 </FrameLayout>

@@ -40,7 +40,7 @@
     <dimen name="two_hundred_dp">200dp</dimen>
     <dimen name="two_hundred_twenty_dp">220dp</dimen>
     <dimen name="two_hundred_fifty_dp">250dp</dimen>
-    
+
     <!-- SP -->
     <dimen name="eight_sp">8sp</dimen>
     <dimen name="ten_sp">10sp</dimen>

@@ -20,8 +20,8 @@
 
         <com.example.divyanshu.smyt.CustomViews.RoundedImageView
             android:id="@+id/firstUserIV"
-            android:layout_width="@dimen/fourty_dp"
-            android:layout_height="@dimen/fourty_dp"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
             android:src="@drawable/noimage"
             app:riv_corner_radius="100dp" />
 
@@ -32,7 +32,7 @@
             android:layout_marginStart="@dimen/five_dp"
             android:maxLines="2"
             android:textColor="@color/white"
-            android:textSize="@dimen/fourteen_sp"
+            android:textSize="@dimen/twelve_sp"
             pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 </FrameLayout>

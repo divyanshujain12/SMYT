@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:text="VS"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/twenty_sp"
+                android:textSize="@dimen/sixteen_sp"
                 pixlui:typeface="Roboto-Regular.ttf" />
         </FrameLayout>
     </LinearLayout>
