@@ -334,6 +334,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         JCVideoPlayerStandardTwo.releaseAllVideos();
         if (OngoingChallengeDescriptionActivity.isRoundPlayed)
             videoStopped();
+        h.removeCallbacks(runnable);
         //MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 

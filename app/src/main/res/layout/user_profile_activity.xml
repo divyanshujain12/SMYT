@@ -46,7 +46,8 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
                 app:tabTextAppearance="@style/MineCustomTabText"
-                app:tabMode="scrollable" />
+                app:tabMode="scrollable"
+                app:tabGravity="center"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
