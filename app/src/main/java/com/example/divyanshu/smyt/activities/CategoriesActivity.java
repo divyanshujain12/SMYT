@@ -87,12 +87,17 @@ public class CategoriesActivity extends BaseActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
         switch (item.getItemId()) {
-
             case R.id.action_user_profile:
-                Intent intent = new Intent(this, UserProfileActivity.class);
+                intent = new Intent(this, UserProfileActivity.class);
                 startActivity(intent);
-                return true;
+
+                break;
+            case R.id.action_user_info:
+                intent = new Intent(this, InfoActivity.class);
+                startActivity(intent);
+                break;
         }
         return true;
     }
