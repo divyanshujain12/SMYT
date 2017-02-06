@@ -20,11 +20,16 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.CategoryModel;
+import com.example.divyanshu.smyt.Models.NewChallengeNotiModel;
+import com.example.divyanshu.smyt.Models.UpcomingRoundInfoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.HomeActivity;
+import com.example.divyanshu.smyt.activities.RecordChallengeVideoActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,10 +186,16 @@ public class NotificationUtils {
         }
     }
 
-    public void sendUpcomingRoundNotification(Context context, String messageBody, String challengeID) {
-        Intent intent = new Intent(context, OngoingChallengeDescriptionActivity.class);
+    public void sendUpcomingRoundNotification(Context context, String messageBody, UpcomingRoundInfoModel upcomingRoundInfoModel) {
+        Intent intent;
+        if (upcomingRoundInfoModel.getMinutes() == 1)
+            intent = new Intent(context, RecordChallengeVideoActivity.class);
+        else
+            intent = new Intent(context, OngoingChallengeDescriptionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra(Constants.CHALLENGE_ID, challengeID);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, upcomingRoundInfoModel.getCustomers_videos_id());
+        intent.putExtra(Constants.ROUND_TIME, upcomingRoundInfoModel.getEdate());
+        intent.putExtra(Constants.CHALLENGE_ID, upcomingRoundInfoModel.getChallenge_id());
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
@@ -205,13 +216,15 @@ public class NotificationUtils {
         notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
     }
 
-    public void sendNewChallengeNotification(Context context, String messageBody, CategoryModel categoryModel) {
-        Intent intent = new Intent(context, HomeActivity.class);
+    public void sendNewChallengeNotification(final Context context, String messageBody, NewChallengeNotiModel categoryModel) {
+        final Intent intent = new Intent(context, OngoingChallengeDescriptionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         //intent.putExtra(Constants.DATA, categoryModel);
-        intent.putExtra(Constants.CHALLENGE_ID, categoryModel.getId());
+        intent.putExtra(Constants.CHALLENGE_ID, categoryModel.getChallenge_id());
         intent.putExtra(Constants.ACCEPT_STATUS, 0);
         intent.putExtra(Constants.FROM_NOTIFICATION, true);
+
+
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
@@ -227,11 +240,23 @@ public class NotificationUtils {
                 .setSmallIcon(R.mipmap.ic_launcher).setContentIntent(pendingIntent);
         builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         builder.setSound(defaultSoundUri);
+        if (!isAppIsInBackground(context)) {
+            builder.setPriority(Notification.PRIORITY_MAX);
+        }
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
+    }
+
+    private void showAlertForNotification(final Context context, final Intent intent) {
+        CustomAlertDialogs.showNewNotificationAlert(context, new SnackBarCallback() {
+            @Override
+            public void doAction() {
+                context.startActivity(intent);
+            }
+        });
     }
 
     /**

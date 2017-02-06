@@ -23,7 +23,6 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
-import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -32,7 +31,6 @@ import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
-import com.example.divyanshu.smyt.activities.InAppActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,14 +39,13 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
-import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -267,7 +264,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
         super.setUserVisibleHint(isVisibleToUser);
         if(!isVisibleToUser && otherAllVideoAdapter!=null)
         {
-            reserAdapter();
+            resetAdapter();
         }
     }
 
@@ -351,10 +348,12 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     @Override
     public void onPause() {
         super.onPause();
-        reserAdapter();
+        resetAdapter();
     }
 
-    private void reserAdapter() {
+    private void resetAdapter() {
+        JCVideoPlayer.releaseAllVideos();
+        JCVideoPlayerTwo.releaseAllVideos();
         otherVideosRV.getAdapter().notifyDataSetChanged();
     }
 }

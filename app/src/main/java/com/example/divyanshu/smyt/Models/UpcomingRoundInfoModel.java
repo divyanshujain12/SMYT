@@ -8,7 +8,11 @@ public class UpcomingRoundInfoModel {
     private String customers_videos_id;
     private String challenge_id;
     private String edate;
+    private int minutes;
 
+    public UpcomingRoundInfoModel(){
+
+    }
     public String getCustomers_videos_id() {
         return customers_videos_id;
     }
@@ -31,5 +35,13 @@ public class UpcomingRoundInfoModel {
 
     public void setEdate(String edate) {
         this.edate = edate;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
     }
 }

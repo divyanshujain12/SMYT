@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\Projects\SMYT_GIT\SMYT\inapplibrary\src\main\assets"/><source path="D:\Projects\SMYT_GIT\SMYT\inapplibrary\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\Projects\SMYT_GIT\SMYT\inapplibrary\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\Projects\SMYT_GIT_NEW\SMYT\inapplibrary\src\main\assets"/><source path="D:\Projects\SMYT_GIT_NEW\SMYT\inapplibrary\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\Projects\SMYT_GIT_NEW\SMYT\inapplibrary\src\debug\assets"/></dataSet></merger>

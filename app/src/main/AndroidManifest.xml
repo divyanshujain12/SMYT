@@ -14,6 +14,7 @@
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <uses-feature
         android:name="android.hardware.camera.any"
@@ -141,7 +142,8 @@
         </receiver>
 
         <activity android:name=".activities.ShowLiveRecordVideoActivity" />
-        <activity android:name=".activities.PostNewVideoActivity"/>
+        <activity android:name=".activities.PostNewVideoActivity" />
+        <activity android:name=".activities.InfoActivity"></activity>
     </application>
 
 </manifest>

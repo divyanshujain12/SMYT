@@ -37,6 +37,8 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
@@ -133,6 +135,8 @@ public class UserVideosFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && allVideoModels != null)
             setAdapter();
+        else if (userVideoAdapter != null)
+            resetAdapter();
     }
 
     private void setAdapter() {
@@ -140,6 +144,11 @@ public class UserVideosFragment extends BaseFragment {
             userVideoAdapter.addNewData(allVideoModels);
     }
 
+    private void resetAdapter() {
+        JCVideoPlayer.releaseAllVideos();
+        JCVideoPlayerTwo.releaseAllVideos();
+        videosRV.getAdapter().notifyDataSetChanged();
+    }
 
     @Override
     public void onClickItem(final int position, View view) {

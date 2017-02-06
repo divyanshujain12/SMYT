@@ -174,7 +174,7 @@ public class Utils {
         long currentTimeDifference = getCurrentTimeInMillisecond() - difference;
         if (currentTimeDifference < 0) {
             currentTimeDifference = difference - getCurrentTimeInMillisecond();
-            timePostString = "left";
+            timePostString = " left";
         }
         return getDifferenceInString(currentTimeDifference) + timePostString;
     }

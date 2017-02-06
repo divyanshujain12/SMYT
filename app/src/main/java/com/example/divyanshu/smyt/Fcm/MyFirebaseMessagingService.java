@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Models.CategoryModel;
+import com.example.divyanshu.smyt.Models.NewChallengeNotiModel;
 import com.example.divyanshu.smyt.Models.UpcomingRoundInfoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -97,12 +98,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void generateNewChallengeNotification(JSONObject pushData) {
-        CategoryModel categoryModel = UniversalParser.getInstance().parseJsonObject(pushData, CategoryModel.class);
-        NotificationUtils.getInstance(getBaseContext()).sendNewChallengeNotification(getBaseContext(), "New Challenges posted in " + categoryModel.getcategory_name(), categoryModel);
+        NewChallengeNotiModel categoryModel = UniversalParser.getInstance().parseJsonObject(pushData, NewChallengeNotiModel.class);
+        NotificationUtils.getInstance(getBaseContext()).sendNewChallengeNotification(getApplicationContext(), "New Challenges posted in " + categoryModel.getCategory_name(), categoryModel);
     }
 
     private void generateUpcomingRoundNotification(JSONObject pushData) {
         UpcomingRoundInfoModel upcomingRoundInfoModel = UniversalParser.getInstance().parseJsonObject(pushData, UpcomingRoundInfoModel.class);
-        NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round in" + Utils.getChallengeTimeDifference(Long.parseLong(upcomingRoundInfoModel.getEdate())) + "! Click here for more info!", upcomingRoundInfoModel.getChallenge_id());
+        NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round in" + Utils.getChallengeTimeDifference(Long.parseLong(upcomingRoundInfoModel.getEdate())) + "! Click here for more info!", upcomingRoundInfoModel);
     }
 }

@@ -121,6 +121,9 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.action_recording:
                 checkHasPermissions();
                 break;
+            case R.id.action_user_info:
+                intent = new Intent(this, InfoActivity.class);
+                break;
         }
         if (intent != null)
             startActivity(intent);

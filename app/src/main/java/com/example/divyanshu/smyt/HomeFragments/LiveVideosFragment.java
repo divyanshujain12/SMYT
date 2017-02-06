@@ -40,6 +40,8 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
@@ -52,7 +54,7 @@ import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGO
 /**
  * Created by divyanshu.jain on 8/29/2016.
  */
-public class LiveVideosFragment extends BaseFragment{
+public class LiveVideosFragment extends BaseFragment {
     @InjectView(R.id.liveVideosRV)
     RecyclerView liveVideosRV;
     private OngoingChallengesAdapter liveVideosAdapter;
@@ -143,7 +145,7 @@ public class LiveVideosFragment extends BaseFragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        InAppLocalApis.getInstance().sendPurchasedDataToBackend(getContext(),requestCode, data);
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(getContext(), requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -194,8 +196,8 @@ public class LiveVideosFragment extends BaseFragment{
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && allVideoModels != null) {
             setAdapter();
-        }
-
+        } else if (liveVideosAdapter != null)
+            resetAdapter();
     }
 
     private void setAdapter() {
@@ -231,6 +233,13 @@ public class LiveVideosFragment extends BaseFragment{
     @Override
     public void onPause() {
         super.onPause();
+        resetAdapter();
+    }
+
+    private void resetAdapter() {
+        JCVideoPlayer.releaseAllVideos();
+        JCVideoPlayerTwo.releaseAllVideos();
         liveVideosRV.getAdapter().notifyDataSetChanged();
     }
 }
+

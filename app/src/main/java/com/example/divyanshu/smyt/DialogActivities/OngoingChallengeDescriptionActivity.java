@@ -143,18 +143,22 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
 
         if (challengeDescModel.getWho_won() != null && !challengeDescModel.getWho_won().equals("0")) {
             challengeTypeTV.setText(challengeDescModel.getWho_won_name() + " Win!");
-        }
-
-        else {
+        } else {
             switch (challengeDescModel.getCurrent_customer_video_status()) {
                 case 0:
-                    challengeTypeTV.setText("Pending");
+                    challengeTypeTV.setText(R.string.pending);
                     break;
                 case 1:
-                    challengeTypeTV.setText("Accepted");
+                    challengeTypeTV.setText(R.string.accepted);
                     break;
                 case 2:
-                    challengeTypeTV.setText("Rejected");
+                    challengeTypeTV.setText(R.string.rejected);
+                    break;
+                case 3:
+                    if (challengeDescModel.getStatus().equals(getString(R.string.active)))
+                        challengeTypeTV.setText(R.string.accepted);
+                    else
+                        challengeTypeTV.setText(R.string.pending);
                     break;
             }
         }

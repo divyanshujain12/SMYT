@@ -168,5 +168,11 @@
     <string name="favorites">FAVORITES</string>
     <string name="audios">AUDIOS</string>
     <string name="feeds">FEEDS</string>
+    <string name="pending">Pending</string>
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+    <string name="active">Active</string>
+    <string name="info">Info</string>
+    <string name="record">Record</string>
 
 </resources>

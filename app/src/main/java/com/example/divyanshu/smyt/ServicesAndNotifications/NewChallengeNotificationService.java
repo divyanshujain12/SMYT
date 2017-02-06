@@ -93,8 +93,8 @@ public class NewChallengeNotificationService extends Service implements CallWebS
         if (response.has(Constants.DATA)) {
             ArrayList<CategoryModel> categoryModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), CategoryModel.class);
 
-            for (CategoryModel categoryModel : categoryModels)
-                NotificationUtils.getInstance(getBaseContext()).sendNewChallengeNotification(getBaseContext(), "New Challenges posted in " + categoryModel.getcategory_name(), categoryModel);
+            //for (CategoryModel categoryModel : categoryModels)
+               // NotificationUtils.getInstance(getBaseContext()).sendNewChallengeNotification(getBaseContext(), "New Challenges posted in " + categoryModel.getcategory_name(), categoryModel);
 
         }
 

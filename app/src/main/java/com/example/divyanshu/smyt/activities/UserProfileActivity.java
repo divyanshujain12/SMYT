@@ -232,7 +232,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
             case 0:
                 checkHasPermissions();
                 break;
-            case 2:
+            case 3:
                 showDialogFragment(PostChallengeFragment.getInstance());
                 break;
 

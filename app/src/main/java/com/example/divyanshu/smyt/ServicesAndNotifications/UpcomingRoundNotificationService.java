@@ -77,8 +77,8 @@ public class UpcomingRoundNotificationService extends Service implements CallWeb
         if (response.has(Constants.DATA)) {
             ArrayList<UpcomingRoundInfoModel> upcomingRoundInfoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UpcomingRoundInfoModel.class);
 
-            for (UpcomingRoundInfoModel upcomingRoundInfoModel : upcomingRoundInfoModels)
-                NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round! Click here for more info!", upcomingRoundInfoModel.getChallenge_id());
+            /*for (UpcomingRoundInfoModel upcomingRoundInfoModel : upcomingRoundInfoModels)
+                NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round! Click here for more info!", upcomingRoundInfoModel.getChallenge_id());*/
         }
 
     }

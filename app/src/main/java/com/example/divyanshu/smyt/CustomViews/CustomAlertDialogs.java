@@ -77,7 +77,7 @@ public class CustomAlertDialogs {
         alertDialog.setTitle(title);
         TextView textView = new TextView(context);
         textView.setText(Html.fromHtml(message));
-        textView.setPadding(20,10,10,10);
+        textView.setPadding(20, 10, 10, 10);
         alertDialog.setView(textView);
         alertDialog.setCancelable(false);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
@@ -163,6 +163,20 @@ public class CustomAlertDialogs {
             }
         });
         alertDialog.setView(layout);
+        alertDialog.show();
+    }
+
+    public static void showNewNotificationAlert(Context context, final SnackBarCallback snackBarCallback) {
+        alertDialog = new AlertDialog.Builder(context).create();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(R.layout.show_notification_alert, null);
+        alertDialog.setView(layout);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackBarCallback.doAction();
+            }
+        });
         alertDialog.show();
     }
 
