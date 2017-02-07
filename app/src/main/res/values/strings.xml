@@ -174,5 +174,6 @@
     <string name="active">Active</string>
     <string name="info">Info</string>
     <string name="record">Record</string>
+    <string name="err_round_time_gone">Round Time Has Gone!</string>
 
 </resources>

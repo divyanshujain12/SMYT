@@ -1,7 +1,7 @@
 package com.example.divyanshu.smyt.activities;
 
-import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -17,8 +17,8 @@ import android.widget.LinearLayout;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
-import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -99,6 +99,13 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         challengeID = getIntent().getStringExtra(Constants.CHALLENGE_ID);
         customerVideoID = getIntent().getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         long roundDateAndTime = Long.parseLong(getIntent().getStringExtra(Constants.ROUND_TIME));
+        if (Utils.isTimeGone(roundDateAndTime)) {
+            CustomToasts.getInstance(this).showErrorToast(getString(R.string.err_round_time_gone));
+            Intent intent = new Intent(this, OngoingChallengeDescriptionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
         long remainingTime = Utils.getTimeDifferenceFromCurrent(roundDateAndTime);
         CountDownTimerClass countDownTimerClass = new CountDownTimerClass(remainingTime, 1000);
         countDownTimerClass.start();
@@ -354,5 +361,6 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
         CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("0"), this);
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
     }
+
     Handler h = new Handler();
 }
