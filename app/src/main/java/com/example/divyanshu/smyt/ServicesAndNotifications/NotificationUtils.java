@@ -116,7 +116,7 @@ public class NotificationUtils {
         inboxStyle.addLine(message);
 
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
@@ -124,7 +124,7 @@ public class NotificationUtils {
                 .setStyle(inboxStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher))
                 .setContentText(message)
                 .build();
 
@@ -249,6 +249,34 @@ public class NotificationUtils {
 
         notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
     }
+
+    public void sendDeletedChallengeNotification(final Context context, String messageBody,String title) {
+        final Intent intent = new Intent();
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        final Notification.Builder builder = new Notification.Builder(context);
+        builder.setStyle(new Notification.BigTextStyle(builder)
+                .bigText(messageBody)
+                .setBigContentTitle("Challenge Deleted")
+                .setSummaryText(""))
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setContentText("Challenge Deleted")
+                .setSmallIcon(R.mipmap.ic_launcher).setContentIntent(pendingIntent);
+        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        builder.setSound(defaultSoundUri);
+        if (!isAppIsInBackground(context)) {
+            builder.setPriority(Notification.PRIORITY_MAX);
+        }
+
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
+    }
+
 
     private void showAlertForNotification(final Context context, final Intent intent) {
         CustomAlertDialogs.showNewNotificationAlert(context, new SnackBarCallback() {

@@ -175,5 +175,6 @@
     <string name="info">Info</string>
     <string name="record">Record</string>
     <string name="err_round_time_gone">Round Time Has Gone!</string>
+    <string name="android">android</string>
 
 </resources>

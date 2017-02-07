@@ -35,6 +35,7 @@ public class ChallengeModel implements Parcelable {
     String vote1;
     int current_customer_video_status;
     String who_won;
+    String live_status;
 
 
     public ChallengeModel() {
@@ -70,6 +71,7 @@ public class ChallengeModel implements Parcelable {
         vote1 = in.readString();
         current_customer_video_status = in.readInt();
         who_won = in.readString();
+        live_status = in.readString();
     }
 
     public static final Parcelable.Creator<ChallengeModel> CREATOR = new Parcelable.Creator<ChallengeModel>() {
@@ -308,6 +310,14 @@ public class ChallengeModel implements Parcelable {
         this.who_won = who_won;
     }
 
+    public String getLive_status() {
+        return live_status;
+    }
+
+    public void setLive_status(String live_status) {
+        this.live_status = live_status;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -343,6 +353,7 @@ public class ChallengeModel implements Parcelable {
         dest.writeString(vote1);
         dest.writeInt(current_customer_video_status);
         dest.writeString(who_won);
+        dest.writeString(live_status);
     }
 
     @Override

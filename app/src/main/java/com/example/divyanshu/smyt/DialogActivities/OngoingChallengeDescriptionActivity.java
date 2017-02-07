@@ -21,6 +21,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -73,6 +74,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     private ChallengeRoundDescRvAdapter challengeRoundDescRvAdapter;
     public static boolean isRoundPlayed = false;
     private String userOneName = "", userTwoName = "";
+    private int customerNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         challengeAcceptStatus = getIntent().getIntExtra(Constants.ACCEPT_STATUS, -1);
         imageLoading = new ImageLoading(this, 5);
         challengeDescModel = new ChallengeDescModel();
-        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(this, challengeDescModel.getChallenge_rounds(), this);
+        challengeRoundDescRvAdapter = new ChallengeRoundDescRvAdapter(this, challengeDescModel.getChallenge_rounds(), this, 0);
         challengesRoundRV.setLayoutManager(new LinearLayoutManager(this));
         challengesRoundRV.setAdapter(challengeRoundDescRvAdapter);
         if (challengeAcceptStatus != 0) {
@@ -130,11 +132,18 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
 
 
     private void updateUI() {
+        String customerId = MySharedPereference.getInstance().getString(this, Constants.CUSTOM_ID);
+        if (customerId.equals(challengeDescModel.getCustomer_id()))
+            customerNumber = 1;
+        else
+            customerNumber = 2;
+
         if (profileImage != null) {
             imageLoading.LoadImage(challengeDescModel.getThumbnail(), profileImage, null);
             challengeHeaderTV.setText(challengeDescModel.getTitle());
             totalRoundsTV.setText(challengeDescModel.getTotal_round());
             challengeRoundDescRvAdapter.addItems(challengeDescModel.getChallenge_rounds());
+            challengeRoundDescRvAdapter.setCustomerNumber(customerNumber);
             setUpCurrentStatus();
         }
     }

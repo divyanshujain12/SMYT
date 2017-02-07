@@ -91,6 +91,7 @@ public interface Constants {
     String POST_VIDEO_DATA = "post_video_data";
     String FAVORITE = "favourite";
     String IS_FAVORITE = "is_favourite";
+    String MOBILE_TYPE = "mobile_type";
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

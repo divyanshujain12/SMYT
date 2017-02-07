@@ -150,6 +150,7 @@ public class LoginActivity extends BaseActivity {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
         try {
             jsonObject.put(Constants.FCM_ID, id);
+            jsonObject.put(Constants.MOBILE_TYPE,getString(R.string.android));
         } catch (JSONException e) {
             e.printStackTrace();
         }

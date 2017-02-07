@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Models.CategoryModel;
+import com.example.divyanshu.smyt.Models.DeletedChallengeModel;
 import com.example.divyanshu.smyt.Models.NewChallengeNotiModel;
 import com.example.divyanshu.smyt.Models.UpcomingRoundInfoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -30,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     private static final String NEW_CHALLENGE = "New Challenge";
     private static final String UPCOMING_ROUND = "Upcoming Round";
+    private static final String CHALLENGE_DELETED = "Challenge Deleted";
 
     /**
      * Called when message is received.
@@ -90,6 +92,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 case UPCOMING_ROUND:
                     generateUpcomingRoundNotification(pushData);
                     break;
+                case CHALLENGE_DELETED:
+                    generateDeletedChallengeNotification(pushData);
+                    break;
             }
 
         } catch (JSONException e) {
@@ -105,5 +110,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void generateUpcomingRoundNotification(JSONObject pushData) {
         UpcomingRoundInfoModel upcomingRoundInfoModel = UniversalParser.getInstance().parseJsonObject(pushData, UpcomingRoundInfoModel.class);
         NotificationUtils.getInstance(getBaseContext()).sendUpcomingRoundNotification(getBaseContext(), "You have an upcoming round in" + Utils.getChallengeTimeDifference(Long.parseLong(upcomingRoundInfoModel.getEdate())) + "! Click here for more info!", upcomingRoundInfoModel);
+    }
+
+    private void generateDeletedChallengeNotification(JSONObject pushData) {
+        DeletedChallengeModel deletedChallengeModel = UniversalParser.getInstance().parseJsonObject(pushData, DeletedChallengeModel.class);
+        NotificationUtils.getInstance(getBaseContext()).sendDeletedChallengeNotification(getBaseContext(), deletedChallengeModel.getMessage(), deletedChallengeModel.getTitle());
     }
 }

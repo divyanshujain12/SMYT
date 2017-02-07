@@ -32,13 +32,15 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     private Context context;
     private ImageLoading imageLoading;
     private RecyclerViewClick recyclerViewClick;
+    private int customerNumber;
 
-    public ChallengeRoundDescRvAdapter(Context context, ArrayList<ChallengeModel> categoryModels, RecyclerViewClick recyclerViewClick) {
+    public ChallengeRoundDescRvAdapter(Context context, ArrayList<ChallengeModel> categoryModels, RecyclerViewClick recyclerViewClick, int customerNumber) {
 
         this.challengeModels = categoryModels;
         this.context = context;
         imageLoading = new ImageLoading(context);
         this.recyclerViewClick = recyclerViewClick;
+        this.customerNumber = customerNumber;
     }
 
     private class RoundIncompleteDescViewHolder extends RecyclerView.ViewHolder {
@@ -261,7 +263,25 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     public int getItemViewType(int position) {
         String status = challengeModels.get(position).getComplete_status();
         boolean isTimeGone = Utils.isTimeGone(Long.parseLong(challengeModels.get(position).getRound_date()));
+        switch (customerNumber) {
+            case 1:
+                if (isTimeGone) {
+                } else {
+                }
+                break;
+            case 2:
+                break;
+            default:
+                return 0;
+
+        }
+
+
         if (isTimeGone) {
+            if (status.equals("0")) {
+
+            }
+
             if (status.equals("1"))
                 return 1;
             else
@@ -292,6 +312,10 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     public void addItems(ArrayList<ChallengeModel> challengeModels) {
         this.challengeModels = challengeModels;
         notifyDataSetChanged();
+    }
+
+    public void setCustomerNumber(int customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
     private void goToUserDetailActivity(String customer_id) {

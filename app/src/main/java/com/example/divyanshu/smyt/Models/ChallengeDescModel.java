@@ -13,6 +13,7 @@ public class ChallengeDescModel {
     String who_won;
     String who_won_name;
     String status;
+    String customer_id;
     ArrayList<ChallengeModel> challenge_rounds;// 0 - can accept, 1 - already accepted by him, 2 - decline by him, 3 - his video
 
     public int getCurrent_customer_video_status() {
@@ -79,5 +80,13 @@ public class ChallengeDescModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
     }
 }
