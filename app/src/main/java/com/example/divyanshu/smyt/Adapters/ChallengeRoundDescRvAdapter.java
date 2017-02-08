@@ -261,10 +261,10 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        String status = challengeModels.get(position).getComplete_status();
+        int status = challengeModels.get(position).getComplete_status();
         boolean isTimeGone = Utils.isTimeGone(Long.parseLong(challengeModels.get(position).getRound_date()));
         if (isTimeGone) {
-            if (status.equals("1"))
+            if (status == 1)
                 return 1;
             else
                 return 2;

@@ -82,15 +82,12 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             mWZCameraView.setCameraConfig(getBroadcastConfig());
             mWZCameraView.setScaleMode(WZMediaConfig.FILL_VIEW);
             mWZCameraView.setVideoBackgroundColor(WZColor.DARKGREY);
-
             if (mWZBroadcastConfig.isVideoEnabled()) {
                 if (mWZCameraView.isPreviewPaused())
                     mWZCameraView.onResume();
                 else
                     mWZCameraView.startPreview();
             }
-
-            // Briefly display the video frame size from config
             // Toast.makeText(this, getBroadcastConfig().getLabel(true, true, false, true), Toast.LENGTH_LONG).show();
         }
 
@@ -190,9 +187,6 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
         mWZBroadcastConfig.setPassword(WOWZA_PASSWORD);
         mWZBroadcastConfig.setApplicationName(WOWZA_APPLICATION_NAME);
         mWZBroadcastConfig.setStreamName(/*"mp4:" +*/ videoName);
-        mWZBroadcastConfig.setVideoSourceConfig(WZMediaConfig.FRAME_SIZE_176x144);
-
-        mWZBroadcastConfig.setVideoFramerate(15);
     }
 
     /**

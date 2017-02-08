@@ -69,6 +69,7 @@ public class UserChallengesFragment extends BaseFragment implements CompoundButt
         viewPagerAdapter.addFragment(UserCompletedChallengeFragment.newInstance(), "");
         viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(getArguments().getBoolean(Constants.NEW_CHALLENGE)), "");
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setCurrentItem(1);
     }
 
     @Override

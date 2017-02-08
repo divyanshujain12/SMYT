@@ -65,24 +65,28 @@ public class AutoFocusListener extends GestureDetector.SimpleOnGestureListener {
             if (activeCamera != null && activeCamera.hasCapability(WZCamera.FOCUS_MODE_AUTO)) {
 
                 DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
-                WZSize previewScreenSize = mCameraView.getScreenSize();
-                WZSize previewFrameSize = mCameraView.getFrameSize();
+                try {
+                    WZSize previewScreenSize = mCameraView.getScreenSize();
+                    WZSize previewFrameSize = mCameraView.getFrameSize();
 
-                int previewScreenLeft = Math.round((float) (displayMetrics.widthPixels - previewScreenSize.width) / 2f);
-                int previewScreenTop = Math.round((float) (displayMetrics.heightPixels - previewScreenSize.height) / 2f);
+                    int previewScreenLeft = Math.round((float) (displayMetrics.widthPixels - previewScreenSize.width) / 2f);
+                    int previewScreenTop = Math.round((float) (displayMetrics.heightPixels - previewScreenSize.height) / 2f);
 
-                float previewScreenX = event.getX() - previewScreenLeft;
-                float previewScreenY = event.getY() - previewScreenTop;
+                    float previewScreenX = event.getX() - previewScreenLeft;
+                    float previewScreenY = event.getY() - previewScreenTop;
 
-                if (previewScreenX < 0 || previewScreenX > previewScreenSize.width ||
-                        previewScreenY < 0 || previewScreenY > previewScreenSize.getHeight())
-                    return true;
+                    if (previewScreenX < 0 || previewScreenX > previewScreenSize.width ||
+                            previewScreenY < 0 || previewScreenY > previewScreenSize.getHeight())
+                        return true;
 
-                float relX = (previewScreenX / (float)previewScreenSize.width) * (float)previewFrameSize.getWidth();
-                float relY = (previewScreenY / (float)previewScreenSize.height) * (float)previewFrameSize.getHeight();
+                    float relX = (previewScreenX / (float) previewScreenSize.width) * (float) previewFrameSize.getWidth();
+                    float relY = (previewScreenY / (float) previewScreenSize.height) * (float) previewFrameSize.getHeight();
 
-               // Toast.makeText(mContext, "Auto focusing at (" + Math.round(relX) + "," + Math.round(relY) + ")", Toast.LENGTH_SHORT).show();
-                activeCamera.setFocusPoint(relX, relY, 25);
+                    // Toast.makeText(mContext, "Auto focusing at (" + Math.round(relX) + "," + Math.round(relY) + ")", Toast.LENGTH_SHORT).show();
+                    activeCamera.setFocusPoint(relX, relY, 25);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
 

@@ -68,7 +68,7 @@ public class PostNewVideoActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.deleteVideoTV:
-                if (!thumbnailGenerateModel.getCustomer_video_id().equals("0"))
+                if (thumbnailGenerateModel.getCustomer_video_id() != 0)
                     deleteVideo();
                 else
                     finish();
@@ -80,7 +80,7 @@ public class PostNewVideoActivity extends BaseActivity {
     }
 
     private void deleteVideo() {
-        CommonFunctions.getInstance().deleteVideo(this, thumbnailGenerateModel.getCustomer_video_id(), new DeleteVideoInterface() {
+        CommonFunctions.getInstance().deleteVideo(this, String.valueOf(thumbnailGenerateModel.getCustomer_video_id()), new DeleteVideoInterface() {
             @Override
             public void onDeleteVideo() {
                 finish();

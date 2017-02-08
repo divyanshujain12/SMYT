@@ -105,10 +105,8 @@ public abstract class GoCoderSDKActivityBase extends BaseActivity
             mWZBroadcastConfig = new WZBroadcastConfig(sGoCoderSDK.getConfig());
             mWZBroadcastConfig.setLogLevel(WZLog.LOG_LEVEL_DEBUG);
             mWZBroadcastConfig.set(WZMediaConfig.FRAME_SIZE_320x240);
-            mWZBroadcastConfig.setVideoFramerate(30);
-            mWZBroadcastConfig.setVideoBitRate(500);
-            mWZBroadcastConfig.setVideoFrameSize(640, 480);
-
+            mWZBroadcastConfig.setVideoFramerate(15);
+            mWZBroadcastConfig.setVideoKeyFrameInterval(15);
         }
 
     }

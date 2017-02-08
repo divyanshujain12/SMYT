@@ -64,7 +64,7 @@ public class BaseActivity extends AppCompatActivity implements CallWebService.Ob
 
     @Override
     public void onFailure(String str, int apiType) {
-        CommonFunctions.getInstance().showErrorSnackBar(this, str);
+       // CommonFunctions.getInstance().showErrorSnackBar(this, str);
     }
 
     @Override

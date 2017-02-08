@@ -30,7 +30,7 @@ public class ChallengeModel implements Parcelable {
     String status;
     String challenge_id;
     long edate;
-    String complete_status;
+    int complete_status;
     String vote;
     String vote1;
     int current_customer_video_status;
@@ -66,7 +66,7 @@ public class ChallengeModel implements Parcelable {
         status = in.readString();
         challenge_id = in.readString();
         edate = in.readLong();
-        complete_status = in.readString();
+        complete_status = in.readInt();
         vote = in.readString();
         vote1 = in.readString();
         current_customer_video_status = in.readInt();
@@ -270,11 +270,11 @@ public class ChallengeModel implements Parcelable {
         this.edate = edate;
     }
 
-    public String getComplete_status() {
+    public int getComplete_status() {
         return complete_status;
     }
 
-    public void setComplete_status(String complete_status) {
+    public void setComplete_status(int complete_status) {
         this.complete_status = complete_status;
     }
 
@@ -348,7 +348,7 @@ public class ChallengeModel implements Parcelable {
         dest.writeString(status);
         dest.writeString(challenge_id);
         dest.writeLong(edate);
-        dest.writeString(complete_status);
+        dest.writeInt(complete_status);
         dest.writeString(vote);
         dest.writeString(vote1);
         dest.writeInt(current_customer_video_status);

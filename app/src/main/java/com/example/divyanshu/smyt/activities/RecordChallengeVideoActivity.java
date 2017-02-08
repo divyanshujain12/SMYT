@@ -130,13 +130,22 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (sGoCoderSDK != null && mWZCameraView != null) {
+            if (mAutoFocusDetector == null)
+                mAutoFocusDetector = new GestureDetectorCompat(this, new AutoFocusListener(this, mWZCameraView));
+
+            WZCamera activeCamera = mWZCameraView.getCamera();
+            if (activeCamera != null && activeCamera.hasCapability(WZCamera.FOCUS_MODE_CONTINUOUS))
+                activeCamera.setFocusMode(WZCamera.FOCUS_MODE_CONTINUOUS);
+        }
+
         setGoCoderCallBack(this);
         mWZCameraView.setKeepScreenOn(true);
     }
 
     public void onSwitchCamera(View v) {
         if (mWZCameraView == null) return;
-
         icTorch.setState(false);
         icTorch.setEnabled(false);
 

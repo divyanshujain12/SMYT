@@ -132,7 +132,7 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
 
 
     private void updateUI() {
-        String customerId = MySharedPereference.getInstance().getString(this, Constants.CUSTOM_ID);
+        String customerId = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         if (customerId.equals(challengeDescModel.getCustomer_id()))
             customerNumber = 1;
         else

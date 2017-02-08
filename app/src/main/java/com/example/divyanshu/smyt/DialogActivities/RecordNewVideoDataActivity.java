@@ -107,7 +107,7 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
     private HashMap<View, String> hashMap;
     private UserModel userModel;
     private ThumbnailGenerateModel thumbnailGenerateModel;
-   // private String videoName = "";
+    // private String videoName = "";
     private ImageLoading imageLoading;
     private boolean friendSelected = false;
     private boolean isLive = false;
@@ -255,17 +255,9 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
         hashMap = validation.validate(friendAC);
         if (hashMap != null) {
             if (shareWithStr.equals("Friend") && userModel != null)
+                goToRecordVideoActivity();
+            else
                 CommonFunctions.getInstance().showErrorSnackBar(friendAC, getString(R.string.error_select_friend_first));
-
-
-         //   if (InternetCheck.isInternetOn(this)) {
-            goToRecordVideoActivity();
-
-
-              //  CallWebService.getInstance(this, true, POST_USER_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_VIDEO, createJsonForPostVideo(), this);
-
-          //  } else
-           //     CommonFunctions.getInstance().showErrorSnackBar(this, getString(R.string.no_internet_connection));
         }
     }
 

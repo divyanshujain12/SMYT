@@ -188,10 +188,10 @@ public class NotificationUtils {
 
     public void sendUpcomingRoundNotification(Context context, String messageBody, UpcomingRoundInfoModel upcomingRoundInfoModel) {
         Intent intent;
-        if (upcomingRoundInfoModel.getMinutes() == 1)
-            intent = new Intent(context, RecordChallengeVideoActivity.class);
-        else
-            intent = new Intent(context, OngoingChallengeDescriptionActivity.class);
+        // if (upcomingRoundInfoModel.getMinutes() == 1)
+        //  intent = new Intent(context, RecordChallengeVideoActivity.class);
+        // else
+        intent = new Intent(context, OngoingChallengeDescriptionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, upcomingRoundInfoModel.getCustomers_videos_id());
         intent.putExtra(Constants.ROUND_TIME, upcomingRoundInfoModel.getEdate());
@@ -250,7 +250,7 @@ public class NotificationUtils {
         notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
     }
 
-    public void sendDeletedChallengeNotification(final Context context, String messageBody,String title) {
+    public void sendDeletedChallengeNotification(final Context context, String messageBody, String title) {
         final Intent intent = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

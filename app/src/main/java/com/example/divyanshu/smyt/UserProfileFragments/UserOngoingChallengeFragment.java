@@ -104,7 +104,7 @@ public class UserOngoingChallengeFragment extends BaseFragment {
 
     @Override
     public void onResume() {
-        if (challengeModels != null)
+        if (challengeModels != null && userOngoingChallengesAdapter != null)
             userOngoingChallengesAdapter.notifyDataSetChanged();
         super.onResume();
     }
