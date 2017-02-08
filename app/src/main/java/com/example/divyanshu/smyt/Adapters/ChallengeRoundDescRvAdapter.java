@@ -43,7 +43,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         this.customerNumber = customerNumber;
     }
 
-    private class RoundIncompleteDescViewHolder extends RecyclerView.ViewHolder {
+    private class NewRoundDescViewHolder extends RecyclerView.ViewHolder {
         private ImageView firstUserIV, secondUserIV;
         private TextView firstUserNameTV, secondUserNameTV;
         private TextView roundNumberTV, genreNameTV;
@@ -51,7 +51,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         private LinearLayout firstUserLL, secondUserLL;
         private TextView dateTV;
 
-        private RoundIncompleteDescViewHolder(View view) {
+        private NewRoundDescViewHolder(View view) {
             super(view);
             firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
             secondUserLL = (LinearLayout) view.findViewById(R.id.secondUserLL);
@@ -119,7 +119,7 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
         if (viewType == 0) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.challenge_incomplete_round_rv_item, parent, false);
-            return new RoundIncompleteDescViewHolder(itemView);
+            return new NewRoundDescViewHolder(itemView);
         } else if (viewType == 1) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.challenge_completed_round_rv_item, parent, false);
@@ -135,15 +135,15 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof RoundIncompleteDescViewHolder)
-            setViewForIncompleteRound(((RoundIncompleteDescViewHolder) holder), position);
+        if (holder instanceof NewRoundDescViewHolder)
+            setViewForNewRound(((NewRoundDescViewHolder) holder), position);
         else if (holder instanceof RoundCompletedDescViewHolder)
             setViewForCompletedRound(((RoundCompletedDescViewHolder) holder), position);
         else if (holder instanceof RoundNotPlayedDescViewHolder)
             setViewForNotPlayedRound(((RoundNotPlayedDescViewHolder) holder), position);
     }
 
-    private void setViewForIncompleteRound(RoundIncompleteDescViewHolder holder, int position) {
+    private void setViewForNewRound(NewRoundDescViewHolder holder, int position) {
 
         final ChallengeModel challengeModel = challengeModels.get(position);
         long roundDateAndTime = Long.parseLong(challengeModel.getRound_date());
@@ -263,38 +263,29 @@ public class ChallengeRoundDescRvAdapter extends RecyclerView.Adapter<RecyclerVi
     public int getItemViewType(int position) {
         String status = challengeModels.get(position).getComplete_status();
         boolean isTimeGone = Utils.isTimeGone(Long.parseLong(challengeModels.get(position).getRound_date()));
-        switch (customerNumber) {
-            case 1:
-                if (isTimeGone) {
-                } else {
-                }
-                break;
-            case 2:
-                break;
-            default:
-                return 0;
-
-        }
-
-
         if (isTimeGone) {
-            if (status.equals("0")) {
-
-            }
-
             if (status.equals("1"))
                 return 1;
             else
                 return 2;
-        } else
-            return 0;
+        } else {
+            switch (customerNumber) {
+                case 1:
+                    if (challengeModels.get(position).getVideo_url().equals(""))
+                        return 0;
+                    else
+                        return 1;
 
+                case 2:
+                    if (challengeModels.get(position).getVideo_url1().equals(""))
+                        return 0;
+                    else
+                        return 1;
 
-      /*  if (status.equals("1") && !Utils.isTimeGone(Long.parseLong(challengeModels.get(position).getRound_date())))
-            return 1;
-        else if (!status.equals("1") && Utils.isTimeGone(Long.parseLong(challengeModels.get(position).getRound_date())))
-            return 2;
-        else return 0;*/
+                default:
+                    return 0;
+            }
+        }
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.example.divyanshu.smyt.Adapters;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +9,8 @@ import android.widget.ImageView;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeTitleView;
-import com.example.divyanshu.smyt.Fragments.UserCompletedChallengeDescFragment;
 import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
-import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -27,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by divyanshu.jain on 9/2/2016.
  */
-public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCompletedChallengesAdapter.MyViewHolder> implements View.OnClickListener, PopupItemClicked {
+public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCompletedChallengesAdapter.MyViewHolder> implements  PopupItemClicked {
 
 
     private ArrayList<ChallengeModel> challengeModels;
@@ -91,14 +87,6 @@ public class UserCompletedChallengesAdapter extends RecyclerView.Adapter<UserCom
     @Override
     public int getItemCount() {
         return challengeModels.size();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-        UserCompletedChallengeDescFragment challangeFragment = new UserCompletedChallengeDescFragment();
-        challangeFragment.show(fragmentManager, challangeFragment.getClass().getName());
     }
 
     public void addItems(ArrayList<ChallengeModel> challengeModels) {

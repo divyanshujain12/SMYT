@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
+import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.CameraActivityBase;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.AutoFocusListener;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
@@ -73,6 +75,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     CheckBox autoStartCB;
     @InjectView(R.id.otherUserVideoPlayer)
     JCVideoPlayerStandard otherUserVideoPlayer;
+    protected String[] mRequiredPermissions = {};
     private CountDownTimerClass countDownTimerClass;
     private String challengeID;
     private String customerVideoID = "";
@@ -80,6 +83,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     boolean autoStartRecording = false;
     int delay = 5000; //milliseconds
     protected PowerManager.WakeLock mWakeLock;
+    private RuntimePermissionHeadlessFragment runtimePermissionHeadlessFragment;
 
 
     @Override
@@ -106,6 +110,11 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
             startActivity(intent);
             finish();
         }
+        mRequiredPermissions = new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
+        };
+        //runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment(this,this);
         long remainingTime = Utils.getTimeDifferenceFromCurrent(roundDateAndTime);
         CountDownTimerClass countDownTimerClass = new CountDownTimerClass(remainingTime, 1000);
         countDownTimerClass.start();
@@ -326,8 +335,6 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     @Override
     public void onBackPressed() {
         if (JCVideoPlayerStandard.backPress())
-            return;
-        else if (JCVideoPlayerStandardTwo.backPress())
             return;
         else {
             super.onBackPressed();
