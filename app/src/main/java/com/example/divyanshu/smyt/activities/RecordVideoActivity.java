@@ -249,6 +249,7 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
         Intent intent = new Intent(this, PostNewVideoActivity.class);
         intent.putExtra(Constants.VIDEO_NAME, videoName);
         intent.putExtra(Constants.POST_VIDEO_DATA, postVideoData);
+        intent.putExtra(Constants.LIVE_STATUS,isLive);
         startActivity(intent);
         finish();
     }

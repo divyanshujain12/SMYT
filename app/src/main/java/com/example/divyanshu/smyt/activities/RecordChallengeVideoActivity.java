@@ -232,7 +232,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
                     mStatusView.setErrorMessage(configError.getErrorDescription());
             }
         } else {
-            videoStopped();
+            endBroadcast();
         }
     }
 
@@ -294,7 +294,7 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
                 }
                 break;
             case ApiCodes.END_CHALLENGE:
-                mWZBroadcast.endBroadcast();
+               // mWZBroadcast.endBroadcast();
                 break;
         }
     }
@@ -369,13 +369,13 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
 
     @Override
     public void onVideoStop() {
-        finish();
-        // videoStopped();
+         videoStopped();
     }
 
     private void videoStopped() {
         CallWebService.getInstance(this, false, ApiCodes.END_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.CHALLENGE_START, createJsonForStartEndChallengeVideo("0"), this);
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
+        finish();
     }
 
     Handler h = new Handler();

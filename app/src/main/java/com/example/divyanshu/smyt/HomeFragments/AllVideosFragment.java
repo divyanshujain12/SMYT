@@ -46,6 +46,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
+import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -286,6 +287,9 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
                 case COMMENT_COUNT:
                     updateCommentCount(intent);
                     break;
+                case FAVORITE_STATUS:
+                    updateFavStatus(intent);
+                    break;
             }
         }
     };
@@ -301,6 +305,18 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     public void onDetach() {
         super.onDetach();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateAllVideosUI);
+    }
+
+
+    private void updateFavStatus(Intent intent) {
+        AllVideoModel videoModel = intent.getParcelableExtra(Constants.DATA);
+        int status = intent.getIntExtra(Constants.STATUS, 0);
+        int position = allVideoModels.indexOf(videoModel);
+        if (position >= 0) {
+            allVideoModels.get(position).setFavourite_status(status);
+            otherAllVideoAdapter.notifyDataSetChanged();
+
+        }
     }
 
     private void updateCommentCount(Intent intent) {

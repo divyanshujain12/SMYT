@@ -74,7 +74,11 @@ public class PostNewVideoActivity extends BaseActivity {
                     finish();
                 break;
             case R.id.postVideoTV:
-                CallWebService.getInstance(this, true, POST_USER_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_VIDEO, createJsonForPostVideo(), this);
+                if (!getIntent().getBooleanExtra(Constants.LIVE_STATUS, false))
+                    CallWebService.getInstance(this, true, POST_USER_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_VIDEO, createJsonForPostVideo(), this);
+                else
+                    onPostSuccess();
+
                 break;
         }
     }
@@ -95,8 +99,7 @@ public class PostNewVideoActivity extends BaseActivity {
         switch (apiType) {
             case POST_USER_VIDEO:
                 CommonFunctions.getInstance().showSuccessSnackBar(this, response.getString(Constants.MESSAGE));
-                BroadcastSenderClass.getInstance().reloadAllVideoData(this);
-                finish();
+                onPostSuccess();
                 break;
             case POST_VIDEO_PREVIOUS:
                 thumbnailGenerateModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), ThumbnailGenerateModel.class);
@@ -104,6 +107,11 @@ public class PostNewVideoActivity extends BaseActivity {
                 break;
         }
 
+    }
+
+    private void onPostSuccess() {
+        BroadcastSenderClass.getInstance().reloadAllVideoData(this);
+        finish();
     }
 
     private void setUpVideoPlayer(ThumbnailGenerateModel thumbnailGenerateModel) {

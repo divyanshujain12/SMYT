@@ -49,7 +49,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 
-public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener,TitleBarButtonClickCallback {
+public class UserVideoDescActivity extends BaseActivity implements View.OnClickListener, TitleBarButtonClickCallback {
 
 
     @InjectView(R.id.videoTitleView)
@@ -142,15 +142,21 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 updateCommentsCount();
                 break;
             case ApiCodes.DELETE_COMMENT:
-                //decreaseCommentCount();
                 break;
             case ApiCodes.ADD_REMOVE_LIKE:
                 break;
         }
     }
 
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
+        if (apiType == ApiCodes.POST_COMMENT)
+            setCommentPBVisibility(View.GONE);
+    }
+
     private void updateUI() {
-        setUpMoreOptionPopupWindow(videoDetailModel.getTitle());
+        setUpTitleBarPopupWindow(videoDetailModel.getTitle());
         imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
         setLikeCountInUI();
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
@@ -165,11 +171,13 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             videoTitleView.showHideMoreIvButton(false);
     }
 
-    private void setUpMoreOptionPopupWindow(String title) {
+    private void setUpTitleBarPopupWindow(String title) {
         if (fromBanner)
-            videoTitleView.setUpForBannerVideo(videoDetailModel.getTitle(),0,videoDetailModel.getCustomers_videos_id(),this);
+            videoTitleView.setUpForBannerVideo(videoDetailModel.getTitle(), 0, videoDetailModel.getCustomers_videos_id(), this);
         else
-            videoTitleView.setUpForSingleVideo(videoDetailModel.getTitle(),0,videoDetailModel.getCustomers_videos_id(),this);
+            videoTitleView.setUpForSingleVideo(videoDetailModel.getTitle(), 0, videoDetailModel.getCustomers_videos_id(), this);
+
+        videoTitleView.setUpFavIVButton(videoDetailModel.getFavourite_status());
     }
 
     private void decreaseCommentCount() {
@@ -177,12 +185,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         updateCommentsCount();
     }
 
-    @Override
-    public void onFailure(String str, int apiType) {
-        super.onFailure(str, apiType);
-        if (apiType == ApiCodes.POST_COMMENT)
-            setCommentPBVisibility(View.GONE);
-    }
 
     private void addNewCommentToList(CommentModel commentModel) {
 
@@ -195,14 +197,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         singleVideoPlayerView.setUp(videoDetailModel.getVideo_url(), videoDetailModel.getThumbnail(), videoDetailModel.getCustomers_videos_id());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (videoDetailModel == null) {
-            customerVideoID = getIntent().getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
-            CallWebService.getInstance(this, true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(), this);
-        }
-    }
 
     private void sendComment() {
         validationMap = validation.validate(this);
@@ -249,7 +243,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void updateCommentsCount() {
         BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
-        //commentsAdapter.sendLocalBroadCastForCommentCount(videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
         String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, videoDetailModel.getVideo_comment_count(), videoDetailModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
@@ -304,9 +297,10 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         }
         return jsonObject;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        InAppLocalApis.getInstance().sendPurchasedDataToBackend(this,requestCode, data);
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(this, requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -318,6 +312,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             startActivity(intent);
         }
     }
+
     @Override
     public void onBackPressed() {
         if (JCVideoPlayerStandard.backPress())
@@ -325,7 +320,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         else if (JCVideoPlayerStandardTwo.backPress())
             return;
         else {
-      //      MediaPlayerHelper.getInstance().releaseAllVideos();
+            //      MediaPlayerHelper.getInstance().releaseAllVideos();
             super.onBackPressed();
         }
     }
@@ -339,11 +334,20 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private void releaseVideos() {
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
-   //     MediaPlayerHelper.getInstance().releaseAllVideos();
+        //     MediaPlayerHelper.getInstance().releaseAllVideos();
     }
 
     @Override
-    public void onTitleBarButtonClicked(View view,int position) {
+    public void onResume() {
+        super.onResume();
+        if (videoDetailModel == null) {
+            customerVideoID = getIntent().getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
+            CallWebService.getInstance(this, true, ApiCodes.SINGLE_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO_DETAIL, createJsonForGettingVideoInfo(), this);
+        }
+    }
+
+    @Override
+    public void onTitleBarButtonClicked(View view, int position) {
         switch (view.getId()) {
             case R.id.deleteVideoTV:
                 CommonFunctions.getInstance().deleteVideo(this, videoDetailModel.getCustomers_videos_id(), new DeleteVideoInterface() {
@@ -355,7 +359,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
                 });
                 break;
             case R.id.favIV:
-                CallWebService.getInstance(this, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(this,videoDetailModel.getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                CallWebService.getInstance(this, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(this, videoDetailModel.getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
                 break;
         }
     }

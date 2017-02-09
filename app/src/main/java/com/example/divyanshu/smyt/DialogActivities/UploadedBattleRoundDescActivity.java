@@ -228,6 +228,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         setUpCommentAdapter();
         updateAndSendCommentsCount();
         setVoteStatus();
+
         String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         if (!currentCustomerID.equals(challengeVideoDescModel.getCustomer_id()) && !currentCustomerID.equals(challengeVideoDescModel.getCustomer_id1()))
             challengeTitleView.showHideMoreIvButton(false);
@@ -255,6 +256,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
             challengeTitleView.setUpForBannerVideo(title, 0, challengeVideoDescModel.getCustomers_videos_id(), this);
         else
             challengeTitleView.setUpForSingleVideo(title, 0, challengeVideoDescModel.getCustomers_videos_id(), this);
+        challengeTitleView.setUpFavIVButton(challengeVideoDescModel.getFavourite_status());
     }
 
     private void setUpCommentAdapter() {
@@ -333,6 +335,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         try {
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, challengeVideoDescModel.getCustomers_videos_id());
             jsonObject.put(Constants.COMMENT, validationMap.get(commentsET));
+            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -372,7 +375,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        InAppLocalApis.getInstance().sendPurchasedDataToBackend(this,requestCode, data);
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(this, requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -401,7 +404,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     }
 
     @Override
-    public void onTitleBarButtonClicked(View view,int position) {
+    public void onTitleBarButtonClicked(View view, int position) {
         switch (view.getId()) {
             case R.id.deleteVideoTV:
                 CommonFunctions.getInstance().deleteVideo(this, challengeVideoDescModel.getCustomers_videos_id(), new DeleteVideoInterface() {
@@ -413,7 +416,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
                 });
                 break;
             case R.id.favIV:
-                CallWebService.getInstance(this, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(this,challengeVideoDescModel.getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                CallWebService.getInstance(this, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(this, challengeVideoDescModel.getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
                 break;
         }
     }
@@ -430,7 +433,6 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         challengeVideoDescModel.setFavourite_status(favStatus);
         return favStatus;
     }
-
 
 
 }

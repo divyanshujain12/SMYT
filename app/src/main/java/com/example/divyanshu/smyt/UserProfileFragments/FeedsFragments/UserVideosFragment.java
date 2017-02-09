@@ -255,9 +255,11 @@ public class UserVideosFragment extends BaseFragment {
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);
         AllVideoModel videoModel = new AllVideoModel();
         videoModel.setCustomers_videos_id(customerVideoID);
-
-        allVideoModels.get(allVideoModels.indexOf(videoModel)).setVideo_comment_count(commentCount);
-        setAdapter();
+        int videoPos = allVideoModels.indexOf(videoModel);
+        if (videoPos >= 0) {
+            allVideoModels.get(videoPos).setVideo_comment_count(commentCount);
+            setAdapter();
+        }
     }
 
     @Override
