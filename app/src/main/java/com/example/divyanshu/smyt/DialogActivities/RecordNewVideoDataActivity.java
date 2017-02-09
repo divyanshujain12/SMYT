@@ -254,11 +254,21 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
     private void postVideo() {
         hashMap = validation.validate(friendAC);
         if (hashMap != null) {
-            if (shareWithStr.equals("Friend") && userModel != null)
-                goToRecordVideoActivity();
-            else
-                CommonFunctions.getInstance().showErrorSnackBar(friendAC, getString(R.string.error_select_friend_first));
+            switch (shareWithStr) {
+                case "Public":
+                    goToRecordVideoActivity();
+                    break;
+                case "Friend":
+                    if (userModel != null)
+                        goToRecordVideoActivity();
+                    else {
+                        CommonFunctions.getInstance().showErrorSnackBar(friendAC, getString(R.string.error_select_friend_first));
+                    }
+                    break;
+            }
         }
+        else
+            CommonFunctions.getInstance().showErrorSnackBar(friendAC, getString(R.string.err_post_challenge_title));
     }
 
     private void goToRecordVideoActivity() {
