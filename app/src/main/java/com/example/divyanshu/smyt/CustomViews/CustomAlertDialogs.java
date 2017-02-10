@@ -13,19 +13,26 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.ChangePasswordInterface;
 import com.example.divyanshu.smyt.Interfaces.ImagePickDialogInterface;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -79,6 +86,41 @@ public class CustomAlertDialogs {
         textView.setText(Html.fromHtml(message));
         textView.setPadding(20, 10, 10, 10);
         alertDialog.setView(textView);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                snackBarCallback.doAction();
+                dialog.dismiss();
+            }
+        });
+
+
+        alertDialog.show();
+    }
+
+    public static void showRuleDialog(Context context, String title, final SnackBarCallback snackBarCallback) {
+        alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_info, null);
+        final TextView rulesTV = (TextView) view.findViewById(R.id.rulesTV);
+        final ProgressBar loadingPB = (ProgressBar) view.findViewById(R.id.loadingPB);
+        CallWebService.getInstance(context, false, ApiCodes.GET_RULES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_RULES, null, new CallWebService.ObjectResponseCallBack() {
+            @Override
+            public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
+                rulesTV.setVisibility(View.VISIBLE);
+                loadingPB.setVisibility(View.GONE);
+                String data = response.getString(Constants.DATA);
+                rulesTV.setText(Html.fromHtml(data));
+            }
+
+            @Override
+            public void onFailure(String str, int apiType) {
+                rulesTV.setText(str);
+            }
+        });
+
+        alertDialog.setView(view);
         alertDialog.setCancelable(false);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
             @Override

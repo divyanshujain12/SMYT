@@ -22,6 +22,7 @@ import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.SearchFragment;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.UserOngoingChallengeFragment;
@@ -187,6 +188,7 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
                 onFabClick();
                 break;
             case R.id.toolbarView:
+
                 CustomAlertDialogs.showCategoryDescDialog(this, getString(R.string.description), categoryModel.getDescription(), this);
                 break;
         }
@@ -194,7 +196,13 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void onFabClick() {
         if (viewPagerCurrentPos == 2)
-            showDialogFragment(PostChallengeFragment.getInstance());
+            CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
+                @Override
+                public void doAction() {
+                    showDialogFragment(PostChallengeFragment.getInstance());
+                }
+            });
+           // showDialogFragment(PostChallengeFragment.getInstance());
         else if (viewPagerCurrentPos == 1) {
 
         }

@@ -13,9 +13,11 @@ import com.example.divyanshu.smyt.Adapters.ChallengeRoundDescRvAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.ChallengeDescModel;
-import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -28,8 +30,6 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -66,6 +66,8 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
     int challengeAcceptStatus = -1;
     @InjectView(R.id.acceptAndDeclineLL)
     LinearLayout acceptAndDeclineLL;
+    @InjectView(R.id.infoIV)
+    ImageView infoIV;
     private ImageLoading imageLoading;
     private int userOneVoteCount = 0, userTwoVoteCount = 0;
     private boolean isChallengeCompleted = true;
@@ -246,6 +248,15 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
         ButterKnife.reset(this);
     }
 
+    @OnClick(R.id.infoIV)
+    public void onClick() {
+        CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
+            @Override
+            public void doAction() {
+
+            }
+        });
+    }
 }
 
 

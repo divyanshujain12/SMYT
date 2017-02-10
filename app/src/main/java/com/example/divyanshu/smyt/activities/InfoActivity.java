@@ -39,7 +39,7 @@ public class InfoActivity extends BaseActivity {
     }
 
     private void initViews() {
-        Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.info));
+    //    Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.info));
         CallWebService.getInstance(this, true, ApiCodes.GET_RULES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_RULES, null, this);
     }
 

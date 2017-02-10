@@ -27,11 +27,13 @@ import android.widget.ImageView;
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.DialogActivities.RecordNewVideoDataActivity;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -233,7 +235,15 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 checkHasPermissions();
                 break;
             case 3:
-                showDialogFragment(PostChallengeFragment.getInstance());
+
+                CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
+                    @Override
+                    public void doAction() {
+                        showDialogFragment(PostChallengeFragment.getInstance());
+                    }
+                });
+
+
                 break;
 
         }

@@ -20,9 +20,11 @@ import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
@@ -187,7 +189,14 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     public void onClick() {
         switch (viewPagerPos) {
             case 0:
-                showDialogFragment(PostChallengeFragment.getInstance(createBundleForPostChallenge()));
+                CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
+                    @Override
+                    public void doAction() {
+                        showDialogFragment(PostChallengeFragment.getInstance(createBundleForPostChallenge()));
+                    }
+                });
+
+
                 break;
         }
     }
