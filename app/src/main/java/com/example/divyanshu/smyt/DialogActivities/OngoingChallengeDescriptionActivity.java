@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.ChallengeDescModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.ServicesAndNotifications.NotificationUtils;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
@@ -239,6 +240,8 @@ public class OngoingChallengeDescriptionActivity extends BaseActivity {
             hitApiForGetChallengeInfo();
         } else if (challengeDescModel != null)
             challengeRoundDescRvAdapter.notifyDataSetChanged();
+
+        CommonFunctions.getInstance().removeNotification(this, NotificationUtils.NEW_CHALLENGE_NOTIFICATION_ID);
         super.onResume();
     }
 

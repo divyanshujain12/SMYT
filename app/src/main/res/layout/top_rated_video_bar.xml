@@ -5,13 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/videoFL"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/one_hundred_dp"
+    android:layout_height="@dimen/one_hundred_twenty_dp"
     android:background="@color/black_with_fifity_five"
-    android:paddingTop="@dimen/three_dp"
     tools:showIn="@layout/all_video_top_rated_single_item">
 
     <com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView
-        android:id="@+id/firstVideoPlayer"
+        android:id="@+id/singleVideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </FrameLayout>

@@ -24,6 +24,7 @@ import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.ChallengeModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.ServicesAndNotifications.NotificationUtils;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
@@ -106,6 +107,9 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     public void onResume() {
         if (challengeModels != null && userOngoingChallengesAdapter != null)
             userOngoingChallengesAdapter.notifyDataSetChanged();
+
+        CommonFunctions.getInstance().removeNotification(getContext(), NotificationUtils.UPCOMING_ROUND_NOTIFICATION_ID);
+        CommonFunctions.getInstance().removeNotification(getContext(), NotificationUtils.NEW_CHALLENGE_NOTIFICATION_ID);
         super.onResume();
     }
 

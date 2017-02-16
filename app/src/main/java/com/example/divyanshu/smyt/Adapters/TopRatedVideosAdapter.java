@@ -38,13 +38,13 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private class SingleVideoHolder extends RecyclerView.ViewHolder {
         public TextView userNameTV, userTimeTV;
-        public SingleVideoPlayerCustomView firstVideoPlayer;
+        public SingleVideoPlayerCustomView singleVideoPlayer;
 
         public SingleVideoHolder(View view) {
             super(view);
             userNameTV = (TextView) view.findViewById(R.id.userNameTV);
             userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
-            firstVideoPlayer = (SingleVideoPlayerCustomView) view.findViewById(R.id.firstVideoPlayer);
+            singleVideoPlayer = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayer);
         }
     }
 
@@ -88,7 +88,7 @@ public class TopRatedVideosAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void setUpForSingleVideo(final SingleVideoHolder holder, AllVideoModel videoModel) {
 
         holder.userNameTV.setText(videoModel.getFirst_name());
-        holder.firstVideoPlayer.setUp(videoModel.getVideo_url(), videoModel.getThumbnail(), videoModel.getCustomers_videos_id());
+        holder.singleVideoPlayer.setUp(videoModel.getVideo_url(), videoModel.getThumbnail(), videoModel.getCustomers_videos_id());
         holder.userTimeTV.setText(Utils.getChallengeTimeDifference(videoModel.getEdate()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

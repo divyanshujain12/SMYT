@@ -5,12 +5,11 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="@dimen/one_hundred_fifty_five_dp"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/five_dp"
     app:cardUseCompatPadding="true"
     card_view:cardCornerRadius="@dimen/card_corner_radius"
     card_view:cardElevation="@dimen/card_elevation_size">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -19,11 +18,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/twenty_five_dp"
-            android:layout_gravity="bottom"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:padding="2dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/five_dp">
+            android:layout_marginStart="@dimen/five_dp"
+            android:orientation="horizontal">
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/userNameTV"
@@ -32,6 +32,7 @@
                 android:layout_weight="4"
                 android:alpha=".65"
                 android:maxLines="2"
+                android:textColor="@color/white"
                 android:text="Neanda"
                 android:textSize="@dimen/ten_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
@@ -44,8 +45,9 @@
                 android:gravity="right"
                 android:text="22 min ago"
                 android:textSize="@dimen/ten_sp"
+                android:textColor="@color/white"
                 pixlui:typeface="Roboto-Regular.ttf" />
 
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 </android.support.v7.widget.CardView>

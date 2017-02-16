@@ -13,7 +13,7 @@
         android:id="@+id/firstVideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/twenty_five_dp" />
+        android:layout_marginTop="@dimen/fifteen_dp" />
 
     <ImageView
         android:id="@+id/videoThumbIV"

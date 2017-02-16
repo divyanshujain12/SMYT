@@ -51,6 +51,9 @@ public class NotificationUtils {
     private static Context mContext;
     public static final int NOTIFICATION_ID = 100;
     public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
+    public static final int NEW_CHALLENGE_NOTIFICATION_ID = 1111;
+    public static final int UPCOMING_ROUND_NOTIFICATION_ID = 1112;
+
     private static NotificationUtils notificationUtils = new NotificationUtils();
 
     public static NotificationUtils getInstance(Context context) {
@@ -213,7 +216,7 @@ public class NotificationUtils {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
+        notificationManager.notify(UPCOMING_ROUND_NOTIFICATION_ID, builder.build());
     }
 
     public void sendNewChallengeNotification(final Context context, String messageBody, NewChallengeNotiModel categoryModel) {
@@ -247,7 +250,7 @@ public class NotificationUtils {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify((int) Utils.getCurrentTimeInMillisecond(), builder.build());
+        notificationManager.notify(NEW_CHALLENGE_NOTIFICATION_ID, builder.build());
     }
 
     public void sendDeletedChallengeNotification(final Context context, String messageBody, String title) {

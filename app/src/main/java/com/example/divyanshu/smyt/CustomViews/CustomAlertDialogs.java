@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -105,13 +106,18 @@ public class CustomAlertDialogs {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_info, null);
         final TextView rulesTV = (TextView) view.findViewById(R.id.rulesTV);
         final ProgressBar loadingPB = (ProgressBar) view.findViewById(R.id.loadingPB);
+        final WebView webView = (WebView) view.findViewById(R.id.webView);
         CallWebService.getInstance(context, false, ApiCodes.GET_RULES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_RULES, null, new CallWebService.ObjectResponseCallBack() {
             @Override
             public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
                 rulesTV.setVisibility(View.VISIBLE);
                 loadingPB.setVisibility(View.GONE);
                 String data = response.getString(Constants.DATA);
-                rulesTV.setText(Html.fromHtml(data));
+                final String mimeType = "text/html";
+                final String encoding = "UTF-8";
+                webView.loadDataWithBaseURL("", data, mimeType, encoding, "");
+
+               //rulesTV.setText(Html.fromHtml(data));
             }
 
             @Override

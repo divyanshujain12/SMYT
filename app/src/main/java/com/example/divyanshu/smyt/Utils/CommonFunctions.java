@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.Utils;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -38,6 +39,7 @@ import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerManagerTwo;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static com.example.divyanshu.smyt.ServicesAndNotifications.NotificationUtils.NOTIFICATION_ID;
 
 /**
  * Created by divyanshu on 9/3/2016.
@@ -173,7 +175,6 @@ public class CommonFunctions {
                             recyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
-
 
 
                 }
@@ -342,7 +343,7 @@ public class CommonFunctions {
         return bitmap;
     }
 
-    public JSONObject createJsonForActionFav(Context context,String customerVideoID, int favStatus) {
+    public JSONObject createJsonForActionFav(Context context, String customerVideoID, int favStatus) {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
         try {
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
@@ -354,5 +355,10 @@ public class CommonFunctions {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void removeNotification(Context context, int id) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(id);
     }
 }

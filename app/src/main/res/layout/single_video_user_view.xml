@@ -6,15 +6,15 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/fifty_dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:showIn="@layout/single_video_inside_view">
+    >
 
     <LinearLayout
         android:id="@+id/firstUserLL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|center_vertical"
+        android:layout_gravity="center_vertical|start"
         android:layout_marginStart="@dimen/five_dp"
         android:orientation="horizontal">
 
@@ -27,12 +27,12 @@
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/firstUserNameTV"
+            pixlui:typeface="Roboto-Regular.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/five_dp"
             android:maxLines="2"
             android:textColor="@color/white"
-            android:textSize="@dimen/twelve_sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/twelve_sp" />
     </LinearLayout>
 </FrameLayout>

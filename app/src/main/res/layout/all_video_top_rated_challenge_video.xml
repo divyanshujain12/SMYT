@@ -14,38 +14,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <!-- <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:gravity="center_vertical"
-             android:orientation="horizontal"
-            >
-
-             <com.neopixl.pixlui.components.textview.TextView
-                 android:id="@+id/userNameTV"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="4"
-                 android:alpha=".65"
-                 android:maxLines="2"
-                 android:text="Neanda"
-                 android:textColor="@color/white"
-                 android:textSize="@dimen/ten_sp"
-                 pixlui:typeface="Roboto-Medium.ttf" />
-
-             <com.neopixl.pixlui.components.textview.TextView
-                 android:id="@+id/userTimeTV"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="6"
-                 android:gravity="right"
-                 android:text="22 min ago"
-                 android:textColor="@color/white"
-                 android:textSize="@dimen/ten_sp"
-                 pixlui:typeface="Roboto-Regular.ttf" />
-
-         </LinearLayout>-->
         <com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView
             android:id="@+id/twoVideoPlayers"
             android:layout_width="match_parent"
