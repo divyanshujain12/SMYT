@@ -236,8 +236,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         txtName.setText(userModel.getFirst_name());
         phoneNumberTV.setText(userModel.getPhonenumber());
         nameInImgTV.setText(userModel.getUsername());
-        followersCountTV.setText(userModel.getFollowers());
-        followingCountTV.setText(userModel.getFollowing());
+        followersCountTV.setText("" + userModel.getFollowers());
+        followingCountTV.setText("" + userModel.getFollowing());
         imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
         statusTV.setText(userModel.getTimeline_msg());
         if (userModel.getFollowStatus().equals("1"))

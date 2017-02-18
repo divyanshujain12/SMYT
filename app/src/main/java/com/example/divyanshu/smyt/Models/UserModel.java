@@ -18,8 +18,8 @@ public class UserModel implements Parcelable {
     String phonenumber;
     String timeline_msg;
     String total_wins;
-    String followers;
-    String following;
+    int followers;
+    int following;
     String active_before;
     String followStatus;
 
@@ -39,8 +39,8 @@ public class UserModel implements Parcelable {
         phonenumber = in.readString();
         timeline_msg = in.readString();
         total_wins = in.readString();
-        followers = in.readString();
-        following = in.readString();
+        followers = in.readInt();
+        following = in.readInt();
         active_before = in.readString();
         followStatus = in.readString();
     }
@@ -145,19 +145,19 @@ public class UserModel implements Parcelable {
         this.total_wins = total_wins;
     }
 
-    public String getFollowers() {
+    public int getFollowers() {
         return followers;
     }
 
-    public void setFollowers(String followers) {
+    public void setFollowers(int followers) {
         this.followers = followers;
     }
 
-    public String getFollowing() {
+    public int getFollowing() {
         return following;
     }
 
-    public void setFollowing(String following) {
+    public void setFollowing(int following) {
         this.following = following;
     }
 
@@ -195,8 +195,8 @@ public class UserModel implements Parcelable {
         dest.writeString(phonenumber);
         dest.writeString(timeline_msg);
         dest.writeString(total_wins);
-        dest.writeString(followers);
-        dest.writeString(following);
+        dest.writeInt(followers);
+        dest.writeInt(following);
         dest.writeString(active_before);
         dest.writeString(followStatus);
     }

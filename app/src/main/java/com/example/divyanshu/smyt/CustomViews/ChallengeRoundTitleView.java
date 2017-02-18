@@ -84,6 +84,16 @@ public class ChallengeRoundTitleView extends LinearLayout implements View.OnClic
         setUpPopupWindow();
     }
 
+    public void setUpViewsForFavVideosListing(String title, int position, String customerVideoID, TitleBarButtonClickCallback titleBarButtonClickCallback) {
+        this.position = position;
+        titleTV.setText(title);
+        this.customerVideoID = customerVideoID;
+        this.titleBarButtonClickCallback = titleBarButtonClickCallback;
+
+        popupWindow = new CustomViewsHandler().createFavVideosPopupWindow(getContext(), this, position);
+       // setUpPopupWindow();
+    }
+
     private void setUpPopupWindow() {
         if (categoryID.equals(getContext().getString(R.string.premium_category)))
             popupWindow = new CustomViewsHandler().createUserPremiumPopupWindow(getContext(), this, position);
@@ -182,9 +192,11 @@ public class ChallengeRoundTitleView extends LinearLayout implements View.OnClic
         intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
         ((Activity) getContext()).startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
     }
-    public void hideFavButton(){
+
+    public void hideFavButton() {
         favIV.setVisibility(GONE);
     }
+
     public void setUpFavIVButton(int favStatus) {
         if (favStatus == 0)
             favIV.setImageResource(R.drawable.icon_heart_off);

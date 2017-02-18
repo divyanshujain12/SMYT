@@ -63,6 +63,38 @@ PopupItemClicked popupItemClicked;
         return popupWindow;
     }
 
+
+    public PopupWindow createFavVideosPopupWindow(Context context, PopupItemClicked clicked, int position) {
+        this.pos = position;
+        this.popupItemClicked = clicked;
+        View view = LayoutInflater.from(context).inflate(R.layout.fav_videos_more_view, null);
+        TextView addVideoToBannerTV = (TextView) view.findViewById(R.id.addVideoToBannerTV);
+        TextView addVideoToPremiumTV = (TextView) view.findViewById(R.id.addVideoToPremiumTV);
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if (Build.VERSION.SDK_INT >= 21) {
+            popupWindow.setElevation(5.0f);
+        }
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        addVideoToBannerTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v, pos);
+            }
+        });
+        addVideoToPremiumTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopupWindow();
+                popupItemClicked.onPopupMenuClicked(v, pos);
+            }
+        });
+        return popupWindow;
+    }
+
     public PopupWindow createUserVideosPopupWindowForNormalBannerVideo(Context context, PopupItemClicked clicked, int position) {
         this.pos = position;
         this.popupItemClicked = clicked;

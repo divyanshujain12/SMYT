@@ -270,8 +270,8 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
         txtName.setText(userModel.getFirst_name() + " " + userModel.getLast_name());
         phoneNumberTV.setText(userModel.getPhonenumber());
         nameInImgTV.setText(userModel.getFirst_name() + " " + userModel.getLast_name());
-        followersCountTV.setText(userModel.getFollowers());
-        followingCountTV.setText(userModel.getFollowing());
+        followersCountTV.setText("" + userModel.getFollowers());
+        followingCountTV.setText("" + userModel.getFollowing());
         imageLoading.LoadImage(userModel.getProfileimage(), profileImage, null);
         profileImage.setOnClickListener(this);
         statusTV.setText(userModel.getTimeline_msg());

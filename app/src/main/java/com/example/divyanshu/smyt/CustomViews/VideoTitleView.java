@@ -84,7 +84,15 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
         this.titleBarButtonClickCallback = titleBarButtonClickCallback;
         setUpPopupWindow();
     }
+    public void setUpViewsForFavVideosListing(String title, int position, String customerVideoID, TitleBarButtonClickCallback titleBarButtonClickCallback) {
+        this.position = position;
+        titleTV.setText(title);
+        this.customerVideoID = customerVideoID;
+        this.titleBarButtonClickCallback = titleBarButtonClickCallback;
 
+        popupWindow = new CustomViewsHandler().createFavVideosPopupWindow(getContext(), this, position);
+        setUpPopupWindow();
+    }
 
     private void setUpPopupWindow() {
         if (categoryID.equals(getContext().getString(R.string.premium_category)))

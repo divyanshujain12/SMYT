@@ -102,7 +102,7 @@ public class UserFavoriteFeeds extends BaseFragment {
     private void initViews() {
 
         favVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        userFavVideoAdapter = new UserFavoriteAdapter(getContext(), allVideoModels, this);
+        userFavVideoAdapter = new UserFavoriteAdapter(getContext(), allVideoModels,customerID, this);
         favVideosRV.setAdapter(userFavVideoAdapter);
         continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithView(favVideosRV);
         CommonFunctions.showContinuousSB(continuousSB);
@@ -181,8 +181,9 @@ public class UserFavoriteFeeds extends BaseFragment {
     }
 
     private JSONObject createJsonForUserFavVideos() {
-        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put(Constants.CUSTOMER_ID, customerID);
             jsonObject.put(Constants.IS_FAVORITE, 1);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -50,11 +50,13 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context context;
     private RecyclerViewClick recyclerViewClick;
     private ImageLoading imageLoading;
+    private String currentProfileCustomerID = "";
 
-    public UserFavoriteAdapter(Context context, ArrayList<AllVideoModel> categoryModels, RecyclerViewClick recyclerViewClick) {
+    public UserFavoriteAdapter(Context context, ArrayList<AllVideoModel> categoryModels,String currentProfileCustomerID, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
         this.allVideoModels = categoryModels;
         this.context = context;
+        this.currentProfileCustomerID = currentProfileCustomerID;
         imageLoading = new ImageLoading(context);
         //allVideoModels.add(0,new AllVideoModel());
     }
@@ -216,21 +218,21 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void setUpSingleVideoTitleBar(SingleVideoHolder holder, AllVideoModel allVideoModel) {
-        holder.videoTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        holder.videoTitleView.setUpViewsForFavVideosListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
         setUpMoreIvButtonVisibilityForSingleVideo(holder, allVideoModel);
         holder.videoTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
     }
 
     private void setUpBattleTitleBar(BattleVideoHolder holder, AllVideoModel allVideoModel) {
-        holder.challengeTitleView.setUpViewsForListing(allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")", holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        holder.challengeTitleView.setUpViewsForFavVideosListing(allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")", holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
         setUpMoreIvButtonVisibility(holder, allVideoModel);
         holder.challengeTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
     }
 
 
-    private void setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {
+    private void  setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {
         String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
-        if (!currentCustomerID.equals(allVideoModel.getCustomer_id()) && !currentCustomerID.equals(allVideoModel.getCustomer_id1()))
+        if (!currentCustomerID.equals(currentProfileCustomerID))
             holder.videoTitleView.showHideMoreIvButton(false);
         else
             holder.videoTitleView.showHideMoreIvButton(true);
@@ -238,7 +240,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setUpMoreIvButtonVisibility(BattleVideoHolder holder, AllVideoModel allVideoModel) {
         String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
-        if (!currentCustomerID.equals(allVideoModel.getCustomer_id()) && !currentCustomerID.equals(allVideoModel.getCustomer_id1()))
+        if (!currentCustomerID.equals(currentProfileCustomerID))
             holder.challengeTitleView.showHideMoreIvButton(false);
         else
             holder.challengeTitleView.showHideMoreIvButton(true);
