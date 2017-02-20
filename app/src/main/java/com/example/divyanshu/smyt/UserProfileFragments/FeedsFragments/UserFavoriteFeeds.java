@@ -24,7 +24,6 @@ import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivi
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -102,15 +101,15 @@ public class UserFavoriteFeeds extends BaseFragment {
     private void initViews() {
 
         favVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        userFavVideoAdapter = new UserFavoriteAdapter(getContext(), allVideoModels,customerID, this);
+        userFavVideoAdapter = new UserFavoriteAdapter(getContext(), allVideoModels, customerID, this);
         favVideosRV.setAdapter(userFavVideoAdapter);
         continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithView(favVideosRV);
         CommonFunctions.showContinuousSB(continuousSB);
-        getUserVideosAPI();
+
         CommonFunctions.stopVideoOnScroll(favVideosRV);
     }
 
-    private void getUserVideosAPI() {
+    private void getUserFavVideosAPI() {
         CallWebService.getInstance(getContext(), false, ApiCodes.USER_VIDEOS).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_VIDEO, createJsonForUserFavVideos(), this);
     }
 
@@ -134,9 +133,14 @@ public class UserFavoriteFeeds extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && allVideoModels != null)
-            setAdapter();
-        else if (userFavVideoAdapter != null)
+        if (isVisibleToUser) {
+            if (allVideoModels.size() == 0) {
+                getUserFavVideosAPI();
+
+            } else if (allVideoModels.size() > 0) {
+                setAdapter();
+            }
+        } else if (userFavVideoAdapter != null)
             resetAdapter();
     }
 
@@ -226,13 +230,13 @@ public class UserFavoriteFeeds extends BaseFragment {
                     updateCount(intent);
                     break;
                 case USER_VIDEOS:
-                    getUserVideosAPI();
+                    getUserFavVideosAPI();
                     break;
                 case DELETE_VIDEO:
-                    getUserVideosAPI();
+                    getUserFavVideosAPI();
                     break;
                 case ALL_VIDEO_DATA:
-                    getUserVideosAPI();
+                    getUserFavVideosAPI();
                     break;
                 case FAVORITE_STATUS:
                     updateFavStatus(intent);

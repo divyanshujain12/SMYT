@@ -143,7 +143,8 @@
 
         <activity android:name=".activities.ShowLiveRecordVideoActivity" />
         <activity android:name=".activities.PostNewVideoActivity" />
-        <activity android:name=".activities.InfoActivity"></activity>
+        <activity android:name=".activities.InfoActivity" />
+        <activity android:name=".activities.BottomTabActivity"></activity>
     </application>
 
 </manifest>

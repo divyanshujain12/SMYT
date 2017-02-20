@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_feeds"
+        android:icon="@drawable/ic_active_feed"
+        android:title="Feeds" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_inactive_search"
+        android:title="Search" />
+    <item
+        android:id="@+id/action_upload"
+        android:icon="@drawable/ic_inactive_upload"
+        android:title="Upload" />
+
+    <item
+        android:id="@+id/action_user_profile"
+        android:icon="@drawable/ic_inactive_profile"
+        android:title="User Profile" />
+
+    <item
+        android:id="@+id/action_genre"
+        android:icon="@drawable/ic_inactive_genre"
+        android:title="Genre" />
+</menu>

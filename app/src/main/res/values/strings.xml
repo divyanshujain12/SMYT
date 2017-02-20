@@ -2,7 +2,7 @@
     <string name="app_name">Smytex</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="sign_in_top_text">Sign in with Smytex account</string>
+    <string name="sign_in_top_text">Sign in with \nSmytex account</string>
     <string name="sign_in">Sign In</string>
     <string name="or">or</string>
     <string name="first_name">First Name</string>
@@ -11,7 +11,7 @@
     <string name="email_address">Email ID</string>
     <string name="dob">Date Of Birth</string>
     <string name="phone_number">Phone Number</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="register">Register</string>
     <string name="select_genre">Select Genre</string>
     <string name="description">Description</string>
     <string name="cat_desc">Details Here \nRock was best around 80s \nand has been prevelant \nthrough the 2005</string>

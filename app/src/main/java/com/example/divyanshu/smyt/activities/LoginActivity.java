@@ -7,8 +7,6 @@ import android.view.View;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.Fcm.MyFirebaseInstanceIDService;
-import com.example.divyanshu.smyt.Fcm.MyFirebaseMessagingService;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -46,10 +44,10 @@ public class LoginActivity extends BaseActivity {
     EditText passwordET;
     @InjectView(R.id.signInBT)
     Button signInBT;
-    @InjectView(R.id.signUpTV)
-    TextView signUpTV;
     @InjectView(R.id.forgotPassTV)
     TextView forgotPassTV;
+    @InjectView(R.id.signUpBT)
+    Button signUpBT;
 
     private Validation validation;
     private HashMap<View, String> validationMap = new HashMap<>();
@@ -73,14 +71,14 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.signInBT, R.id.signUpTV, R.id.forgotPassTV})
+    @OnClick({R.id.signInBT,  R.id.forgotPassTV, R.id.signUpBT})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signInBT:
                 validateFields();
 
                 break;
-            case R.id.signUpTV:
+            case R.id.signUpBT:
                 Intent intent = new Intent(this, SignUpActivity.class);
                 startActivity(intent);
                 break;
@@ -150,7 +148,7 @@ public class LoginActivity extends BaseActivity {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getBaseContext());
         try {
             jsonObject.put(Constants.FCM_ID, id);
-            jsonObject.put(Constants.MOBILE_TYPE,getString(R.string.android));
+            jsonObject.put(Constants.MOBILE_TYPE, getString(R.string.android));
         } catch (JSONException e) {
             e.printStackTrace();
         }

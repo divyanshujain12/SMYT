@@ -333,7 +333,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         allVideoModels.get(position).setFavourite_status(favStatus);
         notifyDataSetChanged();
-        BroadcastSenderClass.getInstance().sendVideoLikeBroadcast(context, allVideoModels.get(position), favStatus);
+       // BroadcastSenderClass.getInstance().sendVideoLikeBroadcast(context, allVideoModels.get(position), favStatus);
         return favStatus;
     }
 }

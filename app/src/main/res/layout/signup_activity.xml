@@ -239,7 +239,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/fourty_dp"
             android:background="@drawable/rounded_corner_yellow"
-            android:text="@string/sign_up"
+            android:text="@string/register"
             android:textAllCaps="false"
             android:textSize="@dimen/eighteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
