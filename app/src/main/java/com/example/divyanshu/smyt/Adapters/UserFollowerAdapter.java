@@ -46,7 +46,7 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
         this.recyclerViewClick = recyclerViewClick;
         this.userList = userModels;
         this.context = context;
-        imageLoading = new ImageLoading(context, 5);
+        imageLoading = new ImageLoading(context);
     }
 
     @Override

@@ -17,4 +17,11 @@
     <color name="multiStateButtonPressed">#80ff8400</color>
     <color name="multiStateButtonDisabled">#c1636363</color>
     <color name="black_overlay">#66000000</color>
+    <color name="white_with_ninty_nine_alpha">#99FFFFFF</color>
+    <color name="go_live_bg_color">#D034AF</color>
+    <color name="challenge_someone_bg_color">#35AD75</color>
+    <color name="upload_music_bg_color">#C02C04</color>
+    <color name="upload_video_bg_color">#684CE9</color>
+    <color name="grey_bg_color">#EBEDED</color>
+
 </resources>

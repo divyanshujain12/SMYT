@@ -239,7 +239,8 @@ public class LiveVideosFragment extends BaseFragment {
     private void resetAdapter() {
         JCVideoPlayer.releaseAllVideos();
         JCVideoPlayerTwo.releaseAllVideos();
-        liveVideosRV.getAdapter().notifyDataSetChanged();
+        if (liveVideosRV != null)
+            liveVideosRV.getAdapter().notifyDataSetChanged();
     }
 }
 

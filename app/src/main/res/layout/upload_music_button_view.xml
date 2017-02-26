@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/uploadMusicLL"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:showIn="@layout/uploads_fragment">
+
+    <ImageView
+        android:layout_width="@dimen/eighty_dp"
+        android:layout_height="@dimen/eighty_dp"
+        android:background="@drawable/upload_music_bg"
+        android:padding="@dimen/five_dp"
+        android:src="@drawable/ic_upload_music" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/five_dp"
+        android:text="@string/upload_music"
+        android:textColor="@color/upload_music_bg_color"
+        android:visibility="visible"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+</LinearLayout>

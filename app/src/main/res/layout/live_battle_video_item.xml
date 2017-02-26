@@ -13,13 +13,9 @@
         android:orientation="vertical"
         android:padding="@dimen/one_dp">
 
-        <include layout="@layout/challenge_title_bar" />
-
         <include layout="@layout/challenge_videos_view" />
 
-        <include layout="@layout/comment_and_voting_rl" />
-
-        <include layout="@layout/voting_view" />
+        <include layout="@layout/uploaded_challenge_comment_bar"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

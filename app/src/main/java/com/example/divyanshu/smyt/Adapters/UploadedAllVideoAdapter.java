@@ -61,6 +61,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private SingleVideoPlayerCustomView singleVideoPlayerView;
         private LinearLayout firstUserLL;
         private TextView viewsCountTV;
+        private TextView userOneLikesCountTV;
 
         private SingleVideoHolder(View view) {
             super(view);
@@ -75,6 +76,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
 
         }
     }
@@ -83,7 +85,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         private ChallengeRoundTitleView challengeTitleView;
         public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV, secondUserNameTV;
         public FrameLayout videoFL;
-        // private TwoVideoPlayers twoVideoPlayers;
+        private TextView userOneLikesCountTV, userTwoLikesCountTV;
         private TwoVideoPlayerCustomView twoVideoPlayers;
         private RoundedImageView firstUserIV, secondUserIV;
         private LinearLayout firstUserLL, secondUserLL;
@@ -104,6 +106,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
+            userTwoLikesCountTV = (TextView) view.findViewById(R.id.userTwoLikesCountTV);
 
         }
     }
@@ -175,6 +179,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         setUpSingleVideoTitleBar(holder, allVideoModel);
         holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomers_videos_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
+        holder.userOneLikesCountTV.setText(allVideoModel.getLikes());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.commentsTV.setText(setComment(allVideoModel));
@@ -203,6 +208,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
+        holder.userOneLikesCountTV.setText(allVideoModel.getVote());
+        holder.userTwoLikesCountTV.setText(allVideoModel.getVote1());
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,7 +261,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private String setComment(AllVideoModel allVideoModel) {
-        return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
+        return String.valueOf(allVideoModel.getVideo_comment_count());
+        //return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
     }
 
 
@@ -325,7 +333,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 });
                 break;
             case R.id.favIV:
-                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(context,allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
+                CallWebService.getInstance(context, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(context, allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
                 break;
         }
 
@@ -334,10 +342,10 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private int updateUiForFavClick(ImageView view, int position) {
         int favStatus = allVideoModels.get(position).getFavourite_status();
         if (favStatus == 0) {
-            view.setImageResource(R.drawable.icon_heart_on);
+            view.setImageResource(R.drawable.ic_fav_select);
             favStatus = 1;
         } else {
-            view.setImageResource(R.drawable.icon_heart_off);
+            view.setImageResource(R.drawable.ic_fav_un_select);
             favStatus = 0;
         }
         allVideoModels.get(position).setFavourite_status(favStatus);

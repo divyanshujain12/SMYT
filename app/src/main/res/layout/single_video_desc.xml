@@ -16,13 +16,13 @@
         android:layout_marginBottom="@dimen/fourty_dp"
         android:orientation="vertical">
 
-        <include layout="@layout/video_title_bar" />
+      <!--  <include layout="@layout/video_title_bar" />-->
 
         <include layout="@layout/single_video_view" />
 
         <include layout="@layout/uploaded_video_comment_bar" />
 
-        <include layout="@layout/left_side_voting_view" />
+        <!--<include layout="@layout/left_side_voting_view" />-->
 
         <include layout="@layout/comments_rv" />
 

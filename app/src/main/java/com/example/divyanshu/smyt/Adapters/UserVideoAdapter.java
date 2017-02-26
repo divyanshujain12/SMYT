@@ -70,6 +70,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private SingleVideoPlayerCustomView singleVideoPlayerView;
         private LinearLayout firstUserLL;
         private TextView viewsCountTV;
+        private TextView userOneLikesCountTV;
 
         private SingleVideoHolder(View view) {
             super(view);
@@ -84,6 +85,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
 
         }
     }
@@ -97,6 +99,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private RoundedImageView firstUserIV, secondUserIV;
         private LinearLayout firstUserLL, secondUserLL;
         private TextView viewsCountTV;
+        private TextView userOneLikesCountTV, userTwoLikesCountTV;
 
         private BattleVideoHolder(View view) {
             super(view);
@@ -113,6 +116,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
+            userTwoLikesCountTV = (TextView) view.findViewById(R.id.userTwoLikesCountTV);
 
         }
     }
@@ -172,6 +177,7 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
+        holder.userOneLikesCountTV.setText(allVideoModel.getLikes());
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,6 +202,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
+        holder.userOneLikesCountTV.setText(allVideoModel.getVote());
+        holder.userTwoLikesCountTV.setText(allVideoModel.getVote1());
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,7 +255,8 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private String setComment(AllVideoModel allVideoModel) {
-        return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
+        return String.valueOf(allVideoModel.getVideo_comment_count());
+        //return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
     }
 
 
@@ -324,13 +333,11 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private int updateUiForFavClick(ImageView view, int position) {
         int favStatus = allVideoModels.get(position).getFavourite_status();
-        if (favStatus == 0) {
-            view.setImageResource(R.drawable.icon_heart_on);
+        if (favStatus == 0)
             favStatus = 1;
-        } else {
-            view.setImageResource(R.drawable.icon_heart_off);
+         else
             favStatus = 0;
-        }
+
         allVideoModels.get(position).setFavourite_status(favStatus);
         notifyDataSetChanged();
        // BroadcastSenderClass.getInstance().sendVideoLikeBroadcast(context, allVideoModels.get(position), favStatus);

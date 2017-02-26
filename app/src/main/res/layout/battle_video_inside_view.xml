@@ -3,13 +3,11 @@
     android:id="@+id/videoFL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_with_fifity_five"
-    android:paddingTop="@dimen/three_dp">
+    android:background="@color/black_with_fifity_five">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/fifteen_dp"
         android:orientation="horizontal">
 
         <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard

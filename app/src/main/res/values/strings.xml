@@ -177,5 +177,13 @@
     <string name="err_round_time_gone">Round Time Has Gone!</string>
     <string name="android">android</string>
     <string name="rules">Rules</string>
+    <string name="recently_active">Recently Active</string>
+    <string name="go_live">Go Live</string>
+    <string name="challenge_n_someone">Challenge\n Someone</string>
+    <string name="upload_music">Upload Music</string>
+    <string name="notification">Notification</string>
+    <string name="my_feeds">My Feeds</string>
+    <string name="m_challenges">My Challenges</string>
+    <string name="completed">Completed</string>
 
 </resources>

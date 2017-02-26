@@ -50,6 +50,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
         private SingleVideoPlayerCustomView singleVideoPlayerView;
         private LinearLayout firstUserLL;
         private TextView viewsCountTV;
+        TextView userOneLikesCountTV;
 
         private SingleVideoHolder(View view) {
             super(view);
@@ -64,6 +65,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
 
         }
     }
@@ -72,14 +74,10 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
     private class BattleVideoHolder extends RecyclerView.ViewHolder {
         public TextView userTimeTV, commentsTV, uploadedTimeTV;
         private ChallengeRoundTitleView challengeTitleView;
-        private FrameLayout videoFL;
-        private ImageView playVideosIV;
-        private FrameLayout fullscreenFL;
-        private ImageView fullscreenIV;
         private TwoVideoPlayerCustomView twoVideoPlayers;
         private ImageView firstUserIV, secondUserIV;
         TextView firstUserNameTV, secondUserNameTV;
-        TextView userOneVoteCountTV, userTwoVoteCountTV;
+        TextView userOneLikesCountTV, userTwoLikesCountTV;
         private LinearLayout firstUserLL, secondUserLL;
 
         private BattleVideoHolder(View view) {
@@ -92,15 +90,11 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
             secondUserNameTV = (TextView) view.findViewById(R.id.secondUserNameTV);
             commentsTV = (TextView) view.findViewById(R.id.commentsTV);
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
-            playVideosIV = (ImageView) view.findViewById(R.id.playVideosIV);
-            fullscreenFL = (FrameLayout) view.findViewById(R.id.fullscreenFL);
-            fullscreenIV = (ImageView) view.findViewById(R.id.fullscreenIV);
-            videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
             twoVideoPlayers = (TwoVideoPlayerCustomView) view.findViewById(R.id.twoVideoPlayers);
-            userOneVoteCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
-            userTwoVoteCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
+            userTwoLikesCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
         }
     }
 
@@ -144,6 +138,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
         setUpSingleVideoTitleBar(holder, allVideoModel);
         holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomers_videos_id());
         holder.viewsCountTV.setText(allVideoModel.getViews());
+        holder.userOneLikesCountTV.setText(allVideoModel.getLikes());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.commentsTV.setText(setComment(allVideoModel));
@@ -172,8 +167,8 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
-        holder.userOneVoteCountTV.setText(allVideoModel.getVote());
-        holder.userTwoVoteCountTV.setText(allVideoModel.getVote1());
+        holder.userOneLikesCountTV.setText(allVideoModel.getVote());
+        holder.userTwoLikesCountTV.setText(allVideoModel.getVote1());
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,8 +218,9 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     @NonNull
-    private String setCommentCount(AllVideoModel challengeModel) {
-        return context.getResources().getQuantityString(R.plurals.numberOfComments, challengeModel.getVideo_comment_count(), challengeModel.getVideo_comment_count());
+    private String setCommentCount(AllVideoModel allVideoModel) {
+        return String.valueOf(allVideoModel.getVideo_comment_count());
+        //return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
     }
 
     public void addItem(ArrayList<AllVideoModel> challengeModels) {

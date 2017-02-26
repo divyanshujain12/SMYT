@@ -52,7 +52,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ImageLoading imageLoading;
     private String currentProfileCustomerID = "";
 
-    public UserFavoriteAdapter(Context context, ArrayList<AllVideoModel> categoryModels,String currentProfileCustomerID, RecyclerViewClick recyclerViewClick) {
+    public UserFavoriteAdapter(Context context, ArrayList<AllVideoModel> categoryModels, String currentProfileCustomerID, RecyclerViewClick recyclerViewClick) {
         this.recyclerViewClick = recyclerViewClick;
         this.allVideoModels = categoryModels;
         this.context = context;
@@ -197,6 +197,8 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
         holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
+
+
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -230,19 +232,22 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    private void  setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {
+    private void setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {
         String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
-        if (!currentCustomerID.equals(currentProfileCustomerID))
+        if (!currentCustomerID.equals(currentProfileCustomerID)) {
             holder.videoTitleView.showHideMoreIvButton(false);
-        else
+            holder.videoTitleView.hideFavButton();
+        } else {
             holder.videoTitleView.showHideMoreIvButton(true);
+        }
     }
 
     private void setUpMoreIvButtonVisibility(BattleVideoHolder holder, AllVideoModel allVideoModel) {
         String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
-        if (!currentCustomerID.equals(currentProfileCustomerID))
+        if (!currentCustomerID.equals(currentProfileCustomerID)) {
             holder.challengeTitleView.showHideMoreIvButton(false);
-        else
+            holder.challengeTitleView.hideFavButton();
+        } else
             holder.challengeTitleView.showHideMoreIvButton(true);
     }
 
@@ -270,7 +275,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void addNewData(ArrayList<AllVideoModel> allVideoModels) {
-        this.allVideoModels=(allVideoModels);
+        this.allVideoModels = (allVideoModels);
         notifyDataSetChanged();
     }
 
@@ -325,10 +330,10 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int updateUiForFavClick(ImageView view, int position) {
         int favStatus = allVideoModels.get(position).getFavourite_status();
         if (favStatus == 0) {
-            view.setImageResource(R.drawable.icon_heart_on);
+            view.setImageResource(R.drawable.ic_fav_select);
             favStatus = 1;
         } else {
-            view.setImageResource(R.drawable.icon_heart_off);
+            view.setImageResource(R.drawable.ic_fav_un_select);
             favStatus = 0;
         }
 

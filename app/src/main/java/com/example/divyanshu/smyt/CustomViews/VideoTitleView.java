@@ -84,6 +84,7 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
         this.titleBarButtonClickCallback = titleBarButtonClickCallback;
         setUpPopupWindow();
     }
+
     public void setUpViewsForFavVideosListing(String title, int position, String customerVideoID, TitleBarButtonClickCallback titleBarButtonClickCallback) {
         this.position = position;
         titleTV.setText(title);
@@ -193,13 +194,14 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
         ((Activity) getContext()).startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
     }
 
-    public void hideFavButton(){
+    public void hideFavButton() {
         favIV.setVisibility(GONE);
     }
+
     public void setUpFavIVButton(int favStatus) {
         if (favStatus == 0)
-            favIV.setImageResource(R.drawable.icon_heart_off);
+            favIV.setImageResource(R.drawable.ic_fav_un_select);
         else
-            favIV.setImageResource(R.drawable.icon_heart_on);
+            favIV.setImageResource(R.drawable.ic_fav_select);
     }
 }

@@ -18,8 +18,8 @@ import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
-import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
@@ -68,12 +68,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     TextView viewsCountTV;
     @InjectView(R.id.uploadedTimeTV)
     TextView uploadedTimeTV;
-    @InjectView(R.id.userOneVideoLikeIV)
-    ImageView userOneVideoLikeIV;
-    @InjectView(R.id.userOneVoteCountTV)
-    TextView userOneVoteCountTV;
-    @InjectView(R.id.leftSideVotingView)
-    LinearLayout leftSideVotingView;
     @InjectView(R.id.commentsRV)
     RecyclerView commentsRV;
     @InjectView(R.id.commentsET)
@@ -84,6 +78,8 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     ProgressBar commentPB;
     @InjectView(R.id.commentBar)
     FrameLayout commentBar;
+    @InjectView(R.id.userOneLikesCountTV)
+    TextView userOneLikesCountTV;
     private Validation validation;
     private HashMap<View, String> validationMap;
     private VideoDetailModel videoDetailModel;
@@ -109,7 +105,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         imageLoading = new ImageLoading(this);
     }
 
-    @OnClick({R.id.sendCommentIV, R.id.leftSideVotingView})
+    @OnClick({R.id.sendCommentIV, R.id.userOneLikesCountTV})
     public void onClick(View v) {
         if (v.getId() == R.id.sendCommentIV)
             sendComment();
@@ -230,15 +226,18 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void setLikeIV() {
         if (videoDetailModel.getLikestatus() == 1) {
-            CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_on);
+
+            userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_active,0,0,0);
+         //   CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.ic_cv_like_active);
         } else {
-            CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_off);
+            userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_inactive,0,0,0);
+          //  CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.ic_cv_like_inactive);
         }
     }
 
 
     private void setLikeCountInUI() {
-        userOneVoteCountTV.setText(String.valueOf(videoDetailModel.getLikes()));
+        userOneLikesCountTV.setText(String.valueOf(videoDetailModel.getLikes()));
     }
 
     private void updateCommentsCount() {
@@ -367,10 +366,10 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private int updateUiForFavClick(ImageView view, int position) {
         int favStatus = videoDetailModel.getFavourite_status();
         if (favStatus == 0) {
-            view.setImageResource(R.drawable.icon_heart_on);
+            view.setImageResource(R.drawable.ic_fav_select);
             favStatus = 1;
         } else {
-            view.setImageResource(R.drawable.icon_heart_off);
+            view.setImageResource(R.drawable.ic_fav_un_select);
             favStatus = 0;
         }
         videoDetailModel.setFavourite_status(favStatus);

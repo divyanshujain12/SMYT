@@ -18,8 +18,5 @@
         android:icon="@drawable/ic_inactive_profile"
         android:title="User Profile" />
 
-    <item
-        android:id="@+id/action_genre"
-        android:icon="@drawable/ic_inactive_genre"
-        android:title="Genre" />
+
 </menu>

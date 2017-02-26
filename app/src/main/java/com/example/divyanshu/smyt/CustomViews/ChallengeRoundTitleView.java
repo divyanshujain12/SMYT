@@ -199,8 +199,8 @@ public class ChallengeRoundTitleView extends LinearLayout implements View.OnClic
 
     public void setUpFavIVButton(int favStatus) {
         if (favStatus == 0)
-            favIV.setImageResource(R.drawable.icon_heart_off);
+            favIV.setImageResource(R.drawable.ic_fav_un_select);
         else
-            favIV.setImageResource(R.drawable.icon_heart_on);
+            favIV.setImageResource(R.drawable.ic_fav_select);
     }
 }

@@ -2,32 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBEDED"
+    android:background="@color/grey_bg_color"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/searchBarFL"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/fourty_dp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/ten_dp"
-        android:background="@drawable/rounded_corner_white_full"
-        android:foregroundGravity="center_vertical">
+        android:foregroundGravity="center_vertical"
+        android:orientation="vertical">
 
         <com.neopixl.pixlui.components.edittext.EditText
             android:id="@+id/searchET"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:drawableStart="@drawable/icon_search"
             android:padding="@dimen/ten_dp" />
 
-        <ImageView
-            android:layout_width="@dimen/fourty_dp"
-            android:layout_height="@dimen/fourty_dp"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="@dimen/five_dp"
-            android:padding="@dimen/five_dp"
-            android:src="@drawable/icon_search" />
-    </FrameLayout>
+        <include layout="@layout/horizontal_yellow_line" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/usersRV"

@@ -144,7 +144,9 @@
         <activity android:name=".activities.ShowLiveRecordVideoActivity" />
         <activity android:name=".activities.PostNewVideoActivity" />
         <activity android:name=".activities.InfoActivity" />
-        <activity android:name=".activities.BottomTabActivity"></activity>
+        <activity android:name=".activities.BottomTabActivity" />
+        <activity android:name=".myProfileActivities.MyFeedsActivity" />
+        <activity android:name=".myProfileActivities.MyChallengesActivity"></activity>
     </application>
 
 </manifest>

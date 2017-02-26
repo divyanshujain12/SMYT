@@ -249,7 +249,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        InAppLocalApis.getInstance().sendPurchasedDataToBackend(getContext(),requestCode, data);
+        InAppLocalApis.getInstance().sendPurchasedDataToBackend(getContext(), requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -263,8 +263,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(!isVisibleToUser && otherAllVideoAdapter!=null)
-        {
+        if (!isVisibleToUser && otherAllVideoAdapter != null) {
             resetAdapter();
         }
     }
@@ -370,6 +369,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     private void resetAdapter() {
         JCVideoPlayer.releaseAllVideos();
         JCVideoPlayerTwo.releaseAllVideos();
-        otherVideosRV.getAdapter().notifyDataSetChanged();
+        if (otherVideosRV != null)
+            otherVideosRV.getAdapter().notifyDataSetChanged();
     }
 }

@@ -48,8 +48,7 @@ public class CategoriesActivity extends BaseActivity {
     RecyclerView userRV;
     @InjectView(R.id.categoryRV)
     RecyclerView categoryRV;
-    @InjectView(R.id.categoriesCV)
-    CardView categoriesCV;
+
     @InjectView(R.id.toolbarView)
     Toolbar toolbarView;
     private CategoryUserRvAdapter categoryUserRvAdapter;
@@ -71,7 +70,7 @@ public class CategoriesActivity extends BaseActivity {
 
         Utils.configureToolbarWithOutBackButton(this, toolbarView, getString(R.string.categories));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         categoryRV.setHasFixedSize(true);
         categoryRV.setLayoutManager(gridLayoutManager);
         userRV.setLayoutManager(layoutManager);
@@ -134,7 +133,7 @@ public class CategoriesActivity extends BaseActivity {
         } else {
             MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryModel.getId());
             MySharedPereference.getInstance().setString(this, Constants.CATEGORY_NAME, categoryModel.getcategory_name());
-            Intent intent = new Intent(this, HomeActivity.class);
+            Intent intent = new Intent(this, BottomTabActivity.class);
             intent.putExtra(Constants.DATA, categoryModel);
             startActivity(intent);
 

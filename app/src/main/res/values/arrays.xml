@@ -18,4 +18,16 @@
         <item>Friend</item>
 
     </string-array>
+
+    <string-array name="user_options_name">
+        <item>Videos</item>
+        <item>Challenges</item>
+        <item>Musics</item>
+        <item>Followings</item>
+        <item>Application Setting</item>
+        <item>Manage Orders</item>
+        <item>About Us</item>
+        <item>Contact Us</item>
+        <item>Logout</item>
+    </string-array>
 </resources>

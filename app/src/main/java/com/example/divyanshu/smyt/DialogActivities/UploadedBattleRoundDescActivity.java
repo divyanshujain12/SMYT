@@ -20,8 +20,8 @@ import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
-import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Models.ChallengeVideoDescModel;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -81,20 +81,6 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     TextView viewsCountTV;
     @InjectView(R.id.uploadedTimeTV)
     TextView uploadedTimeTV;
-    @InjectView(R.id.userOneVideoLikeIV)
-    ImageView userOneVideoLikeIV;
-    @InjectView(R.id.userOneVoteCountTV)
-    TextView userOneVoteCountTV;
-    @InjectView(R.id.leftSideVotingView)
-    LinearLayout leftSideVotingView;
-    @InjectView(R.id.userTwoVoteCountTV)
-    TextView userTwoVoteCountTV;
-    @InjectView(R.id.userTwoVideoLikeIV)
-    ImageView userTwoVideoLikeIV;
-    @InjectView(R.id.rightSideVotingView)
-    LinearLayout rightSideVotingView;
-    @InjectView(R.id.voteRL)
-    RelativeLayout voteRL;
     @InjectView(R.id.commentsRV)
     RecyclerView commentsRV;
     @InjectView(R.id.commentsET)
@@ -105,8 +91,10 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     ProgressBar commentPB;
     @InjectView(R.id.commentBar)
     FrameLayout commentBar;
-    @InjectView(R.id.votingStatusTV)
-    TextView votingStatusTV;
+    @InjectView(R.id.userOneLikesCountTV)
+    TextView userOneLikesCountTV;
+    @InjectView(R.id.userTwoLikesCountTV)
+    TextView userTwoLikesCountTV;
     private Validation validation;
     private HashMap<View, String> validationMap;
     private String customerVideoID;
@@ -131,12 +119,15 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         validation = new Validation();
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_cno_comment)));
         //setUpMoreOptionPopupWindow();
-        CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_off);
-        CommonFunctions.changeImageWithAnimation(this, userTwoVideoLikeIV, R.drawable.thumb_off);
+
+        userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_inactive, 0, 0, 0);
+        userTwoLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_inactive, 0, 0, 0);
+       /* CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_off);
+        CommonFunctions.changeImageWithAnimation(this, userTwoVideoLikeIV, R.drawable.thumb_off);*/
     }
 
 
-    @OnClick({R.id.leftSideVotingView, R.id.rightSideVotingView, R.id.sendCommentIV})
+    @OnClick({R.id.userOneLikesCountTV, R.id.userTwoLikesCountTV, R.id.sendCommentIV})
     public void onClick(View view) {
 
         if (challengeVideoDescModel.getIs_copy().equals("1")) {
@@ -144,19 +135,19 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
             return;
         }
         switch (view.getId()) {
-            case R.id.leftSideVotingView:
+            case R.id.userOneLikesCountTV:
                 if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date()) && !MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID).equals(challengeVideoDescModel.getCustomer_id())) {
                     sendVote(challengeVideoDescModel.getCustomer_id());
                     challengeVideoDescModel.setVote(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote()) + 1));
                     setVoteCount();
-                    setEnableDisableLikeImage(userOneVideoLikeIV);
+                    setEnableDisableLikeImage(userOneLikesCountTV);
                 }
                 break;
-            case R.id.rightSideVotingView:
+            case R.id.userTwoLikesCountTV:
                 if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date()) && !MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID).equals(challengeVideoDescModel.getCustomer_id1())) {
                     sendVote(challengeVideoDescModel.getCustomer_id1());
                     challengeVideoDescModel.setVote1(String.valueOf(Integer.parseInt(challengeVideoDescModel.getVote1()) + 1));
-                    setEnableDisableLikeImage(userTwoVideoLikeIV);
+                    setEnableDisableLikeImage(userTwoLikesCountTV);
                     setVoteCount();
                 }
                 break;
@@ -237,9 +228,9 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
 
     private void setVotingStatus() {
         if (Utils.isDifferenceLowerThanTwentyFourHours(challengeVideoDescModel.getRound_date())) {
-            votingStatusTV.setText(R.string.voting_open);
+            uploadedTimeTV.setText(R.string.voting_open);
         } else {
-            votingStatusTV.setText(R.string.voting_closed);
+            uploadedTimeTV.setText(R.string.voting_closed);
         }
     }
 
@@ -274,10 +265,10 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     private void setVoteStatus() {
         switch (challengeVideoDescModel.getVote_status()) {
             case 1:
-                setEnableDisableLikeImage(userOneVideoLikeIV);
+                setEnableDisableLikeImage(userOneLikesCountTV);
                 break;
             case 2:
-                setEnableDisableLikeImage(userTwoVideoLikeIV);
+                setEnableDisableLikeImage(userTwoLikesCountTV);
                 break;
         }
     }
@@ -306,8 +297,8 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     }
 
     private void setVoteCount() {
-        userOneVoteCountTV.setText(String.valueOf(challengeVideoDescModel.getVote()));
-        userTwoVoteCountTV.setText(String.valueOf(challengeVideoDescModel.getVote1()));
+        userOneLikesCountTV.setText(String.valueOf(challengeVideoDescModel.getVote()));
+        userTwoLikesCountTV.setText(String.valueOf(challengeVideoDescModel.getVote1()));
     }
 
     private void updateAndSendCommentsCount() {
@@ -335,7 +326,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         try {
             jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, challengeVideoDescModel.getCustomers_videos_id());
             jsonObject.put(Constants.COMMENT, validationMap.get(commentsET));
-            jsonObject.put(Constants.E_DATE,Utils.getCurrentTimeInMillisecond());
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -365,12 +356,13 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         return jsonObject;
     }
 
-    private void setEnableDisableLikeImage(ImageView imageView) {
-        CommonFunctions.changeImageWithAnimation(this, imageView, R.drawable.thumb_on);
-        leftSideVotingView.setEnabled(false);
-        rightSideVotingView.setEnabled(false);
-        leftSideVotingView.setClickable(false);
-        rightSideVotingView.setClickable(false);
+    private void setEnableDisableLikeImage(TextView textView) {
+        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_active, 0, 0, 0);
+        // CommonFunctions.changeImageWithAnimation(this, imageView, R.drawable.thumb_on);
+        userOneLikesCountTV.setEnabled(false);
+        userOneLikesCountTV.setEnabled(false);
+        userTwoLikesCountTV.setClickable(false);
+        userTwoLikesCountTV.setClickable(false);
     }
 
     @Override

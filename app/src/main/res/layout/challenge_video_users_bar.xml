@@ -5,6 +5,8 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingStart="@dimen/five_dp"
+    android:paddingEnd="@dimen/five_dp"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -12,25 +14,56 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
-        android:layout_marginStart="@dimen/five_dp"
         android:orientation="horizontal">
 
         <com.example.divyanshu.smyt.CustomViews.RoundedImageView
             android:id="@+id/firstUserIV"
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/fourty_dp"
             android:src="@drawable/noimage"
             app:riv_corner_radius="100dp" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/firstUserNameTV"
-            pixlui:typeface="Roboto-Regular.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/five_dp"
             android:maxLines="2"
-            android:textColor="@color/white"
-            android:textSize="@dimen/twelve_sp" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/twelve_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".9"
+            android:maxLines="2"
+            android:text="@string/vs"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/twenty_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/uploadedTimeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:alpha=".6"
+            android:paddingBottom="@dimen/two_dp"
+            android:paddingTop="@dimen/two_dp"
+            android:text=""
+            android:textSize="@dimen/twelve_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -44,18 +77,18 @@
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/secondUserNameTV"
-            pixlui:typeface="Roboto-Regular.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/five_dp"
             android:maxLines="2"
-            android:textColor="@color/white"
-            android:textSize="@dimen/twelve_sp" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/twelve_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
 
         <com.example.divyanshu.smyt.CustomViews.RoundedImageView
             android:id="@+id/secondUserIV"
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/fourty_dp"
             android:src="@drawable/noimage"
             app:riv_corner_radius="100dp" />
     </LinearLayout>

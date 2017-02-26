@@ -117,7 +117,7 @@ public class ImageLoading {
         public void onLoadingFailed(String imageUri, View view,
                                     FailReason failReason) {
             // Empty implementation
-
+            ((ImageView) view).setImageResource(R.drawable.noimage);
             imageProgress = imageProgressBar.get(view);
             if (imageProgress != null) {
                 imageProgress.setVisibility(View.GONE);

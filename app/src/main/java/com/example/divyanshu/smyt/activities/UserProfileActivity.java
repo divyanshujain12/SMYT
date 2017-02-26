@@ -122,7 +122,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocalBroadcastManager.getInstance(this).registerReceiver(updateUserInfo, new IntentFilter(Constants.UPDATE_USER_INFO));
+      //  LocalBroadcastManager.getInstance(this).registerReceiver(updateUserInfo, new IntentFilter(Constants.UPDATE_USER_INFO));
         setContentView(R.layout.user_profile_activity);
         ButterKnife.inject(this);
         initViews();
@@ -337,7 +337,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(updateUserInfo);
+       // LocalBroadcastManager.getInstance(this).unregisterReceiver(updateUserInfo);
     }
 
     private void checkAndHideButtons(Menu menu) {
