@@ -23,7 +23,6 @@ import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivi
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;

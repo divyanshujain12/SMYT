@@ -185,5 +185,7 @@
     <string name="my_feeds">My Feeds</string>
     <string name="m_challenges">My Challenges</string>
     <string name="completed">Completed</string>
+    <string name="post">POST</string>
+    <string name="cancel_upload">CANCEL UPLOAD</string>
 
 </resources>

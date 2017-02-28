@@ -146,7 +146,8 @@
         <activity android:name=".activities.InfoActivity" />
         <activity android:name=".activities.BottomTabActivity" />
         <activity android:name=".myProfileActivities.MyFeedsActivity" />
-        <activity android:name=".myProfileActivities.MyChallengesActivity"></activity>
+        <activity android:name=".myProfileActivities.MyChallengesActivity" />
+        <activity android:name=".activities.UserNotificationActivity"></activity>
     </application>
 
 </manifest>

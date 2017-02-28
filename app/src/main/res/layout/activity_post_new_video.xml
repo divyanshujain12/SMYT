@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_post_new_video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,38 +10,100 @@
         android:id="@+id/singleVideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9" />
+        android:layout_weight="7" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/black_gradient_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/five_dp">
 
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/deleteVideoTV"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:maxLines="2"
-            android:gravity="center"
-            android:textColor="@color/thumb_down_color"
-            android:background="@color/colorPrimaryDark"
-            android:text="@string/delete_video"
-            android:textSize="@dimen/fourteen_sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/postVideoTV"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textColor="@color/white"
-            android:background="@color/colorPrimary"
-            android:text="@string/post_video"
-            android:textSize="@dimen/fourteen_sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/titleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@string/title"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="@dimen/five_dp"
+                android:text="@string/share_with"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.example.divyanshu.smyt.CustomViews.RoundedImageView
+                    android:id="@+id/userIV"
+                    android:layout_width="@dimen/fourty_dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/noimage" />
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:id="@+id/sharedWithNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:padding="@dimen/five_dp"
+                    android:text="@string/first_name"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/sixteen_sp"
+                    pixlui:typeface="Roboto-Medium.ttf" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/postVideoTV"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="@dimen/ten_dp"
+                android:text="@string/post"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/deleteVideoTV"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="@dimen/ten_dp"
+                android:text="@string/cancel_upload"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Roboto-Medium.ttf" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

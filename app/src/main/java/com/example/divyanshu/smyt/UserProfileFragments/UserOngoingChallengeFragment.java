@@ -40,7 +40,6 @@ import butterknife.InjectView;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_ACCEPT;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.CHALLENGE_REJECT;
-import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_CHALLENGE;
 
 public class UserOngoingChallengeFragment extends BaseFragment {
 

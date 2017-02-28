@@ -1,24 +1,24 @@
 package com.example.divyanshu.smyt.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Models.ThumbnailGenerateModel;
-import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
-import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -32,7 +32,6 @@ import butterknife.OnClick;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_USER_VIDEO;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_VIDEO_PREVIOUS;
-import static com.example.divyanshu.smyt.Constants.ApiCodes.SEARCH_USER;
 
 public class PostNewVideoActivity extends BaseActivity {
 
@@ -44,10 +43,18 @@ public class PostNewVideoActivity extends BaseActivity {
     TextView postVideoTV;
     @InjectView(R.id.activity_post_new_video)
     LinearLayout activityPostNewVideo;
+    @InjectView(R.id.titleTV)
+    TextView titleTV;
+    @InjectView(R.id.userIV)
+    RoundedImageView userIV;
+    @InjectView(R.id.sharedWithNameTV)
+    TextView sharedWithNameTV;
 
     private String videoName = "";
     private String postVideoData = "";
     private ThumbnailGenerateModel thumbnailGenerateModel;
+
+    private ImageLoading imageLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,8 @@ public class PostNewVideoActivity extends BaseActivity {
     private void initViews() {
         postVideoData = getIntent().getStringExtra(Constants.POST_VIDEO_DATA);
         videoName = getIntent().getStringExtra(Constants.VIDEO_NAME);
+        imageLoading = new ImageLoading(this);
+        setUpUi();
         CallWebService.getInstance(this, true, ApiCodes.POST_VIDEO_PREVIOUS).hitJsonObjectRequestAPI(CallWebService.POST, API.THUMBNAIL_GENERATE, createJsonForGetPreviousVideoDetail(), this);
     }
 
@@ -116,6 +125,27 @@ public class PostNewVideoActivity extends BaseActivity {
 
     private void setUpVideoPlayer(ThumbnailGenerateModel thumbnailGenerateModel) {
         singleVideoPlayer.setUp(thumbnailGenerateModel.getVideo_url(), thumbnailGenerateModel.getThumbnail(), "");
+
+    }
+
+    private void setUpUi() {
+        try {
+            JSONObject jsonObject = getJsonObject();
+            String shareType = jsonObject.getString(Constants.SHARE_STATUS);
+            titleTV.setText(jsonObject.getString(Constants.TITLE));
+            switch (shareType) {
+                case "Public":
+                    sharedWithNameTV.setText(shareType);
+                    userIV.setVisibility(View.GONE);
+                    break;
+                case "Friend":
+                    sharedWithNameTV.setText(jsonObject.getString(Constants.NAME));
+                    imageLoading.LoadImage(jsonObject.getString(Constants.PROFILE_IMAGE), userIV, null);
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private JSONObject createJsonForGetPreviousVideoDetail() {
@@ -130,7 +160,7 @@ public class PostNewVideoActivity extends BaseActivity {
 
     private JSONObject createJsonForPostVideo() {
         try {
-            JSONObject jsonObject = new JSONObject(postVideoData);
+            JSONObject jsonObject = getJsonObject();
             jsonObject.put(Constants.VIDEO_URL, thumbnailGenerateModel.getVideo_url());
             jsonObject.put(Constants.THUMBNAIL, thumbnailGenerateModel.getThumbnail());
             jsonObject.put(Constants.VIDEO_NAME, videoName);
@@ -141,5 +171,10 @@ public class PostNewVideoActivity extends BaseActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @NonNull
+    private JSONObject getJsonObject() throws JSONException {
+        return new JSONObject(postVideoData);
     }
 }

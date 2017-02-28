@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_CHALLENGE;
-
 public class UserCompletedChallengeFragment extends BaseFragment {
     @InjectView(R.id.challengesRV)
     RecyclerView challengesRV;

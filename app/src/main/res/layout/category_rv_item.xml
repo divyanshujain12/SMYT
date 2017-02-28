@@ -19,10 +19,11 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="right|end"
-            android:src="@drawable/premium_badge"
+            android:scaleType="fitXY"
+            android:alpha=".15"
             android:visibility="gone" />
 
         <LinearLayout
@@ -47,8 +48,8 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:text="RAPH"
-                android:textSize="@dimen/eighteen_sp"
-                pixlui:typeface="RAVIE.TTF" />
+                android:textSize="@dimen/twenty_two_sp"
+                pixlui:typeface="Titillium-Bold.otf" />
         </LinearLayout>
 
         <FrameLayout

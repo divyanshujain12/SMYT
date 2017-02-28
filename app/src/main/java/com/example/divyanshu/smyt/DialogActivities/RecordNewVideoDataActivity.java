@@ -266,8 +266,7 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
                     }
                     break;
             }
-        }
-        else
+        } else
             CommonFunctions.getInstance().showErrorSnackBar(friendAC, getString(R.string.err_post_challenge_title));
     }
 
@@ -336,6 +335,8 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
             // jsonObject.put(Constants.VIDEO_NAME, videoName);
             // jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
             if (shareWithStr.equals("Friend")) {
+                jsonObject.put(Constants.NAME, userModel.getFirst_name());
+                jsonObject.put(Constants.PROFILE_IMAGE, userModel.getProfileimage());
                 jsonObject.put(Constants.FRIEND_ID, userModel.getCustomer_id());
             } else {
                 jsonObject.put(Constants.FRIEND_ID, "0");
