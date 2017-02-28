@@ -5,7 +5,12 @@
     android:layout_height="match_parent"
     android:background="#E9E9E9"
     android:orientation="vertical">
-
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/music_bg"
+    android:scaleType="fitXY"
+    android:alpha=".15"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
