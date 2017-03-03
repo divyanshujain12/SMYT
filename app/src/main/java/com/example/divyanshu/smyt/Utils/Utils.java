@@ -70,8 +70,8 @@ public class Utils {
         ActionBar actionBar = appCompatActivity.getSupportActionBar();
         actionBar.setTitle(name);
         actionBar.setSubtitle(appCompatActivity.getString(R.string.click_for_desc));
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+       /* actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);*/
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,6 +12,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
+import static com.example.divyanshu.smyt.Constants.Constants.LIKE_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.VOTE_COUNT_INT;
 
 /**
@@ -41,6 +42,16 @@ public class BroadcastSenderClass {
         intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
         intent.putExtra(Constants.COUNT, commentCount);
         intent.putExtra(Constants.TYPE, COMMENT_COUNT);
+        intent.setAction(Constants.USER_FRAGMENT_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.ALL_VIDEO_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+    public void sendLikesCountBroadcast(Context context, String customer_video_id, String likesCount) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, customer_video_id);
+        intent.putExtra(Constants.COUNT, likesCount);
+        intent.putExtra(Constants.TYPE, LIKE_COUNT);
         intent.setAction(Constants.USER_FRAGMENT_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
@@ -82,7 +93,7 @@ public class BroadcastSenderClass {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
-    public void sendVideoLikeBroadcast(Context context, AllVideoModel allVideoModel, int status) {
+    public void sendVideoFavoriteBroadcast(Context context, AllVideoModel allVideoModel, int status) {
         Intent intent = new Intent();
         intent.putExtra(Constants.TYPE, FAVORITE_STATUS);
         intent.putExtra(Constants.DATA, allVideoModel);

@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import com.example.divyanshu.smyt.Adapters.UserOptionRvAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomToasts;
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -31,11 +33,11 @@ import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.activities.LoginActivity;
 import com.example.divyanshu.smyt.activities.ManageOrdersActivity;
+import com.example.divyanshu.smyt.activities.UserSettingActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyChallengesActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFeedsActivity;
-import com.example.divyanshu.smyt.activities.UserSettingActivity;
+import com.example.divyanshu.smyt.myProfileActivities.MyFollowingActivity;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.pkmmte.view.CircularImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +54,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 public class UserProfileFragment extends BaseFragment {
 
     @InjectView(R.id.userIV)
-    CircularImageView userIV;
+    RoundedImageView userIV;
     @InjectView(R.id.userStatusTV)
     TextView userStatusTV;
     @InjectView(R.id.userOptionRV)
@@ -121,6 +123,9 @@ public class UserProfileFragment extends BaseFragment {
         imageLoading.LoadImage(userModel.getProfileimage(), userIV, null);
         userNameTV.setText(userModel.getFirst_name());
         userStatusTV.setText(userModel.getTimeline_msg());
+        View view = userOptionRV.getChildAt(3);
+        TextView textView = (TextView) view.findViewById(R.id.optionNameTV);
+        textView.setText("Followings (" + userModel.getFollowing() + ")");
     }
 
 
@@ -148,9 +153,13 @@ public class UserProfileFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case 2:
+                CustomToasts.getInstance(getContext()).showErrorToast(getString(R.string.feature_coming_soon));
                 break;
             case 3:
+                intent = new Intent(getActivity(), MyFollowingActivity.class);
+                startActivity(intent);
                 break;
+
             case 4:
                 intent = new Intent(getActivity(), ManageOrdersActivity.class);
                 startActivity(intent);

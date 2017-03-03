@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
                     i = new Intent(SplashActivity.this, LoginActivity.class);
 
                 } else {
-                    i = new Intent(SplashActivity.this, CategoriesActivity.class);
+                    i = new Intent(SplashActivity.this, BottomTabActivity.class);
                 }
                 startActivity(i);
                 finish();

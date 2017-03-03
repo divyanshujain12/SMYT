@@ -199,6 +199,7 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
+
         //String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
         setUpBattleTitleBar(holder, allVideoModel);
         holder.viewsCountTV.setText(allVideoModel.getViews());

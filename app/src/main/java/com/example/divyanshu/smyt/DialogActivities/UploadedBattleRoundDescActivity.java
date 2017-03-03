@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Constants.API;
@@ -22,6 +21,7 @@ import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Models.ChallengeVideoDescModel;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -302,7 +302,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     }
 
     private void updateAndSendCommentsCount() {
-        String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, challengeVideoDescModel.getVideo_comment_count(), challengeVideoDescModel.getVideo_comment_count());
+        String commentsFound = String.valueOf(challengeVideoDescModel.getVideo_comment_count());
         BroadcastSenderClass.getInstance().sendChallengeCommentCountBroadcast(this, challengeVideoDescModel.getCustomers_videos_id(), challengeVideoDescModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
@@ -416,13 +416,16 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     private int updateUiForFavClick(ImageView view, int position) {
         int favStatus = challengeVideoDescModel.getFavourite_status();
         if (favStatus == 0) {
-            view.setImageResource(R.drawable.icon_heart_on);
+            view.setImageResource(R.drawable.ic_fav_select);
             favStatus = 1;
         } else {
-            view.setImageResource(R.drawable.icon_heart_off);
+            view.setImageResource(R.drawable.ic_fav_un_select);
             favStatus = 0;
         }
         challengeVideoDescModel.setFavourite_status(favStatus);
+        AllVideoModel allVideoModel = new AllVideoModel();
+        allVideoModel.setCustomers_videos_id(challengeVideoDescModel.getCustomers_videos_id());
+        BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(this, allVideoModel, favStatus);
         return favStatus;
     }
 

@@ -48,21 +48,30 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     NonSwipeableViewPager bottomTabVP;
     private FragmentManager manager;
 
-    private CategoryModel categoryModel;
+  //  private CategoryModel categoryModel;
     private int currentSelectedItemID = 0;
+    private String categoryID,categoryName,categoryDesc;
     private ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_bottom_tab);
+
         ButterKnife.inject(this);
-        initViews();
+        checkCategorySelected();
+        // initViews();
     }
 
+
     private void initViews() {
-        categoryModel = getIntent().getExtras().getParcelable(Constants.DATA);
-        Utils.configureToolbarForHomeActivity(this, toolbarView, categoryModel.getcategory_name() /*+ "(" + categoryModel.getUsercount() + ")"*/);
+
+        categoryDesc = MySharedPereference.getInstance().getString(this,Constants.DESC);
+        categoryID = MySharedPereference.getInstance().getString(this,Constants.CATEGORY_ID);
+        categoryName = MySharedPereference.getInstance().getString(this,Constants.CATEGORY_NAME);
+        Utils.configureToolbarForHomeActivity(this, toolbarView, categoryName /*+ "(" + categoryModel.getUsercount() + ")"*/);
         toolbarView.setOnClickListener(this);
         manager = getSupportFragmentManager();
         bottomNavigation.setOnNavigationItemSelectedListener(this);
@@ -74,9 +83,9 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     private void configViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(CategoryFeedsFragment.getInstance(categoryModel), getString(R.string.tab_all_videos));
-        viewPagerAdapter.addFragment(SearchFragment.getInstance(categoryModel.getId()), getString(R.string.tab_live_videos));
-        viewPagerAdapter.addFragment(UploadsFragment.getInstance(categoryModel.getId()), getString(R.string.new_challenges));
+        viewPagerAdapter.addFragment(CategoryFeedsFragment.getInstance(null), getString(R.string.tab_all_videos));
+        viewPagerAdapter.addFragment(SearchFragment.getInstance(categoryID), getString(R.string.tab_live_videos));
+        viewPagerAdapter.addFragment(UploadsFragment.getInstance(categoryID), getString(R.string.new_challenges));
         viewPagerAdapter.addFragment(UserProfileFragment.getInstance(), getString(R.string.tab_search));
 
         bottomTabVP.setAdapter(viewPagerAdapter);
@@ -85,7 +94,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
         if (getIntent().getBooleanExtra(Constants.FROM_NOTIFICATION, false)) {
             bottomTabVP.setCurrentItem(2);
-            MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryModel.getId());
+            MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryID);
         }
 
     }
@@ -93,7 +102,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        CustomAlertDialogs.showCategoryDescDialog(this, getString(R.string.description), categoryModel.getDescription(), this);
+        CustomAlertDialogs.showCategoryDescDialog(this, getString(R.string.description), categoryDesc, this);
     }
 
     @Override
@@ -135,7 +144,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     public void onPageSelected(int position) {
         bottomNavigation.getMenu().getItem(position).setChecked(true);
         if (position == 0) {
-            setToolbarText(categoryModel.getcategory_name(), getString(R.string.click_for_desc));
+            setToolbarText(categoryName, getString(R.string.click_for_desc));
         } else
             setToolbarText(bottomNavigation.getMenu().getItem(position).getTitle().toString(), "");
 
@@ -149,5 +158,16 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     private void setToolbarText(String text, String subtitle) {
         getSupportActionBar().setTitle(text);
         getSupportActionBar().setSubtitle(subtitle);
+    }
+
+    private void checkCategorySelected() {
+        if (MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID).equals("")) {
+            Intent intent = new Intent(this, CategoriesActivity.class);
+            startActivity(intent);
+            finish();
+
+        } else {
+            initViews();
+        }
     }
 }

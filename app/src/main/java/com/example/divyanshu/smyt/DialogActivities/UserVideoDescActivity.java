@@ -20,6 +20,7 @@ import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Models.CommentModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
 import com.example.divyanshu.smyt.Models.VideoDetailModel;
@@ -154,14 +155,14 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private void updateUI() {
         setUpTitleBarPopupWindow(videoDetailModel.getTitle());
         imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
-        setLikeCountInUI();
-        firstUserNameTV.setText(videoDetailModel.getFirst_name());
-        viewsCountTV.setText(videoDetailModel.getViews());
-        setupVideo();
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
-        updateCommentsCount();
+        firstUserNameTV.setText(videoDetailModel.getFirst_name());
+        viewsCountTV.setText(videoDetailModel.getViews());
+        setLikeCountInUI();
         setLikeIV();
+        setupVideo();
+        updateCommentsCount();
         String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         if (!currentCustomerID.equals(videoDetailModel.getCustomer_id()))
             videoTitleView.showHideMoreIvButton(false);
@@ -221,6 +222,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         }
         setLikeIV();
         videoDetailModel.setLikes(String.valueOf(likesCount));
+        BroadcastSenderClass.getInstance().sendLikesCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getLikes());
         setLikeCountInUI();
     }
 
@@ -242,7 +244,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void updateCommentsCount() {
         BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
-        String commentsFound = getResources().getQuantityString(R.plurals.numberOfComments, videoDetailModel.getVideo_comment_count(), videoDetailModel.getVideo_comment_count());
+        String commentsFound = String.valueOf(videoDetailModel.getVideo_comment_count());
         commentsTV.setText(commentsFound);
     }
 
@@ -373,6 +375,9 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
             favStatus = 0;
         }
         videoDetailModel.setFavourite_status(favStatus);
+        AllVideoModel allVideoModel = new AllVideoModel();
+        allVideoModel.setCustomers_videos_id(videoDetailModel.getCustomers_videos_id());
+        BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(this, allVideoModel, favStatus);
         return favStatus;
     }
 

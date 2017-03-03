@@ -1,9 +1,7 @@
 package com.example.divyanshu.smyt.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +18,13 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.Parser.UserParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.ServicesAndNotifications.NewChallengeNotificationService;
 import com.example.divyanshu.smyt.ServicesAndNotifications.UpcomingRoundNotificationService;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
-import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 
@@ -133,9 +131,11 @@ public class CategoriesActivity extends BaseActivity {
         } else {
             MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, categoryModel.getId());
             MySharedPereference.getInstance().setString(this, Constants.CATEGORY_NAME, categoryModel.getcategory_name());
+            MySharedPereference.getInstance().setString(this, Constants.DESC, categoryModel.getDescription());
             Intent intent = new Intent(this, BottomTabActivity.class);
-            intent.putExtra(Constants.DATA, categoryModel);
+            // intent.putExtra(Constants.DATA, categoryModel);
             startActivity(intent);
+            finish();
 
         }
     }
@@ -151,7 +151,7 @@ public class CategoriesActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         startServices();
-        MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, "");
+        //MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, "");
         if (categoriesModels == null || categoriesModels.isEmpty())
             CallWebService.getInstance(this, true, ApiCodes.CATEGORIES).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORIES, CommonFunctions.customerIdJsonObject(this), this);
     }

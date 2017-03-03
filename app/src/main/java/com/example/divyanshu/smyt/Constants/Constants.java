@@ -88,6 +88,7 @@ public interface Constants {
     int COMMENT_COUNT = 0;
     int VOTE_COUNT_INT = 1;
     int FAVORITE_STATUS = 102;
+    int LIKE_COUNT = 103;
     String POST_VIDEO_DATA = "post_video_data";
     String FAVORITE = "favourite";
     String IS_FAVORITE = "is_favourite";

@@ -19,12 +19,10 @@ import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
-import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
-import com.example.divyanshu.smyt.Interfaces.PopupItemClicked;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
-import com.example.divyanshu.smyt.Models.VideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
@@ -339,8 +337,9 @@ public class UserVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             favStatus = 0;
 
         allVideoModels.get(position).setFavourite_status(favStatus);
+        BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(context, allVideoModels.get(position), favStatus);
         notifyDataSetChanged();
-       // BroadcastSenderClass.getInstance().sendVideoLikeBroadcast(context, allVideoModels.get(position), favStatus);
+        // BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(context, allVideoModels.get(position), favStatus);
         return favStatus;
     }
 }

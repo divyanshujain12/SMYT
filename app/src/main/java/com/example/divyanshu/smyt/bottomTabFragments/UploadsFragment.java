@@ -103,7 +103,7 @@ public class UploadsFragment extends BaseFragment implements RuntimePermissionHe
                 showDialogFragment(PostChallengeFragment.getInstance());
                 break;
             case R.id.uploadMusicLL:
-                CustomToasts.getInstance(getContext()).showErrorToast("This Feature Coming Soon...");
+                CustomToasts.getInstance(getContext()).showErrorToast(getString(R.string.feature_coming_soon));
                 break;
         }
     }

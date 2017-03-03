@@ -337,7 +337,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             favStatus = 0;
         }
 
-        BroadcastSenderClass.getInstance().sendVideoLikeBroadcast(context, allVideoModels.get(position), favStatus);
+        BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(context, allVideoModels.get(position), favStatus);
         removeItem(position);
         return favStatus;
     }

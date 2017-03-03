@@ -47,6 +47,7 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
+import static com.example.divyanshu.smyt.Constants.Constants.LIKE_COUNT;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -133,18 +134,6 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
                 }
             }
 
-        });
-
-        otherVideosRV.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-            @Override
-            public void onChildViewAttachedToWindow(View view) {
-
-            }
-
-            @Override
-            public void onChildViewDetachedFromWindow(View view) {
-
-            }
         });
     }
 
@@ -289,6 +278,9 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
                 case FAVORITE_STATUS:
                     updateFavStatus(intent);
                     break;
+                case LIKE_COUNT:
+                    updateLikeCount(intent);
+                    break;
             }
         }
     };
@@ -326,6 +318,17 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
         int position = allVideoModels.indexOf(allVideoModel);
         if (position > 0) {
             allVideoModels.get(position).setVideo_comment_count(commentCount);
+            otherAllVideoAdapter.notifyDataSetChanged();
+        }
+    }
+    private void updateLikeCount(Intent intent) {
+        String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
+        String likesCount = intent.getStringExtra(Constants.COUNT);
+        AllVideoModel allVideoModel = new AllVideoModel();
+        allVideoModel.setCustomers_videos_id(customerVideoID);
+        int position = allVideoModels.indexOf(allVideoModel);
+        if (position > 0) {
+            allVideoModels.get(position).setLikes(likesCount);
             otherAllVideoAdapter.notifyDataSetChanged();
         }
     }

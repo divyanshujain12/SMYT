@@ -16,7 +16,7 @@
     <item
         android:id="@+id/action_user_profile"
         android:icon="@drawable/ic_inactive_profile"
-        android:title="User Profile" />
+        android:title="My Profile" />
 
 
 </menu>
