@@ -62,4 +62,5 @@ public interface API {
     String POST_SINGLE_LIVE_VIDEOS = BASE + "PostLiveVideo";
     String GET_RULES = BASE + "getrules";
     String ACTION_FAVORITE = BASE + "actionFavourite";
+    String GET_CUSTOMER_NOTIFICATION = BASE + "getCustomerNotification";
 }
