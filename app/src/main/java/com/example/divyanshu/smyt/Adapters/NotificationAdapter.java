@@ -26,8 +26,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private Context context;
     private ImageLoading imageLoading;
     private RecyclerViewClick recyclerViewClick;
+    private String NEW_CHALLENGE_DESC_STRING = "New Challenge posted in %s for %s rounds at %s";
     private String UPCOMING_ROUND_TITLE_STRING = "Upcoming Round In %s";
     private String UPCOMING_ROUND_DESC_STRING = "Your %snd round of %s start in next %s";
+    private String UPCOMING_ROUND_RESPONSE_STRING = "Go to Round %s";
 
     protected class MyViewHolder extends RecyclerView.ViewHolder {
         private RoundedImageView userIV;
@@ -58,24 +60,39 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     @Override
-    public void onBindViewHolder(NotificationAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final NotificationAdapter.MyViewHolder holder, int position) {
         AllNotificationModel allNotificationModel = allNotificationModels.get(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), view);
+            }
+        });
         if (allNotificationModels.get(position).getStatus().equalsIgnoreCase("Inactive")) {
-            setUpViewForUpcomingChallenge(holder, allNotificationModel);
+            setUpViewForMewChallenge(holder, allNotificationModel);
         } else {
-
+            setUpViewForUpcomingChallenge(holder, allNotificationModel);
         }
+    }
+
+    private void setUpViewForMewChallenge(MyViewHolder holder, AllNotificationModel allNotificationModel) {
+        String timeDifference = Utils.formatDateAndTime(allNotificationModel.getRound_date(), Utils.CURRENT_DATE_FORMAT);
+        holder.titleMsgTV.setText(R.string.new_challenge);
+        holder.descTV.setText(String.format(NEW_CHALLENGE_DESC_STRING, allNotificationModel.getGenre(), allNotificationModel.getTotal_round(), timeDifference));
+        holder.responseTV.setText(R.string.respond);
     }
 
     private void setUpViewForUpcomingChallenge(MyViewHolder holder, AllNotificationModel allNotificationModel) {
         String timeDifference = Utils.getChallengeTimeDifference(allNotificationModel.getRound_date());
         holder.titleMsgTV.setText(String.format(UPCOMING_ROUND_TITLE_STRING, timeDifference));
         holder.descTV.setText(String.format(UPCOMING_ROUND_DESC_STRING, allNotificationModel.getRound_no(), allNotificationModel.getTitle(), timeDifference));
+        holder.responseTV.setText(String.format(UPCOMING_ROUND_RESPONSE_STRING, allNotificationModel.getRound_no()));
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return allNotificationModels.size();
     }
 
 

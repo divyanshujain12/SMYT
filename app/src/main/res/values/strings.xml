@@ -188,5 +188,7 @@
     <string name="post">POST</string>
     <string name="cancel_upload">CANCEL UPLOAD</string>
     <string name="feature_coming_soon">This Feature Coming Soon...</string>
+    <string name="respond">Respond</string>
+    <string name="new_challenge">New Challenge</string>
 
 </resources>

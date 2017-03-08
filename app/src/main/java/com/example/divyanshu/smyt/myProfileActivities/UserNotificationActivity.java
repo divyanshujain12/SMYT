@@ -1,4 +1,4 @@
-package com.example.divyanshu.smyt.activities;
+package com.example.divyanshu.smyt.myProfileActivities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
