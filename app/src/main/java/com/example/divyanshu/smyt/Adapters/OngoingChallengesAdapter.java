@@ -65,7 +65,7 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
-            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
 
         }
     }
@@ -93,8 +93,8 @@ public class OngoingChallengesAdapter extends RecyclerView.Adapter<RecyclerView.
             firstUserIV = (ImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (ImageView) view.findViewById(R.id.secondUserIV);
             twoVideoPlayers = (TwoVideoPlayerCustomView) view.findViewById(R.id.twoVideoPlayers);
-            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneVoteCountTV);
-            userTwoLikesCountTV = (TextView) view.findViewById(R.id.userTwoVoteCountTV);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
+            userTwoLikesCountTV = (TextView) view.findViewById(R.id.userTwoLikesCountTV);
         }
     }
 

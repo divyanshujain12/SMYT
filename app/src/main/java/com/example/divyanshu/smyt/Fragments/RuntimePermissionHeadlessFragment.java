@@ -74,20 +74,21 @@ public class RuntimePermissionHeadlessFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
+        if (mCallback != null) {
+            if (requestCode == READ_PERMISSION) {
+                if (PermissionUtil.verifyPermissions(grantResults)) {
+                    mCallback.onPermissionGranted(PERMISSION_TYPE);
+                } else {
+                    Log.i("BaseActivity", "permission was NOT granted.");
+                    mCallback.onPermissionDenied(PERMISSION_TYPE);
+                }
 
-        if (requestCode == READ_PERMISSION) {
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-                mCallback.onPermissionGranted(PERMISSION_TYPE);
             } else {
-                Log.i("BaseActivity", "permission was NOT granted.");
-                mCallback.onPermissionDenied(PERMISSION_TYPE);
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
-
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
 
+    }
 
     public interface PermissionCallback {
         void onPermissionGranted(int permissionType);
