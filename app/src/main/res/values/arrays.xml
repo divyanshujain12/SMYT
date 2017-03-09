@@ -22,6 +22,7 @@
     <string-array name="user_options_name">
         <item>Videos</item>
         <item>Challenges</item>
+        <item>Notifications</item>
         <item>Musics</item>
         <item>Followings</item>
         <item>Manage Orders</item>

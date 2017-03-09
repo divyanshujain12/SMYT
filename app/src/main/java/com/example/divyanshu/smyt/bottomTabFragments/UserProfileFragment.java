@@ -37,6 +37,7 @@ import com.example.divyanshu.smyt.activities.UserSettingActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyChallengesActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFeedsActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFollowingActivity;
+import com.example.divyanshu.smyt.myProfileActivities.UserNotificationActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
@@ -153,28 +154,33 @@ public class UserProfileFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case 2:
-                CustomToasts.getInstance(getContext()).showErrorToast(getString(R.string.feature_coming_soon));
+                intent = new Intent(getActivity(), UserNotificationActivity.class);
+                startActivity(intent);
                 break;
             case 3:
+                CustomToasts.getInstance(getContext()).showErrorToast(getString(R.string.feature_coming_soon));
+                break;
+            case 4:
                 intent = new Intent(getActivity(), MyFollowingActivity.class);
                 startActivity(intent);
                 break;
 
-            case 4:
+            case 5:
                 intent = new Intent(getActivity(), ManageOrdersActivity.class);
                 startActivity(intent);
                 break;
-            case 5:
+            case 6:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://smytex.com"));
                 startActivity(browserIntent);
                 break;
-            case 6:
+            case 7:
                 Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://info@smytex.com"));
                 startActivity(intent1);
                 break;
-            case 7:
+            case 8:
                 logout();
                 break;
+
         }
     }
 

@@ -92,7 +92,10 @@ public class NotificationFragment extends BaseFragment {
         super.onClickItem(position, view);
         String status = allNotificationModels.get(position).getStatus();
         if (status.equalsIgnoreCase("Inactive")) {
-
+            Intent intent = new Intent(getContext(), OngoingChallengeDescriptionActivity.class);
+            intent.putExtra(Constants.ACCEPT_STATUS, 0);
+            intent.putExtra(Constants.CHALLENGE_ID, allNotificationModels.get(position).getChallenge_id());
+            getContext().startActivity(intent);
         } else {
             Intent intent = new Intent(getContext(), OngoingChallengeDescriptionActivity.class);
             intent.putExtra(Constants.CHALLENGE_ID, allNotificationModels.get(position).getChallenge_id());

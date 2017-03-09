@@ -7,12 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.UserProfileFragments.UserFollowingFragment;
-import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.notificationFragments.NotificationFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,14 +33,14 @@ public class UserNotificationActivity extends BaseActivity {
     }
 
     private void initViews() {
-        Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.following));
+        Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.notification));
         fragmentManager = getSupportFragmentManager();
         updateFragment();
     }
 
     private void updateFragment() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerFL, UserFollowingFragment.getInstance(MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID)));
+        fragmentTransaction.replace(R.id.fragmentContainerFL, NotificationFragment.getInstance());
         fragmentTransaction.commit();
     }
 
