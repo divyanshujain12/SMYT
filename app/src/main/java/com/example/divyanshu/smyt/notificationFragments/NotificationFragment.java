@@ -17,12 +17,12 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllNotificationModel;
-import com.example.divyanshu.smyt.OrdersFragments.OrderListFragment;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,12 +39,14 @@ import butterknife.InjectView;
 public class NotificationFragment extends BaseFragment {
     @InjectView(R.id.notificationRV)
     RecyclerView notificationRV;
+    @InjectView(R.id.noDataTV)
+    TextView noDataTV;
 
     private NotificationAdapter notificationAdapter;
     private ArrayList<AllNotificationModel> allNotificationModels = new ArrayList<>();
 
-    public static OrderListFragment getInstance() {
-        return new OrderListFragment();
+    public static NotificationFragment getInstance() {
+        return new NotificationFragment();
     }
 
     @Override
@@ -75,7 +77,7 @@ public class NotificationFragment extends BaseFragment {
 
     private void initViews() {
         notificationRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        CallWebService.getInstance(getContext(), true, ApiCodes.NOTIFICATION).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_NOTIFICATION, createJsonForGetNotificaton(), this);
+        CallWebService.getInstance(getContext(), true, ApiCodes.NOTIFICATION).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_NOTIFICATION, createJsonForGetNotification(), this);
     }
 
     @Override
@@ -85,6 +87,12 @@ public class NotificationFragment extends BaseFragment {
         allNotificationModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), AllNotificationModel.class);
         notificationAdapter = new NotificationAdapter(getContext(), allNotificationModels, this);
         notificationRV.setAdapter(notificationAdapter);
+    }
+
+    @Override
+    public void onFailure(String str, int apiType) {
+        super.onFailure(str, apiType);
+        noDataTV.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -104,7 +112,7 @@ public class NotificationFragment extends BaseFragment {
 
     }
 
-    private JSONObject createJsonForGetNotificaton() {
+    private JSONObject createJsonForGetNotification() {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());

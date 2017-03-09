@@ -190,5 +190,6 @@
     <string name="feature_coming_soon">This Feature Coming Soon...</string>
     <string name="respond">Respond</string>
     <string name="new_challenge">New Challenge</string>
+    <string name="no_notification_available">No Notification Found!</string>
 
 </resources>
