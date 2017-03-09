@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.divyanshu.smyt">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -82,9 +81,7 @@
             android:name=".activities.UserSettingActivity"
             android:configChanges="orientation|screenSize|keyboard|screenLayout"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".DialogActivities.RecordNewVideoDataActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".DialogActivities.LiveRoundDescActivity"
             android:screenOrientation="portrait" />
@@ -144,11 +141,16 @@
         <activity android:name=".activities.ShowLiveRecordVideoActivity" />
         <activity android:name=".activities.PostNewVideoActivity" />
         <activity android:name=".activities.InfoActivity" />
-        <activity android:name=".activities.BottomTabActivity" />
+        <activity
+            android:name=".activities.BottomTabActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".myProfileActivities.MyFeedsActivity" />
         <activity android:name=".myProfileActivities.MyChallengesActivity" />
         <activity android:name=".myProfileActivities.UserNotificationActivity" />
-        <activity android:name=".myProfileActivities.MyFollowingActivity"></activity>
+        <activity android:name=".myProfileActivities.MyFollowingActivity" />
+        <activity
+            android:name=".activities.PostChallengeActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

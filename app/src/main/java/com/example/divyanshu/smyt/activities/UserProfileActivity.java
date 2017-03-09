@@ -27,8 +27,8 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
-import com.example.divyanshu.smyt.DialogActivities.RecordNewVideoDataActivity;
-import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
+import com.example.divyanshu.smyt.uploadFragments.RecordNewVideoDataFragment;
+import com.example.divyanshu.smyt.uploadFragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.Fragments.RuntimePermissionHeadlessFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
@@ -236,7 +236,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
                 CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
                     @Override
                     public void doAction() {
-                        showDialogFragment(PostChallengeFragment.getInstance());
+                        //showDialogFragment(PostChallengeFragment.getInstance());
                     }
                 });
 
@@ -362,7 +362,7 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     private void goToRecordNewVideoDataActivity() {
-        Intent intent = new Intent(this, RecordNewVideoDataActivity.class);
+        Intent intent = new Intent(this, RecordNewVideoDataFragment.class);
         startActivity(intent);
     }
 

@@ -8,7 +8,7 @@ import android.os.Message;
 import android.view.WindowManager;
 
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.RecordNewVideoDataActivity;
+import com.example.divyanshu.smyt.uploadFragments.RecordNewVideoDataFragment;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.StatusView;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.MultiStateButton;
 import com.example.divyanshu.smyt.GocoderConfigAndUi.UI.TimerView.TenMinutesCallback;
@@ -153,7 +153,7 @@ abstract public class CameraActivityBase extends GoCoderSDKActivityBase
             } else if (goCoderStatus.isIdle()) {
                 // Clear the "keep screen on" flag
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                Intent intent = new Intent(CameraActivityBase.this, RecordNewVideoDataActivity.class);
+                Intent intent = new Intent(CameraActivityBase.this, RecordNewVideoDataFragment.class);
                 intent.putExtra(Constants.VIDEO_NAME, videoName);
                 startActivity(intent);
                 finish();

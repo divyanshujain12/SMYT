@@ -15,7 +15,7 @@ public interface Constants {
     String PHONE_NUMBER = "phonenumber";
     String DATE_OF_BIRTH = "date_of_birth";
     String DATA = "data";
-    String FROM_FOLLOWER = "from_follower";
+    String OTHER_USER = "other_user";
     String MESSAGE = "message";
     String CUSTOMER_ID = "customer_id";
     String CUSTOMER_ID_ONE = "customer_id1";

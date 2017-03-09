@@ -22,7 +22,6 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
-import com.example.divyanshu.smyt.Fragments.PostChallengeFragment;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.UserModel;
@@ -192,7 +191,10 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
                 CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
                     @Override
                     public void doAction() {
-                        showDialogFragment(PostChallengeFragment.getInstance(createBundleForPostChallenge()));
+                        Intent intent = new Intent(OtherUserProfileActivity.this,PostChallengeActivity.class);
+                        intent.putExtra(Constants.USER_DATA,createBundleForPostChallenge());
+                        startActivity(intent);
+                        //showDialogFragment(PostChallengeFragment.getInstance(createBundleForPostChallenge()));
                     }
                 });
 
@@ -298,7 +300,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     private Bundle createBundleForPostChallenge() {
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.DATA, userModel);
-        bundle.putBoolean(Constants.FROM_FOLLOWER, true);
+        bundle.putBoolean(Constants.OTHER_USER, true);
         return bundle;
     }
 

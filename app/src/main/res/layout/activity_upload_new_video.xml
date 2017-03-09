@@ -5,9 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/custom_toolbar" />
-
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -42,7 +39,7 @@
                 android:text="@string/make_it_live"
                 android:textColor="@color/black"
                 android:visibility="visible"
-                pixlui:typeface="Roboto-Medium.ttf" />
+                pixlui:typeface="Titillium-Regular.otf" />
         </LinearLayout>
     </ScrollView>
 
@@ -52,9 +49,9 @@
         android:layout_height="@dimen/fifty_dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/fifteen_dp"
-        android:background="@drawable/flat_yellow_thick_border"
+        android:background="@drawable/circle_corners_yellow_bg"
         android:text="@string/start_recording_video"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textColorHint="@color/color_primary_with_eight_eight"
         android:textSize="@dimen/eighteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
