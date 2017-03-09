@@ -28,18 +28,30 @@
                 android:textSize="@dimen/eighteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
-            <include layout="@layout/upload_new_video_title_bar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <include layout="@layout/upload_new_video_genre_bar" />
+                <include layout="@layout/post_challenge_title_view" />
 
-            <include layout="@layout/post_challenge_rounds_count_spinner" />
+                <include layout="@layout/post_challenge_genre_view" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include layout="@layout/post_challenge_rounds_view" />
+
+                <include layout="@layout/post_challenge_share_with_view" />
+
+            </LinearLayout>
 
             <include layout="@layout/round_info_linear_layout" />
 
-            <include layout="@layout/upload_new_video_share_bar" />
-
             <include layout="@layout/upload_new_video_search_friend_bar" />
-
         </LinearLayout>
     </ScrollView>
 

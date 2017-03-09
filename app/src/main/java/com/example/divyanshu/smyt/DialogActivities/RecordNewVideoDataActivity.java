@@ -2,6 +2,7 @@ package com.example.divyanshu.smyt.DialogActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -17,8 +18,6 @@ import android.widget.Spinner;
 import com.example.divyanshu.smyt.Adapters.AutoCompleteArrayAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
-import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Models.ThumbnailGenerateModel;
 import com.example.divyanshu.smyt.Models.UserModel;
@@ -29,6 +28,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.example.divyanshu.smyt.activities.RecordVideoActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
@@ -60,18 +60,6 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
 
 
     ArrayAdapter<String> arrayAdapter;
-    @InjectView(R.id.declineTV)
-    TextView declineTV;
-    @InjectView(R.id.singleVideoPlayerView)
-    SingleVideoPlayerCustomView singleVideoPlayerView;
-    @InjectView(R.id.firstUserIV)
-    RoundedImageView firstUserIV;
-    @InjectView(R.id.firstUserNameTV)
-    TextView firstUserNameTV;
-    @InjectView(R.id.firstUserLL)
-    LinearLayout firstUserLL;
-    @InjectView(R.id.discardAndRecordTV)
-    TextView discardAndRecordTV;
     @InjectView(R.id.videoTitleET)
     EditText videoTitleET;
     @InjectView(R.id.titleLL)
@@ -98,6 +86,8 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
     Button postVideoBT;
     @InjectView(R.id.liveCB)
     CheckBox liveCB;
+    @InjectView(R.id.toolbarView)
+    Toolbar toolbarView;
     private String[] genreTypesArray = null, shareWithArray = null;
     private Validation validation;
     private String genreTypeStr, shareWithStr;
@@ -122,21 +112,20 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
 
     private void initViews() {
 
+        Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.go_live_upload_video));
         categoryID = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID);
         //videoName = getIntent().getStringExtra(Constants.VIDEO_NAME);
-
-        firstUserNameTV.setText(MySharedPereference.getInstance().getString(this, Constants.USER_NAME));
         validation = new Validation();
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_post_challenge_title)));
 
         genreTypesArray = getResources().getStringArray(R.array.genre_type);
         shareWithArray = getResources().getStringArray(R.array.share_with);
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_sixteens_sp, genreTypesArray);
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_fourteen_sp, genreTypesArray);
         genreTypeSP.setAdapter(arrayAdapter);
         genreTypeSP.setOnItemSelectedListener(this);
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_sixteens_sp, shareWithArray);
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_fourteen_sp, shareWithArray);
         shareWithSP.setAdapter(arrayAdapter);
         shareWithSP.setOnItemSelectedListener(this);
 
@@ -155,7 +144,7 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
         if (categoryID.equals(getString(R.string.premium_category))) {
             setGenreSpinnerShow(true);
             genreTypesArray = getResources().getStringArray(R.array.genre_type);
-            arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_sixteens_sp, genreTypesArray);
+            arrayAdapter = new ArrayAdapter<>(this, R.layout.single_textview_fourteen_sp, genreTypesArray);
             genreTypeSP.setAdapter(arrayAdapter);
             genreTypeSP.setOnItemSelectedListener(this);
         } else {
@@ -170,10 +159,6 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
         genreTypeSP.setVisibility(isPremium ? View.VISIBLE : View.GONE);
     }
 
-    private void setUpVideoPlayer(ThumbnailGenerateModel thumbnailGenerateModel) {
-        imageLoading = new ImageLoading(this);
-        singleVideoPlayerView.setUp(thumbnailGenerateModel.getVideo_url(), thumbnailGenerateModel.getThumbnail(), "");
-    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -235,18 +220,18 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
         friendAC.setText(userModel.getUsername());
     }
 
-    @OnClick({R.id.postVideoBT, R.id.discardAndRecordTV})
+    @OnClick({R.id.postVideoBT})
     public void onClick(View view) {
 
         switch (view.getId()) {
             case R.id.postVideoBT:
                 postVideo();
                 break;
-            case R.id.discardAndRecordTV:
+          /*  case R.id.discardAndRecordTV:
                 Intent intent = new Intent(this, RecordVideoActivity.class);
                 startActivity(intent);
                 finish();
-                break;
+                break;*/
         }
 
     }
@@ -296,7 +281,6 @@ public class RecordNewVideoDataActivity extends BaseActivity implements AdapterV
                 break;
             case POST_VIDEO_PREVIOUS:
                 thumbnailGenerateModel = UniversalParser.getInstance().parseJsonObject(response.getJSONObject(Constants.DATA), ThumbnailGenerateModel.class);
-                setUpVideoPlayer(thumbnailGenerateModel);
                 break;
         }
     }

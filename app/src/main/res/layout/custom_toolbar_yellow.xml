@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:id="@+id/toolbarView"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    app:elevation="8dp"
+    app:layout_collapseMode="parallax"
+    app:layout_scrollFlags="scroll|enterAlways"
+    app:subtitleTextAppearance="@style/ToolbarSubtitleAppearance"
+    app:subtitleTextColor="@color/white"
+    app:theme="@style/CustomToolbar"
+    app:title="@string/description"
+    app:titleTextAppearance="@style/ToolbarTitleAppearance"
+    app:titleTextColor="@color/white" />

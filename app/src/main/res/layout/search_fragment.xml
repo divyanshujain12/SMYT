@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_bg_color"
@@ -19,15 +21,28 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:drawableStart="@drawable/icon_search"
-            android:padding="@dimen/ten_dp" />
+            android:padding="@dimen/ten_dp"
+            android:textColor="@color/colorPrimary"
+            pixlui:typeface="Roboto-Regular.ttf" />
 
         <include layout="@layout/horizontal_yellow_line" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:alpha=".8"
+            android:text="@string/search_result"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/eighteen_sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/usersRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/searchBarFL" />
 
 </RelativeLayout>

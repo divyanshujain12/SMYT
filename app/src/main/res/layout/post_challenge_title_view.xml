@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/titleLL"
+    android:layout_width="0dp"
+    android:layout_marginEnd="@dimen/two_dp"
+    android:layout_weight="7"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:showIn="@layout/post_challenge_fragment">
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha=".4"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        android:paddingLeft="@dimen/ten_dp"
+        android:text="@string/title"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <com.neopixl.pixlui.components.edittext.EditText
+        android:id="@+id/videoTitleET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:hint="@string/write_a_title"
+        android:maxLines="2"
+        android:padding="@dimen/ten_dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/color_primary_with_eight_eight"
+        android:textSize="@dimen/fourteen_sp"
+        pixlui:typeface="Roboto-Medium.ttf" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorPrimary" />
+</LinearLayout>

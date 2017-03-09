@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.neopixl.pixlui.components.textview.TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:maxLines="2"
+    android:padding="@dimen/ten_dp"
+    android:text="@string/upload_video"
+    android:textColor="@color/colorPrimary"
+    android:textSize="@dimen/fourteen_sp"
+    pixlui:typeface="Roboto-Medium.ttf" />

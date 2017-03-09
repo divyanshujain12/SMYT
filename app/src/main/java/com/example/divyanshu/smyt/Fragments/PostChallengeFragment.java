@@ -182,11 +182,11 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         shareWithArray = getResources().getStringArray(R.array.share_with);
 
 
-        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, roundsCountArray);
+        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_fourteen_sp, roundsCountArray);
         roundsCountSP.setAdapter(arrayAdapter);
         roundsCountSP.setOnItemSelectedListener(this);
 
-        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, shareWithArray);
+        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_fourteen_sp, shareWithArray);
         shareWithSP.setAdapter(arrayAdapter);
         shareWithSP.setOnItemSelectedListener(this);
 
@@ -206,7 +206,7 @@ public class PostChallengeFragment extends BaseDialogFragment implements Adapter
         if (categoryID.equals(getString(R.string.premium_category))) {
             setGenreSpinnerShow(true);
             genreTypesArray = getResources().getStringArray(R.array.genre_type);
-            arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_sixteens_sp, genreTypesArray);
+            arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.single_textview_fourteen_sp, genreTypesArray);
             genreTypeSP.setAdapter(arrayAdapter);
             genreTypeSP.setOnItemSelectedListener(this);
         } else {

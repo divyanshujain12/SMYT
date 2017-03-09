@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/custom_toolbar" />
+
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/seventy_dp">
+        android:layout_height="0dp"
+        android:layout_weight="9">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,80 +20,29 @@
             android:orientation="vertical"
             android:padding="@dimen/ten_dp">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.neopixl.pixlui.components.textview.TextView
-                    android:id="@+id/declineTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:paddingBottom="@dimen/ten_dp"
-                    android:text="@string/upload_video"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/eighteen_sp"
-                    pixlui:typeface="Roboto-Medium.ttf" />
-
-                <com.neopixl.pixlui.components.checkbox.CheckBox
-                    android:id="@+id/liveCB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:padding="@dimen/five_dp"
-                    android:text="@string/make_it_live"
-                    android:textColor="@color/black"
-                    android:visibility="visible"
-                    pixlui:typeface="Roboto-Medium.ttf" />
-            </FrameLayout>
-
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="@dimen/two_hundred_twenty_dp"
-                android:layout_height="@dimen/one_hundred_fourty_five_dp"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"
-                tools:showIn="@layout/single_video_item">
-
-
-                <com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView
-                    android:id="@+id/singleVideoPlayerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <include layout="@layout/single_video_user_view" />
-            </FrameLayout>
-
-            <!--<ImageView
-                android:id="@+id/videoThumbIV"
-                android:layout_width="@dimen/two_hundred_twenty_dp"
-                android:layout_height="@dimen/one_hundred_fourty_five_dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/black_with_ninety_nine" />-->
-
-            <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/discardAndRecordTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:gravity="center_horizontal"
-                android:maxLines="2"
-                android:padding="@dimen/ten_dp"
-                android:text="@string/discard_and_record"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/fifteen_sp"
-                android:visibility="gone"
-                pixlui:typeface="Roboto-Medium.ttf" />
-
             <include layout="@layout/upload_new_video_title_bar" />
 
-            <include layout="@layout/upload_new_video_genre_bar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:orientation="horizontal">
 
-            <include layout="@layout/upload_new_video_share_bar" />
+                <include layout="@layout/post_challenge_genre_view" />
 
+                <include layout="@layout/record_video_share_with_view" />
+            </LinearLayout>
             <include layout="@layout/upload_new_video_search_friend_bar" />
 
+            <com.neopixl.pixlui.components.checkbox.CheckBox
+                android:id="@+id/liveCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/five_dp"
+                android:text="@string/make_it_live"
+                android:textColor="@color/black"
+                android:visibility="visible"
+                pixlui:typeface="Roboto-Medium.ttf" />
         </LinearLayout>
     </ScrollView>
 
@@ -106,4 +58,4 @@
         android:textColorHint="@color/color_primary_with_eight_eight"
         android:textSize="@dimen/eighteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
-</RelativeLayout>
+</LinearLayout>

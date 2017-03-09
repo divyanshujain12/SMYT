@@ -52,7 +52,7 @@
     <string name="challange">Challenge:</string>
     <string name="challange_status">Challenge Status:</string>
     <string name="date">Date:</string>
-    <string name="rounds">Rounds</string>
+    <string name="rounds">Number of Rounds</string>
     <string name="post_challenge">Post Challenge</string>
     <string name="friend_name">Friend Name</string>
     <string name="err_enter_name">Enter Your Name!</string>
@@ -191,5 +191,7 @@
     <string name="respond">Respond</string>
     <string name="new_challenge">New Challenge</string>
     <string name="no_notification_available">No Notification Found!</string>
+    <string name="search_result">Search Result</string>
+    <string name="go_live_upload_video">Go Live/ Upload Video</string>
 
 </resources>
