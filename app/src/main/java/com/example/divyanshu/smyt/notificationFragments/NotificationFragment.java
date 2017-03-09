@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.notificationFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.example.divyanshu.smyt.Adapters.NotificationAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.DialogActivities.OngoingChallengeDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllNotificationModel;
 import com.example.divyanshu.smyt.OrdersFragments.OrderListFragment;
@@ -58,6 +60,7 @@ public class NotificationFragment extends BaseFragment {
         ButterKnife.inject(this, view);
         return view;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -91,7 +94,9 @@ public class NotificationFragment extends BaseFragment {
         if (status.equalsIgnoreCase("Inactive")) {
 
         } else {
-
+            Intent intent = new Intent(getContext(), OngoingChallengeDescriptionActivity.class);
+            intent.putExtra(Constants.CHALLENGE_ID, allNotificationModels.get(position).getChallenge_id());
+            getContext().startActivity(intent);
         }
 
     }

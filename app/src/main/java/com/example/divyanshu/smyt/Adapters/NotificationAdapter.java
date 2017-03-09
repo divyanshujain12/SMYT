@@ -62,17 +62,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(final NotificationAdapter.MyViewHolder holder, int position) {
         AllNotificationModel allNotificationModel = allNotificationModels.get(position);
+        if (allNotificationModels.get(position).getStatus().equalsIgnoreCase("Inactive")) {
+            setUpViewForMewChallenge(holder, allNotificationModel);
+        } else {
+            setUpViewForUpcomingChallenge(holder, allNotificationModel);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 recyclerViewClick.onClickItem(holder.getAdapterPosition(), view);
             }
         });
-        if (allNotificationModels.get(position).getStatus().equalsIgnoreCase("Inactive")) {
-            setUpViewForMewChallenge(holder, allNotificationModel);
-        } else {
-            setUpViewForUpcomingChallenge(holder, allNotificationModel);
-        }
     }
 
     private void setUpViewForMewChallenge(MyViewHolder holder, AllNotificationModel allNotificationModel) {
