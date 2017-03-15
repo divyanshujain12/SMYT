@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/commentBar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/thirty_dp"
     android:layout_alignParentBottom="true"
+    android:layout_marginBottom="@dimen/ten_dp"
+    android:layout_marginEnd="@dimen/five_dp"
+    android:layout_marginStart="@dimen/five_dp"
     android:background="@drawable/flat_yellow_thick_border">
 
     <com.neopixl.pixlui.components.edittext.EditText

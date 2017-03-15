@@ -85,6 +85,21 @@
         <item quantity="one">%d comment</item>
         <item quantity="other">%d comments</item>
     </plurals>
+    <plurals name="numberOfViews">
+        <item quantity="zero">%d View</item>
+        <item quantity="one">%d View</item>
+        <item quantity="other">%d Views</item>
+    </plurals>
+    <plurals name="numberOfLikes">
+        <item quantity="zero">%d Like</item>
+        <item quantity="one">%d Like</item>
+        <item quantity="other">%d Likes</item>
+    </plurals>
+    <plurals name="numberOfVotes">
+        <item quantity="zero">%d Vote</item>
+        <item quantity="one">%d Vote</item>
+        <item quantity="other">%d Votes</item>
+    </plurals>
     <string name="delete">Delete</string>
     <string name="delete_challenge">Delete Challenge</string>
     <string name="dummy_video_url">http://198.57.172.197:1935/vod/_definst_/myStream_2_1482595610597/playlist.m3u8</string>

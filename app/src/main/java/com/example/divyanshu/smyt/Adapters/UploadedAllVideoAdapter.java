@@ -15,13 +15,14 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
+import com.example.divyanshu.smyt.CustomViews.ReusedCodes;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
-import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Interfaces.DeleteVideoInterface;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
+import com.example.divyanshu.smyt.Interfaces.TitleBarButtonClickCallback;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -32,7 +33,6 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
 import com.neopixl.pixlui.components.textview.TextView;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -178,11 +178,11 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         setUpSingleVideoTitleBar(holder, allVideoModel);
         holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomers_videos_id());
-        holder.viewsCountTV.setText(allVideoModel.getViews());
-        holder.userOneLikesCountTV.setText(allVideoModel.getLikes());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
-        holder.commentsTV.setText(setComment(allVideoModel));
+        holder.userOneLikesCountTV.setText(ReusedCodes.getLikes(context, allVideoModel.getLikes()));
+        holder.commentsTV.setText(ReusedCodes.getComment(context, allVideoModel.getVideo_comment_count()));
+        holder.viewsCountTV.setText(ReusedCodes.getViews(context, allVideoModel.getViews()));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,15 +202,15 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         //String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
         setUpBattleTitleBar(holder, allVideoModel);
-        holder.viewsCountTV.setText(allVideoModel.getViews());
         holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
-        holder.commentsTV.setText(setComment(allVideoModel));
-        holder.userOneLikesCountTV.setText(allVideoModel.getVote());
-        holder.userTwoLikesCountTV.setText(allVideoModel.getVote1());
+        holder.userOneLikesCountTV.setText(ReusedCodes.getUserOneVote(context, allVideoModel.getVote()));
+        holder.userTwoLikesCountTV.setText(ReusedCodes.getUserTwoVote(context, allVideoModel.getVote1()));
+        holder.commentsTV.setText(ReusedCodes.getComment(context, allVideoModel.getVideo_comment_count()));
+        holder.viewsCountTV.setText(ReusedCodes.getViews(context, allVideoModel.getViews()));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override

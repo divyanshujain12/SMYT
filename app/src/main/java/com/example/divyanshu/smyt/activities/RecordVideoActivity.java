@@ -222,6 +222,11 @@ public class RecordVideoActivity extends CameraActivityBase implements CameraAct
     }
 
     @Override
+    public void negativeButtonPressed() {
+        finish();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             if (requestCode == InAppActivity.PURCHASE_REQUEST) {

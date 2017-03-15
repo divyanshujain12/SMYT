@@ -8,5 +8,6 @@
         android:icon="@drawable/ic_fav_icon_postvideo_header"
         android:orderInCategory="101"
         android:title="@string/user_profile"
+        android:visible="false"
         app:showAsAction="always" />
 </menu>

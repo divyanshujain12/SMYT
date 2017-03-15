@@ -37,8 +37,6 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <include layout="@layout/other_user_profile_header" />
-
             <com.example.divyanshu.smyt.CustomViews.CustomTabLayout
                 style="@style/TabLayoutStyle"
                 android:id="@+id/tabs"
@@ -69,6 +67,8 @@
                     pixlui:typeface="Roboto-Regular.ttf" />
 
             </android.support.v7.widget.Toolbar>
+
+            <include layout="@layout/other_user_profile_header" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

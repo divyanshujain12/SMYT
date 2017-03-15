@@ -58,7 +58,7 @@ public class RuntimePermissionHeadlessFragment extends Fragment {
     }
 
     private void checkPermissions() {
-        if (PermissionUtil.hasSelfPermission(getActivity(), permissionRequired)) {
+        if (PermissionUtil.hasSelfPermission(getActivity(), permissionRequired) && mCallback != null) {
             mCallback.onPermissionGranted(PERMISSION_TYPE);
         } else {
             // UNCOMMENT TO SUPPORT ANDROID M RUNTIME PERMISSIONS

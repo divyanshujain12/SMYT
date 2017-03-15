@@ -194,6 +194,11 @@ public class VideoTitleView extends LinearLayout implements View.OnClickListener
         ((Activity) getContext()).startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
     }
 
+    @Override
+    public void negativeButtonPressed() {
+
+    }
+
     public void hideFavButton() {
         favIV.setVisibility(GONE);
     }

@@ -29,8 +29,11 @@ import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Validation;
+import com.example.divyanshu.smyt.activities.BottomTabActivity;
+import com.example.divyanshu.smyt.activities.InAppActivity;
 import com.example.divyanshu.smyt.activities.RecordVideoActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.button.Button;
@@ -50,12 +53,13 @@ import butterknife.OnClick;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.POST_USER_VIDEO;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.SEARCH_USER;
+import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
 
 /**
  * Created by divyanshu.jain on 10/7/2016.
  */
 
-public class RecordNewVideoDataFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, TextWatcher, CompoundButton.OnCheckedChangeListener {
+public class RecordNewVideoDataFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, TextWatcher, CompoundButton.OnCheckedChangeListener,InAppLocalApis.InAppAvailabilityCalBack {
 
 
     ArrayAdapter<String> arrayAdapter;
@@ -248,6 +252,16 @@ public class RecordNewVideoDataFragment extends BaseFragment implements AdapterV
         }
 
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
+                checkAndPayForAddVideoToPremium();
+            }
+        }
+    }
+
 
     private void postVideo() {
         hashMap = validation.validate(friendAC);
@@ -268,6 +282,49 @@ public class RecordNewVideoDataFragment extends BaseFragment implements AdapterV
             CommonFunctions.getInstance().showErrorSnackBar(friendAC, getString(R.string.err_post_challenge_title));
     }
 
+
+    private void checkAndPayForAddVideoToPremium() {
+        setUpAvailabilityPurchase(OTHER_CATEGORY_TO_PREMIUM);
+        InAppLocalApis.getInstance().checkAddVideoInPremiumCatAvailability(getContext());
+    }
+
+    private void setUpAvailabilityPurchase(int purchaseType) {
+        InAppLocalApis.getInstance().setCallback(this);
+        InAppLocalApis.getInstance().setPurchaseType(purchaseType);
+    }
+
+    @Override
+    public void available(int purchaseType) {
+     /*   Intent intent = new Intent(getContext(), RecordVideoActivity.class);
+        startActivity(intent);*/
+    }
+
+    @Override
+    public void notAvailable(int purchaseType) {
+        Intent intent = new Intent(getContext(), InAppActivity.class);
+        intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
+        startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+    }
+
+    @Override
+    public void negativeButtonPressed() {
+        ((BottomTabActivity) getActivity()).onResetPager();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            if (requestCode == InAppActivity.PURCHASE_REQUEST) {
+
+                if (data.getBooleanExtra(Constants.IS_PRCHASED, false)) {
+                    String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
+                    String productID = data.getStringExtra(Constants.PRODUCT_ID);
+                    InAppLocalApis.getInstance().purchaseCategory(getContext(), transactionID, productID);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     private void goToRecordVideoActivity() {
         String postVideoJson = createJsonForPostVideo().toString();
         Intent intent = new Intent(getContext(), RecordVideoActivity.class);

@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
+import com.example.divyanshu.smyt.CustomViews.ReusedCodes;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
@@ -70,7 +71,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private SingleVideoPlayerCustomView singleVideoPlayerView;
         private LinearLayout firstUserLL;
         private TextView viewsCountTV;
-
+        private TextView userOneLikesCountTV;
         private SingleVideoHolder(View view) {
             super(view);
             videoTitleView = (VideoTitleView) view.findViewById(R.id.videoTitleView);
@@ -84,7 +85,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
-
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
         }
     }
 
@@ -97,6 +98,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private RoundedImageView firstUserIV, secondUserIV;
         private LinearLayout firstUserLL, secondUserLL;
         private TextView viewsCountTV;
+        private TextView userOneLikesCountTV, userTwoLikesCountTV;
 
         private BattleVideoHolder(View view) {
             super(view);
@@ -113,6 +115,8 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             secondUserIV = (RoundedImageView) view.findViewById(R.id.secondUserIV);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
+            userTwoLikesCountTV = (TextView) view.findViewById(R.id.userTwoLikesCountTV);
 
         }
     }
@@ -167,11 +171,12 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void setupSingleViewHolder(final SingleVideoHolder holder, final AllVideoModel allVideoModel) {
         setUpSingleVideoTitleBar(holder, allVideoModel);
         holder.singleVideoPlayerView.setUp(allVideoModel.getVideo_url(), allVideoModel.getThumbnail(), allVideoModel.getCustomers_videos_id());
-        holder.viewsCountTV.setText(allVideoModel.getViews());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
-        holder.commentsTV.setText(setComment(allVideoModel));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
+        holder.userOneLikesCountTV.setText(ReusedCodes.getLikes(context, allVideoModel.getLikes()));
+        holder.commentsTV.setText(ReusedCodes.getComment(context, allVideoModel.getVideo_comment_count()));
+        holder.viewsCountTV.setText(ReusedCodes.getViews(context, allVideoModel.getViews()));
         holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -189,13 +194,15 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
         //String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
         setUpBattleTitleBar(holder, allVideoModel);
-        holder.viewsCountTV.setText(allVideoModel.getViews());
         holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         imageLoading.LoadImage(allVideoModel.getProfileimage1(), holder.secondUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.secondUserNameTV.setText(allVideoModel.getFirst_name1());
-        holder.commentsTV.setText(setComment(allVideoModel));
+        holder.userOneLikesCountTV.setText(ReusedCodes.getUserOneVote(context, allVideoModel.getVote()));
+        holder.userTwoLikesCountTV.setText(ReusedCodes.getUserTwoVote(context, allVideoModel.getVote1()));
+        holder.commentsTV.setText(ReusedCodes.getComment(context, allVideoModel.getVideo_comment_count()));
+        holder.viewsCountTV.setText(ReusedCodes.getViews(context, allVideoModel.getViews()));
         holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
 
 
@@ -249,10 +256,6 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.challengeTitleView.hideFavButton();
         } else
             holder.challengeTitleView.showHideMoreIvButton(true);
-    }
-
-    private String setComment(AllVideoModel allVideoModel) {
-        return context.getResources().getQuantityString(R.plurals.numberOfComments, allVideoModel.getVideo_comment_count(), allVideoModel.getVideo_comment_count());
     }
 
 

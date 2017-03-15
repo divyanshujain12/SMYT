@@ -193,6 +193,11 @@ public class ChallengeRoundTitleView extends LinearLayout implements View.OnClic
         ((Activity) getContext()).startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
     }
 
+    @Override
+    public void negativeButtonPressed() {
+
+    }
+
     public void hideFavButton() {
         favIV.setVisibility(GONE);
     }

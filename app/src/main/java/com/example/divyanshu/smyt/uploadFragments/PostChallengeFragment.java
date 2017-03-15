@@ -35,6 +35,7 @@ import com.example.divyanshu.smyt.Utils.InternetCheck;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
+import com.example.divyanshu.smyt.activities.BottomTabActivity;
 import com.example.divyanshu.smyt.activities.InAppActivity;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -227,9 +228,7 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
     public void onResume() {
         super.onResume();
 
-        if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
-            checkAndPayForAddVideoToPremium();
-        }
+
     }
 
 
@@ -436,6 +435,14 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
         loadFriendsPB.setVisibility(b ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
+                checkAndPayForAddVideoToPremium();
+            }
+        }
+    }
 
     private void checkAndPayForAddVideoToPremium() {
         setUpAvailabilityPurchase(OTHER_CATEGORY_TO_PREMIUM);
@@ -458,6 +465,11 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
         Intent intent = new Intent(getContext(), InAppActivity.class);
         intent.putExtra(Constants.IN_APP_TYPE, purchaseType);
         startActivityForResult(intent, InAppActivity.PURCHASE_REQUEST);
+    }
+
+    @Override
+    public void negativeButtonPressed() {
+        ((BottomTabActivity) getActivity()).onResetPager();
     }
 
     @Override

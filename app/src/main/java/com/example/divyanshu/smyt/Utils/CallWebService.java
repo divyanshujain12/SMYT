@@ -44,11 +44,11 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
         CallWebService instance = new CallWebService();
         instance.context = context;
         instance.apiCode = apiCode;
-
-        if (context != null && showProgressBar)
+        instance.continuousSB = null;
+       /* if (context != null && showProgressBar)
             instance.continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithActivity((Activity) context);
         else
-            instance.continuousSB = null;
+            instance.continuousSB = null;*/
         return instance;
     }
 

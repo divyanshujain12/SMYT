@@ -99,13 +99,11 @@ public class UserFavoriteFeeds extends BaseFragment {
     }
 
     private void initViews() {
-
         favVideosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userFavVideoAdapter = new UserFavoriteAdapter(getContext(), allVideoModels, customerID, this);
         favVideosRV.setAdapter(userFavVideoAdapter);
         continuousSB = CommonFunctions.getInstance().createLoadingSnackBarWithView(favVideosRV);
         CommonFunctions.showContinuousSB(continuousSB);
-
         CommonFunctions.stopVideoOnScroll(favVideosRV);
     }
 

@@ -16,6 +16,7 @@ import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
 import com.example.divyanshu.smyt.CustomViews.CustomToasts;
+import com.example.divyanshu.smyt.CustomViews.ReusedCodes;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
@@ -120,8 +121,8 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         validation.addValidationField(new ValidationModel(commentsET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getString(R.string.err_cno_comment)));
         //setUpMoreOptionPopupWindow();
 
-        userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_inactive, 0, 0, 0);
-        userTwoLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_inactive, 0, 0, 0);
+        userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cv_like_inactive, 0, 0);
+        userTwoLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cv_like_inactive, 0, 0);
        /* CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.thumb_off);
         CommonFunctions.changeImageWithAnimation(this, userTwoVideoLikeIV, R.drawable.thumb_off);*/
     }
@@ -213,7 +214,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         setVotingStatus();
         setUpUsersViews();
         setUpMoreOptionPopupWindow(challengeVideoDescModel.getTitle());
-        viewsCountTV.setText(challengeVideoDescModel.getViews());
+        viewsCountTV.setText(ReusedCodes.getViews(this, challengeVideoDescModel.getViews()));
         setVoteCount();
         setupVideo();
         setUpCommentAdapter();
@@ -297,14 +298,14 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     }
 
     private void setVoteCount() {
-        userOneLikesCountTV.setText(String.valueOf(challengeVideoDescModel.getVote()));
-        userTwoLikesCountTV.setText(String.valueOf(challengeVideoDescModel.getVote1()));
+        userOneLikesCountTV.setText(ReusedCodes.getUserOneVote(this, challengeVideoDescModel.getVote()));
+        userTwoLikesCountTV.setText(ReusedCodes.getUserTwoVote(this, challengeVideoDescModel.getVote1()));
     }
 
     private void updateAndSendCommentsCount() {
         String commentsFound = String.valueOf(challengeVideoDescModel.getVideo_comment_count());
         BroadcastSenderClass.getInstance().sendChallengeCommentCountBroadcast(this, challengeVideoDescModel.getCustomers_videos_id(), challengeVideoDescModel.getVideo_comment_count());
-        commentsTV.setText(commentsFound);
+        commentsTV.setText(ReusedCodes.getComment(this, Integer.parseInt(commentsFound)));
     }
 
     private void setCommentPBVisibility(int visibility) {
@@ -357,7 +358,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
     }
 
     private void setEnableDisableLikeImage(TextView textView) {
-        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_active, 0, 0, 0);
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cv_like_active, 0, 0);
         // CommonFunctions.changeImageWithAnimation(this, imageView, R.drawable.thumb_on);
         userOneLikesCountTV.setEnabled(false);
         userOneLikesCountTV.setEnabled(false);
@@ -425,6 +426,7 @@ public class UploadedBattleRoundDescActivity extends BaseActivity implements Tit
         challengeVideoDescModel.setFavourite_status(favStatus);
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setCustomers_videos_id(challengeVideoDescModel.getCustomers_videos_id());
+        if (customerVideoID.equals(MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID)))
         BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(this, allVideoModel, favStatus);
         return favStatus;
     }

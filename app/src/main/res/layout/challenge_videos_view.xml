@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:showIn="@layout/uploaded_battle_video_item">
+    >
 
 
     <com.example.divyanshu.smyt.CustomViews.TwoVideoPlayerCustomView
         android:id="@+id/twoVideoPlayers"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/three_hundred" />
+        android:layout_height="@dimen/two_hundred_fifty_dp" />
 
     <include layout="@layout/challenge_title_bar" />
 

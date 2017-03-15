@@ -14,6 +14,7 @@ import com.example.divyanshu.smyt.Adapters.CommentsAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.ReusedCodes;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
@@ -158,7 +159,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
         firstUserNameTV.setText(videoDetailModel.getFirst_name());
-        viewsCountTV.setText(videoDetailModel.getViews());
+        viewsCountTV.setText(ReusedCodes.getViews(this, videoDetailModel.getViews()));
         setLikeCountInUI();
         setLikeIV();
         setupVideo();
@@ -184,7 +185,6 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
 
     private void addNewCommentToList(CommentModel commentModel) {
-
         commentsAdapter.addNewComment(commentModel);
         videoDetailModel.setVideo_comment_count(videoDetailModel.getVideo_comment_count() + 1);
         updateCommentsCount();
@@ -228,24 +228,20 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
 
     private void setLikeIV() {
         if (videoDetailModel.getLikestatus() == 1) {
-
-            userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_active,0,0,0);
-         //   CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.ic_cv_like_active);
+            userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cv_like_active, 0, 0);
         } else {
-            userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cv_like_inactive,0,0,0);
-          //  CommonFunctions.changeImageWithAnimation(this, userOneVideoLikeIV, R.drawable.ic_cv_like_inactive);
+            userOneLikesCountTV.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cv_like_inactive, 0, 0);
         }
     }
 
 
     private void setLikeCountInUI() {
-        userOneLikesCountTV.setText(String.valueOf(videoDetailModel.getLikes()));
+        userOneLikesCountTV.setText(ReusedCodes.getLikes(this, String.valueOf(videoDetailModel.getLikes())));
     }
 
     private void updateCommentsCount() {
         BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
-        String commentsFound = String.valueOf(videoDetailModel.getVideo_comment_count());
-        commentsTV.setText(commentsFound);
+        commentsTV.setText(ReusedCodes.getComment(this, videoDetailModel.getVideo_comment_count()));
     }
 
 
@@ -377,6 +373,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
         videoDetailModel.setFavourite_status(favStatus);
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setCustomers_videos_id(videoDetailModel.getCustomers_videos_id());
+        if (customerVideoID.equals(MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID)))
         BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(this, allVideoModel, favStatus);
         return favStatus;
     }

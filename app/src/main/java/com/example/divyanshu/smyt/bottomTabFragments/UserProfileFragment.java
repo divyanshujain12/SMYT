@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +35,7 @@ import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.activities.LoginActivity;
 import com.example.divyanshu.smyt.activities.ManageOrdersActivity;
+import com.example.divyanshu.smyt.activities.ProfileImageFullScreen;
 import com.example.divyanshu.smyt.activities.UserSettingActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyChallengesActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFeedsActivity;
@@ -45,6 +48,7 @@ import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import static com.example.divyanshu.smyt.Constants.ApiCodes.GET_USER_INFO;
 
@@ -124,7 +128,7 @@ public class UserProfileFragment extends BaseFragment {
         imageLoading.LoadImage(userModel.getProfileimage(), userIV, null);
         userNameTV.setText(userModel.getFirst_name());
         userStatusTV.setText(userModel.getTimeline_msg());
-        View view = userOptionRV.getChildAt(3);
+        View view = userOptionRV.getChildAt(4);
         TextView textView = (TextView) view.findViewById(R.id.optionNameTV);
         textView.setText("Followings (" + userModel.getFollowing() + ")");
     }
@@ -234,5 +238,17 @@ public class UserProfileFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(updateUserInfo);
+    }
+
+    @OnClick(R.id.userIV)
+    public void onClick() {
+        Intent intent = new Intent(getActivity(), ProfileImageFullScreen.class);
+        intent.putExtra(Constants.PROFILE_IMAGE, userModel.getProfileimage());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            userIV.setTransitionName(Constants.PROFILE_IMAGE);
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), userIV, Constants.PROFILE_IMAGE);
+            startActivity(intent, activityOptionsCompat.toBundle());
+        } else
+            startActivity(intent);
     }
 }

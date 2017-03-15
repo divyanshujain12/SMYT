@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
-import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
+import com.example.divyanshu.smyt.Interfaces.AlertDialogInterface;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.activities.InAppActivity;
 import com.example.divyanshu.smyt.activities.MyApp;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,17 +140,27 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
             if (error_code.equalsIgnoreCase("2")) {
                 if (productID != null && !productID.equals(""))
                     MyApp.getInstance().consumePurchase(productID);
-                CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), "Your package has been expired!Do you want to renew it!", new SnackBarCallback() {
+                CustomAlertDialogs.showAlertDialogWithCallBacks(context, context.getString(R.string.alert), "Your package has been expired! Do you want to renew it!", new AlertDialogInterface() {
                     @Override
-                    public void doAction() {
+                    public void Yes() {
                         inAppAvailabilityCalBack.notAvailable(purchaseType);
+                    }
+
+                    @Override
+                    public void No() {
+                        inAppAvailabilityCalBack.negativeButtonPressed();
                     }
                 });
             } else {
-                CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), "You do not have package! Would you like to purchase it!", new SnackBarCallback() {
+                CustomAlertDialogs.showAlertDialogWithCallBacks(context, context.getString(R.string.alert), "You do not have package! Would you like to purchase it!", new AlertDialogInterface() {
                     @Override
-                    public void doAction() {
+                    public void Yes() {
                         inAppAvailabilityCalBack.notAvailable(purchaseType);
+                    }
+
+                    @Override
+                    public void No() {
+                        inAppAvailabilityCalBack.negativeButtonPressed();
                     }
                 });
             }
@@ -226,7 +236,8 @@ public class InAppLocalApis implements CallWebService.ObjectResponseCallBack {
 
     public interface InAppAvailabilityCalBack {
         void available(int purchaseType);
-
         void notAvailable(int purchaseType);
+
+        void negativeButtonPressed();
     }
 }

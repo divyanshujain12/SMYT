@@ -3,7 +3,7 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+
     android:orientation="vertical">
 
     <include layout="@layout/custom_toolbar" />
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:text="@string/personal_detail"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/eighteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
@@ -149,7 +149,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="@dimen/fourty_dp"
-        android:background="@drawable/rounded_corner_yellow"
+        android:background="@drawable/rounded_corner_black"
         android:gravity="center"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
