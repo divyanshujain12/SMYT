@@ -49,9 +49,9 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     NonSwipeableViewPager bottomTabVP;
     private FragmentManager manager;
 
-  //  private CategoryModel categoryModel;
+    //  private CategoryModel categoryModel;
     private int currentSelectedItemID = 0;
-    private String categoryID,categoryName,categoryDesc;
+    private String categoryID, categoryName, categoryDesc;
     private ViewPagerAdapter viewPagerAdapter;
 
     @Override
@@ -69,9 +69,9 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     private void initViews() {
 
-        categoryDesc = MySharedPereference.getInstance().getString(this,Constants.DESC);
-        categoryID = MySharedPereference.getInstance().getString(this,Constants.CATEGORY_ID);
-        categoryName = MySharedPereference.getInstance().getString(this,Constants.CATEGORY_NAME);
+        categoryDesc = MySharedPereference.getInstance().getString(this, Constants.DESC);
+        categoryID = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_ID);
+        categoryName = MySharedPereference.getInstance().getString(this, Constants.CATEGORY_NAME);
         Utils.configureToolbarForHomeActivity(this, toolbarView, categoryName /*+ "(" + categoryModel.getUsercount() + ")"*/);
         toolbarView.setOnClickListener(this);
         manager = getSupportFragmentManager();
@@ -181,6 +181,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onResetPager() {
+        currentSelectedItemID = R.id.action_feeds;
         bottomTabVP.setCurrentItem(0);
     }
 }

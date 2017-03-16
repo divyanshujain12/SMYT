@@ -227,8 +227,7 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
     @Override
     public void onResume() {
         super.onResume();
-
-
+        setUserVisibleHint(getUserVisibleHint());
     }
 
 
@@ -437,7 +436,7 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser) {
+        if (isVisibleToUser && isResumed()) {
             if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
                 checkAndPayForAddVideoToPremium();
             }

@@ -99,7 +99,7 @@ public class UploadsFragment extends BaseFragment implements RuntimePermissionHe
                 Manifest.permission.RECORD_AUDIO
         };
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment((AppCompatActivity) getActivity(), this);
-        configViewPager();
+
     }
 
     private void configViewPager() {
@@ -118,6 +118,7 @@ public class UploadsFragment extends BaseFragment implements RuntimePermissionHe
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -174,7 +175,11 @@ public class UploadsFragment extends BaseFragment implements RuntimePermissionHe
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser)
+        if (isVisibleToUser) {
+            configViewPager();
             checkHasPermissions();
+        } else {
+            getChildFragmentManager().getFragments().clear();
+        }
     }
 }
