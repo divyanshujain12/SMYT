@@ -31,6 +31,7 @@
     <string name="follow">Follow</string>
     <string name="challenges">Challenges</string>
     <string name="following">Following</string>
+    <string name="followers">Followers</string>
     <string name="videos">Videos</string>
     <string name="user_profile">User Profile</string>
     <string name="accept">Accept</string>
@@ -208,5 +209,5 @@
     <string name="no_notification_available">No Notification Found!</string>
     <string name="search_result">Search Result</string>
     <string name="go_live_upload_video">Go Live/ Upload Video</string>
-
+    <string name="following_followers">Following/Followers</string>
 </resources>

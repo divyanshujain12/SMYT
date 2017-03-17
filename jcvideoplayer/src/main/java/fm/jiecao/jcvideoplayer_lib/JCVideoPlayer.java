@@ -1037,4 +1037,8 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     public void setPlayVideoInterface(PlayVideoInterface playVideoInterface) {
       //  this.playVideoInterface = playVideoInterface;
     }
+
+    public void setAudioVolume(int volume) {
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+    }
 }

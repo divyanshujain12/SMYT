@@ -54,5 +54,6 @@ public interface ApiCodes {
     int GET_RULES = 148;
     int ACTION_FAVORITE = 149;
     int NOTIFICATION = 150;
+    int GET_FOLLOWERS = 151;
 
 }

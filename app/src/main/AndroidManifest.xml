@@ -87,13 +87,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".DialogActivities.UploadedBattleRoundDescActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".DialogActivities.UserVideoDescActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".DialogActivities.OngoingChallengeDescriptionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
         <service android:name=".Fcm.MyFirebaseMessagingService">
             <intent-filter>
@@ -147,7 +150,7 @@
         <activity android:name=".myProfileActivities.MyFeedsActivity" />
         <activity android:name=".myProfileActivities.MyChallengesActivity" />
         <activity android:name=".myProfileActivities.UserNotificationActivity" />
-        <activity android:name=".myProfileActivities.MyFollowingActivity" />
+        <activity android:name=".myProfileActivities.MyFollowingFollowersActivity" />
         <activity
             android:name=".activities.PostChallengeActivity"
             android:windowSoftInputMode="adjustPan" />

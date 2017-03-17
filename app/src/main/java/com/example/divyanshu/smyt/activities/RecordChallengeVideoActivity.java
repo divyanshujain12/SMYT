@@ -303,7 +303,8 @@ public class RecordChallengeVideoActivity extends CameraActivityBase
     public void onAvailable(String videoUrl) {
         otherUserWaitingTV.setVisibility(View.GONE);
         VideoSetupUtils.getInstance(this).setUpFirstVideoPlayer(otherUserVideoPlayer, videoUrl, "");
-        otherUserVideoPlayer.startPlayLogic();
+        // otherUserVideoPlayer.startPlayLogic();
+        // otherUserVideoPlayer.setAudioVolume(0);
     }
 
     @Override

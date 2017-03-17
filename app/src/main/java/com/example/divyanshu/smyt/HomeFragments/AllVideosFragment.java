@@ -242,7 +242,6 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     @Override
     public boolean getUserVisibleHint() {
         return super.getUserVisibleHint();

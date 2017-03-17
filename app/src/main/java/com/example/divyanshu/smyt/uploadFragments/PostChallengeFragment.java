@@ -154,7 +154,9 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
+            checkAndPayForAddVideoToPremium();
+        }
         initViews();
 
     }
@@ -292,6 +294,12 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
                 break;
         }
         shareWithStr = shareWithArray[position];
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        System.out.print(hidden);
     }
 
     @Override
@@ -437,9 +445,9 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser && isResumed()) {
-            if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
+           /* if (MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID).equals(getString(R.string.premium_category))) {
                 checkAndPayForAddVideoToPremium();
-            }
+            }*/
         }
     }
 

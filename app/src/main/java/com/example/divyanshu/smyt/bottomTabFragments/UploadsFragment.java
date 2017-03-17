@@ -178,8 +178,6 @@ public class UploadsFragment extends BaseFragment implements RuntimePermissionHe
         if (isVisibleToUser) {
             configViewPager();
             checkHasPermissions();
-        } else {
-            getChildFragmentManager().getFragments().clear();
         }
     }
 }

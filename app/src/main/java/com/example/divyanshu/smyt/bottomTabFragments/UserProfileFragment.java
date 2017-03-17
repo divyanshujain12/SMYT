@@ -39,7 +39,7 @@ import com.example.divyanshu.smyt.activities.ProfileImageFullScreen;
 import com.example.divyanshu.smyt.activities.UserSettingActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyChallengesActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFeedsActivity;
-import com.example.divyanshu.smyt.myProfileActivities.MyFollowingActivity;
+import com.example.divyanshu.smyt.myProfileActivities.MyFollowingFollowersActivity;
 import com.example.divyanshu.smyt.myProfileActivities.UserNotificationActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -130,7 +130,7 @@ public class UserProfileFragment extends BaseFragment {
         userStatusTV.setText(userModel.getTimeline_msg());
         View view = userOptionRV.getChildAt(4);
         TextView textView = (TextView) view.findViewById(R.id.optionNameTV);
-        textView.setText("Followings (" + userModel.getFollowing() + ")");
+        textView.setText("Followings/Followers (" + userModel.getFollowing() + "/" + userModel.getFollowers() + ")");
     }
 
 
@@ -165,7 +165,7 @@ public class UserProfileFragment extends BaseFragment {
                 CustomToasts.getInstance(getContext()).showErrorToast(getString(R.string.feature_coming_soon));
                 break;
             case 4:
-                intent = new Intent(getActivity(), MyFollowingActivity.class);
+                intent = new Intent(getActivity(), MyFollowingFollowersActivity.class);
                 startActivity(intent);
                 break;
 

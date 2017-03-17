@@ -31,6 +31,8 @@ import com.example.divyanshu.smyt.bottomTabFragments.UserProfileFragment;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 public class BottomTabActivity extends BaseActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, ResetPager {
 
@@ -108,6 +110,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int itemID = item.getItemId();
         if (currentSelectedItemID == itemID)
             return false;
@@ -127,8 +130,14 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
                     break;
             }
             currentSelectedItemID = itemID;
+            releaseVideos();
         }
         return true;
+    }
+
+    private void releaseVideos() {
+        JCVideoPlayer.releaseAllVideos();
+        JCVideoPlayerTwo.releaseAllVideos();
     }
 
     @OnClick(R.id.genreIV)
@@ -183,5 +192,14 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     public void onResetPager() {
         currentSelectedItemID = R.id.action_feeds;
         bottomTabVP.setCurrentItem(0);
+        releaseVideos();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (bottomTabVP.getCurrentItem() != 0) {
+            onResetPager();
+        } else
+            super.onBackPressed();
     }
 }
