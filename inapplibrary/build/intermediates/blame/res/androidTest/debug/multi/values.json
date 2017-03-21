@@ -1,29 +1,5 @@
 [
     {
-        "outputFile": "D:\\prs\\SMYT\\inapplibrary\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 45,
-                    "endOffset": 96
-                },
-                "from": {
-                    "file": "D:\\prs\\SMYT\\inapplibrary\\build\\intermediates\\exploded-aar\\com.android.support.test\\rules\\0.4.1\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 287,
-                        "endColumn": 45,
-                        "endOffset": 328
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "D:\\Projects\\SMYT_GIT_NEW\\SMYT\\inapplibrary\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {
@@ -35,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "D:\\Projects\\SMYT_GIT_NEW\\SMYT\\inapplibrary\\build\\intermediates\\exploded-aar\\com.android.support.test\\rules\\0.4.1\\res\\values\\values.xml",
+                    "file": "C:\\Users\\divyanshuPC\\.android\\build-cache\\13733b66c01c780d2ae97bc273a0a92df886a373\\output\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

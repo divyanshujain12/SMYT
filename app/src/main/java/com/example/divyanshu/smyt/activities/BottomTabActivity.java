@@ -185,6 +185,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.bottomTabVP + ":" + bottomTabVP.getCurrentItem());
+        if (page != null)
         page.onActivityResult(requestCode, resultCode, data);
     }
 

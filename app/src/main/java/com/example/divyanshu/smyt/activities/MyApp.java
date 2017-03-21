@@ -14,7 +14,7 @@ import com.anjlab.android.iab.v3.TransactionDetails;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Interfaces.InAppCallback;
-import com.example.divyanshu.smyt.Utils.LruBitmapCache;
+//import com.example.divyanshu.smyt.Utils.LruBitmapCache;
 
 /**
  * Created by divyanshu.jain on 9/15/2016.
@@ -55,10 +55,10 @@ public class MyApp extends Application implements BillingProcessor.IBillingHandl
 
     public ImageLoader getImageLoader() {
         getRequestQueue();
-        if (mImageLoader == null) {
+       /* if (mImageLoader == null) {
             mImageLoader = new ImageLoader(this.mRequestQueue,
                     new LruBitmapCache());
-        }
+        }*/
         return this.mImageLoader;
     }
 

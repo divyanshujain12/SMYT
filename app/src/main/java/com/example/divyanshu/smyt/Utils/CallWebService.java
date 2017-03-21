@@ -8,9 +8,10 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
+
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.JsonArrayRequest;
+import com.android.volley.request.JsonObjectRequest;
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
@@ -159,7 +160,7 @@ public class CallWebService implements Response.ErrorListener, Response.Listener
         //  CustomToasts.getInstance(context).showErrorToast(error);
     }
 
-    private VolleyError configureErrorMessage(VolleyError volleyError) {
+    public static VolleyError configureErrorMessage(VolleyError volleyError) {
         if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
             VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
             volleyError = error;

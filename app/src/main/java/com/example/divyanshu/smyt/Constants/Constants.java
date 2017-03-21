@@ -93,6 +93,8 @@ public interface Constants {
     String FAVORITE = "favourite";
     String IS_FAVORITE = "is_favourite";
     String MOBILE_TYPE = "mobile_type";
+    String FILE_NAME = "file_name";
+
     int REQUEST_TIMEOUT_TIME = 30000;
 
 

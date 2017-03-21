@@ -61,4 +61,5 @@ public interface API {
     String GET_RULES = BASE + "getrules";
     String ACTION_FAVORITE = BASE + "actionFavourite";
     String GET_CUSTOMER_NOTIFICATION = BASE + "getCustomerNotification";
+    String POST_MP3 = BASE + "postMP3";
 }

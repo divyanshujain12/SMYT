@@ -226,15 +226,6 @@ public java.lang.String getInterfaceDescriptor()
 {
 return DESCRIPTOR;
 }
-/**
-     * Checks support for the requested billing API version, package and in-app type.
-     * Minimum API version supported by this interface is 3.
-     * @param apiVersion billing API version that the app is using
-     * @param packageName the package name of the calling app
-     * @param type type of the in-app item being purchased ("inapp" for one-time purchases
-     *        and "subs" for subscriptions)
-     * @return RESULT_OK(0) on success and appropriate response code on failures.
-     */
 @Override public int isBillingSupported(int apiVersion, java.lang.String packageName, java.lang.String type) throws android.os.RemoteException
 {
 android.os.Parcel _data = android.os.Parcel.obtain();
@@ -417,15 +408,6 @@ _data.recycle();
 }
 return _result;
 }
-/**
-     * Consume the last purchase of the given SKU. This will result in this item being removed
-     * from all subsequent responses to getPurchases() and allow re-purchase of this item.
-     * @param apiVersion billing API version that the app is using
-     * @param packageName package name of the calling app
-     * @param purchaseToken token in the purchase information JSON that identifies the purchase
-     *        to be consumed
-     * @return RESULT_OK(0) if consumption succeeded, appropriate response codes on failures.
-     */
 @Override public int consumePurchase(int apiVersion, java.lang.String packageName, java.lang.String purchaseToken) throws android.os.RemoteException
 {
 android.os.Parcel _data = android.os.Parcel.obtain();
@@ -446,9 +428,6 @@ _data.recycle();
 }
 return _result;
 }
-/**
-     * This API is currently under development.
-     */
 @Override public int stub(int apiVersion, java.lang.String packageName, java.lang.String type) throws android.os.RemoteException
 {
 android.os.Parcel _data = android.os.Parcel.obtain();
@@ -538,15 +517,6 @@ static final int TRANSACTION_consumePurchase = (android.os.IBinder.FIRST_CALL_TR
 static final int TRANSACTION_stub = (android.os.IBinder.FIRST_CALL_TRANSACTION + 5);
 static final int TRANSACTION_getBuyIntentToReplaceSkus = (android.os.IBinder.FIRST_CALL_TRANSACTION + 6);
 }
-/**
-     * Checks support for the requested billing API version, package and in-app type.
-     * Minimum API version supported by this interface is 3.
-     * @param apiVersion billing API version that the app is using
-     * @param packageName the package name of the calling app
-     * @param type type of the in-app item being purchased ("inapp" for one-time purchases
-     *        and "subs" for subscriptions)
-     * @return RESULT_OK(0) on success and appropriate response code on failures.
-     */
 public int isBillingSupported(int apiVersion, java.lang.String packageName, java.lang.String type) throws android.os.RemoteException;
 /**
      * Provides details of a list of SKUs
@@ -628,19 +598,7 @@ public android.os.Bundle getBuyIntent(int apiVersion, java.lang.String packageNa
      *                                      user has more owned skus than the current list.
      */
 public android.os.Bundle getPurchases(int apiVersion, java.lang.String packageName, java.lang.String type, java.lang.String continuationToken) throws android.os.RemoteException;
-/**
-     * Consume the last purchase of the given SKU. This will result in this item being removed
-     * from all subsequent responses to getPurchases() and allow re-purchase of this item.
-     * @param apiVersion billing API version that the app is using
-     * @param packageName package name of the calling app
-     * @param purchaseToken token in the purchase information JSON that identifies the purchase
-     *        to be consumed
-     * @return RESULT_OK(0) if consumption succeeded, appropriate response codes on failures.
-     */
 public int consumePurchase(int apiVersion, java.lang.String packageName, java.lang.String purchaseToken) throws android.os.RemoteException;
-/**
-     * This API is currently under development.
-     */
 public int stub(int apiVersion, java.lang.String packageName, java.lang.String type) throws android.os.RemoteException;
 /**
      * Returns a pending intent to launch the purchase flow for upgrading or downgrading a
