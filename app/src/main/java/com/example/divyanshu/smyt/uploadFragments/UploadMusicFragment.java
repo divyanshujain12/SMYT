@@ -23,8 +23,9 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.PictureHelper;
+import com.example.divyanshu.smyt.Utils.UploadFileToServer;
 import com.example.divyanshu.smyt.Utils.Utils;
-import com.example.divyanshu.smyt.musicupload.UploadFileToServer;
+
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
