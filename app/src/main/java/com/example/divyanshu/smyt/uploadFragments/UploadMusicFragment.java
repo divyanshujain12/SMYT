@@ -25,7 +25,6 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.PictureHelper;
 import com.example.divyanshu.smyt.Utils.UploadFileToServer;
 import com.example.divyanshu.smyt.Utils.Utils;
-
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -47,7 +46,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class UploadMusicFragment extends BaseFragment {
 
-
     @InjectView(R.id.videoTitleET)
     EditText videoTitleET;
     @InjectView(R.id.titleLL)
@@ -67,7 +65,6 @@ public class UploadMusicFragment extends BaseFragment {
 
     public static UploadMusicFragment getInstance() {
         UploadMusicFragment uploadMusicFragment = new UploadMusicFragment();
-
         return uploadMusicFragment;
     }
 
@@ -75,7 +72,6 @@ public class UploadMusicFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Nullable
     @Override
@@ -107,7 +103,6 @@ public class UploadMusicFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-
     @OnClick({R.id.selectImageFB, R.id.postVideoBT})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -125,30 +120,31 @@ public class UploadMusicFragment extends BaseFragment {
     }
 
     private void hitMultiPartRequest() {
+
         TextView textView = (TextView) selectedMusicRV.getLayoutManager().getChildAt(0).findViewById(R.id.uploadPercentTV);
         textView.setVisibility(View.VISIBLE);
-        UploadFileToServer uploadFileToServer = new UploadFileToServer(musicModels.get(0).getFilePath(), createJsonForUploadMusic(), textView);
+
+        UploadFileToServer uploadFileToServer = new UploadFileToServer(getActivity(), musicModels.get(0).getFilePath(), createJsonForUploadMusic(), videoTitleET.getText().toString(), textView);
         uploadFileToServer.execute();
-//      simpleMultiPartRequest  = new SimpleMultiPartRequest( API.POST_MP3, new Response.Listener<String>() {
-//           @Override
-//           public void onResponse(String s) {
-//               String response = s;
-//           }
-//       }, new Response.ErrorListener() {
-//           @Override
-//           public void onErrorResponse(VolleyError volleyError) {
-//            VolleyError error = CallWebService.configureErrorMessage(volleyError);
-//               String message = error.getMessage();
-//           }
-//       });
-//        setParams();
+    /*  simpleMultiPartRequest  = new SimpleMultiPartRequest( API.POST_MP3, new Response.Listener<String>() {
+           @Override
+           public void onResponse(String s) {
+               String response = s;
+           }
+       }, new Response.ErrorListener() {
+           @Override
+           public void onErrorResponse(VolleyError volleyError) {
+            VolleyError error = CallWebService.configureErrorMessage(volleyError);
+               String message = error.getMessage();
+           }
+       });
+        setParams();
 
 
-        //MyApp.getInstance().addToRequestQueue(simpleMultiPartRequest);
+        MyApp.getInstance().addToRequestQueue(simpleMultiPartRequest);*/
     }
 
     protected void setParams() {
-
         simpleMultiPartRequest.addStringParam(Constants.CUSTOMER_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CUSTOMER_ID));
         simpleMultiPartRequest.addStringParam(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
         simpleMultiPartRequest.addStringParam(Constants.FILE_NAME, filename);
@@ -162,7 +158,6 @@ public class UploadMusicFragment extends BaseFragment {
         JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
         try {
             jsonObject.put(Constants.CUSTOMER_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CUSTOMER_ID));
-
             jsonObject.put(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
             jsonObject.put(Constants.FILE_NAME, filename);
             jsonObject.put(Constants.SHARE_STATUS, "Public");

@@ -1,1 +1,1 @@
-include ':app', ':CustomPlayer', ':inapplibrary', ':vitamio', ':jcvideoplayer'
+include ':app', ':CustomPlayer', ':inapplibrary', ':vitamio', ':jcvideoplayer', ':jcplayer'

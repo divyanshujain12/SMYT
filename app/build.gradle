@@ -100,8 +100,10 @@ dependencies {
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.1-rc1'
     compile 'dev.dworks.libs:volleyplus:+'
-    compile files('libs/httpcore.jar')
-    compile files('libs/httpclient-4.2.3.jar')
+    /*compile files('libs/httpcore.jar')
+        compile files('libs/httpclient-4.2.3.jar')
+        */
     compile files('libs/httpmime-4.3.jar')
+
 }
 apply plugin: 'com.google.gms.google-services'
