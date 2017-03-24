@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -20,7 +21,7 @@ import java.io.IOException;
  * Created by divyanshuPC on 3/24/2017.
  */
 
-public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener {
+public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener {
     private SeekBar seekBar;
     private TextView current, total;
     private LinearLayout layout_bottom;
@@ -48,6 +49,7 @@ public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletio
         start = (ImageView) findViewById(R.id.start);
         mp = new MediaPlayer();
         seekBar.setOnSeekBarChangeListener(this);
+        start.setOnClickListener(this);
     }
 
     public void playSong(String musicUrl) {
@@ -88,6 +90,15 @@ public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletio
         }
     };
 
+    public void resetPlayer() {
+        if (mp != null) {
+            mp.stop();
+            mp.release();
+            layout_bottom.setVisibility(GONE);
+            start.setImageResource(R.drawable.jc_click_play_selector);
+        }
+    }
+
     public void updateProgressBar() {
         mHandler.postDelayed(mUpdateTimeTask, 100);
     }
@@ -112,11 +123,20 @@ public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletio
         mHandler.removeCallbacks(mUpdateTimeTask);
         int totalDuration = mp.getDuration();
         int currentPosition = Utilities.progressToTimer(seekBar.getProgress(), totalDuration);
-
         // forward or backward to certain seconds
         mp.seekTo(currentPosition);
-
         // update timer progress again
         updateProgressBar();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (mp.isPlaying()) {
+            mp.pause();
+            start.setImageResource(R.drawable.jc_click_play_selector);
+        } else {
+            mp.start();
+            start.setImageResource(R.drawable.jc_click_pause_selector);
+        }
     }
 }
