@@ -21,20 +21,24 @@ import java.io.IOException;
  * Created by divyanshuPC on 3/24/2017.
  */
 
-public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener, MediaPlayer.OnPreparedListener {
     private SeekBar seekBar;
     private TextView current, total;
     private LinearLayout layout_bottom;
     private ImageView start;
     private MediaPlayer mp;
     private Handler mHandler = new Handler();
-    ;
+    private String mediaUrl = "";
+    private int CURRENT_STATUS = 0;
+    private int MEDIA_PREPARING = 1;
+    private int MEDIA_PLAYING = 2;
+    private int MEDIA_PAUSE = 3;
 
-    public MusicPlayer(Context context) {
+    public CustomMusicPlayer(Context context) {
         super(context);
     }
 
-    public MusicPlayer(Context context, @Nullable AttributeSet attrs) {
+    public CustomMusicPlayer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initViews();
     }
@@ -47,22 +51,20 @@ public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletio
         total = (TextView) findViewById(R.id.total);
         layout_bottom = (LinearLayout) findViewById(R.id.layout_bottom);
         start = (ImageView) findViewById(R.id.start);
-        mp = new MediaPlayer();
+
         seekBar.setOnSeekBarChangeListener(this);
         start.setOnClickListener(this);
     }
 
-    public void playSong(String musicUrl) {
+    public void playSong() {
         // Play song
         try {
+            mp = new MediaPlayer();
             mp.reset();
-            mp.setDataSource(musicUrl);
-            mp.prepare();
-            mp.start();
-            start.setImageResource(R.drawable.jc_click_pause_selector);
-            seekBar.setProgress(0);
-            seekBar.setMax(100);
-            updateProgressBar();
+            mp.setDataSource(mediaUrl);
+            mp.prepareAsync();
+            CURRENT_STATUS = MEDIA_PREPARING;
+            mp.setOnPreparedListener(this);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
@@ -94,8 +96,12 @@ public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletio
         if (mp != null) {
             mp.stop();
             mp.release();
+            mp.reset();
+            mp = null;
             layout_bottom.setVisibility(GONE);
             start.setImageResource(R.drawable.jc_click_play_selector);
+            if (mUpdateTimeTask != null)
+                mHandler.removeCallbacks(mUpdateTimeTask);
         }
     }
 
@@ -131,12 +137,36 @@ public class MusicPlayer extends LinearLayout implements MediaPlayer.OnCompletio
 
     @Override
     public void onClick(View view) {
-        if (mp.isPlaying()) {
-            mp.pause();
-            start.setImageResource(R.drawable.jc_click_play_selector);
+        if (mp != null) {
+            if (CURRENT_STATUS == MEDIA_PLAYING) {
+                mp.pause();
+                start.setImageResource(R.drawable.jc_click_play_selector);
+                CURRENT_STATUS = MEDIA_PAUSE;
+            } else if (CURRENT_STATUS == MEDIA_PAUSE) {
+                mp.start();
+                start.setImageResource(R.drawable.jc_click_pause_selector);
+                CURRENT_STATUS = MEDIA_PLAYING;
+            }
         } else {
-            mp.start();
-            start.setImageResource(R.drawable.jc_click_pause_selector);
+            playSong();
         }
+    }
+
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        mp.start();
+        start.setImageResource(R.drawable.jc_click_pause_selector);
+        seekBar.setProgress(0);
+        seekBar.setMax(100);
+        updateProgressBar();
+        CURRENT_STATUS = MEDIA_PLAYING;
     }
 }

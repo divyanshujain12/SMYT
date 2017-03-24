@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/inapplibrary/inapplibrary.iml" filepath="$PROJECT_DIR$/inapplibrary/inapplibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/jcplayer/jcplayer.iml" filepath="$PROJECT_DIR$/jcplayer/jcplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jcplayer/jcplayer.iml" filepath="$PROJECT_DIR$/jcplayer/jcplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/jcvideoplayer/jcvideoplayer.iml" filepath="$PROJECT_DIR$/jcvideoplayer/jcvideoplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/vitamio/vitamio.iml" filepath="$PROJECT_DIR$/vitamio/vitamio.iml" />
     </modules>

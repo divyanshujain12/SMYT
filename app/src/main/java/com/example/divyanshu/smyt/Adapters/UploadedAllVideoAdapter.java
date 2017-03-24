@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.ChallengeRoundTitleView;
+import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
 import com.example.divyanshu.smyt.CustomViews.ReusedCodes;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.SingleVideoPlayerCustomView;
@@ -76,6 +77,35 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
             singleVideoPlayerView = (SingleVideoPlayerCustomView) view.findViewById(R.id.singleVideoPlayerView);
+            userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
+
+        }
+    }
+
+    private class MusicPlayerViewHolder extends RecyclerView.ViewHolder {
+        private VideoTitleView videoTitleView;
+        public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
+        private ImageView videoThumbIV;
+        public FrameLayout videoFL;
+        private RoundedImageView firstUserIV;
+        private CustomMusicPlayer customMusicPlayer;
+        private LinearLayout firstUserLL;
+        private TextView viewsCountTV;
+        private TextView userOneLikesCountTV;
+
+        private MusicPlayerViewHolder(View view) {
+            super(view);
+            videoTitleView = (VideoTitleView) view.findViewById(R.id.videoTitleView);
+            firstUserLL = (LinearLayout) view.findViewById(R.id.firstUserLL);
+            userTimeTV = (TextView) view.findViewById(R.id.userTimeTV);
+            firstUserNameTV = (TextView) view.findViewById(R.id.firstUserNameTV);
+            commentsTV = (TextView) view.findViewById(R.id.commentsTV);
+            uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
+            videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
+            videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
+            firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
+            viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
+            customMusicPlayer = (CustomMusicPlayer) view.findViewById(R.id.customMusicPlayer);
             userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
 
         }
@@ -149,6 +179,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.top_rated_videos_rv, parent, false);
                 return new TopRatedVideoHolder(itemView);
+
+            case 3:
+                itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.music_player_item, parent, false);
+                return new MusicPlayerViewHolder(itemView);
+
             default:
                 return null;
         }
@@ -166,6 +202,10 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             SingleVideoHolder singleVideoHolder = (SingleVideoHolder) holder;
             setupSingleViewHolder(singleVideoHolder, allVideoModels.get(position));
         }
+        if (holder instanceof MusicPlayerViewHolder) {
+            setupMusicPlayerViewHolder((MusicPlayerViewHolder) holder, allVideoModels.get(position));
+        }
+
         if (holder instanceof TopRatedVideoHolder) {
             setUpTopRatedViewHolder((TopRatedVideoHolder) holder);
         }
@@ -198,8 +238,30 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
-    private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
+    private void setupMusicPlayerViewHolder(final MusicPlayerViewHolder holder, final AllVideoModel allVideoModel) {
+        setUpMusicPlayerTitleBar(holder, allVideoModel);
+        holder.customMusicPlayer.setMediaUrl(allVideoModel.getVideo_url());
+        imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
+        holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
+        holder.userOneLikesCountTV.setText(ReusedCodes.getLikes(context, allVideoModel.getLikes()));
+        holder.commentsTV.setText(ReusedCodes.getComment(context, allVideoModel.getVideo_comment_count()));
+        holder.viewsCountTV.setText(ReusedCodes.getViews(context, allVideoModel.getViews()));
+        holder.uploadedTimeTV.setText(Utils.getChallengeTimeDifference(allVideoModel.getEdate()));
+        holder.firstUserLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserDetailActivity(allVideoModel.getCustomer_id());
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
+            }
+        });
+    }
 
+    private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
         //String title = allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")";
         setUpBattleTitleBar(holder, allVideoModel);
         holder.twoVideoPlayers.setUp(allVideoModel.getVideo_url(), allVideoModel.getVideo_url1(), allVideoModel.getThumbnail(), allVideoModel.getThumbnail1(), allVideoModel.getCustomers_videos_id());
@@ -238,6 +300,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.videoTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
     }
 
+    private void setUpMusicPlayerTitleBar(MusicPlayerViewHolder holder, AllVideoModel allVideoModel) {
+        holder.videoTitleView.setUpViewsForListing(allVideoModel.getTitle(), holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
+        setUpMoreIvButtonVisibilityForMusicPlayer(holder, allVideoModel);
+        holder.videoTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
+    }
+
     private void setUpBattleTitleBar(BattleVideoHolder holder, AllVideoModel allVideoModel) {
         holder.challengeTitleView.setUpViewsForListing(allVideoModel.getTitle() + "(" + allVideoModel.getRound_no() + ")", holder.getAdapterPosition(), allVideoModel.getCustomers_videos_id(), this);
         setUpMoreIvButtonVisibility(holder, allVideoModel);
@@ -246,6 +314,14 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
     private void setUpMoreIvButtonVisibilityForSingleVideo(SingleVideoHolder holder, AllVideoModel allVideoModel) {
+        String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
+        if (!currentCustomerID.equals(allVideoModel.getCustomer_id()) && !currentCustomerID.equals(allVideoModel.getCustomer_id1()))
+            holder.videoTitleView.showHideMoreIvButton(false);
+        else
+            holder.videoTitleView.showHideMoreIvButton(true);
+    }
+
+    private void setUpMoreIvButtonVisibilityForMusicPlayer(MusicPlayerViewHolder holder, AllVideoModel allVideoModel) {
         String currentCustomerID = MySharedPereference.getInstance().getString(context, Constants.CUSTOMER_ID);
         if (!currentCustomerID.equals(allVideoModel.getCustomer_id()) && !currentCustomerID.equals(allVideoModel.getCustomer_id1()))
             holder.videoTitleView.showHideMoreIvButton(false);
@@ -278,6 +354,8 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
             return 2;
         else if (allVideoModels.get(position).getType().equals("Challenge"))
             return 1;
+        else if (allVideoModels.get(position).getType().equals("mp3"))
+            return 3;
         else return 0;
     }
 
