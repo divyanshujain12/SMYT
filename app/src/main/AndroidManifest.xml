@@ -154,6 +154,7 @@
         <activity
             android:name=".activities.PostChallengeActivity"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".myProfileActivities.UserMusicActivity" />
     </application>
 
 </manifest>

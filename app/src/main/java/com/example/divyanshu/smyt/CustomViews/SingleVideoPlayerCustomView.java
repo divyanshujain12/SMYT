@@ -64,6 +64,8 @@ public class SingleVideoPlayerCustomView extends LinearLayout implements View.On
         switch (view.getId()) {
             case R.id.playVideosFL:
                 onPlayButtonClicked();
+                if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
+                    CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
                 break;
         }
     }

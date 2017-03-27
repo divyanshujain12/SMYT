@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -16,6 +17,9 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.Utilities;
 
 import java.io.IOException;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
 /**
  * Created by divyanshuPC on 3/24/2017.
@@ -34,6 +38,9 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
     private int MEDIA_PLAYING = 2;
     private int MEDIA_PAUSE = 3;
 
+    private static CustomMusicPlayer prevPlayedPlayer;
+    private ProgressBar progressBar2;
+
     public CustomMusicPlayer(Context context) {
         super(context);
     }
@@ -51,6 +58,7 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
         total = (TextView) findViewById(R.id.total);
         layout_bottom = (LinearLayout) findViewById(R.id.layout_bottom);
         start = (ImageView) findViewById(R.id.start);
+        progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
         seekBar.setOnSeekBarChangeListener(this);
         start.setOnClickListener(this);
@@ -59,12 +67,14 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
     public void playSong() {
         // Play song
         try {
+            resetPreviousPlayer();
             mp = new MediaPlayer();
             mp.reset();
             mp.setDataSource(mediaUrl);
             mp.prepareAsync();
             CURRENT_STATUS = MEDIA_PREPARING;
             mp.setOnPreparedListener(this);
+            showProgressBar(this, true);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
@@ -72,6 +82,12 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setPrevPlayedPlayer(this);
+    }
+
+    private void showProgressBar(CustomMusicPlayer currentPlayedPlayer, boolean visible) {
+        currentPlayedPlayer.progressBar2.setVisibility(visible ? VISIBLE : GONE);
+        currentPlayedPlayer.start.setVisibility(visible ? GONE : VISIBLE);
     }
 
 
@@ -92,16 +108,24 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
         }
     };
 
-    public void resetPlayer() {
-        if (mp != null) {
-            mp.stop();
-            mp.release();
-            mp.reset();
-            mp = null;
-            layout_bottom.setVisibility(GONE);
-            start.setImageResource(R.drawable.jc_click_play_selector);
-            if (mUpdateTimeTask != null)
-                mHandler.removeCallbacks(mUpdateTimeTask);
+    public void resetPreviousPlayer() {
+        if (getPrevPlayedPlayer() != null) {
+            MediaPlayer mp = getPrevPlayedPlayer().mp;
+            if (mp != null) {
+                mp.stop();
+                mp.reset();
+                mp.release();
+                mp = null;
+                getPrevPlayedPlayer().CURRENT_STATUS = MEDIA_PREPARING;
+                getPrevPlayedPlayer().getTotal().setText("0:00");
+                getPrevPlayedPlayer().getCurrent().setText("0:00");
+                //layout_bottom.setVisibility(GONE);
+                getPrevPlayedPlayer().start.setImageResource(R.drawable.jc_click_play_selector);
+                showProgressBar(getPrevPlayedPlayer(), false);
+                if (getPrevPlayedPlayer().mUpdateTimeTask != null)
+                    getPrevPlayedPlayer().mHandler.removeCallbacks(getPrevPlayedPlayer().mUpdateTimeTask);
+            }
+            prevPlayedPlayer = null;
         }
     }
 
@@ -137,7 +161,7 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
 
     @Override
     public void onClick(View view) {
-        if (mp != null) {
+        if (mp != null && CURRENT_STATUS != MEDIA_PREPARING) {
             if (CURRENT_STATUS == MEDIA_PLAYING) {
                 mp.pause();
                 start.setImageResource(R.drawable.jc_click_play_selector);
@@ -148,6 +172,8 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
                 CURRENT_STATUS = MEDIA_PLAYING;
             }
         } else {
+            JCVideoPlayer.releaseAllVideos();
+            JCVideoPlayerTwo.releaseAllVideos();
             playSong();
         }
     }
@@ -168,5 +194,30 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
         seekBar.setMax(100);
         updateProgressBar();
         CURRENT_STATUS = MEDIA_PLAYING;
+        showProgressBar(this, false);
+    }
+
+    public TextView getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(TextView current) {
+        this.current = current;
+    }
+
+    public TextView getTotal() {
+        return total;
+    }
+
+    public void setTotal(TextView total) {
+        this.total = total;
+    }
+
+    public static CustomMusicPlayer getPrevPlayedPlayer() {
+        return prevPlayedPlayer;
+    }
+
+    public static void setPrevPlayedPlayer(CustomMusicPlayer prevPlayedPlayer) {
+        CustomMusicPlayer.prevPlayedPlayer = prevPlayedPlayer;
     }
 }

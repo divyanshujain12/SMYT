@@ -14,7 +14,7 @@
         <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
             android:id="@+id/customMusicPlayer"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/one_hundred_dp" />
+            android:layout_height="@dimen/one_hundred_fourty_five_dp" />
 
         <include layout="@layout/video_title_bar" />
 

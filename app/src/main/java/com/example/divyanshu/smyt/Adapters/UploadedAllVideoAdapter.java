@@ -253,12 +253,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 goToUserDetailActivity(allVideoModel.getCustomer_id());
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
-            }
-        });
     }
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {
@@ -379,17 +373,6 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
         allVideoModels.remove(selectedVideoPos);
         notifyItemRemoved(selectedVideoPos);
         notifyItemRangeChanged(selectedVideoPos, getItemCount());
-    }
-
-    private JSONObject createJsonForUpdateViewsCount(String customerVideoID) {
-        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(context);
-        try {
-            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
-            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
     }
 
     private void goToUserDetailActivity(String customer_id) {

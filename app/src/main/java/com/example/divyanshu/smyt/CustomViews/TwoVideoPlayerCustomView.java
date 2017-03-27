@@ -79,6 +79,8 @@ public class TwoVideoPlayerCustomView extends LinearLayout implements View.OnCli
         switch (view.getId()) {
             case R.id.playVideosFL:
                 onPlayButtonClicked();
+                if(CustomMusicPlayer.getPrevPlayedPlayer()!=null)
+                CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
                 break;
             case R.id.fullscreenFL:
                 onFullScreenClicked();

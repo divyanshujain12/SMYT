@@ -5,7 +5,7 @@ package com.example.divyanshu.smyt.Constants;
  */
 public interface API {
 
-     String BASE = "http://smytex.com/api/api/"; // for live
+    String BASE = "http://smytex.com/api/api/"; // for live
     //String BASE = "http://smytex.com/demo/api/"; // for development
     String REGISTRATION = BASE + "registration";
     String LOGIN = BASE + "login";
@@ -62,4 +62,5 @@ public interface API {
     String ACTION_FAVORITE = BASE + "actionFavourite";
     String GET_CUSTOMER_NOTIFICATION = BASE + "getCustomerNotification";
     String POST_MP3 = BASE + "postMP3";
+    String GET_CUSTOMER_MP3 = BASE + "getCustomerMP3";
 }

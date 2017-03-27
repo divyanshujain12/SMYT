@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserAudioFeeds;
+import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserMusicFeeds;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserFavoriteFeeds;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserVideosFragment;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -104,7 +104,7 @@ public class FeedsParentFragment extends BaseFragment {
                 updateFragment(UserVideosFragment.getInstance(CustomerID));
                 break;
             case R.id.audiosTV:
-                updateFragment(UserAudioFeeds.getInstance(CustomerID));
+                updateFragment(UserMusicFeeds.getInstance(CustomerID));
                 break;
             case R.id.favoriteTV:
                 updateFragment(UserFavoriteFeeds.getInstance(CustomerID));

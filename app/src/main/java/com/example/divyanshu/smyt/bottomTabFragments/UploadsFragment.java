@@ -96,7 +96,9 @@ public class UploadsFragment extends BaseFragment implements RuntimePermissionHe
     private void initViews() {
         mRequiredPermissions = new String[]{
                 Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
         };
         runtimePermissionHeadlessFragment = CommonFunctions.getInstance().addRuntimePermissionFragment((AppCompatActivity) getActivity(), this);
 

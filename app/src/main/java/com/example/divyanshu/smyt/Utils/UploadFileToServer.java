@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.Utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,6 +21,7 @@ public class UploadFileToServer extends AsyncTask<String, String, String> {
     File sourceFile;
     String charset = "UTF-8";
     Context context;
+    ProgressDialog progressDialog;
 
     public UploadFileToServer(Context context, String filePath, String json, String title, TextView percentageTV) {
         this.filePath = filePath;
@@ -31,6 +33,10 @@ public class UploadFileToServer extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("File Uploading!");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         sourceFile = new File(filePath);
         totalSize = (int) sourceFile.length();
         super.onPreExecute();
@@ -71,6 +77,8 @@ public class UploadFileToServer extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         Log.e("Response", "Response from server: " + result);
         super.onPostExecute(result);
+        if (progressDialog != null)
+            progressDialog.cancel();
     }
 
     private void setParams(Context context, String filename, MultipartUtility multipartUtility) {

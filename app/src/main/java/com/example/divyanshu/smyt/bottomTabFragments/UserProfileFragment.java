@@ -40,6 +40,7 @@ import com.example.divyanshu.smyt.activities.UserSettingActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyChallengesActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFeedsActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFollowingFollowersActivity;
+import com.example.divyanshu.smyt.myProfileActivities.UserMusicActivity;
 import com.example.divyanshu.smyt.myProfileActivities.UserNotificationActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -162,7 +163,8 @@ public class UserProfileFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case 3:
-                CustomToasts.getInstance(getContext()).showErrorToast(getString(R.string.feature_coming_soon));
+                intent = new Intent(getActivity(), UserMusicActivity.class);
+                startActivity(intent);
                 break;
             case 4:
                 intent = new Intent(getActivity(), MyFollowingFollowersActivity.class);

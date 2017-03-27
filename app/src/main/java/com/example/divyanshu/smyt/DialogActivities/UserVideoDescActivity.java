@@ -198,7 +198,7 @@ public class UserVideoDescActivity extends BaseActivity implements View.OnClickL
     private void sendComment() {
         validationMap = validation.validate(this);
         commentsET.setText("");
-        setCommentPBVisibility(View.VISIBLE);
+        //setCommentPBVisibility(View.VISIBLE);
         if (validationMap != null) {
             CallWebService.getInstance(this, false, ApiCodes.POST_COMMENT).hitJsonObjectRequestAPI(CallWebService.POST, API.ADD_COMMENT, createJsonForPostComment(), this);
         }

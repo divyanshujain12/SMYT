@@ -28,6 +28,7 @@ import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserFavoriteFeeds;
+import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserMusicFeeds;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserVideosFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
 import com.example.divyanshu.smyt.UserProfileFragments.UserFollowingFragment;
@@ -119,6 +120,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     private void ConfigViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(UserVideosFragment.getInstance(otherCustomerID), getString(R.string.videos));
+        viewPagerAdapter.addFragment(UserMusicFeeds.getInstance(otherCustomerID), getString(R.string.music));
         viewPagerAdapter.addFragment(UserFavoriteFeeds.getInstance(otherCustomerID), getString(R.string.favorites));
         viewPagerAdapter.addFragment(UserFollowingFragment.getInstance(otherCustomerID), getString(R.string.following));
         viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(otherCustomerID), getString(R.string.followers));

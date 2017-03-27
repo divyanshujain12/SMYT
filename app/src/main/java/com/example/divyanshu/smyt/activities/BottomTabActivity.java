@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.ResetPager;
 import com.example.divyanshu.smyt.R;
@@ -186,7 +187,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.bottomTabVP + ":" + bottomTabVP.getCurrentItem());
         if (page != null)
-        page.onActivityResult(requestCode, resultCode, data);
+            page.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -200,7 +201,9 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     public void onBackPressed() {
         if (bottomTabVP.getCurrentItem() != 0) {
             onResetPager();
-        } else
+        } else {
+            CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
             super.onBackPressed();
+        }
     }
 }
