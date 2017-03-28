@@ -378,9 +378,15 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     private void resetAdapter() {
         JCVideoPlayer.releaseAllVideos();
         JCVideoPlayerTwo.releaseAllVideos();
-        if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
-            CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
+
         if (otherVideosRV != null)
             otherVideosRV.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
+            CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
     }
 }

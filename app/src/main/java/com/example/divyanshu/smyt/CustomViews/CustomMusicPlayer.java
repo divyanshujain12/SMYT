@@ -3,6 +3,7 @@ package com.example.divyanshu.smyt.CustomViews;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -40,7 +41,7 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
 
     private static CustomMusicPlayer prevPlayedPlayer;
     private ProgressBar progressBar2;
-
+private PowerManager pw;
     public CustomMusicPlayer(Context context) {
         super(context);
     }
@@ -67,6 +68,7 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
     public void playSong() {
         // Play song
         try {
+
             resetPreviousPlayer();
             mp = new MediaPlayer();
             mp.reset();

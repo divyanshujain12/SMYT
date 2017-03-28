@@ -202,7 +202,8 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
         if (bottomTabVP.getCurrentItem() != 0) {
             onResetPager();
         } else {
-            CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
+            if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
+                CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
             super.onBackPressed();
         }
     }
