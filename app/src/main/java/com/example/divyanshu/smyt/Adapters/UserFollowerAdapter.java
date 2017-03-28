@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.divyanshu.smyt.GlobalClasses.SingletonClass;
 import com.example.divyanshu.smyt.Interfaces.RecyclerViewClick;
-import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Models.UserFollowerModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
  */
 public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapter.MyViewHolder> {
 
-    private ArrayList<UserModel> userList;
+    private ArrayList<UserFollowerModel> userList;
     private Context context;
     private ImageLoading imageLoading;
     private RecyclerViewClick recyclerViewClick;
@@ -42,7 +41,7 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
         }
     }
 
-    public UserFollowerAdapter(Context context, RecyclerViewClick recyclerViewClick, ArrayList<UserModel> userModels) {
+    public UserFollowerAdapter(Context context, RecyclerViewClick recyclerViewClick, ArrayList<UserFollowerModel> userModels) {
         this.recyclerViewClick = recyclerViewClick;
         this.userList = userModels;
         this.context = context;
@@ -59,7 +58,7 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        UserModel userModel = userList.get(position);
+        UserFollowerModel userModel = userList.get(position);
 
         holder.userNameTV.setText(userModel.getUsername());
         imageLoading.LoadImage(userModel.getProfileimage(), holder.userIV, null);
@@ -81,7 +80,7 @@ public class UserFollowerAdapter extends RecyclerView.Adapter<UserFollowerAdapte
         return userList.size();
     }
 
-    public void addItems(ArrayList<UserModel> userModels) {
+    public void addItems(ArrayList<UserFollowerModel> userModels) {
         this.userList = userModels;
         notifyDataSetChanged();
     }

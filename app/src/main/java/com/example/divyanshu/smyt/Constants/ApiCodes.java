@@ -56,5 +56,6 @@ public interface ApiCodes {
     int NOTIFICATION = 150;
     int GET_FOLLOWERS = 151;
     int GET_USER_MUSIC = 152;
+    int GET_CATEGORY_MP3 = 153;
 
 }

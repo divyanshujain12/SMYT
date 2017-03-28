@@ -28,6 +28,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -183,6 +184,7 @@ public class UserVideosFragment extends BaseFragment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(Constants.CUSTOMER_ID, customerID);
+            jsonObject.put(Constants.CUSTOMER_ID_ONE, MySharedPereference.getInstance().getString(getActivity(), Constants.CUSTOMER_ID));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -252,6 +254,7 @@ public class UserVideosFragment extends BaseFragment {
 
         }
     }
+
     private void updateLikeCount(Intent intent) {
         String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         String likesCount = intent.getStringExtra(Constants.COUNT);
@@ -263,6 +266,7 @@ public class UserVideosFragment extends BaseFragment {
             setAdapter();
         }
     }
+
     private void updateCount(Intent intent) {
         String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         int commentCount = intent.getIntExtra(Constants.COUNT, 0);

@@ -81,7 +81,6 @@
             android:name=".activities.UserSettingActivity"
             android:configChanges="orientation|screenSize|keyboard|screenLayout"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".DialogActivities.LiveRoundDescActivity"
             android:screenOrientation="portrait" />
@@ -155,6 +154,7 @@
             android:name=".activities.PostChallengeActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".myProfileActivities.UserMusicActivity" />
+        <activity android:name=".DialogActivities.MusicDescriptionActivity"></activity>
     </application>
 
 </manifest>

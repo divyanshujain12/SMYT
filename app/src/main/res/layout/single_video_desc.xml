@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="1000dp"
@@ -16,7 +15,7 @@
         android:layout_marginBottom="@dimen/fourty_dp"
         android:orientation="vertical">
 
-      <!--  <include layout="@layout/video_title_bar" />-->
+        <!--  <include layout="@layout/video_title_bar" />-->
 
         <include layout="@layout/single_video_view" />
 

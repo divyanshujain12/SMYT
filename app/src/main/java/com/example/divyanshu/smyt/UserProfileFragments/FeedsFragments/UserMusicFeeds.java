@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.example.divyanshu.smyt.Adapters.UserMusicPlayerAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.DialogActivities.MusicDescriptionActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -87,6 +89,15 @@ public class UserMusicFeeds extends BaseFragment {
         super.onJsonObjectSuccess(response, apiType);
         allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
         userMusicPlayerAdapter.addNewData(allVideoModels);
+    }
+
+
+    @Override
+    public void onClickItem(int position, View view) {
+        super.onClickItem(position, view);
+        Intent intent = new Intent(getActivity(), MusicDescriptionActivity.class);
+        intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
+        startActivity(intent);
     }
 
     private JSONObject createJsonForGetCustomerMusic() {

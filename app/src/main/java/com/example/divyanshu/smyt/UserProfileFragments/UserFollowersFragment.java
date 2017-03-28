@@ -15,7 +15,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
-import com.example.divyanshu.smyt.Models.UserModel;
+import com.example.divyanshu.smyt.Models.UserFollowerModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
@@ -40,7 +40,7 @@ public class UserFollowersFragment extends BaseFragment{
     RecyclerView followersRV;
     private UserFollowerAdapter userFollowerAdapter;
     private String customerID = "";
-    private ArrayList<UserModel> userModels;
+    private ArrayList<UserFollowerModel> userFollowerModels;
     private boolean isApiHit = false;
 
     public static UserFollowersFragment getInstance(String customerID) {
@@ -78,9 +78,9 @@ public class UserFollowersFragment extends BaseFragment{
     }
 
     private void initViews() {
-        userModels = new ArrayList<>();
+        userFollowerModels = new ArrayList<>();
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
-        userFollowerAdapter = new UserFollowerAdapter(getActivity(), this, userModels);
+        userFollowerAdapter = new UserFollowerAdapter(getActivity(), this, userFollowerModels);
         followersRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         followersRV.setAdapter(userFollowerAdapter);
         hitFollowingAPI();
@@ -93,7 +93,7 @@ public class UserFollowersFragment extends BaseFragment{
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        userModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserModel.class);
+        userFollowerModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), UserFollowerModel.class);
         if (getUserVisibleHint()) {
             setAdapter();
         }
@@ -102,7 +102,7 @@ public class UserFollowersFragment extends BaseFragment{
 
     private void setAdapter() {
         if (userFollowerAdapter != null)
-            userFollowerAdapter.addItems(userModels);
+            userFollowerAdapter.addItems(userFollowerModels);
     }
 
     private JSONObject createJsonForGetFollowers() {
@@ -119,11 +119,11 @@ public class UserFollowersFragment extends BaseFragment{
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        String customerID = userModels.get(position).getCustomer_id();
+        String customerID = userFollowerModels.get(position).getCustomer_id();
         Intent intent = new Intent(getActivity(), OtherUserProfileActivity.class);
         if (customerID.equals(MySharedPereference.getInstance().getString(getContext(), Constants.CUSTOMER_ID)))
             intent = new Intent(getActivity(), UserProfileActivity.class);
-        intent.putExtra(Constants.CUSTOMER_ID, userModels.get(position).getCustomer_id());
+        intent.putExtra(Constants.CUSTOMER_ID, userFollowerModels.get(position).getCustomer_id());
         startActivity(intent);
     }
 
@@ -136,7 +136,7 @@ public class UserFollowersFragment extends BaseFragment{
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && userModels != null) {
+        if (isVisibleToUser && userFollowerModels != null) {
             setAdapter();
         }
     }

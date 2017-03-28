@@ -253,6 +253,12 @@ public class UploadedAllVideoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 goToUserDetailActivity(allVideoModel.getCustomer_id());
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
+            }
+        });
     }
 
     private void setupBattleViewHolder(final BattleVideoHolder holder, final AllVideoModel allVideoModel) {

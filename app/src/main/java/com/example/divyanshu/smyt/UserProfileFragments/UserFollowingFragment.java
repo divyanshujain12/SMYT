@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.UserFollowerAdapter;
+import com.example.divyanshu.smyt.Adapters.UserFollowingAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
@@ -38,7 +39,7 @@ public class UserFollowingFragment extends BaseFragment {
 
     @InjectView(R.id.followersRV)
     RecyclerView followersRV;
-    private UserFollowerAdapter userFollowerAdapter;
+    private UserFollowingAdapter userFollowerAdapter;
     private String customerID = "";
     private ArrayList<UserModel> userModels;
     private boolean isApiHit = false;
@@ -80,7 +81,7 @@ public class UserFollowingFragment extends BaseFragment {
     private void initViews() {
         userModels = new ArrayList<>();
         customerID = getArguments().getString(Constants.CUSTOMER_ID);
-        userFollowerAdapter = new UserFollowerAdapter(getActivity(), this, userModels);
+        userFollowerAdapter = new UserFollowingAdapter(getActivity(), this, userModels);
         followersRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         followersRV.setAdapter(userFollowerAdapter);
         hitFollowingAPI();

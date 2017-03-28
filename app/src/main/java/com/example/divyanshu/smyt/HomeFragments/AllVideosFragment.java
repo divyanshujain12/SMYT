@@ -20,6 +20,8 @@ import android.widget.ProgressBar;
 import com.example.divyanshu.smyt.Adapters.UploadedAllVideoAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
+import com.example.divyanshu.smyt.DialogActivities.MusicDescriptionActivity;
 import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
@@ -230,6 +232,10 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
                 intent = new Intent(getActivity(), UploadedBattleRoundDescActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
                 break;
+            case 3:
+                intent = new Intent(getActivity(), MusicDescriptionActivity.class);
+                intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
+                break;
 
         }
         if (intent != null)
@@ -320,6 +326,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
             otherAllVideoAdapter.notifyDataSetChanged();
         }
     }
+
     private void updateLikeCount(Intent intent) {
         String customerVideoID = intent.getStringExtra(Constants.CUSTOMERS_VIDEO_ID);
         String likesCount = intent.getStringExtra(Constants.COUNT);
@@ -371,6 +378,8 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     private void resetAdapter() {
         JCVideoPlayer.releaseAllVideos();
         JCVideoPlayerTwo.releaseAllVideos();
+        if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
+            CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
         if (otherVideosRV != null)
             otherVideosRV.getAdapter().notifyDataSetChanged();
     }

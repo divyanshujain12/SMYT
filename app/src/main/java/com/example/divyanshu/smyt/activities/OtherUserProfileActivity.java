@@ -126,7 +126,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(otherCustomerID), getString(R.string.followers));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         tabs.post(new Runnable() {
             @Override
             public void run() {
