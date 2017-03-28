@@ -74,6 +74,7 @@ public class MusicFragment extends BaseFragment {
         musicRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userMusicPlayerAdapter = new UserMusicPlayerAdapter(getContext(), allVideoModels, this);
         musicRV.setAdapter(userMusicPlayerAdapter);
+        CommonFunctions.stopVideoOnScroll(musicRV);
         CallWebService.getInstance(getContext(), false, ApiCodes.GET_CATEGORY_MP3).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CATEGORY_MP3, createJsonForGetCategoryMusic(), this);
 
     }

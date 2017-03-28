@@ -15,6 +15,7 @@ import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
+import com.example.divyanshu.smyt.HomeFragments.MusicFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
 
@@ -76,6 +77,7 @@ public class CategoryFeedsFragment extends BaseFragment {
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.tab_all_videos));
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
+        viewPagerAdapter.addFragment(MusicFragment.getInstance(), getString(R.string.music));
 
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(2);

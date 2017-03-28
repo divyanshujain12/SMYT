@@ -19,6 +19,7 @@ import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,17 +46,6 @@ public class UserMusicFeeds extends BaseFragment {
         return userFavoriteFeeds;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,6 +70,7 @@ public class UserMusicFeeds extends BaseFragment {
         videosRV.setLayoutManager(new LinearLayoutManager(getContext()));
         userMusicPlayerAdapter = new UserMusicPlayerAdapter(getContext(), allVideoModels, this);
         videosRV.setAdapter(userMusicPlayerAdapter);
+        CommonFunctions.stopVideoOnScroll(videosRV);
         CallWebService.getInstance(getContext(), false, ApiCodes.GET_USER_MUSIC).hitJsonObjectRequestAPI(CallWebService.POST, API.GET_CUSTOMER_MP3, createJsonForGetCustomerMusic(), this);
 
     }
