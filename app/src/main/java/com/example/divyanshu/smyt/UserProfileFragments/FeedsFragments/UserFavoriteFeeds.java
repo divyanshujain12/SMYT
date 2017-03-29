@@ -29,6 +29,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
+import com.example.divyanshu.smyt.Utils.MySharedPereference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -186,6 +187,7 @@ public class UserFavoriteFeeds extends BaseFragment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(Constants.CUSTOMER_ID, customerID);
+            jsonObject.put(Constants.CUSTOMER_ID_ONE, MySharedPereference.getInstance().getString(getActivity(), Constants.CUSTOMER_ID));
             jsonObject.put(Constants.IS_FAVORITE, 1);
         } catch (JSONException e) {
             e.printStackTrace();

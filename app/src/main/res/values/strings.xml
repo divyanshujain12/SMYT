@@ -74,6 +74,9 @@
     <string name="send_password">Send Password</string>
     <string name="round_timing">Round %s Timing</string>
     <string name="round_date">Round %s Date</string>
+
+    <string name="start_time">Start Time</string>
+    <string name="start_date">Start Date</string>
     <string name="twenty_four_hours_err_msg">Time difference must be greater than 24 hours in %s round</string>
     <string name="one_hours_err_msg">Time difference must be greater than 1 hours in %s round</string>
     <string name="err_post_challenge_title">Title Cant Left Blank!</string>

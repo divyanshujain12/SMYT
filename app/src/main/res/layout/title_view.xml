@@ -18,14 +18,15 @@
         android:alpha=".8"
         android:text="Title 1"
         android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
+        pixlui:typeface="Roboto-Medium.ttf" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:id="@+id/favIV"

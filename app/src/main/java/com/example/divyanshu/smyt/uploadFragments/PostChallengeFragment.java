@@ -331,10 +331,10 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
             try {
                 date = Utils.getDateFromDateTmeString(dateValue, timeValue);
                 long diff = (date.getTime() - previousDate.getTime()) / (60 * 60 * 1000);
-              /*  if (i == 0 && diff <= 0) {
+                if (i == 0 && diff <= 0) {
                     CustomDateTimePickerHelper.getInstance().showErrorMessage(getContext(), i, getString(R.string.one_hours_err_msg));
                     return false;
-                } else*/
+                } else
                 if (i > 0 && diff < 24) {
                     CustomDateTimePickerHelper.getInstance().showErrorMessage(getContext(), i, getString(R.string.twenty_four_hours_err_msg));
                     return false;

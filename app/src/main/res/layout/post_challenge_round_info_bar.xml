@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:alpha=".4"
             android:maxLines="2"
-            android:text="@string/round_timing"
+            android:text="@string/start_time"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:alpha=".4"
             android:maxLines="2"
-            android:text="@string/round_date"
+            android:text="@string/start_date"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/fourteen_sp"
             pixlui:typeface="Roboto-Medium.ttf" />

@@ -14,7 +14,7 @@ public class AllNotificationModel implements Parcelable {
     private String title;
     private String genre;
     private String share_status;
-    private long round_date;
+    private String round_date;
     private String total_round;
     private String round_no;
     private String status;
@@ -31,7 +31,7 @@ public class AllNotificationModel implements Parcelable {
         title = in.readString();
         genre = in.readString();
         share_status = in.readString();
-        round_date = in.readLong();
+        round_date = in.readString();
         total_round = in.readString();
         round_no = in.readString();
         status = in.readString();
@@ -99,11 +99,11 @@ public class AllNotificationModel implements Parcelable {
         this.share_status = share_status;
     }
 
-    public long getRound_date() {
+    public String getRound_date() {
         return round_date;
     }
 
-    public void setRound_date(long round_date) {
+    public void setRound_date(String round_date) {
         this.round_date = round_date;
     }
 
@@ -160,7 +160,7 @@ public class AllNotificationModel implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(genre);
         parcel.writeString(share_status);
-        parcel.writeLong(round_date);
+        parcel.writeString(round_date);
         parcel.writeString(total_round);
         parcel.writeString(round_no);
         parcel.writeString(status);

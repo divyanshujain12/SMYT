@@ -65,7 +65,8 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_bottom_tab);
 
         ButterKnife.inject(this);
-        checkCategorySelected();
+        initViews();
+        //checkCategorySelected();
         // initViews();
     }
 
@@ -192,19 +193,30 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onResetPager() {
-        currentSelectedItemID = R.id.action_feeds;
-        bottomTabVP.setCurrentItem(0);
-        releaseVideos();
+
+
+        View view = bottomNavigation.findViewById(R.id.action_feeds);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomNavigation.getMenu().getItem(0).setChecked(true);
+                currentSelectedItemID = R.id.action_feeds;
+                bottomTabVP.setCurrentItem(0);
+                releaseVideos();
+            }
+        });
+        view.performClick();
+
     }
 
     @Override
     public void onBackPressed() {
-        if (bottomTabVP.getCurrentItem() != 0) {
+     /*   if (bottomTabVP.getCurrentItem() != 0) {
             onResetPager();
-        } else {
+        } else {*/
             if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
                 CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
             super.onBackPressed();
-        }
+        //}
     }
 }

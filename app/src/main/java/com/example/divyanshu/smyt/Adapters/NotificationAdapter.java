@@ -76,8 +76,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     private void setUpViewForMewChallenge(MyViewHolder holder, AllNotificationModel allNotificationModel) {
-        String timeDifference = Utils.formatDateAndTime(allNotificationModel.getRound_date(), Utils.CURRENT_DATE_FORMAT);
-        holder.titleMsgTV.setText(R.string.new_challenge);
+        String timeDifference = Utils.formatDateAndTime(Long.parseLong(allNotificationModel.getRound_date()), Utils.CURRENT_DATE_FORMAT);
+        holder.titleMsgTV.setText(allNotificationModel.getTitle());
         holder.descTV.setText(String.format(NEW_CHALLENGE_DESC_STRING, allNotificationModel.getGenre(), allNotificationModel.getTotal_round(), timeDifference));
         holder.responseTV.setText(R.string.respond);
     }

@@ -18,10 +18,10 @@
             android:id="@+id/userIV"
             android:layout_width="@dimen/sixty_dp"
             android:layout_height="@dimen/sixty_dp"
-            android:src="@drawable/user" />
-
+            android:src="@drawable/user"
+            android:visibility="gone" />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/five_dp"
             android:orientation="vertical">
@@ -40,24 +40,27 @@
                 android:id="@+id/descTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha=".8"
+                android:alpha=".7"
                 android:padding="@dimen/two_dp"
                 android:text="response"
                 android:textColor="@color/black"
                 android:textSize="@dimen/fourteen_sp"
                 pixlui:typeface="Roboto-Regular.ttf" />
 
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/responseTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="end|bottom"
+                android:padding="@dimen/five_dp"
+                android:text="response"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/fourteen_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
         </LinearLayout>
     </LinearLayout>
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/responseTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:padding="@dimen/five_dp"
-        android:text="response"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
+
 </android.support.v7.widget.CardView>

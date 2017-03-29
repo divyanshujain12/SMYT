@@ -49,7 +49,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
                 mcurrentDate.get(Calendar.MONTH),
                 mcurrentDate.get(Calendar.DAY_OF_MONTH)
         );
-       // dpd.setMinDate(mcurrentDate);
+        dpd.setMinDate(mcurrentDate);
         dpd.show(context.getFragmentManager(), "DatePickerDialog");
     }
 
@@ -66,7 +66,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
                 mcurrentDate.get(Calendar.MINUTE),
                 false
         );
-        //   tpd.setMinTime(mcurrentDate.get(Calendar.HOUR_OF_DAY), mcurrentDate.get(Calendar.MINUTE), mcurrentDate.get(Calendar.SECOND));
+        tpd.setMinTime(mcurrentDate.get(Calendar.HOUR_OF_DAY), mcurrentDate.get(Calendar.MINUTE), mcurrentDate.get(Calendar.SECOND));
         tpd.show(context.getFragmentManager(), "TimePickerDialog");
     }
 
@@ -119,8 +119,8 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
     }
 
     private void addRoundNumberToTV(Context context, TextView roundDateTV, TextView roundTimeTV, int number) {
-        roundDateTV.setText(String.format(context.getResources().getString(R.string.round_date), String.valueOf(number)));
-        roundTimeTV.setText(String.format(context.getResources().getString(R.string.round_timing), String.valueOf(number)));
+        roundDateTV.setText(context.getResources().getString(R.string.start_date));
+        roundTimeTV.setText(context.getResources().getString(R.string.start_time));
     }
 
 

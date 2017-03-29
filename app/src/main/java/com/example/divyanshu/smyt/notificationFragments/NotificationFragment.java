@@ -84,7 +84,7 @@ public class NotificationFragment extends BaseFragment {
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
 
-        allNotificationModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONArray(Constants.DATA), AllNotificationModel.class);
+        allNotificationModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllNotificationModel.class);
         notificationAdapter = new NotificationAdapter(getContext(), allNotificationModels, this);
         notificationRV.setAdapter(notificationAdapter);
     }
