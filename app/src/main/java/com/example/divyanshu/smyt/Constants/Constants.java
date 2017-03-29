@@ -94,6 +94,8 @@ public interface Constants {
     String IS_FAVORITE = "is_favourite";
     String MOBILE_TYPE = "mobile_type";
     String FILE_NAME = "file_name";
+    public static final String Broadcast_PLAY_NEW_AUDIO = "com.valdioveliu.valdio.audioplayer.PlayNewAudio";
+
 
     int REQUEST_TIMEOUT_TIME = 30000;
 

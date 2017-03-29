@@ -103,6 +103,7 @@ dependencies {
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.1-rc1'
     compile 'dev.dworks.libs:volleyplus:+'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7', changing: true
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
