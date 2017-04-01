@@ -40,11 +40,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         AudioManager.OnAudioFocusChangeListener {
 
 
-    public static final String ACTION_PLAY = "com.valdioveliu.valdio.audioplayer.ACTION_PLAY";
-    public static final String ACTION_PAUSE = "com.valdioveliu.valdio.audioplayer.ACTION_PAUSE";
-    public static final String ACTION_PREVIOUS = "com.valdioveliu.valdio.audioplayer.ACTION_PREVIOUS";
-    public static final String ACTION_NEXT = "com.valdioveliu.valdio.audioplayer.ACTION_NEXT";
-    public static final String ACTION_STOP = "com.valdioveliu.valdio.audioplayer.ACTION_STOP";
+    public static final String ACTION_PLAY = "com.example.divyanshu.smyt.musicPlayer.ACTION_PLAY";
+    public static final String ACTION_PAUSE = "com.example.divyanshu.smyt.musicPlayer.ACTION_PAUSE";
+    public static final String ACTION_PREVIOUS = "com.example.divyanshu.smyt.musicPlayer.ACTION_PREVIOUS";
+    public static final String ACTION_NEXT = "com.example.divyanshu.smyt.musicPlayer.ACTION_NEXT";
+    public static final String ACTION_STOP = "com.example.divyanshu.smyt.musicPlayer.ACTION_STOP";
 
     private MediaPlayer mediaPlayer;
 
@@ -181,8 +181,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             return MediaPlayerService.this;
         }
     }
-
-
     /**
      * MediaPlayer callback methods
      */

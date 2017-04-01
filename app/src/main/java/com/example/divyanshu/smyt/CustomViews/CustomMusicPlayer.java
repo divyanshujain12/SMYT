@@ -63,8 +63,6 @@ private PowerManager pw;
 
         seekBar.setOnSeekBarChangeListener(this);
         start.setOnClickListener(this);
-
-
     }
 
     public void playSong() {

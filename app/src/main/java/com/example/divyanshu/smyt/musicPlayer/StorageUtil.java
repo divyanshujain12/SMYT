@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class StorageUtil {
 
-    private final String STORAGE = " com.valdioveliu.valdio.audioplayer.STORAGE";
+    private final String STORAGE = "example.divyanshu.smyt.musicPlayer.STORAGE";
     private SharedPreferences preferences;
     private Context context;
 

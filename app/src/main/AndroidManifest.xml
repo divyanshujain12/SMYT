@@ -156,7 +156,9 @@
             android:name=".activities.PostChallengeActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".myProfileActivities.UserMusicActivity" />
-        <activity android:name=".DialogActivities.MusicDescriptionActivity"></activity>
+        <activity android:name=".DialogActivities.MusicDescriptionActivity" />
+
+        <service android:name=".musicPlayer.MediaPlayerService" />
     </application>
 
 </manifest>
