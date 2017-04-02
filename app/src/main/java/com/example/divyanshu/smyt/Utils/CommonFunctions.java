@@ -276,7 +276,7 @@ public class CommonFunctions {
         CustomAlertDialogs.showAlertDialogWithCallBack(context, context.getString(R.string.alert), context.getString(R.string.delete_video_alert_msg), new SnackBarCallback() {
             @Override
             public void doAction() {
-                CallWebService.getInstance(context, false, ApiCodes.DELETE_VIDEO).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(context, customerVideoId), null);
+                CallWebService.getInstance(context, false, ApiCodes.DELETE).hitJsonObjectRequestAPI(CallWebService.POST, API.DELETE_CUSTOMER_VIDEO, createJsonForDeleteVideo(context, customerVideoId), null);
                 BroadcastSenderClass.getInstance().sendDeleteVideoBroadcast(context);
                 deleteVideoInterface.onDeleteVideo();
             }

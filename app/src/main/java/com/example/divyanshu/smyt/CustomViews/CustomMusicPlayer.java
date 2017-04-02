@@ -1,9 +1,12 @@
 package com.example.divyanshu.smyt.CustomViews;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.os.PowerManager;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -14,19 +17,24 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.divyanshu.smyt.Interfaces.PlayerInterface;
+import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.Utilities;
+import com.example.divyanshu.smyt.musicPlayer.MediaPlayerService;
+import com.example.divyanshu.smyt.musicPlayer.StorageUtil;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
+import static com.example.divyanshu.smyt.Constants.Constants.Broadcast_PAUSE_AUDIO;
+import static com.example.divyanshu.smyt.Constants.Constants.Broadcast_PLAY_NEW_AUDIO;
+import static com.example.divyanshu.smyt.Constants.Constants.Broadcast_RESUME_AUDIO;
 
 /**
  * Created by divyanshuPC on 3/24/2017.
  */
 
-public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener, MediaPlayer.OnPreparedListener {
+public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBarChangeListener, View.OnClickListener, PlayerInterface {
     private SeekBar seekBar;
     private TextView current, total;
     private LinearLayout layout_bottom;
@@ -38,16 +46,27 @@ public class CustomMusicPlayer extends LinearLayout implements MediaPlayer.OnCom
     private int MEDIA_PREPARING = 1;
     private int MEDIA_PLAYING = 2;
     private int MEDIA_PAUSE = 3;
-
+    private ImageView prevSongIV, nextSongIV;
     private static CustomMusicPlayer prevPlayedPlayer;
     private ProgressBar progressBar2;
-private PowerManager pw;
+    private static MediaPlayerService mediaPlayerService;
+    static boolean serviceBound;
+    private TextView musicTitleTV;
+    private ArrayList<AllVideoModel> allVideoModels;
+    private ImageView removeIV;
+
+
     public CustomMusicPlayer(Context context) {
         super(context);
     }
 
     public CustomMusicPlayer(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
+    }
+
+    public void initialize(ArrayList<AllVideoModel> allVideoModels) {
+        this.allVideoModels = allVideoModels;
         initViews();
     }
 
@@ -60,32 +79,42 @@ private PowerManager pw;
         layout_bottom = (LinearLayout) findViewById(R.id.layout_bottom);
         start = (ImageView) findViewById(R.id.start);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
-
+        prevSongIV = (ImageView) findViewById(R.id.prevSongIV);
+        nextSongIV = (ImageView) findViewById(R.id.nextSongIV);
+        musicTitleTV = (TextView) findViewById(R.id.musicTitleTV);
+        removeIV = (ImageView) findViewById(R.id.removeIV);
         seekBar.setOnSeekBarChangeListener(this);
         start.setOnClickListener(this);
+        nextSongIV.setOnClickListener(this);
+        prevSongIV.setOnClickListener(this);
+        removeIV.setOnClickListener(this);
     }
 
-    public void playSong() {
-        // Play song
-        try {
+    public void playAudio(int audioIndex) {
+        MediaPlayerService.playerInterface = this;
+        //Check is service is active
+        if (!serviceBound) {
+            //Store Serializable audioList to SharedPreferences
+            StorageUtil storage = new StorageUtil(getContext());
+            storage.storeAudio(allVideoModels);
+            storage.storeAudioIndex(audioIndex);
 
-            resetPreviousPlayer();
-            mp = new MediaPlayer();
-            mp.reset();
-            mp.setDataSource(mediaUrl);
-            mp.prepareAsync();
-            CURRENT_STATUS = MEDIA_PREPARING;
-            mp.setOnPreparedListener(this);
-            showProgressBar(this, true);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Intent playerIntent = new Intent(getContext(), MediaPlayerService.class);
+            getContext().startService(playerIntent);
+            getContext().bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        } else {
+            //Store the new audioIndex to SharedPreferences
+            StorageUtil storage = new StorageUtil(getContext());
+            storage.storeAudioIndex(audioIndex);
+            //Service is active
+            //Send a broadcast to the service -> PLAY_NEW_AUDIO
+            Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
+            getContext().sendBroadcast(broadcastIntent);
         }
-        setPrevPlayedPlayer(this);
+
+        showProgressBar(this, true);
     }
+
 
     private void showProgressBar(CustomMusicPlayer currentPlayedPlayer, boolean visible) {
         currentPlayedPlayer.progressBar2.setVisibility(visible ? VISIBLE : GONE);
@@ -95,23 +124,27 @@ private PowerManager pw;
 
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
-            long totalDuration = mp.getDuration();
-            long currentDuration = mp.getCurrentPosition();
-            // Displaying Total Duration time
-            total.setText("" + Utilities.milliSecondsToTimer(totalDuration));
-            // Displaying time completed playing
-            current.setText("" + Utilities.milliSecondsToTimer(currentDuration));
-            // Updating seekBar bar
-            int progress = (int) (Utilities.getProgressPercentage(currentDuration, totalDuration));
-            //Log.d("Progress", ""+seekBar);
-            seekBar.setProgress(progress);
-            // Running this thread after 100 milliseconds
-            mHandler.postDelayed(this, 100);
+            if (mp != null) {
+                long totalDuration = mp.getDuration();
+                long currentDuration = mp.getCurrentPosition();
+                // Displaying Total Duration time
+                total.setText("" + Utilities.milliSecondsToTimer(totalDuration));
+                // Displaying time completed playing
+                current.setText("" + Utilities.milliSecondsToTimer(currentDuration));
+                // Updating seekBar bar
+                int progress = (int) (Utilities.getProgressPercentage(currentDuration, totalDuration));
+                //Log.d("Progress", ""+seekBar);
+                seekBar.setProgress(progress);
+                // Running this thread after 100 milliseconds
+                mHandler.postDelayed(this, 100);
+            } else {
+                getHandler().removeCallbacks(mUpdateTimeTask);
+            }
         }
     };
 
     public void resetPreviousPlayer() {
-        if (getPrevPlayedPlayer() != null) {
+        /*if (getPrevPlayedPlayer() != null) {
             MediaPlayer mp = getPrevPlayedPlayer().mp;
             if (mp != null) {
                 mp.stop();
@@ -128,17 +161,13 @@ private PowerManager pw;
                     getPrevPlayedPlayer().mHandler.removeCallbacks(getPrevPlayedPlayer().mUpdateTimeTask);
             }
             prevPlayedPlayer = null;
-        }
+        }*/
     }
 
     public void updateProgressBar() {
         mHandler.postDelayed(mUpdateTimeTask, 100);
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mediaPlayer) {
-
-    }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -163,20 +192,41 @@ private PowerManager pw;
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.start:
+                onPlayButtonClick();
+                break;
+            case R.id.prevSongIV:
+                mediaPlayerService.skipToPrevious();
+
+                break;
+            case R.id.nextSongIV:
+                mediaPlayerService.skipToNext();
+                break;
+            case R.id.removeIV:
+                stopService();
+                setVisibility(GONE);
+                break;
+        }
+
+
+    }
+
+    private void onPlayButtonClick() {
         if (mp != null && CURRENT_STATUS != MEDIA_PREPARING) {
             if (CURRENT_STATUS == MEDIA_PLAYING) {
                 mp.pause();
-                start.setImageResource(R.drawable.jc_click_play_selector);
+                start.setImageResource(android.R.drawable.ic_media_play);
                 CURRENT_STATUS = MEDIA_PAUSE;
+                Intent broadcastIntent = new Intent(Broadcast_PAUSE_AUDIO);
+                getContext().sendBroadcast(broadcastIntent);
             } else if (CURRENT_STATUS == MEDIA_PAUSE) {
                 mp.start();
-                start.setImageResource(R.drawable.jc_click_pause_selector);
+                start.setImageResource(android.R.drawable.ic_media_pause);
                 CURRENT_STATUS = MEDIA_PLAYING;
+                Intent broadcastIntent = new Intent(Broadcast_RESUME_AUDIO);
+                getContext().sendBroadcast(broadcastIntent);
             }
-        } else {
-            JCVideoPlayer.releaseAllVideos();
-            JCVideoPlayerTwo.releaseAllVideos();
-            playSong();
         }
     }
 
@@ -188,16 +238,6 @@ private PowerManager pw;
         this.mediaUrl = mediaUrl;
     }
 
-    @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        mp.start();
-        start.setImageResource(R.drawable.jc_click_pause_selector);
-        seekBar.setProgress(0);
-        seekBar.setMax(100);
-        updateProgressBar();
-        CURRENT_STATUS = MEDIA_PLAYING;
-        showProgressBar(this, false);
-    }
 
     public TextView getCurrent() {
         return current;
@@ -221,5 +261,90 @@ private PowerManager pw;
 
     public static void setPrevPlayedPlayer(CustomMusicPlayer prevPlayedPlayer) {
         CustomMusicPlayer.prevPlayedPlayer = prevPlayedPlayer;
+    }
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
+            mediaPlayerService = binder.getService();
+            serviceBound = true;
+            bindPlayerWithService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            serviceBound = false;
+        }
+    };
+
+    private void bindPlayerWithService() {
+        mp = mediaPlayerService.getMediaPlayer();
+        mediaPlayerService.setPlayerInterface(this);
+    }
+
+    private void resetPlayerUi() {
+        getTotal().setText("0:00");
+        getCurrent().setText("0:00");
+        mHandler.removeCallbacks(mUpdateTimeTask);
+    }
+
+    @Override
+    public void onPlayed() {
+        CURRENT_STATUS = MEDIA_PLAYING;
+        updateProgressBar();
+        showProgressBar(this, false);
+        start.setImageResource(android.R.drawable.ic_media_pause);
+    }
+
+    @Override
+    public void onPaused() {
+        CURRENT_STATUS = MEDIA_PAUSE;
+        start.setImageResource(android.R.drawable.ic_media_play);
+    }
+
+    @Override
+    public void error() {
+
+    }
+
+    @Override
+    public void onNextPlayed() {
+        resetPlayerUi();
+        musicTitleTV.setText(mediaPlayerService.getActiveAudio().getTitle());
+    }
+
+    @Override
+    public void onPrevPlayed() {
+        resetPlayerUi();
+        musicTitleTV.setText(mediaPlayerService.getActiveAudio().getTitle());
+    }
+
+    @Override
+    public void onStopped() {
+
+    }
+
+    @Override
+    public void onBuffering() {
+        CURRENT_STATUS = MEDIA_PREPARING;
+        showProgressBar(this, true);
+        resetPlayerUi();
+    }
+
+    @Override
+    public void onDestroy() {
+        //resetPlayerUi();
+        mHandler.removeCallbacks(mUpdateTimeTask);
+    }
+
+    public void stopService() {
+        if (mediaPlayerService != null) {
+            Intent intent = new Intent(getContext(), MediaPlayerService.class);
+            getContext().stopService(intent);
+            //  mediaPlayerService.onStopService();
+            //mediaPlayerService.stopSelf();
+
+        }
     }
 }

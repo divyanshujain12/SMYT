@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
 import com.example.divyanshu.smyt.CustomViews.ReusedCodes;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.CustomViews.VideoTitleView;
@@ -49,9 +48,9 @@ public class UserMusicPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private VideoTitleView videoTitleView;
         public TextView userTimeTV, commentsTV, uploadedTimeTV, firstUserNameTV;
         private ImageView videoThumbIV;
-        public FrameLayout videoFL;
+        public FrameLayout videoFL, playMusicFL;
         private RoundedImageView firstUserIV;
-        private CustomMusicPlayer customMusicPlayer;
+        //private CustomMusicPlayer customMusicPlayer;
         private LinearLayout firstUserLL;
         private TextView viewsCountTV;
         private TextView userOneLikesCountTV;
@@ -66,9 +65,10 @@ public class UserMusicPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             uploadedTimeTV = (TextView) view.findViewById(R.id.uploadedTimeTV);
             videoThumbIV = (ImageView) view.findViewById(R.id.videoThumbIV);
             videoFL = (FrameLayout) view.findViewById(R.id.videoFL);
+            playMusicFL = (FrameLayout) view.findViewById(R.id.playMusicFL);
             firstUserIV = (RoundedImageView) view.findViewById(R.id.firstUserIV);
             viewsCountTV = (TextView) view.findViewById(R.id.viewsCountTV);
-            customMusicPlayer = (CustomMusicPlayer) view.findViewById(R.id.customMusicPlayer);
+            // customMusicPlayer = (CustomMusicPlayer) view.findViewById(R.id.customMusicPlayer);
             userOneLikesCountTV = (TextView) view.findViewById(R.id.userOneLikesCountTV);
 
         }
@@ -101,7 +101,7 @@ public class UserMusicPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void setupMusicPlayerViewHolder(final MusicPlayerViewHolder holder, final AllVideoModel allVideoModel) {
         setUpMusicPlayerTitleBar(holder, allVideoModel);
-        holder.customMusicPlayer.setMediaUrl(allVideoModel.getVideo_url());
+        // holder.customMusicPlayer.setMediaUrl(allVideoModel.getVideo_url());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.userOneLikesCountTV.setText(ReusedCodes.getLikes(context, allVideoModel.getLikes()));
@@ -112,6 +112,12 @@ public class UserMusicPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onClick(View view) {
                 goToUserDetailActivity(allVideoModel.getCustomer_id());
+            }
+        });
+        holder.playMusicFL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
     }

@@ -44,9 +44,9 @@ import butterknife.InjectView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
-import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
-import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
 import static com.example.divyanshu.smyt.Constants.Constants.LIKE_COUNT;
@@ -144,7 +144,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     }
 
     private void hitAllVideosAPI() {
-        CallWebService.getInstance(getContext(), true, ALL_VIDEO_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.ALL_VIDEOS, createJsonForGetVideoData(), this);
+        CallWebService.getInstance(getContext(), true, ALL_DATA).hitJsonObjectRequestAPI(CallWebService.POST, API.ALL_VIDEOS, createJsonForGetVideoData(), this);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
         //noVideoAvailableLL.setVisibility(View.GONE);
         if (getUserVisibleHint()) {
             switch (apiType) {
-                case ALL_VIDEO_DATA:
+                case ALL_DATA:
                     WebServiceCalled(false);
                     ArrayList<AllVideoModel> allVideoModelsData = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
                     allVideoModels.addAll(allVideoModelsData);
@@ -172,7 +172,7 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     public void onFailure(String str, int apiType) {
         super.onFailure(str, apiType);
         switch (apiType) {
-            case ALL_VIDEO_DATA:
+            case ALL_DATA:
                 moreDataAvailable = false;
                 if (allVideoModels.isEmpty())
                     noVideoAvailableLL.setVisibility(View.VISIBLE);
@@ -270,11 +270,11 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
                 case BANNER_VIDEOS:
                     hitBannerAPI();
                     break;
-                case ALL_VIDEO_DATA:
+                case ALL_DATA:
                     reInitValues();
                     hitAllVideosAPI();
                     break;
-                case DELETE_VIDEO:
+                case DELETE:
                     hitAllVideosAPI();
                     break;
                 case COMMENT_COUNT:
@@ -386,7 +386,5 @@ public class AllVideosFragment extends BaseFragment implements CompoundButton.On
     @Override
     public void onStop() {
         super.onStop();
-        if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
-            CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
     }
 }

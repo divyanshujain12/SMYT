@@ -9,14 +9,42 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
             android:id="@+id/customMusicPlayer"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/one_hundred_fourty_five_dp" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-        <include layout="@layout/video_title_bar" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <include layout="@layout/single_video_user_view" />
+            <FrameLayout
+                android:id="@+id/playMusicFL"
+                android:layout_width="@dimen/one_hundred_dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary">
+
+                <ImageView
+                    android:layout_width="@dimen/fourty_dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_music_play" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/video_title_bar" />
+
+                <include layout="@layout/single_video_user_view" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <include layout="@layout/uploaded_video_comment_bar" />
 

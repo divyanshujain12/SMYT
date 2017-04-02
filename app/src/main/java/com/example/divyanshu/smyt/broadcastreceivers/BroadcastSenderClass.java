@@ -7,9 +7,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 
-import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_DATA;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.BANNER_VIDEOS;
-import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
 import static com.example.divyanshu.smyt.Constants.Constants.LIKE_COUNT;
@@ -30,7 +30,7 @@ public class BroadcastSenderClass {
 
     public void sendDeleteVideoBroadcast(Context context) {
         Intent intent = new Intent();
-        intent.putExtra(Constants.TYPE, DELETE_VIDEO);
+        intent.putExtra(Constants.TYPE, DELETE);
         intent.setAction(Constants.USER_FRAGMENT_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
@@ -46,6 +46,10 @@ public class BroadcastSenderClass {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.USER_MUSIC_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.CATEGORY_MUSIC_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
     public void sendLikesCountBroadcast(Context context, String customer_video_id, String likesCount) {
         Intent intent = new Intent();
@@ -55,6 +59,10 @@ public class BroadcastSenderClass {
         intent.setAction(Constants.USER_FRAGMENT_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.USER_MUSIC_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.CATEGORY_MUSIC_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
@@ -104,11 +112,15 @@ public class BroadcastSenderClass {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.USER_MUSIC_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.CATEGORY_MUSIC_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     public void reloadAllVideoData(Context context) {
         Intent intent = new Intent();
-        intent.putExtra(Constants.TYPE, ALL_VIDEO_DATA);
+        intent.putExtra(Constants.TYPE, ALL_DATA);
         intent.setAction(Constants.ALL_VIDEO_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.LIVE_CHALLENGES_TAB_UI);

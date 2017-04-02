@@ -78,6 +78,8 @@ public interface Constants {
     String FCM_ID = "fcm_id";
     String ALL_VIDEO_TAB_UI = "all_video_tab_ui";
     String LIVE_CHALLENGES_TAB_UI = "challenge_videos_tab_ui";
+    String USER_MUSIC_TAB_UI = "user_music_tab_ui";
+    String CATEGORY_MUSIC_TAB_UI = "category_music_tab_ui";
     String FILTER = "filter";
     String PAGE_NO = "page_no";
     String FROM_NOTIFICATION = "from_notification";
@@ -94,7 +96,9 @@ public interface Constants {
     String IS_FAVORITE = "is_favourite";
     String MOBILE_TYPE = "mobile_type";
     String FILE_NAME = "file_name";
-    public static final String Broadcast_PLAY_NEW_AUDIO = "com.valdioveliu.valdio.audioplayer.PlayNewAudio";
+    String Broadcast_PLAY_NEW_AUDIO = "com.example.divyanshu.smyt.Constants.PlayNewAudio";
+    String Broadcast_PAUSE_AUDIO = "com.example.divyanshu.smyt.Constants.PauseAudio";
+    String Broadcast_RESUME_AUDIO = "com.example.divyanshu.smyt.Constants.ResumeAudio";
 
 
     int REQUEST_TIMEOUT_TIME = 30000;

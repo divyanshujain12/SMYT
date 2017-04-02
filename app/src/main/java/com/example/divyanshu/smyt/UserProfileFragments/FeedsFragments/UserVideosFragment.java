@@ -40,8 +40,8 @@ import butterknife.InjectView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
-import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
-import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE_VIDEO;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_DATA;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.DELETE;
 import static com.example.divyanshu.smyt.Constants.ApiCodes.USER_VIDEOS;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.FAVORITE_STATUS;
@@ -228,10 +228,10 @@ public class UserVideosFragment extends BaseFragment {
                 case USER_VIDEOS:
                     getUserVideosAPI();
                     break;
-                case DELETE_VIDEO:
+                case DELETE:
                     getUserVideosAPI();
                     break;
-                case ALL_VIDEO_DATA:
+                case ALL_DATA:
                     getUserVideosAPI();
                     break;
                 case FAVORITE_STATUS:

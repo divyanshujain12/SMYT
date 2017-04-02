@@ -24,6 +24,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.Interfaces.PlayerInterface;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
 
@@ -46,8 +47,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static final String ACTION_NEXT = "com.example.divyanshu.smyt.musicPlayer.ACTION_NEXT";
     public static final String ACTION_STOP = "com.example.divyanshu.smyt.musicPlayer.ACTION_STOP";
 
-    private MediaPlayer mediaPlayer;
-
+    public MediaPlayer mediaPlayer;
+    public static PlayerInterface playerInterface;
     //MediaSession
     private MediaSessionManager mediaSessionManager;
     private MediaSessionCompat mediaSession;
@@ -68,6 +69,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     //List of available Audio files
     private ArrayList<AllVideoModel> audioList;
     private int audioIndex = -1;
+
+
     private AllVideoModel activeAudio; //an object on the currently playing audio
 
 
@@ -96,6 +99,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         callStateListener();
         //ACTION_AUDIO_BECOMING_NOISY -- change in audio outputs -- BroadcastReceiver
         registerBecomingNoisyReceiver();
+        registerBecomingPauseReceiver();
+        registerBecomingPlayReceiver();
         //Listen for new Audio to play -- BroadcastReceiver
         register_playNewAudio();
     }
@@ -152,7 +157,15 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(becomingNoisyReceiver);
+        unregisterReceiver(playNewAudio);
+        new StorageUtil(getApplicationContext()).clearCachedAudioPlaylist();
+        onStopService();
+    }
+
+    public void onStopService() {
         if (mediaPlayer != null) {
+            playerInterface.onDestroy();
             stopMedia();
             mediaPlayer.release();
         }
@@ -161,15 +174,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         if (phoneStateListener != null) {
             telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
         }
-
         removeNotification();
-
-        //unregister BroadcastReceivers
-        unregisterReceiver(becomingNoisyReceiver);
-        unregisterReceiver(playNewAudio);
-
         //clear cached playlist
-        new StorageUtil(getApplicationContext()).clearCachedAudioPlaylist();
+
     }
 
     /**
@@ -285,7 +292,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 audioManager.abandonAudioFocus(this);
     }
 
-
     /**
      * MediaPlayer actions
      */
@@ -313,36 +319,46 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             stopSelf();
         }
         mediaPlayer.prepareAsync();
+        playerInterface.onBuffering();
     }
 
-    private void playMedia() {
+    public void playMedia() {
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
+        playerInterface.onPlayed();
     }
 
-    private void stopMedia() {
+    public void stopMedia() {
         if (mediaPlayer == null) return;
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
+        try {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
+
+        playerInterface.onStopped();
     }
 
-    private void pauseMedia() {
+    public void pauseMedia() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             resumePosition = mediaPlayer.getCurrentPosition();
         }
+        playerInterface.onPaused();
     }
 
-    private void resumeMedia() {
+    public void resumeMedia() {
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.seekTo(resumePosition);
             mediaPlayer.start();
         }
+        playerInterface.onPlayed();
     }
 
-    private void skipToNext() {
+    public void skipToNext() {
 
         if (audioIndex == audioList.size() - 1) {
             //if last in playlist
@@ -360,9 +376,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         //reset mediaPlayer
         mediaPlayer.reset();
         initMediaPlayer();
+
+        playerInterface.onNextPlayed();
     }
 
-    private void skipToPrevious() {
+    public void skipToPrevious() {
 
         if (audioIndex == 0) {
             //if first in playlist
@@ -381,6 +399,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         //reset mediaPlayer
         mediaPlayer.reset();
         initMediaPlayer();
+
+        playerInterface.onPrevPlayed();
     }
 
 
@@ -400,6 +420,36 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         //register after getting audio focus
         IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         registerReceiver(becomingNoisyReceiver, intentFilter);
+    }
+
+    private BroadcastReceiver becomingPauseReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //pause audio on ACTION_AUDIO_BECOMING_NOISY
+            pauseMedia();
+            buildNotification(PlaybackStatus.PAUSED);
+        }
+    };
+
+    private void registerBecomingPauseReceiver() {
+        //register after getting audio focus
+        IntentFilter intentFilter = new IntentFilter(Constants.Broadcast_PAUSE_AUDIO);
+        registerReceiver(becomingPauseReceiver, intentFilter);
+    }
+
+    private BroadcastReceiver becomingPlayReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //pause audio on ACTION_AUDIO_BECOMING_NOISY
+            playMedia();
+            buildNotification(PlaybackStatus.PLAYING);
+        }
+    };
+
+    private void registerBecomingPlayReceiver() {
+        //register after getting audio focus
+        IntentFilter intentFilter = new IntentFilter(Constants.Broadcast_RESUME_AUDIO);
+        registerReceiver(becomingPlayReceiver, intentFilter);
     }
 
     /**
@@ -659,5 +709,27 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         registerReceiver(playNewAudio, filter);
     }
 
+    public AllVideoModel getActiveAudio() {
+        return activeAudio;
+    }
 
+    public void setActiveAudio(AllVideoModel activeAudio) {
+        this.activeAudio = activeAudio;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public void setMediaPlayer(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
+    }
+
+    public PlayerInterface getPlayerInterface() {
+        return playerInterface;
+    }
+
+    public void setPlayerInterface(PlayerInterface playerInterface) {
+        this.playerInterface = playerInterface;
+    }
 }

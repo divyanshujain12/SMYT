@@ -1,5 +1,6 @@
 package com.example.divyanshu.smyt.myProfileActivities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +14,7 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserMusicFeeds;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
-import com.example.divyanshu.smyt.notificationFragments.NotificationFragment;
+import com.example.divyanshu.smyt.musicPlayer.MediaPlayerService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -54,6 +55,8 @@ public class UserMusicActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent(this, MediaPlayerService.class);
+        stopService(intent);
         finish();
     }
 }

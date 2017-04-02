@@ -18,7 +18,6 @@ import com.example.divyanshu.smyt.Adapters.OngoingChallengesAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.DialogActivities.LiveRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UploadedBattleRoundDescActivity;
 import com.example.divyanshu.smyt.DialogActivities.UserVideoDescActivity;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
@@ -31,7 +30,6 @@ import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
-import com.example.divyanshu.smyt.activities.InAppActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,13 +41,10 @@ import butterknife.InjectView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerTwo;
 
-import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_VIDEO_DATA;
+import static com.example.divyanshu.smyt.Constants.ApiCodes.ALL_DATA;
 import static com.example.divyanshu.smyt.Constants.Constants.COMMENT_COUNT;
 import static com.example.divyanshu.smyt.Constants.Constants.VOTE_COUNT_INT;
 import static com.example.divyanshu.smyt.Utils.Utils.CURRENT_DATE_FORMAT;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_BANNER;
-import static com.example.divyanshu.smyt.activities.InAppActivity.OTHER_CATEGORY_TO_PREMIUM;
-import static com.example.divyanshu.smyt.activities.InAppActivity.PREMIUM_CATEGORY_BANNER;
 
 /**
  * Created by divyanshu.jain on 8/29/2016.
@@ -171,7 +166,7 @@ public class LiveVideosFragment extends BaseFragment {
                 case VOTE_COUNT_INT:
                     updateVoteCount(intent);
                     break;
-                case ALL_VIDEO_DATA:
+                case ALL_DATA:
                     hitOnGoingChallengeAPI();
                     break;
             }

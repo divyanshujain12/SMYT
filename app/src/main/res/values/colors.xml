@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ECC11C</color>
+    <color name="colorPrimary">#FFB001</color>
     <color name="colorPrimaryDark">#404041</color>
     <color name="colorAccent">#ECC11C</color>
     <color name="navigation_bar_color">#404041</color>

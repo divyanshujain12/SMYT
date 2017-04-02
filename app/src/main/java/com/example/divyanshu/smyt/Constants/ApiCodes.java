@@ -14,7 +14,7 @@ public interface ApiCodes {
     int SINGLE_VIDEO_DATA = 108;
     int POST_COMMENT = 109;
     int DELETE_COMMENT = 110;
-    int DELETE_VIDEO = 111;
+    int DELETE = 111;
     int ADD_REMOVE_LIKE = 112;
     int FOLLOW_USER = 113;
     int GET_FOLLOWING = 114;
@@ -28,7 +28,7 @@ public interface ApiCodes {
     int CHALLENGE_REJECT = 122;
     int POST_USER_VIDEO = 123;
     int UPDATE_LAST_ACTIVE_TIME = 124;
-    int ALL_VIDEO_DATA = 125;
+    int ALL_DATA = 125;
     int SINGLE_ROUND_VIDEO_DETAIL = 126;
     int POST_VIDEO_PREVIOUS = 127;
     int HOME_CHALLENGES_VIDEOS = 128;

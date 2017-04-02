@@ -43,6 +43,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
@@ -83,6 +84,8 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
     FrameLayout commentBar;
     @InjectView(R.id.activity_music_description)
     RelativeLayout activityMusicDescription;
+    @InjectView(R.id.playMusicFL)
+    FrameLayout playMusicFL;
 
     private Validation validation;
     private HashMap<View, String> validationMap;
@@ -110,13 +113,19 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
         imageLoading = new ImageLoading(this);
     }
 
-    @OnClick({R.id.sendCommentIV, R.id.userOneLikesCountTV})
+    @OnClick({R.id.sendCommentIV, R.id.userOneLikesCountTV, R.id.playMusicFL})
     public void onClick(View v) {
-        if (v.getId() == R.id.sendCommentIV)
-            sendComment();
-        else
-            checkAndSendLike();
-
+        switch (v.getId()) {
+            case R.id.sendCommentIV:
+                sendComment();
+                break;
+            case R.id.userOneLikesCountTV:
+                checkAndSendLike();
+                break;
+            case R.id.playMusicFL:
+                customMusicPlayer.playAudio(0);
+                break;
+        }
     }
 
 
@@ -194,7 +203,12 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
     }
 
     private void setupVideo() {
-        customMusicPlayer.setMediaUrl(videoDetailModel.getVideo_url());
+        AllVideoModel allVideoModel = new AllVideoModel();
+        allVideoModel.setVideo_url(videoDetailModel.getVideo_url());
+        allVideoModel.setTitle(videoDetailModel.getTitle());
+        ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
+        allVideoModels.add(allVideoModel);
+        customMusicPlayer.initialize(allVideoModels);
     }
 
 
@@ -380,5 +394,6 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
             BroadcastSenderClass.getInstance().sendVideoFavoriteBroadcast(this, allVideoModel, favStatus);
         return favStatus;
     }
+
 
 }
