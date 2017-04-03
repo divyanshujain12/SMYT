@@ -120,6 +120,12 @@ public class UserMusicPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(), v);
+            }
+        });
     }
 
 

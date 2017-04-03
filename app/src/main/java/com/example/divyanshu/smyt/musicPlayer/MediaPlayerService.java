@@ -78,7 +78,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private boolean ongoingCall = false;
     private PhoneStateListener phoneStateListener;
     private TelephonyManager telephonyManager;
-
+    private DeleteBroadcastReceiver deleteBroadcastReceiver;
 
     /**
      * Service lifecycle methods
@@ -96,13 +96,21 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         // Manage incoming phone calls during playback.
         // Pause MediaPlayer on incoming call,
         // Resume on hangup.
+        registerReceivers();
+
+    }
+
+    public void registerReceivers() {
         callStateListener();
         //ACTION_AUDIO_BECOMING_NOISY -- change in audio outputs -- BroadcastReceiver
         registerBecomingNoisyReceiver();
         registerBecomingPauseReceiver();
         registerBecomingPlayReceiver();
+
         //Listen for new Audio to play -- BroadcastReceiver
         register_playNewAudio();
+        deleteBroadcastReceiver = new DeleteBroadcastReceiver();
+        registerRemoveNotificationReceiver();
     }
 
     //The system calls this method when an activity, requests the service be started
@@ -159,8 +167,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         super.onDestroy();
         unregisterReceiver(becomingNoisyReceiver);
         unregisterReceiver(playNewAudio);
+        unregisterReceiver(deleteBroadcastReceiver);
         new StorageUtil(getApplicationContext()).clearCachedAudioPlaylist();
         onStopService();
+
     }
 
     public void onStopService() {
@@ -319,6 +329,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             stopSelf();
         }
         mediaPlayer.prepareAsync();
+        if (playerInterface != null)
         playerInterface.onBuffering();
     }
 
@@ -327,6 +338,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayer.start();
         }
         playerInterface.onPlayed();
+        buildNotification(PlaybackStatus.PLAYING);
     }
 
     public void stopMedia() {
@@ -445,13 +457,17 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             buildNotification(PlaybackStatus.PLAYING);
         }
     };
-
     private void registerBecomingPlayReceiver() {
         //register after getting audio focus
         IntentFilter intentFilter = new IntentFilter(Constants.Broadcast_RESUME_AUDIO);
         registerReceiver(becomingPlayReceiver, intentFilter);
     }
 
+    private void registerRemoveNotificationReceiver() {
+        //register after getting audio focus
+        IntentFilter intentFilter = new IntentFilter(Constants.Broadcast_REMOVE_NOTIFICATION);
+        registerReceiver(deleteBroadcastReceiver, intentFilter);
+    }
     /**
      * Handle PhoneState changes
      */
@@ -584,6 +600,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
          *  3 -> Previous track
          */
 
+        Intent intent = new Intent(this, DeleteBroadcastReceiver.class);
+        PendingIntent deleteIntent = PendingIntent.getBroadcast(this.getApplicationContext(), NOTIFICATION_ID, intent, 0);
+
         int notificationAction = android.R.drawable.ic_media_pause;//needs to be initialized
         PendingIntent play_pauseAction = null;
 
@@ -619,7 +638,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 // Set Notification content information
                 .setContentText(activeAudio.getTitle())
                 .setContentTitle(activeAudio.getTitle())
-                .setContentInfo(activeAudio.getTitle())
+                .setContentInfo(activeAudio.getTitle()).setDeleteIntent(deleteIntent)
                 // Add playback actions
                 .addAction(android.R.drawable.ic_media_previous, "previous", playbackAction(3))
                 .addAction(notificationAction, "pause", play_pauseAction)
@@ -731,5 +750,18 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     public void setPlayerInterface(PlayerInterface playerInterface) {
         this.playerInterface = playerInterface;
+    }
+
+    public void stopServiceNow() {
+        mediaPlayer.stop();
+        removeNotification();
+    }
+
+    public class DeleteBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            stopSelf();
+        }
+
     }
 }

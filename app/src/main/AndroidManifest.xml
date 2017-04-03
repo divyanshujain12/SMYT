@@ -158,7 +158,8 @@
         <activity android:name=".myProfileActivities.UserMusicActivity" />
         <activity android:name=".DialogActivities.MusicDescriptionActivity" />
 
-        <service android:name=".musicPlayer.MediaPlayerService" />
+        <service android:name=".musicPlayer.MediaPlayerService" android:enabled="true"  />
+        <!--<receiver android:name=".musicPlayer.MediaPlayerService$DeleteBroadcastReceiver"/>-->
     </application>
 
 </manifest>

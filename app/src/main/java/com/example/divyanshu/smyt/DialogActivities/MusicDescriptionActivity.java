@@ -329,14 +329,10 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        if (JCVideoPlayerStandard.backPress())
-            return;
-        else if (JCVideoPlayerStandardTwo.backPress())
-            return;
-        else {
+        customMusicPlayer.stopService();
             //      MediaPlayerHelper.getInstance().releaseAllVideos();
             super.onBackPressed();
-        }
+
     }
 
     @Override

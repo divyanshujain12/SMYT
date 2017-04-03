@@ -99,6 +99,7 @@ public interface Constants {
     String Broadcast_PLAY_NEW_AUDIO = "com.example.divyanshu.smyt.Constants.PlayNewAudio";
     String Broadcast_PAUSE_AUDIO = "com.example.divyanshu.smyt.Constants.PauseAudio";
     String Broadcast_RESUME_AUDIO = "com.example.divyanshu.smyt.Constants.ResumeAudio";
+    String Broadcast_REMOVE_NOTIFICATION = "com.example.divyanshu.smyt.Constants.RemoveNotification";
 
 
     int REQUEST_TIMEOUT_TIME = 30000;

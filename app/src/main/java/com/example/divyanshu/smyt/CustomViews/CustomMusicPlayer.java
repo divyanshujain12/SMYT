@@ -49,7 +49,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     private ImageView prevSongIV, nextSongIV;
     private static CustomMusicPlayer prevPlayedPlayer;
     private ProgressBar progressBar2;
-    private static MediaPlayerService mediaPlayerService;
+    public static MediaPlayerService mediaPlayerService;
     static boolean serviceBound;
     private TextView musicTitleTV;
     private ArrayList<AllVideoModel> allVideoModels;
@@ -71,6 +71,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     }
 
     private void initViews() {
+        // serviceBound = false;
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         layoutInflater.inflate(R.layout.music_player_view, this);
         seekBar = (SeekBar) findViewById(R.id.progress);
@@ -103,6 +104,8 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
             getContext().startService(playerIntent);
             getContext().bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
+            bindPlayerWithService();
+            mediaPlayerService.registerReceivers();
             //Store the new audioIndex to SharedPreferences
             StorageUtil storage = new StorageUtil(getContext());
             storage.storeAudioIndex(audioIndex);
@@ -335,16 +338,15 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     @Override
     public void onDestroy() {
         //resetPlayerUi();
+        serviceBound = false;
         mHandler.removeCallbacks(mUpdateTimeTask);
+        setVisibility(GONE);
     }
 
     public void stopService() {
         if (mediaPlayerService != null) {
-            Intent intent = new Intent(getContext(), MediaPlayerService.class);
-            getContext().stopService(intent);
-            //  mediaPlayerService.onStopService();
-            //mediaPlayerService.stopSelf();
-
+            mediaPlayerService.stopServiceNow();
+            setVisibility(GONE);
         }
     }
 }

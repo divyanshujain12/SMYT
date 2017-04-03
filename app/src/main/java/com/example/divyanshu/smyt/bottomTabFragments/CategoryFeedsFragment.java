@@ -1,6 +1,7 @@
 package com.example.divyanshu.smyt.bottomTabFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
+import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.HomeFragments.AllVideosFragment;
@@ -18,6 +20,7 @@ import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.MusicFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.musicPlayer.MediaPlayerService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,7 +29,7 @@ import butterknife.InjectView;
  * Created by divyanshuPC on 2/23/2017.
  */
 
-public class CategoryFeedsFragment extends BaseFragment {
+public class CategoryFeedsFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
 
     /*  @InjectView(R.id.toolbarView)
@@ -81,7 +84,7 @@ public class CategoryFeedsFragment extends BaseFragment {
 
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(2);
-
+        homeViewPager.setOnPageChangeListener(this);
         homeTabLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -94,5 +97,24 @@ public class CategoryFeedsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        stopPlayService();
+    }
+
+    private void stopPlayService() {
+      //  getActivity().onBackPressed();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

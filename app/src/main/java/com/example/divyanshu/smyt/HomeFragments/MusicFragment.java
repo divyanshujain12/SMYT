@@ -27,7 +27,6 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
-import com.example.divyanshu.smyt.musicPlayer.MediaPlayerService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,6 +125,7 @@ public class MusicFragment extends BaseFragment {
                 customMusicPlayer.playAudio(position);
                 customMusicPlayer.setVisibility(View.VISIBLE);
                 break;
+
             default:
                 Intent intent = new Intent(getActivity(), MusicDescriptionActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
@@ -133,6 +133,14 @@ public class MusicFragment extends BaseFragment {
                 break;
         }
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser && customMusicPlayer != null) {
+            customMusicPlayer.stopService();
+        }
     }
 
     @Override
@@ -144,8 +152,8 @@ public class MusicFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(getContext(), MediaPlayerService.class);
-        getContext().stopService(intent);
+        if (customMusicPlayer != null)
+            customMusicPlayer.stopService();
     }
 
     @Override
