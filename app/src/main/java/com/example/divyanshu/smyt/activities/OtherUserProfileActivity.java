@@ -21,6 +21,7 @@ import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
+import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
@@ -157,6 +158,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
                 fab.startAnimation(fabOut);
                 break;
         }
+
+        CustomMusicPlayer.stopService();
     }
 
     @Override

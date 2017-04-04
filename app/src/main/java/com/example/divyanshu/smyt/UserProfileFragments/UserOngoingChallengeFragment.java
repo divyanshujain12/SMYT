@@ -47,7 +47,7 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     RecyclerView challengesRV;
     private UserOngoingChallengesAdapter userOngoingChallengesAdapter;
     private ArrayList<ChallengeModel> challengeModels = new ArrayList<>();
-    private TSnackbar tSnackbar;
+    //private TSnackbar tSnackbar;
     int acceptRejectPos;
 
     public UserOngoingChallengeFragment() {
@@ -156,8 +156,8 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     }
 
     private void hitOnGoingChallengeApi() {
-        tSnackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(challengesRV);
-        CommonFunctions.showContinuousSB(tSnackbar);
+        //tSnackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(challengesRV);
+        //CommonFunctions.showContinuousSB(tSnackbar);
         String apiUrl;
         if (getArguments().getBoolean(Constants.NEW_CHALLENGE))
             apiUrl = API.UPCOMING_NOT_ACCEPTED_CHALLENGES;
@@ -169,7 +169,7 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     @Override
     public void onJsonObjectSuccess(JSONObject response, int apiType) throws JSONException {
         super.onJsonObjectSuccess(response, apiType);
-        CommonFunctions.hideContinuousSB(tSnackbar);
+       // CommonFunctions.hideContinuousSB(tSnackbar);
         if (getUserVisibleHint()) {
             switch (apiType) {
                 case ApiCodes.ONGOING_CHALLENGES:
@@ -200,8 +200,8 @@ public class UserOngoingChallengeFragment extends BaseFragment {
     @Override
     public void onFailure(String str, int apiType) {
         super.onFailure(str, apiType);
-        tSnackbar.setText(str);
-        CommonFunctions.hideContinuousSB(tSnackbar);
+      //  tSnackbar.setText(str);
+      //  CommonFunctions.hideContinuousSB(tSnackbar);
     }
 
 

@@ -87,7 +87,6 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
         holder.roundsCountTV.setText(String.format(round_count_string, challengeModel.getRound_no(), challengeModel.getTotal_round()));
         holder.challengeTimeTV.setText(Utils.getChallengeTimeDifference(Long.parseLong(challengeModel.getRound_date())));
 
-
         if (challengeModel.getCurrent_customer_video_status() == 0)
             holder.acceptAndDeclineLL.setVisibility(View.VISIBLE);
         else
@@ -131,7 +130,6 @@ public class UserOngoingChallengesAdapter extends RecyclerView.Adapter<UserOngoi
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, getItemCount());
         }
-
     }
 
     public void clear() {

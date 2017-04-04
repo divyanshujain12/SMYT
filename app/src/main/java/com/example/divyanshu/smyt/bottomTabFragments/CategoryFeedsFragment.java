@@ -19,6 +19,7 @@ import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.MusicFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.UserProfileFragments.UserOngoingChallengeFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -79,6 +80,7 @@ public class CategoryFeedsFragment extends BaseFragment implements ViewPager.OnP
         viewPagerAdapter.addFragment(AllVideosFragment.getInstance(), getString(R.string.tab_all_videos));
         viewPagerAdapter.addFragment(LiveVideosFragment.getInstance(), getString(R.string.tab_live_videos));
         viewPagerAdapter.addFragment(MusicFragment.getInstance(), getString(R.string.music));
+        viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(true),getString(R.string.new_challenges));
 
         homeViewPager.setAdapter(viewPagerAdapter);
         homeViewPager.setOffscreenPageLimit(2);
