@@ -152,7 +152,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         //Handle Intent action from MediaSession.TransportControls
         handleIncomingActions(intent);
-        return super.onStartCommand(intent, flags, startId);
+       // return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
@@ -175,6 +176,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     public void onStopService() {
         if (mediaPlayer != null) {
+            if (playerInterface != null)
             playerInterface.onDestroy();
             stopMedia();
             mediaPlayer.release();
@@ -322,13 +324,17 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
+            if (activeAudio != null) {
             // Set the data source to the mediaFile location
             mediaPlayer.setDataSource(activeAudio.getVideo_url());
+                mediaPlayer.prepareAsync();
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
             stopSelf();
         }
-        mediaPlayer.prepareAsync();
+
         if (playerInterface != null)
         playerInterface.onBuffering();
     }
@@ -337,6 +343,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
+        if (playerInterface != null)
         playerInterface.onPlayed();
         buildNotification(PlaybackStatus.PLAYING);
     }
@@ -350,7 +357,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
-
+        if (playerInterface != null)
         playerInterface.onStopped();
     }
 
@@ -359,6 +366,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayer.pause();
             resumePosition = mediaPlayer.getCurrentPosition();
         }
+        if (playerInterface != null)
         playerInterface.onPaused();
     }
 
@@ -367,6 +375,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayer.seekTo(resumePosition);
             mediaPlayer.start();
         }
+        if (playerInterface != null)
         playerInterface.onPlayed();
     }
 
@@ -388,7 +397,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         //reset mediaPlayer
         mediaPlayer.reset();
         initMediaPlayer();
-
+        if (playerInterface != null)
         playerInterface.onNextPlayed();
     }
 
@@ -411,7 +420,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         //reset mediaPlayer
         mediaPlayer.reset();
         initMediaPlayer();
-
+        if (playerInterface != null)
         playerInterface.onPrevPlayed();
     }
 
@@ -584,9 +593,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         // Update the current metadata
         mediaSession.setMetadata(new MediaMetadataCompat.Builder()
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, activeAudio.getTitle())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, activeAudio.getTitle())
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, activeAudio.getTitle())
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, activeAudio == null ? "" : activeAudio.getTitle())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, activeAudio == null ? "" : activeAudio.getTitle())
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, activeAudio == null ? "" : activeAudio.getTitle())
                 .build());
     }
 
@@ -636,13 +645,15 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 .setLargeIcon(largeIcon)
                 .setSmallIcon(android.R.drawable.stat_sys_headset)
                 // Set Notification content information
-                .setContentText(activeAudio.getTitle())
-                .setContentTitle(activeAudio.getTitle())
-                .setContentInfo(activeAudio.getTitle()).setDeleteIntent(deleteIntent)
+                .setContentText(activeAudio == null ? "" : activeAudio.getTitle())
+                .setContentTitle(activeAudio == null ? "" : activeAudio.getTitle())
+                .setContentInfo(activeAudio == null ? "" : activeAudio.getTitle()).setDeleteIntent(deleteIntent)
                 // Add playback actions
                 .addAction(android.R.drawable.ic_media_previous, "previous", playbackAction(3))
                 .addAction(notificationAction, "pause", play_pauseAction)
                 .addAction(android.R.drawable.ic_media_next, "next", playbackAction(2));
+        notificationBuilder.setAutoCancel(true);
+        notificationBuilder.setOngoing(true);
 
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notificationBuilder.build());
     }
@@ -763,5 +774,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             stopSelf();
         }
 
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        onDestroy();
     }
 }

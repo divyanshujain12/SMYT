@@ -123,6 +123,7 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
                 checkAndSendLike();
                 break;
             case R.id.playMusicFL:
+                customMusicPlayer.setVisibility(View.VISIBLE);
                 customMusicPlayer.playAudio(0);
                 break;
         }

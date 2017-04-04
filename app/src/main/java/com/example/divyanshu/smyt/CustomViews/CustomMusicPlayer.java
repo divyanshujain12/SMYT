@@ -21,6 +21,7 @@ import com.example.divyanshu.smyt.Interfaces.PlayerInterface;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.Utilities;
+import com.example.divyanshu.smyt.activities.MyApp;
 import com.example.divyanshu.smyt.musicPlayer.MediaPlayerService;
 import com.example.divyanshu.smyt.musicPlayer.StorageUtil;
 
@@ -54,7 +55,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     private TextView musicTitleTV;
     private ArrayList<AllVideoModel> allVideoModels;
     private ImageView removeIV;
-
+    public static ServiceConnection serviceConnectionIN;
 
     public CustomMusicPlayer(Context context) {
         super(context);
@@ -101,8 +102,8 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
             storage.storeAudioIndex(audioIndex);
 
             Intent playerIntent = new Intent(getContext(), MediaPlayerService.class);
-            getContext().startService(playerIntent);
-            getContext().bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+            MyApp.getInstance().getApplicationContext().startService(playerIntent);
+            MyApp.getInstance().getApplicationContext().bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
             bindPlayerWithService();
             mediaPlayerService.registerReceivers();
@@ -116,6 +117,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
         }
 
         showProgressBar(this, true);
+
     }
 
 
@@ -273,6 +275,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
             mediaPlayerService = binder.getService();
             serviceBound = true;
             bindPlayerWithService();
+            serviceConnectionIN = this;
         }
 
         @Override
@@ -298,6 +301,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
         updateProgressBar();
         showProgressBar(this, false);
         start.setImageResource(android.R.drawable.ic_media_pause);
+        musicTitleTV.setText(mediaPlayerService.getActiveAudio().getTitle());
     }
 
     @Override
@@ -339,14 +343,16 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     public void onDestroy() {
         //resetPlayerUi();
         serviceBound = false;
+        mediaPlayerService = null;
+        serviceConnectionIN = null;
         mHandler.removeCallbacks(mUpdateTimeTask);
         setVisibility(GONE);
     }
 
-    public void stopService() {
-        if (mediaPlayerService != null) {
-            mediaPlayerService.stopServiceNow();
-            setVisibility(GONE);
+    public static void stopService() {
+        if (mediaPlayerService != null && serviceConnectionIN != null) {
+            mediaPlayerService.stopSelf();
+            MyApp.getInstance().getApplicationContext().unbindService(serviceConnectionIN);
         }
     }
 }

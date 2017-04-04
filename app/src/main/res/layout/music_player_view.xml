@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/fifty_dp"
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
@@ -9,24 +9,10 @@
         android:id="@+id/musicTitleFL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/five_dp">
-    <ImageView
-        android:id="@+id/removeIV"
-        android:layout_width="@dimen/thirty_dp"
-        android:layout_height="@dimen/thirty_dp"
-        android:layout_gravity="right|center_vertical"
-        android:padding="@dimen/five_dp"
-        android:src="@drawable/ic_remove"
-        android:visibility="visible" />
+        android:layout_margin="@dimen/five_dp"
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/musicTitleTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:text="Title"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/fifteen_sp" />
+
     </FrameLayout>
     <LinearLayout
         android:id="@+id/layout_bottom"
@@ -43,62 +29,82 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-            android:id="@+id/current"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="00:00"
-            android:textColor="#ffffff" />
 
-        <SeekBar
-            android:id="@+id/progress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1.0"
-            android:background="@null"
-            android:max="100"
-            android:maxHeight="4dp"
-            android:minHeight="4dp"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:progressDrawable="@drawable/jc_seek_progress"
-            android:thumb="@drawable/jc_seek_thumb" />
+            <SeekBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:max="100"
+                android:maxHeight="5dp"
+                android:minHeight="4dp"
+                android:progressDrawable="@drawable/jc_seek_progress"
+                android:thumb="@null" />
 
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:text="00:00"
-            android:textColor="#ffffff" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_marginTop="@dimen/five_dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/musicTitleTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_weight="5"
+                android:text="Title"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/fifteen_sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="center|center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/twenty_sp" />
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+
+                    android:textColor="#ffffff"
+                    android:visibility="visible" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/prevSongIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:visibility="gone"
                 android:src="@android:drawable/ic_media_previous" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/start"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/five_dp"
-                    android:src="@android:drawable/ic_media_play" />
 
                 <ProgressBar
                     android:id="@+id/progressBar2"
@@ -107,13 +113,31 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/start"
+                    android:layout_width="@dimen/fourty_dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/ic_music_play" />
             </FrameLayout>
+
+            <ImageView
+                android:id="@+id/removeIV"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_gravity="right|center_vertical"
+                android:padding="@dimen/five_dp"
+                android:src="@drawable/ic_remove"
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/nextSongIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:visibility="gone"
                 android:src="@android:drawable/ic_media_next" />
         </LinearLayout>
     </LinearLayout>

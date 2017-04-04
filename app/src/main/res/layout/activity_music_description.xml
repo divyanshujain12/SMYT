@@ -7,14 +7,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
-            android:id="@+id/customMusicPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/fifty_dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,6 +47,12 @@
         <include layout="@layout/comments_rv" />
 
     </LinearLayout>
-
+    <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
+        android:id="@+id/customMusicPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/commentBar"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:visibility="gone" />
     <include layout="@layout/add_comment_bar" />
 </RelativeLayout>

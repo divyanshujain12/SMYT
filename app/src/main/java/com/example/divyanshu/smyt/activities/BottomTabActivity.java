@@ -159,6 +159,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
             setToolbarText(categoryName, getString(R.string.click_for_desc));
         } else
             setToolbarText(bottomNavigation.getMenu().getItem(position).getTitle().toString(), "");
+        CustomMusicPlayer.stopService();
 
     }
 
@@ -214,9 +215,15 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
      /*   if (bottomTabVP.getCurrentItem() != 0) {
             onResetPager();
         } else {*/
-            if (CustomMusicPlayer.getPrevPlayedPlayer() != null)
-                CustomMusicPlayer.getPrevPlayedPlayer().resetPreviousPlayer();
+
+        CustomMusicPlayer.stopService();
             super.onBackPressed();
         //}
+    }
+
+    @Override
+    public boolean isFinishing() {
+       // CustomMusicPlayer.stopService();
+        return super.isFinishing();
     }
 }

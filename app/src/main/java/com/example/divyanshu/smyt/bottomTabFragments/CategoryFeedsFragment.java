@@ -1,7 +1,6 @@
 package com.example.divyanshu.smyt.bottomTabFragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import com.example.divyanshu.smyt.HomeFragments.LiveVideosFragment;
 import com.example.divyanshu.smyt.HomeFragments.MusicFragment;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.R;
-import com.example.divyanshu.smyt.musicPlayer.MediaPlayerService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -110,6 +108,7 @@ public class CategoryFeedsFragment extends BaseFragment implements ViewPager.OnP
     }
 
     private void stopPlayService() {
+        CustomMusicPlayer.stopService();
       //  getActivity().onBackPressed();
     }
 
