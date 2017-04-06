@@ -310,8 +310,6 @@ public class UploadMusicFragment extends BaseFragment {
             multipartUtility.addFormField(Constants.TITLE, title);
             multipartUtility.addFormField(Constants.SHARE_STATUS, "Public");
             multipartUtility.addFormField(Constants.E_DATE, String.valueOf(Utils.getCurrentTimeInMillisecond()));
-
-
         }
 
     }

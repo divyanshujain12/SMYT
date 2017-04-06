@@ -15,7 +15,9 @@ import com.example.divyanshu.smyt.Adapters.CategoryUserRvAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.ApiCodes;
 import com.example.divyanshu.smyt.Constants.Constants;
+import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
+import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.CategoryModel;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Parser.UniversalParser;
@@ -91,9 +93,13 @@ public class CategoriesActivity extends BaseActivity {
                 startActivity(intent);
 
                 break;
-            case R.id.action_user_info:
-                intent = new Intent(this, InfoActivity.class);
-                startActivity(intent);
+            case R.id.action_rule:
+                CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
+                    @Override
+                    public void doAction() {
+
+                    }
+                });
                 break;
         }
         return true;
