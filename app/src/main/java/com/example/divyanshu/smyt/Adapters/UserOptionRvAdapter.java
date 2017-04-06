@@ -19,7 +19,7 @@ public class UserOptionRvAdapter extends RecyclerView.Adapter<UserOptionRvAdapte
     private RecyclerViewClick recyclerViewClick;
     private Context context;
 
-    private int[] userOptionsIconsArray = {R.drawable.ic_settings_videos, R.drawable.ic_settings_challenge,R.drawable.ic_settings_notification, R.drawable.ic_settings_music, R.drawable.ic_settings_followers,  R.drawable.ic_settings_manage_orders, R.drawable.ic_settings_about_us, R.drawable.ic_settings_contact_us, R.drawable.ic_settings_logout};
+    private int[] userOptionsIconsArray = {R.drawable.ic_settings_videos, R.drawable.ic_settings_challenge, R.drawable.ic_settings_notification, R.drawable.ic_settings_music, R.drawable.ic_settings_followers, R.drawable.ic_settings_manage_orders, R.drawable.ic_settings_faq, R.drawable.ic_settings_about_us, R.drawable.ic_settings_contact_us, R.drawable.ic_settings_logout};
     private String[] userOptionsStringArray;
 
     public UserOptionRvAdapter(Context context, RecyclerViewClick recyclerViewClick) {

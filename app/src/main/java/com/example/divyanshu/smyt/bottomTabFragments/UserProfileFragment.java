@@ -176,14 +176,17 @@ public class UserProfileFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case 6:
+                CustomToasts.getInstance(getContext()).showErrorToast("Coming Soon...");
+                break;
+            case 7:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://smytex.com"));
                 startActivity(browserIntent);
                 break;
-            case 7:
+            case 8:
                 Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://info@smytex.com"));
                 startActivity(intent1);
                 break;
-            case 8:
+            case 9:
                 logout();
                 break;
 
