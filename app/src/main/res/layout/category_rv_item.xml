@@ -12,7 +12,7 @@
     <FrameLayout
 
         android:layout_width="match_parent"
-        android:layout_height="@dimen/eighty_dp"
+        android:layout_height="@dimen/one_hundred_dp"
         android:layout_gravity="center"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"

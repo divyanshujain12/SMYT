@@ -21,8 +21,6 @@ public class PostChallengeActivity extends AppCompatActivity {
     Toolbar toolbarView;
     @InjectView(R.id.fragmentContainerFL)
     FrameLayout fragmentContainerFL;
-    @InjectView(R.id.activity_following)
-    LinearLayout activityFollowing;
 
     FragmentManager fragmentManager;
     private Bundle bundle;
@@ -30,7 +28,7 @@ public class PostChallengeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_following);
+        setContentView(R.layout.activity_user_notification);
         ButterKnife.inject(this);
 
         initViews();
