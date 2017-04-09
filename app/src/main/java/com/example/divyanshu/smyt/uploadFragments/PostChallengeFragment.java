@@ -23,6 +23,7 @@ import com.example.divyanshu.smyt.Adapters.AutoCompleteArrayAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomDateTimePickerHelper;
+import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.UserModel;
 import com.example.divyanshu.smyt.Models.ValidationModel;
@@ -397,6 +398,8 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
 
             case POST_CHALLENGE:
                 sendNewChallengeAddedBroadcastToFragment();
+                CustomToasts.getInstance(getContext()).showSuccessToast(getString(R.string.challenge_posted_success));
+                initViews();
                 CommonFunctions.hideContinuousSB(snackbar);
                 break;
         }
