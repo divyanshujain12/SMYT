@@ -138,9 +138,9 @@ public class MusicFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (!isVisibleToUser && customMusicPlayer != null) {
+        /*if (!isVisibleToUser && customMusicPlayer != null) {
             customMusicPlayer.stopService();
-        }
+        }*/
     }
 
     @Override

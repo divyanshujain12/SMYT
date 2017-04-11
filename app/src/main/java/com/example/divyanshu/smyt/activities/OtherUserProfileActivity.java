@@ -313,6 +313,7 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
 
     @Override
     public void onBackPressed() {
+        CustomMusicPlayer.stopService();
         if (JCVideoPlayerStandard.backPress())
             return;
         else if (JCVideoPlayerStandardTwo.backPress())
