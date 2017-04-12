@@ -56,6 +56,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     private ArrayList<AllVideoModel> allVideoModels;
     private ImageView removeIV;
     public static ServiceConnection serviceConnectionIN;
+    private ImageView musicThumbIV;
 
     public CustomMusicPlayer(Context context) {
         super(context);
@@ -85,6 +86,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
         nextSongIV = (ImageView) findViewById(R.id.nextSongIV);
         musicTitleTV = (TextView) findViewById(R.id.musicTitleTV);
         removeIV = (ImageView) findViewById(R.id.removeIV);
+        musicThumbIV = (ImageView) findViewById(R.id.musicThumbIV);
         seekBar.setOnSeekBarChangeListener(this);
         start.setOnClickListener(this);
         nextSongIV.setOnClickListener(this);

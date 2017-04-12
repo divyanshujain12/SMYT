@@ -1,38 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/fifty_dp"
+    android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/musicTitleFL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/five_dp"
-        android:visibility="gone">
+    <ImageView
+        android:id="@+id/musicThumbIV"
+        android:layout_width="@dimen/three_hundred"
+        android:layout_height="@dimen/three_hundred"
+        android:layout_gravity="center"
+        android:contentDescription="@string/active"
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash_icon" />
 
 
-    </FrameLayout>
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_below="@+id/musicTitleFL"
+        android:layout_gravity="bottom"
         android:orientation="vertical">
 
+        <include layout="@layout/horizontal_white_line" />
 
+        <TextView
+            android:id="@+id/musicTitleTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:gravity="center"
+            android:text="Title"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/twenty_sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/current"
+                android:layout_width="@dimen/fourty_dp"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="#ffffff" />
 
             <SeekBar
                 android:id="@+id/progress"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="7"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
@@ -42,6 +60,15 @@
                 android:progressDrawable="@drawable/jc_seek_progress"
                 android:thumb="@null" />
 
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="@dimen/fourty_dp"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+
+                android:textColor="#ffffff"
+                android:visibility="visible" />
+
 
         </LinearLayout>
 
@@ -49,57 +76,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/five_dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/musicTitleTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginLeft="@dimen/five_dp"
-                android:layout_weight="5"
-                android:text="Title"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/fifteen_sp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center|center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/current"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00:00"
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/twenty_sp" />
-
-                <TextView
-                    android:id="@+id/total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00:00"
-
-                    android:textColor="#ffffff"
-                    android:visibility="visible" />
-            </LinearLayout>
 
             <ImageView
                 android:id="@+id/prevSongIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:src="@android:drawable/ic_media_previous" />
 
             <FrameLayout
@@ -130,16 +116,16 @@
                 android:layout_gravity="right|center_vertical"
                 android:padding="@dimen/five_dp"
                 android:src="@drawable/ic_remove"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/nextSongIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:src="@android:drawable/ic_media_next" />
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</FrameLayout>

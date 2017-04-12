@@ -96,6 +96,7 @@ public interface Constants {
     String IS_FAVORITE = "is_favourite";
     String MOBILE_TYPE = "mobile_type";
     String FILE_NAME = "file_name";
+    String SELECTED_SONG_POS = "selected_song_pos";
     String Broadcast_PLAY_NEW_AUDIO = "com.example.divyanshu.smyt.Constants.PlayNewAudio";
     String Broadcast_PAUSE_AUDIO = "com.example.divyanshu.smyt.Constants.PauseAudio";
     String Broadcast_RESUME_AUDIO = "com.example.divyanshu.smyt.Constants.ResumeAudio";

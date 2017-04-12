@@ -27,6 +27,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.activities.PlayMusicActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -122,8 +123,11 @@ public class MusicFragment extends BaseFragment {
         super.onClickItem(position, view);
         switch (view.getId()) {
             case R.id.playMusicFL:
-                customMusicPlayer.playAudio(position);
-                customMusicPlayer.setVisibility(View.VISIBLE);
+                Intent intent1 = new Intent(getActivity(), PlayMusicActivity.class);
+                intent1.putExtra(Constants.SELECTED_SONG_POS, position);
+                startActivity(intent1);
+               /* customMusicPlayer.playAudio(position);
+                customMusicPlayer.setVisibility(View.VISIBLE);*/
                 break;
 
             default:
