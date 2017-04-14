@@ -1,18 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.divyanshu.smyt.activities.PlayMusicActivity">
+    <ImageView
+        android:id="@+id/musicThumbIV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:contentDescription="@string/active"
+        android:scaleType="fitXY"
+        android:src="@drawable/user" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/black_shade" />
+    <LinearLayout
 
-    <include layout="@layout/custom_toolbar" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <include layout="@layout/horizontal_white_line" />
+        <include layout="@layout/custom_toolbar" />
+
+        <include layout="@layout/horizontal_white_line" />
+    </LinearLayout>
+
 
     <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
         android:id="@+id/customMusicPlayer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/musicBottomRL"/>
 
-</LinearLayout>
+
+    <include layout="@layout/music_player_comment_bar" />
+
+
+</RelativeLayout>

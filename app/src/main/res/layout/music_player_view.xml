@@ -2,17 +2,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/musicThumbIV"
-        android:layout_width="@dimen/three_hundred"
-        android:layout_height="@dimen/three_hundred"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:contentDescription="@string/active"
-        android:scaleType="centerCrop"
-        android:src="@drawable/splash_icon" />
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:src="@drawable/user" />
 
 
     <LinearLayout
@@ -22,7 +23,7 @@
         android:layout_gravity="bottom"
         android:orientation="vertical">
 
-        <include layout="@layout/horizontal_white_line" />
+
 
         <TextView
             android:id="@+id/musicTitleTV"
@@ -32,12 +33,14 @@
             android:layout_marginTop="@dimen/ten_dp"
             android:gravity="center"
             android:text="Title"
+            android:visibility="gone"
             android:textColor="#ffffff"
             android:textSize="@dimen/twenty_sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/ten_dp"
             android:orientation="horizontal">
 
             <TextView
@@ -126,6 +129,8 @@
                 android:visibility="visible"
                 android:src="@android:drawable/ic_media_next" />
         </LinearLayout>
+
+
     </LinearLayout>
 
 </FrameLayout>

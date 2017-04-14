@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.divyanshu.smyt.Interfaces.MusicPlayerClickEvent;
 import com.example.divyanshu.smyt.Interfaces.PlayerInterface;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
@@ -57,6 +58,8 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     private ImageView removeIV;
     public static ServiceConnection serviceConnectionIN;
     private ImageView musicThumbIV;
+
+    private MusicPlayerClickEvent musicPlayerClickEvent;
 
     public CustomMusicPlayer(Context context) {
         super(context);
@@ -294,7 +297,9 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     private void resetPlayerUi() {
         getTotal().setText("0:00");
         getCurrent().setText("0:00");
+        seekBar.setProgress(0);
         mHandler.removeCallbacks(mUpdateTimeTask);
+
     }
 
     @Override
@@ -321,12 +326,16 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     public void onNextPlayed() {
         resetPlayerUi();
         musicTitleTV.setText(mediaPlayerService.getActiveAudio().getTitle());
+        if (musicPlayerClickEvent != null)
+            musicPlayerClickEvent.onNextClick(mediaPlayerService.getAudioIndex());
     }
 
     @Override
     public void onPrevPlayed() {
         resetPlayerUi();
         musicTitleTV.setText(mediaPlayerService.getActiveAudio().getTitle());
+        if (musicPlayerClickEvent != null)
+            musicPlayerClickEvent.onPrevClick(mediaPlayerService.getAudioIndex());
     }
 
     @Override
@@ -349,6 +358,14 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
         serviceConnectionIN = null;
         mHandler.removeCallbacks(mUpdateTimeTask);
         setVisibility(GONE);
+    }
+
+    public MusicPlayerClickEvent getMusicPlayerClickEvent() {
+        return musicPlayerClickEvent;
+    }
+
+    public void setMusicPlayerClickEvent(MusicPlayerClickEvent musicPlayerClickEvent) {
+        this.musicPlayerClickEvent = musicPlayerClickEvent;
     }
 
     public static void stopService() {

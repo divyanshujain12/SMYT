@@ -781,4 +781,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         super.onTaskRemoved(rootIntent);
         onDestroy();
     }
+
+    public int getAudioIndex() {
+        return audioIndex;
+    }
 }

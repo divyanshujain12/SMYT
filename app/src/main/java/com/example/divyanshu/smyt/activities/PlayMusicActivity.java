@@ -7,10 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
-import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
+import com.example.divyanshu.smyt.Interfaces.MusicPlayerClickEvent;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.Utils;
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class PlayMusicActivity extends BaseActivity {
+public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickEvent {
 
     @InjectView(R.id.toolbarView)
     Toolbar toolbarView;
@@ -29,6 +28,7 @@ public class PlayMusicActivity extends BaseActivity {
     CustomMusicPlayer customMusicPlayer;
     public static ArrayList<AllVideoModel> allVideoModels;
     private int selectedSongPos = 0;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +39,18 @@ public class PlayMusicActivity extends BaseActivity {
     }
 
     private void initViews() {
-        Utils.configureToolbarForHomeActivity(this, toolbarView, getString(R.string.player));
         selectedSongPos = getIntent().getIntExtra(Constants.SELECTED_SONG_POS, 0);
         customMusicPlayer.initialize(allVideoModels);
         customMusicPlayer.playAudio(selectedSongPos);
+        customMusicPlayer.setMusicPlayerClickEvent(this);
+        Utils.configureToolbarWithBackButton(this, toolbarView, allVideoModels.get(selectedSongPos).getTitle());
+        toolbarView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.music_player_menu, menu);
         return true;
     }
@@ -60,12 +64,7 @@ public class PlayMusicActivity extends BaseActivity {
 
                 break;
             case R.id.action_fav:
-                CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
-                    @Override
-                    public void doAction() {
-
-                    }
-                });
+                updateFavStatus();
                 break;
         }
         return true;
@@ -75,5 +74,31 @@ public class PlayMusicActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         CustomMusicPlayer.stopService();
+    }
+
+    @Override
+    public void onNextClick(int pos) {
+        setUpUiOnTrackChange(pos);
+    }
+
+    @Override
+    public void onPrevClick(int pos) {
+        setUpUiOnTrackChange(pos);
+    }
+
+    private void setUpUiOnTrackChange(int pos) {
+        selectedSongPos = pos;
+        String trackTitle = allVideoModels.get(selectedSongPos).getTitle();
+        getSupportActionBar().setTitle(trackTitle);
+        updateFavStatus();
+    }
+
+    private void updateFavStatus() {
+        int favStatus = allVideoModels.get(selectedSongPos).getFavourite_status();
+        if (favStatus == 0) {
+            menu.findItem(R.id.action_fav).setIcon(R.drawable.ic_fav_un_select);
+        } else {
+            menu.findItem(R.id.action_fav).setIcon(R.drawable.ic_fav_select);
+        }
     }
 }
