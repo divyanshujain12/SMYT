@@ -21,18 +21,22 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/customMusicPlayer"
         android:orientation="vertical">
 
-        <include layout="@layout/custom_toolbar" />
 
-        <include layout="@layout/horizontal_white_line" />
+        <include layout="@layout/music_player_title_bar" />
+
+        <include layout="@layout/music_player_user_view" />
+
+       <!-- <include layout="@layout/horizontal_white_line" />-->
     </LinearLayout>
 
 
     <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
         android:id="@+id/customMusicPlayer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/musicBottomRL"/>
 
 
