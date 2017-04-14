@@ -70,4 +70,10 @@ public class PlayMusicActivity extends BaseActivity {
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        CustomMusicPlayer.stopService();
+    }
 }

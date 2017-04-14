@@ -123,6 +123,7 @@ public class MusicFragment extends BaseFragment {
         super.onClickItem(position, view);
         switch (view.getId()) {
             case R.id.playMusicFL:
+                PlayMusicActivity.allVideoModels = allVideoModels;
                 Intent intent1 = new Intent(getActivity(), PlayMusicActivity.class);
                 intent1.putExtra(Constants.SELECTED_SONG_POS, position);
                 startActivity(intent1);
