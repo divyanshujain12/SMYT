@@ -16,11 +16,13 @@
         android:layout_centerVertical="true"
         android:maxLines="2"
         android:alpha=".8"
-        android:text="Title 1"
+        android:text="Title"
+        android:maxLength="35"
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Medium.ttf" />
 
     <LinearLayout
+        android:id="@+id/userFunctionsLL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

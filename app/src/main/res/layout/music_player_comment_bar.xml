@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:id="@+id/musicBottomRL"
-    android:layout_alignParentBottom="true">
+   >
 
     <View
         android:layout_width="match_parent"

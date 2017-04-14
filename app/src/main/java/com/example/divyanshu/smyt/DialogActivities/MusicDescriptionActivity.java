@@ -203,16 +203,6 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
         updateCommentsCount();
     }
 
-    private void setupVideo() {
-        AllVideoModel allVideoModel = new AllVideoModel();
-        allVideoModel.setVideo_url(videoDetailModel.getVideo_url());
-        allVideoModel.setTitle(videoDetailModel.getTitle());
-        ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
-        allVideoModels.add(allVideoModel);
-        customMusicPlayer.initialize(allVideoModels);
-    }
-
-
     private void sendComment() {
         validationMap = validation.validate(this);
         commentsET.setText("");
@@ -227,6 +217,7 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
         updateModelForLikesCount();
         CallWebService.getInstance(this, false, ApiCodes.ADD_REMOVE_LIKE).hitJsonObjectRequestAPI(CallWebService.POST, API.LIKE_UNLIKE_VIDEO, createJsonForAddRemoveLike(), this);
     }
+
 
     private void updateModelForLikesCount() {
         int likesCount = Integer.parseInt(videoDetailModel.getLikes());
@@ -252,14 +243,23 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
         }
     }
 
-
     private void setLikeCountInUI() {
         userOneLikesCountTV.setText(ReusedCodes.getLikes(this, String.valueOf(videoDetailModel.getLikes())));
     }
 
+
     private void updateCommentsCount() {
         BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
         commentsTV.setText(ReusedCodes.getComment(this, videoDetailModel.getVideo_comment_count()));
+    }
+
+    private void setupVideo() {
+        AllVideoModel allVideoModel = new AllVideoModel();
+        allVideoModel.setVideo_url(videoDetailModel.getVideo_url());
+        allVideoModel.setTitle(videoDetailModel.getTitle());
+        ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
+        allVideoModels.add(allVideoModel);
+        customMusicPlayer.initialize(allVideoModels);
     }
 
 

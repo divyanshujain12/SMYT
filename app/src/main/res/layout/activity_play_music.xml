@@ -1,46 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/black_shade"
+    android:gravity="bottom"
+    sothree:umanoDragView="@+id/dragViewLL"
+    sothree:umanoPanelHeight="100dp"
+    sothree:umanoScrollableView="@+id/commentsRV"
+    sothree:umanoShadowHeight="4dp">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.divyanshu.smyt.activities.PlayMusicActivity">
+
+        tools:context="com.example.divyanshu.smyt.activities.PlayMusicActivity">
     <ImageView
         android:id="@+id/musicThumbIV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/two_hundred_dp"
+        android:layout_height="@dimen/two_hundred_dp"
         android:layout_gravity="center"
         android:contentDescription="@string/active"
+        android:layout_centerInParent="true"
         android:scaleType="fitXY"
         android:src="@drawable/user" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/black_shade" />
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/customMusicPlayer"
-        android:orientation="vertical">
-
-
-        <include layout="@layout/music_player_title_bar" />
 
         <include layout="@layout/music_player_user_view" />
 
-       <!-- <include layout="@layout/horizontal_white_line" />-->
-    </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom" >
+        <include layout="@layout/music_player_title_bar" />
 
     <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
         android:id="@+id/customMusicPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/musicBottomRL"/>
+        android:layout_alignParentBottom="@+id/musicBottomRL"
+       />
+        </LinearLayout>
 
+    </FrameLayout>
 
-    <include layout="@layout/music_player_comment_bar" />
+    <RelativeLayout
+        android:id="@+id/dragViewLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <include layout="@layout/music_player_comment_bar" />
 
-</RelativeLayout>
+        <include layout="@layout/comments_rv" />
+
+        <include layout="@layout/add_comment_bar" />
+    </RelativeLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
