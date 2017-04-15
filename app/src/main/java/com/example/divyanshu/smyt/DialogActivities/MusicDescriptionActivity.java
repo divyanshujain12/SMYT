@@ -36,6 +36,7 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.Utils.Validation;
 import com.example.divyanshu.smyt.activities.OtherUserProfileActivity;
+import com.example.divyanshu.smyt.activities.PlayMusicActivity;
 import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -123,8 +124,10 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
                 checkAndSendLike();
                 break;
             case R.id.playMusicFL:
-                customMusicPlayer.setVisibility(View.VISIBLE);
-                customMusicPlayer.playAudio(0);
+                PlayMusicActivity.allVideoModels = setupVideo();
+                Intent intent1 = new Intent(this, PlayMusicActivity.class);
+                intent1.putExtra(Constants.SELECTED_SONG_POS, 0);
+                startActivity(intent1);
                 break;
         }
     }
@@ -175,7 +178,7 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
         viewsCountTV.setText(ReusedCodes.getViews(this, videoDetailModel.getViews()));
         setLikeCountInUI();
         setLikeIV();
-        setupVideo();
+
         updateCommentsCount();
         String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
         if (!currentCustomerID.equals(videoDetailModel.getCustomer_id()))
@@ -253,13 +256,15 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
         commentsTV.setText(ReusedCodes.getComment(this, videoDetailModel.getVideo_comment_count()));
     }
 
-    private void setupVideo() {
+    private ArrayList<AllVideoModel> setupVideo() {
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setVideo_url(videoDetailModel.getVideo_url());
         allVideoModel.setTitle(videoDetailModel.getTitle());
+        allVideoModel.setEdate(0);
         ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
         allVideoModels.add(allVideoModel);
-        customMusicPlayer.initialize(allVideoModels);
+        return allVideoModels;
+        //  customMusicPlayer.initialize(allVideoModels);
     }
 
 

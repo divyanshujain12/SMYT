@@ -5,7 +5,7 @@
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/black_shade"
+    android:background="@drawable/g1"
     android:gravity="bottom"
     sothree:umanoDragView="@+id/dragViewLL"
     sothree:umanoPanelHeight="100dp"
@@ -38,7 +38,17 @@
             android:layout_gravity="bottom" >
         <include layout="@layout/music_player_title_bar" />
 
-    <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
+            <com.neopixl.pixlui.components.textview.TextView xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+                android:id="@+id/audioNameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/twelve_sp"
+                pixlui:typeface="Roboto-Regular.ttf" />
+
+
+            <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
         android:id="@+id/customMusicPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

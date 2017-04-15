@@ -1,6 +1,10 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -8,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +53,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -96,6 +102,9 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
     RelativeLayout dragViewLL;
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout slidingLayout;
+    @InjectView(R.id.audioNameTV)
+    TextView audioNameTV;
+
     private int selectedSongPos = 0;
     private Menu menu;
     private ImageLoading imageLoading;
@@ -104,6 +113,7 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
     private Validation validation;
     private HashMap<View, String> validationMap;
     private CommentModel deleteCommentModel;
+    int DrawableImage[] = {R.drawable.g1, R.drawable.g3, R.drawable.g4, R.drawable.g6,  R.drawable.g2,R.drawable.g7, R.drawable.g8,R.drawable.g5, R.drawable.g9, R.drawable.g10};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +138,9 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
         imageLoading = new ImageLoading(this);
         getCurrentTrackData();
         setUpUi(selectedSongPos);
+        setFadeInBgAnimation();
+        String fileName = URLUtil.guessFileName(allVideoModels.get(selectedSongPos).getVideo_url(), null, null);
+        audioNameTV.setText(fileName.substring(0, fileName.lastIndexOf(".")));
 
         //Utils.configureToolbarWithOutBackButton(this, toolbarView, allVideoModels.get(selectedSongPos).getTitle());
         //toolbarView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -140,8 +153,12 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        CustomMusicPlayer.stopService();
+
+        if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @OnClick({R.id.sendCommentIV, R.id.firstUserLL, R.id.commentsTV, R.id.viewsCountTV, R.id.userOneLikesCountTV, R.id.musicBottomRL})
@@ -150,8 +167,10 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
             case R.id.firstUserLL:
                 break;
             case R.id.commentsTV:
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 break;
             case R.id.viewsCountTV:
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 break;
             case R.id.musicBottomRL:
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -206,7 +225,7 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
         selectedSongPos = pos;
         uploadedTimeTV.setText(Utils.formatDateAndTime(allVideoModels.get(selectedSongPos).getEdate(), Utils.CURRENT_DATE_FORMAT));
         getCurrentTrackData();
-       // updateUI();
+        // updateUI();
         //  setUpMusicTitleBar(allVideoModels.get(pos));
     }
 
@@ -225,14 +244,15 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
         setLikeCountInUI();
         setLikeIV();
         updateCommentsCount();
-        String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
-        if (!currentCustomerID.equals(videoDetailModel.getCustomer_id()))
-            videoTitleView.showHideMoreIvButton(false);
+
     }
 
     private void setUpTitleBarPopupWindow() {
         videoTitleView.setUpForSingleVideo(videoDetailModel.getTitle(), 0, videoDetailModel.getCustomers_videos_id(), this);
         videoTitleView.setUpFavIVButton(videoDetailModel.getFavourite_status());
+        String currentCustomerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
+        // if (!currentCustomerID.equals(videoDetailModel.getCustomer_id()))
+        videoTitleView.showHideMoreIvButton(false);
     }
 
     private void decreaseCommentCount() {
@@ -287,6 +307,37 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
         }
     }
 
+    private void setFadeInBgAnimation() {
+
+        final Handler handler = new Handler();
+        final int[] i = {0};
+        final int[] j = {1};
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Resources res = getApplicationContext().getResources();
+                        TransitionDrawable out = new TransitionDrawable(new Drawable[]{res.getDrawable(DrawableImage[i[0]]), res.getDrawable(DrawableImage[j[0]])});
+                        out.setCrossFadeEnabled(true);
+                        slidingLayout.setBackgroundDrawable(out);
+                        out.startTransition(4000);
+                        i[0]++;
+                        j[0]++;
+                        if (j[0] == DrawableImage.length) {
+                            j[0] = 0;
+                        }
+                        if (i[0] == DrawableImage.length) {
+                            i[0] = 0;
+                        }
+                        handler.postDelayed(this, 8000);
+                    }
+                });
+            }
+        }, 0);
+    }
+
     private void setLikeCountInUI() {
         userOneLikesCountTV.setText(ReusedCodes.getLikes(this, String.valueOf(videoDetailModel.getLikes())));
     }
@@ -295,25 +346,6 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
     private void updateCommentsCount() {
         BroadcastSenderClass.getInstance().sendCommentCountBroadcast(this, videoDetailModel.getCustomers_videos_id(), videoDetailModel.getVideo_comment_count());
         commentsTV.setText(ReusedCodes.getComment(this, videoDetailModel.getVideo_comment_count()));
-    }
-
-
-    private void setUpMusicTitleBar(AllVideoModel allVideoModel) {
-
-        imageLoading.LoadImage(allVideoModel.getProfileimage(), firstUserIV, null);
-        firstUserNameTV.setText(allVideoModel.getFirst_name());
-        videoTitleView.setUpViewsForListing(allVideoModel.getTitle(), 0, allVideoModel.getCustomers_videos_id(), this);
-        uploadedTimeTV.setText(Utils.formatDateAndTime(allVideoModel.getEdate(), Utils.CURRENT_DATE_FORMAT));
-        setUpMoreIvButtonVisibilityForSingleVideo();
-        setUpFavButton(allVideoModel);
-    }
-
-    private void setUpFavButton(AllVideoModel allVideoModel) {
-        videoTitleView.setUpFavIVButton(allVideoModel.getFavourite_status());
-    }
-
-    private void setUpMoreIvButtonVisibilityForSingleVideo() {
-        videoTitleView.showHideMoreIvButton(false);
     }
 
     private JSONObject createJsonForGettingVideoInfo() {
@@ -361,14 +393,16 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
         }
         return jsonObject;
     }
+
     @Override
-    public void onTitleBarButtonClicked(View view, int position) {
+    public void onTitleBarButtonClicked(View view, final int position) {
         switch (view.getId()) {
             case R.id.deleteVideoTV:
                 CommonFunctions.getInstance().deleteVideo(this, allVideoModels.get(position).getCustomers_videos_id(), new DeleteVideoInterface() {
                     @Override
                     public void onDeleteVideo() {
-                        //  removeItem(position);
+                        BroadcastSenderClass.getInstance().reloadAllVideoData(PlayMusicActivity.this);
+                        removeItemFromArrayList(position);
                     }
                 });
                 break;
@@ -376,6 +410,15 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
                 CallWebService.getInstance(this, false, ApiCodes.ACTION_FAVORITE).hitJsonObjectRequestAPI(CallWebService.POST, API.ACTION_FAVORITE, CommonFunctions.getInstance().createJsonForActionFav(this, allVideoModels.get(position).getCustomers_videos_id(), updateUiForFavClick((ImageView) view, position)), null);
                 break;
         }
+    }
+
+    private void removeItemFromArrayList(int pos) {
+        allVideoModels.remove(pos);
+        customMusicPlayer.initialize(allVideoModels);
+        if (allVideoModels.size() > selectedSongPos) {
+            customMusicPlayer.playAudio(selectedSongPos);
+        } else
+            customMusicPlayer.playAudio(0);
     }
 
     private int updateUiForFavClick(ImageView view, int position) {
@@ -391,5 +434,9 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
         return favStatus;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CustomMusicPlayer.stopService();
+    }
 }

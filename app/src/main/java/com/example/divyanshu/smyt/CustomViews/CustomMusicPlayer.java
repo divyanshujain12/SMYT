@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -95,6 +96,8 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
         nextSongIV.setOnClickListener(this);
         prevSongIV.setOnClickListener(this);
         removeIV.setOnClickListener(this);
+
+
     }
 
     public void playAudio(int audioIndex) {

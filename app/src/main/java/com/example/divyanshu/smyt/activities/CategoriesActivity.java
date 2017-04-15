@@ -140,9 +140,9 @@ public class CategoriesActivity extends BaseActivity {
             MySharedPereference.getInstance().setString(this, Constants.DESC, categoryModel.getDescription());
             Intent intent = new Intent(this, BottomTabActivity.class);
             // intent.putExtra(Constants.DATA, categoryModel);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+           // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            finish();
+           // finish();
 
         }
     }

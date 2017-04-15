@@ -121,14 +121,19 @@ public class MusicFragment extends BaseFragment {
     @Override
     public void onClickItem(int position, View view) {
         super.onClickItem(position, view);
-        switch (view.getId()) {
+        PlayMusicActivity.allVideoModels = allVideoModels;
+        Intent intent1 = new Intent(getActivity(), PlayMusicActivity.class);
+        intent1.putExtra(Constants.SELECTED_SONG_POS, position);
+        startActivity(intent1);
+
+     /*   switch (view.getId()) {
             case R.id.playMusicFL:
                 PlayMusicActivity.allVideoModels = allVideoModels;
                 Intent intent1 = new Intent(getActivity(), PlayMusicActivity.class);
                 intent1.putExtra(Constants.SELECTED_SONG_POS, position);
                 startActivity(intent1);
-               /* customMusicPlayer.playAudio(position);
-                customMusicPlayer.setVisibility(View.VISIBLE);*/
+               *//* customMusicPlayer.playAudio(position);
+                customMusicPlayer.setVisibility(View.VISIBLE);*//*
                 break;
 
             default:
@@ -136,7 +141,7 @@ public class MusicFragment extends BaseFragment {
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
                 startActivity(intent);
                 break;
-        }
+        }*/
 
     }
 
@@ -216,7 +221,7 @@ public class MusicFragment extends BaseFragment {
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setCustomers_videos_id(customerVideoID);
         int position = allVideoModels.indexOf(allVideoModel);
-        if (position > 0) {
+        if (position >= 0) {
             allVideoModels.get(position).setVideo_comment_count(commentCount);
             userMusicPlayerAdapter.notifyDataSetChanged();
         }
@@ -228,7 +233,7 @@ public class MusicFragment extends BaseFragment {
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setCustomers_videos_id(customerVideoID);
         int position = allVideoModels.indexOf(allVideoModel);
-        if (position > 0) {
+        if (position >= 0) {
             allVideoModels.get(position).setLikes(likesCount);
             userMusicPlayerAdapter.notifyDataSetChanged();
         }

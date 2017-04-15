@@ -30,6 +30,7 @@ import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.InAppLocalApis;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
+import com.example.divyanshu.smyt.activities.PlayMusicActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -176,6 +177,14 @@ public class UserFavoriteFeeds extends BaseFragment {
             case 1:
                 intent = new Intent(getActivity(), UploadedBattleRoundDescActivity.class);
                 intent.putExtra(Constants.CUSTOMERS_VIDEO_ID, allVideoModels.get(position).getCustomers_videos_id());
+                break;
+            case 2:
+                ArrayList<AllVideoModel> currentVideoModel = new ArrayList<>();
+                currentVideoModel.add(allVideoModels.get(position));
+                PlayMusicActivity.allVideoModels = currentVideoModel;
+                Intent intent1 = new Intent(getActivity(), PlayMusicActivity.class);
+                intent1.putExtra(Constants.SELECTED_SONG_POS, 0);
+                startActivity(intent1);
                 break;
 
         }

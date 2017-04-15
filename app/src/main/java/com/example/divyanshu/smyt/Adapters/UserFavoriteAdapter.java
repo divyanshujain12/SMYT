@@ -230,7 +230,7 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setupMusicPlayerViewHolder(final MusicPlayerViewHolder holder, final AllVideoModel allVideoModel) {
         setUpMusicPlayerTitleBar(holder, allVideoModel);
-        holder.customMusicPlayer.setMediaUrl(allVideoModel.getVideo_url());
+        //holder.customMusicPlayer.setMediaUrl(allVideoModel.getVideo_url());
         imageLoading.LoadImage(allVideoModel.getProfileimage(), holder.firstUserIV, null);
         holder.firstUserNameTV.setText(allVideoModel.getFirst_name());
         holder.userOneLikesCountTV.setText(ReusedCodes.getLikes(context, allVideoModel.getLikes()));
@@ -241,6 +241,12 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View view) {
                 goToUserDetailActivity(allVideoModel.getCustomer_id());
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerViewClick.onClickItem(holder.getAdapterPosition(),view);
             }
         });
     }
@@ -336,6 +342,8 @@ public class UserFavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemViewType(int position) {
         if (allVideoModels.get(position).getType().equals("Challenge"))
             return 1;
+        if (allVideoModels.get(position).getType().equalsIgnoreCase("Mp3"))
+            return 2;
         else return 0;
     }
 

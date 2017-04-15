@@ -261,7 +261,7 @@ public class UserVideosFragment extends BaseFragment {
         AllVideoModel allVideoModel = new AllVideoModel();
         allVideoModel.setCustomers_videos_id(customerVideoID);
         int position = allVideoModels.indexOf(allVideoModel);
-        if (position > 0) {
+        if (position >= 0) {
             allVideoModels.get(position).setLikes(likesCount);
             setAdapter();
         }

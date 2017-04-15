@@ -215,7 +215,10 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
      /*   if (bottomTabVP.getCurrentItem() != 0) {
             onResetPager();
         } else {*/
-
+        if (JCVideoPlayer.backPress())
+            return;
+        if (JCVideoPlayerTwo.backPress())
+            return;
         CustomMusicPlayer.stopService();
             super.onBackPressed();
         //}
