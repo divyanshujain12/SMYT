@@ -23,5 +23,5 @@
     <color name="upload_music_bg_color">#C02C04</color>
     <color name="upload_video_bg_color">#684CE9</color>
     <color name="grey_bg_color">#EBEDED</color>
-
+    <color name="dark_grey_with_thirty_three">#335D5D5D</color>
 </resources>

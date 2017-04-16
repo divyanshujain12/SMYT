@@ -53,7 +53,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -114,6 +113,7 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
     private HashMap<View, String> validationMap;
     private CommentModel deleteCommentModel;
     int DrawableImage[] = {R.drawable.g1, R.drawable.g3, R.drawable.g4, R.drawable.g6,  R.drawable.g2,R.drawable.g7, R.drawable.g8,R.drawable.g5, R.drawable.g9, R.drawable.g10};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +237,7 @@ public class PlayMusicActivity extends BaseActivity implements MusicPlayerClickE
 
         setUpTitleBarPopupWindow();
         imageLoading.LoadImage(videoDetailModel.getProfileimage(), firstUserIV, null);
+        imageLoading.LoadImage(videoDetailModel.getThumbnail(), musicThumbIV, null);
         commentsAdapter = new CommentsAdapter(this, videoDetailModel.getCommentArray(), this);
         commentsRV.setAdapter(commentsAdapter);
         firstUserNameTV.setText(videoDetailModel.getFirst_name());

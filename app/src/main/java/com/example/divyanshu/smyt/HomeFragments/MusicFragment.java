@@ -50,8 +50,6 @@ import static com.example.divyanshu.smyt.Constants.Constants.LIKE_COUNT;
 public class MusicFragment extends BaseFragment {
     @InjectView(R.id.musicRV)
     RecyclerView musicRV;
-    @InjectView(R.id.customMusicPlayer)
-    CustomMusicPlayer customMusicPlayer;
     private UserMusicPlayerAdapter userMusicPlayerAdapter;
     private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
 
@@ -113,9 +111,7 @@ public class MusicFragment extends BaseFragment {
         super.onJsonObjectSuccess(response, apiType);
         allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
         userMusicPlayerAdapter.addNewData(allVideoModels);
-        if (allVideoModels != null && allVideoModels.size() > 0) {
-            customMusicPlayer.initialize(allVideoModels);
-        }
+
     }
 
     @Override
@@ -162,8 +158,6 @@ public class MusicFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (customMusicPlayer != null)
-            customMusicPlayer.stopService();
     }
 
     @Override

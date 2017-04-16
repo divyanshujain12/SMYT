@@ -12,12 +12,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/one_dp" />
-
-        <com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer
-            android:id="@+id/customMusicPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

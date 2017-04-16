@@ -26,6 +26,7 @@ import com.example.divyanshu.smyt.Parser.UniversalParser;
 import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
+import com.example.divyanshu.smyt.activities.PlayMusicActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,8 +50,6 @@ public class UserMusicFeeds extends BaseFragment {
     private static String customerID = "";
     @InjectView(R.id.videosRV)
     RecyclerView videosRV;
-    @InjectView(R.id.customMusicPlayer)
-    CustomMusicPlayer customMusicPlayer;
     private UserMusicPlayerAdapter userMusicPlayerAdapter;
     private ArrayList<AllVideoModel> allVideoModels = new ArrayList<>();
 
@@ -98,9 +97,6 @@ public class UserMusicFeeds extends BaseFragment {
         super.onJsonObjectSuccess(response, apiType);
         allVideoModels = UniversalParser.getInstance().parseJsonArrayWithJsonObject(response.getJSONObject(Constants.DATA).getJSONArray(Constants.CUSTOMERS), AllVideoModel.class);
         userMusicPlayerAdapter.addNewData(allVideoModels);
-        if (allVideoModels != null && allVideoModels.size() > 0) {
-            customMusicPlayer.initialize(allVideoModels);
-        }
     }
 
 
@@ -109,8 +105,10 @@ public class UserMusicFeeds extends BaseFragment {
         super.onClickItem(position, view);
         switch (view.getId()) {
             case R.id.playMusicFL:
-                customMusicPlayer.playAudio(position);
-                customMusicPlayer.setVisibility(View.VISIBLE);
+                PlayMusicActivity.allVideoModels = allVideoModels;
+                Intent intent1 = new Intent(getActivity(), PlayMusicActivity.class);
+                intent1.putExtra(Constants.SELECTED_SONG_POS, position);
+                startActivity(intent1);
                 break;
             default:
                 Intent intent = new Intent(getActivity(), MusicDescriptionActivity.class);

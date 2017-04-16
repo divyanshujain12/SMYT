@@ -55,8 +55,7 @@ import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
 
 public class MusicDescriptionActivity extends BaseActivity implements View.OnClickListener, TitleBarButtonClickCallback {
 
-    @InjectView(R.id.customMusicPlayer)
-    CustomMusicPlayer customMusicPlayer;
+
     @InjectView(R.id.videoTitleView)
     VideoTitleView videoTitleView;
     @InjectView(R.id.firstUserIV)
@@ -335,7 +334,6 @@ public class MusicDescriptionActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        customMusicPlayer.stopService();
             //      MediaPlayerHelper.getInstance().releaseAllVideos();
             super.onBackPressed();
 

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.example.divyanshu.smyt.Adapters.MusicAdapter;
@@ -30,7 +33,6 @@ import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.PictureHelper;
 import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.musicupload.MultipartUtility;
-import com.example.divyanshu.smyt.musicupload.VolleyMultipartRequest;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -41,7 +43,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -55,6 +59,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class UploadMusicFragment extends BaseFragment {
 
+    private static final int PICK_IMAGE_MULTIPLE = 101;
     @InjectView(R.id.videoTitleET)
     EditText videoTitleET;
     @InjectView(R.id.titleLL)
@@ -65,13 +70,22 @@ public class UploadMusicFragment extends BaseFragment {
     RecyclerView selectedMusicRV;
     @InjectView(R.id.selectImageFB)
     FloatingActionButton selectImageFB;
+    @InjectView(R.id.musicThumbIV)
+    ImageView musicThumbIV;
+    @InjectView(R.id.addImageIV)
+    ImageView addImageIV;
+    @InjectView(R.id.addThumbLL)
+    LinearLayout addThumbLL;
+    @InjectView(R.id.musicThumbRL)
+    RelativeLayout musicThumbRL;
 
     private ArrayList<MusicModel> musicModels = new ArrayList<>();
     private String path;
     private String filename;
     private MusicAdapter musicAdapter;
     SimpleMultiPartRequest simpleMultiPartRequest;
-
+    HashMap<String, Bitmap> bitmapHashMap;
+    private String thumbPath;
     ProgressDialog progressDialog;
 
     public static UploadMusicFragment getInstance() {
@@ -114,7 +128,7 @@ public class UploadMusicFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.selectImageFB, R.id.postVideoBT})
+    @OnClick({R.id.selectImageFB, R.id.postVideoBT, R.id.musicThumbRL})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.selectImageFB:
@@ -125,7 +139,12 @@ public class UploadMusicFragment extends BaseFragment {
                 startActivityForResult(intent_upload, 1);
                 break;
             case R.id.postVideoBT:
+
+
                 hitMultiPartRequest();
+                break;
+            case R.id.musicThumbRL:
+                openGallery();
                 break;
         }
     }
@@ -134,44 +153,11 @@ public class UploadMusicFragment extends BaseFragment {
         String title = videoTitleET.getText().toString();
         if (title.length() > 0) {
             TextView textView = (TextView) selectedMusicRV.getLayoutManager().getChildAt(0).findViewById(R.id.uploadPercentTV);
-            // textView.setVisibility(View.VISIBLE);
-
-        /*VolleyMultipartRequest uploadFileToServer = new VolleyMultipartRequest(path, textView);
-        setParams(uploadFileToServer);
-        uploadFileToServer.execute();*/
-
-
-            UploadFileToServer uploadFileToServer = new UploadFileToServer(getActivity(), musicModels.get(0).getFilePath(), createJsonForUploadMusic(), videoTitleET.getText().toString(), textView);
+            UploadFileToServer uploadFileToServer = new UploadFileToServer(getActivity(), musicModels.get(0).getFilePath(), thumbPath, createJsonForUploadMusic(), videoTitleET.getText().toString(), textView);
             uploadFileToServer.execute();
         } else {
             CustomToasts.getInstance(getContext()).showErrorToast("Title Cant left blank!");
         }
-    /*  simpleMultiPartRequest  = new SimpleMultiPartRequest( API.POST_MP3, new Response.Listener<String>() {
-           @Override
-           public void onResponse(String s) {
-               String response = s;
-           }
-       }, new Response.ErrorListener() {
-           @Override
-           public void onErrorResponse(VolleyError volleyError) {
-            VolleyError error = CallWebService.configureErrorMessage(volleyError);
-               String message = error.getMessage();
-           }
-       });
-        setParams();
-
-
-        MyApp.getInstance().addToRequestQueue(simpleMultiPartRequest);*/
-    }
-
-    protected void setParams(VolleyMultipartRequest volleyMultipartRequest) {
-        volleyMultipartRequest.addFormField(Constants.CUSTOMER_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CUSTOMER_ID));
-        volleyMultipartRequest.addFormField(Constants.CATEGORY_ID, MySharedPereference.getInstance().getString(getContext(), Constants.CATEGORY_ID));
-        volleyMultipartRequest.addFormField(Constants.FILE_NAME, filename);
-        volleyMultipartRequest.addFormField(Constants.SHARE_STATUS, "Public");
-        volleyMultipartRequest.addFormField(Constants.TITLE, videoTitleET.getText().toString());
-        volleyMultipartRequest.addFormField(Constants.E_DATE, String.valueOf(Utils.getCurrentTimeInMillisecond()));
-        //simpleMultiPartRequest.addFile(filename, path);
 
     }
 
@@ -192,18 +178,36 @@ public class UploadMusicFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-
-            if (resultCode == RESULT_OK) {
-                getData(data);
-
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    getAudioTracksData(data);
+                    break;
+                case PICK_IMAGE_MULTIPLE:
+                    try {
+                        bitmapHashMap = PictureHelper.getInstance().retrievePicturePath(getActivity(), requestCode, resultCode, data);
+                        Set<String> keys = bitmapHashMap.keySet();
+                        for (String filePath : keys) {
+                            musicThumbIV.setImageBitmap(bitmapHashMap.get(filePath));
+                            thumbPath = filePath;
+                        }
+                        addThumbLL.setVisibility(View.GONE);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
+
+
         }
         //super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void getData(Intent data) {
+    private void getThumbData() {
+
+    }
+
+    private void getAudioTracksData(Intent data) {
         musicModels.clear();
         ClipData clipData = data.getClipData();
         if (clipData != null) {
@@ -228,7 +232,6 @@ public class UploadMusicFragment extends BaseFragment {
         musicModels.add(musicModel);
     }
 
-
     public class UploadFileToServer extends AsyncTask<String, String, String> {
         long totalSize = 0;
         String filePath, json, title;
@@ -236,13 +239,16 @@ public class UploadMusicFragment extends BaseFragment {
         File sourceFile;
         String charset = "UTF-8";
         Context context;
+        String thumbPath;
 
-        public UploadFileToServer(Context context, String filePath, String json, String title, TextView percentageTV) {
+        public UploadFileToServer(Context context, String filePath, String thumbPath, String json, String title, TextView percentageTV) {
             this.filePath = filePath;
             this.percentageTV = percentageTV;
             this.json = json;
             this.context = context;
             this.title = title;
+            this.thumbPath = thumbPath;
+            ;
         }
 
         @Override
@@ -273,6 +279,7 @@ public class UploadMusicFragment extends BaseFragment {
 
                 setParams(context, filePath, multipart);
                 multipart.addFilePart("fileUpload", new File(filePath));
+                multipart.addFilePart("thumbnail", new File(thumbPath));
 
                 List<String> response = multipart.finish();
 
@@ -312,5 +319,13 @@ public class UploadMusicFragment extends BaseFragment {
             multipartUtility.addFormField(Constants.E_DATE, String.valueOf(Utils.getCurrentTimeInMillisecond()));
         }
 
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
     }
 }

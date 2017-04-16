@@ -14,11 +14,51 @@
 
         <include layout="@layout/upload_new_video_title_bar" />
 
+        <RelativeLayout
+            android:id="@+id/musicThumbRL"
+            android:layout_width="@dimen/one_hundred_fourty_five_dp"
+            android:layout_height="@dimen/one_hundred_fourty_five_dp"
+            android:layout_below="@+id/titleLL"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/ten_dp">
+
+            <ImageView
+                android:id="@+id/musicThumbIV"
+                android:layout_width="@dimen/one_hundred_fourty_five_dp"
+                android:layout_height="@dimen/one_hundred_fourty_five_dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/black_shade" />
+
+            <LinearLayout
+                android:id="@+id/addThumbLL"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/addImageIV"
+                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:src="@drawable/ic_add" />
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:gravity="center_vertical"
+                    android:text="Add Thumbnail"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/twelve_sp"
+                    pixlui:typeface="Roboto-Medium.ttf" />
+            </LinearLayout>
+        </RelativeLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/selectedMusicRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/titleLL"
+            android:layout_below="@+id/musicThumbRL"
             android:layout_marginTop="@dimen/ten_dp" />
 
         <android.support.design.widget.FloatingActionButton
@@ -36,39 +76,6 @@
             app:elevation="@dimen/ten_dp"
             app:fabSize="normal" />
 
-
-        <!--<com.neopixl.pixlui.components.textview.TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="@dimen/ten_dp"-->
-        <!--android:alpha=".4"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:maxLines="2"-->
-        <!--android:paddingLeft="@dimen/ten_dp"-->
-        <!--android:text="@string/attach_music_file"-->
-        <!--android:textColor="@color/colorPrimaryDark"-->
-        <!--android:textSize="@dimen/fourteen_sp"-->
-        <!--pixlui:typeface="Roboto-Medium.ttf" />-->
-
-        <!--<com.neopixl.pixlui.components.textview.TextView-->
-        <!--android:id="@+id/selectFileTV"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:drawableEnd="@drawable/ic_attach"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:hint="@string/select_a_musicfile_to_upload_from_your_device"-->
-        <!--android:maxLines="2"-->
-        <!--android:padding="@dimen/ten_dp"-->
-        <!--android:textColor="@color/colorPrimary"-->
-        <!--android:textColorHint="@color/color_primary_with_eight_eight"-->
-        <!--android:textSize="@dimen/fourteen_sp"-->
-        <!--pixlui:typeface="Roboto-Medium.ttf" />-->
-
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="2px"-->
-        <!--android:background="@color/colorPrimary" />-->
     </RelativeLayout>
 
     <com.neopixl.pixlui.components.button.Button
