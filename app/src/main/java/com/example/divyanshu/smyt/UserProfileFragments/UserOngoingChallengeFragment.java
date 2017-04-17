@@ -182,11 +182,11 @@ public class UserOngoingChallengeFragment extends BaseFragment {
                         userOngoingChallengesAdapter.removeItem(acceptRejectPos);
                     else
                         userOngoingChallengesAdapter.updateAcceptStatusIntoList(acceptRejectPos);
-                    CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
+                    //CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
                     break;
                 case CHALLENGE_REJECT:
                     userOngoingChallengesAdapter.removeItem(acceptRejectPos);
-                    CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
+                    //CommonFunctions.getInstance().showSuccessSnackBar(getActivity(), response.getString(Constants.MESSAGE));
                     break;
             }
         }

@@ -115,7 +115,7 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
     private ArrayList<UserModel> userModels = new ArrayList<>();
     private HashMap<View, String> hashMap;
     private UserModel userModel;
-    private TSnackbar snackbar;
+
     private String friendUserName = "";
     private boolean friendSelected = false;
 
@@ -167,8 +167,6 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
 
         validation = new Validation();
         validation.addValidationField(new ValidationModel(videoTitleET, Validation.TYPE_EMPTY_FIELD_VALIDATION, getActivity().getString(R.string.err_post_challenge_title)));
-
-        snackbar = CommonFunctions.getInstance().createLoadingSnackBarWithView(titleLL);
 
         roundsCountArray = getResources().getStringArray(R.array.rounds_count);
         shareWithArray = getResources().getStringArray(R.array.share_with);
@@ -251,7 +249,6 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
                 return;
             }
             if (InternetCheck.isInternetOn(getContext()) && createJsonArrayForChallengeTimeAndDate()) {
-                CommonFunctions.showContinuousSB(snackbar);
                 CallWebService.getInstance(getContext(), false, POST_CHALLENGE).hitJsonObjectRequestAPI(CallWebService.POST, API.POST_CHALLENGE, createJsonForPostChallenge(), this);
 
             } else
@@ -398,9 +395,9 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
 
             case POST_CHALLENGE:
                 sendNewChallengeAddedBroadcastToFragment();
-                CustomToasts.getInstance(getContext()).showSuccessToast(getString(R.string.challenge_posted_success));
+               // CustomToasts.getInstance(getContext()).showSuccessToast(getString(R.string.challenge_posted_success));
                 initViews();
-                CommonFunctions.hideContinuousSB(snackbar);
+                ((BottomTabActivity) getActivity()).onResetPager();
                 break;
         }
     }

@@ -19,8 +19,8 @@ android {
         applicationId "com.smytex.livestream"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 19
-        versionName "1.0.18"
+        versionCode 20
+        versionName "1.0.19"
         /* splits {
             abi {
                 enable true

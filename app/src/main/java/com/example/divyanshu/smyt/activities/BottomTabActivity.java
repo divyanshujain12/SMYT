@@ -194,8 +194,6 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onResetPager() {
-
-
         View view = bottomNavigation.findViewById(R.id.action_feeds);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,16 +210,16 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-     /*   if (bottomTabVP.getCurrentItem() != 0) {
+        if (bottomTabVP.getCurrentItem() != 0) {
             onResetPager();
-        } else {*/
+        } else {
         if (JCVideoPlayer.backPress())
             return;
         if (JCVideoPlayerTwo.backPress())
             return;
         CustomMusicPlayer.stopService();
             super.onBackPressed();
-        //}
+        }
     }
 
     @Override
