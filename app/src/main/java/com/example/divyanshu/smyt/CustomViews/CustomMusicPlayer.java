@@ -11,21 +11,29 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.divyanshu.smyt.Constants.API;
+import com.example.divyanshu.smyt.Constants.ApiCodes;
+import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.Interfaces.MusicPlayerClickEvent;
 import com.example.divyanshu.smyt.Interfaces.PlayerInterface;
 import com.example.divyanshu.smyt.Models.AllVideoModel;
 import com.example.divyanshu.smyt.R;
+import com.example.divyanshu.smyt.Utils.CallWebService;
+import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.Utilities;
+import com.example.divyanshu.smyt.Utils.Utils;
 import com.example.divyanshu.smyt.activities.MyApp;
 import com.example.divyanshu.smyt.musicPlayer.MediaPlayerService;
 import com.example.divyanshu.smyt.musicPlayer.StorageUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -101,6 +109,7 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     }
 
     public void playAudio(int audioIndex) {
+        hitViewsCountApi(audioIndex);
         MediaPlayerService.playerInterface = this;
         //Check is service is active
         if (!serviceBound) {
@@ -126,6 +135,10 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
 
         showProgressBar(this, true);
 
+    }
+
+    private void hitViewsCountApi(int audioIndex) {
+        CallWebService.getInstance(getContext(), false, ApiCodes.UPDATE_VIDEO_VIEW_COUNT).hitJsonObjectRequestAPI(CallWebService.POST, API.UPDATE_VIDEO_VIEWS_COUNT, createJsonForUpdateViewsCount(allVideoModels.get(audioIndex).getCustomers_videos_id()), null);
     }
 
 
@@ -329,16 +342,22 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
     public void onNextPlayed() {
         resetPlayerUi();
         musicTitleTV.setText(mediaPlayerService.getActiveAudio().getTitle());
-        if (musicPlayerClickEvent != null)
-            musicPlayerClickEvent.onNextClick(mediaPlayerService.getAudioIndex());
+        if (musicPlayerClickEvent != null) {
+            int pos = mediaPlayerService.getAudioIndex();
+            musicPlayerClickEvent.onNextClick(pos);
+            hitViewsCountApi(pos);
+        }
     }
 
     @Override
     public void onPrevPlayed() {
         resetPlayerUi();
         musicTitleTV.setText(mediaPlayerService.getActiveAudio().getTitle());
-        if (musicPlayerClickEvent != null)
-            musicPlayerClickEvent.onPrevClick(mediaPlayerService.getAudioIndex());
+        if (musicPlayerClickEvent != null) {
+            int pos = mediaPlayerService.getAudioIndex();
+            musicPlayerClickEvent.onNextClick(pos);
+            hitViewsCountApi(pos);
+        }
     }
 
     @Override
@@ -376,5 +395,16 @@ public class CustomMusicPlayer extends LinearLayout implements SeekBar.OnSeekBar
             mediaPlayerService.stopSelf();
             MyApp.getInstance().getApplicationContext().unbindService(serviceConnectionIN);
         }
+    }
+
+    private JSONObject createJsonForUpdateViewsCount(String customerVideoID) {
+        JSONObject jsonObject = CommonFunctions.customerIdJsonObject(getContext());
+        try {
+            jsonObject.put(Constants.CUSTOMERS_VIDEO_ID, customerVideoID);
+            jsonObject.put(Constants.E_DATE, Utils.getCurrentTimeInMillisecond());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
