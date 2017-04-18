@@ -123,7 +123,8 @@ public class UserFollowingFragment extends BaseFragment {
         String customerID = userModels.get(position).getCustomer_id();
         Intent intent = new Intent(getActivity(), OtherUserProfileActivity.class);
         if (customerID.equals(MySharedPereference.getInstance().getString(getContext(), Constants.CUSTOMER_ID)))
-            intent = new Intent(getActivity(), UserProfileActivity.class);
+            return;
+            //intent = new Intent(getActivity(), UserProfileActivity.class);
         intent.putExtra(Constants.CUSTOMER_ID, userModels.get(position).getCustomer_id());
         startActivity(intent);
     }

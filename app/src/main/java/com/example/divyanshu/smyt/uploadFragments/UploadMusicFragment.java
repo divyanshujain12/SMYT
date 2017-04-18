@@ -151,6 +151,7 @@ public class UploadMusicFragment extends BaseFragment {
 
     private void hitMultiPartRequest() {
         String title = videoTitleET.getText().toString();
+
         if (title.length() > 0) {
             TextView textView = (TextView) selectedMusicRV.getLayoutManager().getChildAt(0).findViewById(R.id.uploadPercentTV);
             UploadFileToServer uploadFileToServer = new UploadFileToServer(getActivity(), musicModels.get(0).getFilePath(), thumbPath, createJsonForUploadMusic(), videoTitleET.getText().toString(), textView);
@@ -279,6 +280,7 @@ public class UploadMusicFragment extends BaseFragment {
 
                 setParams(context, filePath, multipart);
                 multipart.addFilePart("fileUpload", new File(filePath));
+                if (thumbPath != null && !thumbPath.equals(""))
                 multipart.addFilePart("thumbnail", new File(thumbPath));
 
                 List<String> response = multipart.finish();
@@ -298,6 +300,16 @@ public class UploadMusicFragment extends BaseFragment {
         protected void onPostExecute(String result) {
             Log.e("Response", "Response from server: " + result);
             super.onPostExecute(result);
+            if (result != null && !result.equals("")) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (!jsonObject.getBoolean(Constants.STATUS_CODE)) {
+                        CustomToasts.getInstance(getContext()).showErrorToast(jsonObject.getString(Constants.MESSAGE));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             if (progressDialog != null)
                 progressDialog.cancel();
 
