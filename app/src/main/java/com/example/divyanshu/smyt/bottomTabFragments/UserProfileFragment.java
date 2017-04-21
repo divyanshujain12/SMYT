@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import com.example.divyanshu.smyt.Adapters.UserOptionRvAdapter;
 import com.example.divyanshu.smyt.Constants.API;
 import com.example.divyanshu.smyt.Constants.Constants;
-import com.example.divyanshu.smyt.CustomViews.CustomToasts;
 import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseFragment;
 import com.example.divyanshu.smyt.Models.UserModel;
@@ -42,6 +41,7 @@ import com.example.divyanshu.smyt.myProfileActivities.MyFeedsActivity;
 import com.example.divyanshu.smyt.myProfileActivities.MyFollowingFollowersActivity;
 import com.example.divyanshu.smyt.myProfileActivities.UserMusicActivity;
 import com.example.divyanshu.smyt.myProfileActivities.UserNotificationActivity;
+import com.example.divyanshu.smyt.staticPages.StaticPagesActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
@@ -176,17 +176,26 @@ public class UserProfileFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case 6:
-                CustomToasts.getInstance(getContext()).showErrorToast("Coming Soon...");
+                intent = new Intent(getActivity(), StaticPagesActivity.class);
+                intent.putExtra(Constants.NAME, "Privacy Policy");
+                intent.putExtra(Constants.API, API.GET_PRIVACY);
+                startActivity(intent);
                 break;
             case 7:
+                intent = new Intent(getActivity(), StaticPagesActivity.class);
+                intent.putExtra(Constants.NAME, "FAQ");
+                intent.putExtra(Constants.API, API.GET_FAQ);
+                startActivity(intent);
+                break;
+            case 8:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://smytex.com"));
                 startActivity(browserIntent);
                 break;
-            case 8:
+            case 9:
                 Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://info@smytex.com"));
                 startActivity(intent1);
                 break;
-            case 9:
+            case 10:
                 logout();
                 break;
 

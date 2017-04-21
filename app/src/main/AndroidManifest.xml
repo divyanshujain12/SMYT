@@ -166,7 +166,8 @@
             android:exported="false"
             android:stopWithTask="false" />
         <!-- <receiver android:name=".musicPlayer.MediaPlayerService$DeleteBroadcastReceiver"/> -->
-        <activity android:name=".activities.PlayMusicActivity"></activity>
+        <activity android:name=".activities.PlayMusicActivity" />
+        <activity android:name=".staticPages.StaticPagesActivity"></activity>
     </application>
 
 </manifest>

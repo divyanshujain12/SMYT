@@ -64,4 +64,6 @@ public interface API {
     String POST_MP3 = BASE + "postMP3";
     String GET_CUSTOMER_MP3 = BASE + "getCustomerMP3";
     String GET_CATEGORY_MP3 = BASE + "getCategoriesMp3";
+    String GET_FAQ = BASE + "getfaq";
+    String GET_PRIVACY = BASE + "getprivacy";
 }

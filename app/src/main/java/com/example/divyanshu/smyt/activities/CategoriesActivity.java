@@ -76,7 +76,6 @@ public class CategoriesActivity extends BaseActivity {
         userRV.setLayoutManager(layoutManager);
         setUserAndCategoryAdapter();
 
-
     }
 
     @Override

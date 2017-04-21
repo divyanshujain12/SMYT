@@ -90,6 +90,7 @@ dependencies {
                 compile files('libs/httpclient-4.2.3.jar')
                 */
     compile files('libs/httpmime-4.3.jar')
+    compile project(':slidinguplibrary')
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.android.support:design:25.1.0'
@@ -107,6 +108,5 @@ dependencies {
     compile 'dev.dworks.libs:volleyplus:+'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     testCompile 'junit:junit:4.12'
-    compile project(':slidinguplibrary')
 }
 apply plugin: 'com.google.gms.google-services'

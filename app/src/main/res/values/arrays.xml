@@ -20,12 +20,13 @@
     </string-array>
 
     <string-array name="user_options_name">
-        <item>Videos</item>
+        <item>Feeds</item>
         <item>Challenges</item>
         <item>Notifications</item>
         <item>Musics</item>
         <item>Followings</item>
         <item>Manage Orders</item>
+        <item>Privacy Policy</item>
         <item>FAQs</item>
         <item>About Us</item>
         <item>Contact Us</item>
