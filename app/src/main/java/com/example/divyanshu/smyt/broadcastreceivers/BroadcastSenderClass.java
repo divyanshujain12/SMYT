@@ -127,5 +127,7 @@ public class BroadcastSenderClass {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         intent.setAction(Constants.USER_FRAGMENT_TAB_UI);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        intent.setAction(Constants.CATEGORY_MUSIC_TAB_UI);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 }

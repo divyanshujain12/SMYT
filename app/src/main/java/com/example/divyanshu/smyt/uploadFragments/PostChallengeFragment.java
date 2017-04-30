@@ -305,10 +305,10 @@ public class PostChallengeFragment extends BaseFragment implements AdapterView.O
         TextView dateTimeTV = (TextView) v;
         switch (v.getId()) {
             case R.id.roundTimeValueTV:
-                CustomDateTimePickerHelper.getInstance().showTimeDialog(getActivity(), dateTimeTV);
+                CustomDateTimePickerHelper.getInstance().showTimeDialog(getActivity(), dateTimeTV,Integer.parseInt(String.valueOf(v.getTag())));
                 break;
             case R.id.roundDateValueTV:
-                CustomDateTimePickerHelper.getInstance().showDateDialog(getActivity(), dateTimeTV, Utils.DATE_FORMAT, dateTimeTV.getText().toString().trim());
+                CustomDateTimePickerHelper.getInstance().showDateDialog(getActivity(), dateTimeTV, Utils.DATE_FORMAT, dateTimeTV.getText().toString().trim(),Integer.parseInt(String.valueOf(v.getTag())));
                 break;
         }
     }

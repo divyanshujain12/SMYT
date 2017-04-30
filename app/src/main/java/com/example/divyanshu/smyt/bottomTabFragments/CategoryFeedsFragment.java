@@ -83,7 +83,7 @@ public class CategoryFeedsFragment extends BaseFragment implements ViewPager.OnP
         viewPagerAdapter.addFragment(UserOngoingChallengeFragment.newInstance(true),getString(R.string.new_challenges));
 
         homeViewPager.setAdapter(viewPagerAdapter);
-        homeViewPager.setOffscreenPageLimit(2);
+        homeViewPager.setOffscreenPageLimit(3);
         homeViewPager.setOnPageChangeListener(this);
         homeTabLayout.post(new Runnable() {
             @Override

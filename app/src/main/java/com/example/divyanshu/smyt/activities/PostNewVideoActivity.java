@@ -1,9 +1,9 @@
 package com.example.divyanshu.smyt.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Constants.API;
@@ -120,6 +120,9 @@ public class PostNewVideoActivity extends BaseActivity {
 
     private void onPostSuccess() {
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 

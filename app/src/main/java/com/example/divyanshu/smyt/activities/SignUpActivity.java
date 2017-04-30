@@ -90,7 +90,7 @@ public class SignUpActivity extends BaseActivity implements RadioGroup.OnChecked
                 hitWebService();
                 break;
             case R.id.dobTV:
-                CustomDateTimePickerHelper.getInstance().showDateDialog(this, dobTV, DATE_FORMAT, DEFAULT_DATE);
+                CustomDateTimePickerHelper.getInstance().showDateDialog(this, dobTV, DATE_FORMAT, DEFAULT_DATE,0);
                 break;
         }
     }

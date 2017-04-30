@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_marginRight="@dimen/thirty_two_dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -23,27 +23,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:orientation="vertical">
+            android:gravity="top"
+            android:orientation="horizontal">
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/userNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha=".65"
+                android:textColor="@color/colorPrimary"
                 android:maxLines="2"
                 android:text="Neanda"
-                android:textSize="@dimen/twelve_sp"
+                android:textSize="@dimen/fourteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/commentTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
-                android:alpha=".65"
-                android:maxLines="2"
+                android:layout_marginLeft="@dimen/five_dp"
                 android:text="Neanda"
-                android:textSize="@dimen/ten_sp"
+                android:textSize="@dimen/fourteen_sp"
                 pixlui:typeface="Roboto-Medium.ttf" />
         </LinearLayout>
     </LinearLayout>

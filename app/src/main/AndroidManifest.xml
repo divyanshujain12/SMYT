@@ -144,21 +144,38 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.ShowLiveRecordVideoActivity" />
-        <activity android:name=".activities.PostNewVideoActivity" />
-        <activity android:name=".activities.InfoActivity" />
+        <activity android:name=".activities.ShowLiveRecordVideoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.PostNewVideoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.InfoActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.BottomTabActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".myProfileActivities.MyFeedsActivity" />
-        <activity android:name=".myProfileActivities.MyChallengesActivity" />
-        <activity android:name=".myProfileActivities.UserNotificationActivity" />
-        <activity android:name=".myProfileActivities.MyFollowingFollowersActivity" />
+        <activity
+            android:name=".myProfileActivities.MyFeedsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".myProfileActivities.MyChallengesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".myProfileActivities.UserNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".myProfileActivities.MyFollowingFollowersActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PostChallengeActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".myProfileActivities.UserMusicActivity" />
-        <activity android:name=".DialogActivities.MusicDescriptionActivity" />
+        <activity
+            android:name=".myProfileActivities.UserMusicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DialogActivities.MusicDescriptionActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".musicPlayer.MediaPlayerService"
@@ -166,8 +183,12 @@
             android:exported="false"
             android:stopWithTask="false" />
         <!-- <receiver android:name=".musicPlayer.MediaPlayerService$DeleteBroadcastReceiver"/> -->
-        <activity android:name=".activities.PlayMusicActivity" />
-        <activity android:name=".staticPages.StaticPagesActivity"></activity>
+        <activity
+            android:name=".activities.PlayMusicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".staticPages.StaticPagesActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

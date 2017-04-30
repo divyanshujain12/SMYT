@@ -14,8 +14,8 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -37,7 +37,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
        Custom Date Picker
      */
 
-    public void showDateDialog(Activity context, final TextView textView, final String DateFormat, String selectedDate) {
+    public void showDateDialog(Activity context, final TextView textView, final String DateFormat, String selectedDate, int pos) {
         this.DateFormat = DateFormat;
         dateTimeTV = textView;
         mcurrentDate = Calendar.getInstance();
@@ -49,6 +49,8 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
                 mcurrentDate.get(Calendar.MONTH),
                 mcurrentDate.get(Calendar.DAY_OF_MONTH)
         );
+        if(pos == 0)
+            mcurrentDate = Calendar.getInstance();
         dpd.setMinDate(mcurrentDate);
         dpd.show(context.getFragmentManager(), "DatePickerDialog");
     }
@@ -56,9 +58,10 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
     /*
       Custom Time Picker
     */
-    public void showTimeDialog(Activity context, final TextView textView) {
+    public void showTimeDialog(Activity context, final TextView textView, int pos) {
         dateTimeTV = textView;
         mcurrentDate = Calendar.getInstance();
+       // if (pos > 0)
         mcurrentDate.setTime(Utils.getCurrentSelectedDate(textView.getText().toString(), Utils.TIME_FORMAT));
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 this,
@@ -66,6 +69,7 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
                 mcurrentDate.get(Calendar.MINUTE),
                 false
         );
+        if (!isDateAheadToday(textView))
         tpd.setMinTime(mcurrentDate.get(Calendar.HOUR_OF_DAY), mcurrentDate.get(Calendar.MINUTE), mcurrentDate.get(Calendar.SECOND));
         tpd.show(context.getFragmentManager(), "TimePickerDialog");
     }
@@ -113,6 +117,8 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
 
             roundTimeValueTV.setOnClickListener(onClickListener);
             roundDateValueTV.setOnClickListener(onClickListener);
+            roundTimeValueTV.setTag(i);
+            roundDateValueTV.setTag(i);
 
             roundInfoLL.addView(customView);
         }
@@ -123,5 +129,11 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
         roundTimeTV.setText(context.getResources().getString(R.string.start_time));
     }
 
+    private boolean isDateAheadToday(TextView timeTV) {
+        View view = (View) timeTV.getParent();
+        TextView dateTV = (TextView) view.findViewById(R.id.roundDateValueTV);
+        Date selectedDate = Utils.getCurrentSelectedDate(dateTV.getText().toString(), Utils.DATE_FORMAT);
+        return selectedDate.after(Calendar.getInstance().getTime());
+    }
 
 }

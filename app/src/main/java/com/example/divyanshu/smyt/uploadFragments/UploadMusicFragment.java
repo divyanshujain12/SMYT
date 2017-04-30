@@ -32,6 +32,8 @@ import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.PictureHelper;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.activities.BottomTabActivity;
+import com.example.divyanshu.smyt.broadcastreceivers.BroadcastSenderClass;
 import com.example.divyanshu.smyt.musicupload.MultipartUtility;
 import com.neopixl.pixlui.components.button.Button;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -320,6 +322,10 @@ public class UploadMusicFragment extends BaseFragment {
         private void reset() {
             musicAdapter.removeMusicModel(0);
             videoTitleET.setText("");
+            addThumbLL.setVisibility(View.VISIBLE);
+            musicThumbIV.setImageResource(R.drawable.black_shade);
+            BroadcastSenderClass.getInstance().reloadAllVideoData(getContext());
+            ((BottomTabActivity)getActivity()).onResetPager();
         }
 
         private void setParams(Context context, String filename, MultipartUtility multipartUtility) {

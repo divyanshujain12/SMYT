@@ -150,7 +150,7 @@ public class UserMusicPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void addNewData(ArrayList<AllVideoModel> allVideoModels) {
-        this.allVideoModels.addAll(allVideoModels);
+        this.allVideoModels = (allVideoModels);
         notifyDataSetChanged();
     }
 

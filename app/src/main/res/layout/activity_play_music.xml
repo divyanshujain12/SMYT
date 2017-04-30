@@ -21,8 +21,8 @@
         tools:context="com.example.divyanshu.smyt.activities.PlayMusicActivity">
     <ImageView
         android:id="@+id/musicThumbIV"
-        android:layout_width="@dimen/two_hundred_dp"
-        android:layout_height="@dimen/two_hundred_dp"
+        android:layout_width="@dimen/three_hundred"
+        android:layout_height="@dimen/three_hundred"
         android:layout_gravity="center"
         android:contentDescription="@string/active"
         android:layout_centerInParent="true"
