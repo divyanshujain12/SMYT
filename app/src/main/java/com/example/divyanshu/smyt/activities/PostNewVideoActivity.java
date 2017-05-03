@@ -120,7 +120,7 @@ public class PostNewVideoActivity extends BaseActivity {
 
     private void onPostSuccess() {
         BroadcastSenderClass.getInstance().reloadAllVideoData(this);
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, BottomTabActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

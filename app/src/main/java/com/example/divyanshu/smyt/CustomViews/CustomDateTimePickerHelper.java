@@ -107,9 +107,9 @@ public class CustomDateTimePickerHelper implements TimePickerDialog.OnTimeSetLis
             TextView roundDateTV = (TextView) customView.findViewById(R.id.roundDateTV);
             TextView roundDateValueTV = (TextView) customView.findViewById(R.id.roundDateValueTV);
             addRoundNumberToTV(context, roundDateTV, roundTimeTV, i + 1);
-            if (i == 0)
+           /* if (i == 0)
                 calendar.add(Calendar.MINUTE, +70);
-            else
+            else */if(i>0)
                 calendar.add(Calendar.DATE, +1);
 
             roundDateValueTV.setText(Utils.formatDateAndTime(calendar.getTimeInMillis(), Utils.DATE_FORMAT));
