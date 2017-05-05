@@ -218,4 +218,6 @@
     <string name="select_a_musicfile_to_upload_from_your_device">Select a musicfile to upload from your device</string>
     <string name="challenge_posted_success">Challenge posted successfully!</string>
     <string name="player">Player</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="faq">FAQ</string>
 </resources>

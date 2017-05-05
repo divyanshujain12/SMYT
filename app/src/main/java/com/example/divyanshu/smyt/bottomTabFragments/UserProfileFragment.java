@@ -129,6 +129,10 @@ public class UserProfileFragment extends BaseFragment {
         imageLoading.LoadImage(userModel.getProfileimage(), userIV, null);
         userNameTV.setText(userModel.getFirst_name());
         userStatusTV.setText(userModel.getTimeline_msg());
+        updateFollowingFollowersCount();
+    }
+
+    private void updateFollowingFollowersCount() {
         View view = userOptionRV.getChildAt(4);
         TextView textView = (TextView) view.findViewById(R.id.optionNameTV);
         textView.setText("Followings/Followers (" + userModel.getFollowing() + "/" + userModel.getFollowers() + ")");
@@ -177,13 +181,13 @@ public class UserProfileFragment extends BaseFragment {
                 break;
             case 6:
                 intent = new Intent(getActivity(), StaticPagesActivity.class);
-                intent.putExtra(Constants.NAME, "Privacy Policy");
+                intent.putExtra(Constants.NAME, getString(R.string.privacy_policy));
                 intent.putExtra(Constants.API, API.GET_PRIVACY);
                 startActivity(intent);
                 break;
             case 7:
                 intent = new Intent(getActivity(), StaticPagesActivity.class);
-                intent.putExtra(Constants.NAME, "FAQ");
+                intent.putExtra(Constants.NAME, getString(R.string.faq));
                 intent.putExtra(Constants.API, API.GET_FAQ);
                 startActivity(intent);
                 break;

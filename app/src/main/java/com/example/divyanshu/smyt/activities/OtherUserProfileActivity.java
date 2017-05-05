@@ -147,7 +147,6 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
             fab.setVisibility(View.GONE);
             return;
         }
-
         viewPagerPos = position;
         switch (position) {
             case 0:
