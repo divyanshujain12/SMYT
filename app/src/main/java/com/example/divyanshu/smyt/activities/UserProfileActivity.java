@@ -81,11 +81,11 @@ public class UserProfileActivity extends BaseActivity implements ViewPager.OnPag
     FrameLayout phoneNumberFL;
     @InjectView(R.id.followersCountTV)
     TextView followersCountTV;
-    @InjectView(R.id.followersFL)
+    @InjectView(R.id.followersLL)
     FrameLayout followersFL;
     @InjectView(R.id.followingCountTV)
     TextView followingCountTV;
-    @InjectView(R.id.followingFL)
+    @InjectView(R.id.followingLL)
     FrameLayout followingFL;
     @InjectView(R.id.tabs)
     CustomTabLayout tabs;

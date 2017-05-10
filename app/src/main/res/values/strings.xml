@@ -19,7 +19,7 @@
     <string name="age">25</string>
     <string name="gender_female">F</string>
     <string name="gender_male">M</string>
-    <string name="dummy_followers_count"></string>
+    <string name="dummy_followers_count">10</string>
     <string name="dummy_time_ago">22 min ago</string>
     <string name="dummy_name"></string>
     <string name="categories">Categories</string>

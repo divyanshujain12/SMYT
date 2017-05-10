@@ -59,7 +59,6 @@ import static com.example.divyanshu.smyt.Constants.ApiCodes.VOTE;
 
 public class UploadedBattleRoundDescActivity extends BaseActivity implements TitleBarButtonClickCallback {
 
-
     @InjectView(R.id.challengeTitleView)
     ChallengeRoundTitleView challengeTitleView;
     @InjectView(R.id.twoVideoPlayers)

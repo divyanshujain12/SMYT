@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/followingFL"
-    android:layout_width="match_parent"
+    android:id="@+id/followingLL"
+    android:layout_width="0dp"
+    android:layout_weight="1"
     android:padding="@dimen/five_dp"
+    android:orientation="vertical"
+    android:gravity="right"
     android:layout_height="wrap_content"
     tools:showIn="@layout/user_profile_header_view">
 
     <com.neopixl.pixlui.components.textview.TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:text="Following"
+
         android:textColor="@android:color/white"
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
@@ -27,4 +30,4 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/fourteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
-</FrameLayout>
+</LinearLayout>

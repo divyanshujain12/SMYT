@@ -13,8 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.divyanshu.smyt.Adapters.ViewPagerAdapter;
 import com.example.divyanshu.smyt.Constants.API;
@@ -23,6 +22,7 @@ import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.CustomViews.CustomAlertDialogs;
 import com.example.divyanshu.smyt.CustomViews.CustomMusicPlayer;
 import com.example.divyanshu.smyt.CustomViews.CustomTabLayout;
+import com.example.divyanshu.smyt.CustomViews.RoundedImageView;
 import com.example.divyanshu.smyt.GlobalClasses.BaseActivity;
 import com.example.divyanshu.smyt.Interfaces.SnackBarCallback;
 import com.example.divyanshu.smyt.Models.UserModel;
@@ -54,44 +54,37 @@ import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
  */
 public class OtherUserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener {
 
-    @InjectView(R.id.profileImage)
-    ImageView profileImage;
-    @InjectView(R.id.nameInImgTV)
-    TextView nameInImgTV;
-    @InjectView(R.id.txtName)
-    TextView txtName;
-    @InjectView(R.id.nameFL)
-    FrameLayout nameFL;
-    @InjectView(R.id.phoneNumberTV)
-    TextView phoneNumberTV;
-    @InjectView(R.id.phoneNumberFL)
-    FrameLayout phoneNumberFL;
-    @InjectView(R.id.followersCountTV)
-    TextView followersCountTV;
-    @InjectView(R.id.followersFL)
-    FrameLayout followersFL;
-    @InjectView(R.id.followingCountTV)
-    TextView followingCountTV;
-    @InjectView(R.id.followingFL)
-    FrameLayout followingFL;
-    @InjectView(R.id.tabs)
-    CustomTabLayout tabs;
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
-    @InjectView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @InjectView(R.id.appbar)
-    AppBarLayout appbar;
+
     @InjectView(R.id.viewPager)
     ViewPager viewPager;
     @InjectView(R.id.fab)
     FloatingActionButton fab;
-    @InjectView(R.id.main_content)
-    CoordinatorLayout mainContent;
+    @InjectView(R.id.tabs)
+    CustomTabLayout tabs;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
+    @InjectView(R.id.followersCountTV)
+    TextView followersCountTV;
+    @InjectView(R.id.followersLL)
+    LinearLayout followersLL;
+    @InjectView(R.id.followingCountTV)
+    TextView followingCountTV;
+    @InjectView(R.id.followingLL)
+    LinearLayout followingLL;
+    @InjectView(R.id.profileImage)
+    RoundedImageView profileImage;
+    @InjectView(R.id.nameInImgTV)
+    TextView nameInImgTV;
     @InjectView(R.id.statusTV)
     TextView statusTV;
-    @InjectView(R.id.statusFL)
-    FrameLayout statusFL;
+    @InjectView(R.id.userInfoLL)
+    LinearLayout userInfoLL;
+    @InjectView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+    @InjectView(R.id.appbar)
+    AppBarLayout appbar;
+    @InjectView(R.id.main_content)
+    CoordinatorLayout mainContent;
     private int viewPagerPos = 0;
     private ImageLoading imageLoading;
     private ViewPagerAdapter viewPagerAdapter;
@@ -198,8 +191,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
                 CustomAlertDialogs.showRuleDialog(this, getString(R.string.rules), new SnackBarCallback() {
                     @Override
                     public void doAction() {
-                        Intent intent = new Intent(OtherUserProfileActivity.this,PostChallengeActivity.class);
-                        intent.putExtra(Constants.USER_DATA,createBundleForPostChallenge());
+                        Intent intent = new Intent(OtherUserProfileActivity.this, PostChallengeActivity.class);
+                        intent.putExtra(Constants.USER_DATA, createBundleForPostChallenge());
                         startActivity(intent);
                         //showDialogFragment(PostChallengeFragment.getInstance(createBundleForPostChallenge()));
                     }
@@ -242,8 +235,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     }
 
     private void updateUi() {
-        txtName.setText(userModel.getFirst_name());
-        phoneNumberTV.setText(userModel.getPhonenumber());
+        //txtName.setText(userModel.getFirst_name());
+        //phoneNumberTV.setText(userModel.getPhonenumber());
         nameInImgTV.setText(userModel.getUsername());
         followersCountTV.setText("" + userModel.getFollowers());
         followingCountTV.setText("" + userModel.getFollowing());
