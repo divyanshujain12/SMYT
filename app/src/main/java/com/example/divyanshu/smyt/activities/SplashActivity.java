@@ -2,9 +2,9 @@ package com.example.divyanshu.smyt.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.example.divyanshu.smyt.Constants.Constants;
 import com.example.divyanshu.smyt.R;
@@ -20,6 +20,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        MySharedPereference.getInstance().setString(this, Constants.CATEGORY_ID, "");
         //checkNewVersion();
         handler.postDelayed(new Runnable() {
             @Override
@@ -30,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 } else {
                     i = new Intent(SplashActivity.this, CategoriesActivity.class);
-                   // i = new Intent(SplashActivity.this, BottomTabActivity.class);
+                    // i = new Intent(SplashActivity.this, BottomTabActivity.class);
                 }
                 startActivity(i);
                 finish();
