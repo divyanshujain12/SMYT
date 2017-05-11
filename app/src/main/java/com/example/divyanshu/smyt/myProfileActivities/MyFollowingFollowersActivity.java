@@ -42,10 +42,11 @@ public class MyFollowingFollowersActivity extends BaseActivity {
 
     private void initViews() {
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.following_followers));
-        ConfigViewPager();
         customerID = getIntent().getStringExtra(Constants.CUSTOMER_ID);
-        if (customerID.equals(""))
+        if (customerID.equals("")) {
             customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
+        }
+        ConfigViewPager();
     }
 
 
