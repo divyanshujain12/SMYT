@@ -7,27 +7,29 @@
     android:layout_weight="1"
     android:padding="@dimen/five_dp"
     android:orientation="vertical"
-    android:gravity="right"
+    android:gravity="center"
+    android:layout_marginStart="@dimen/fifteen_dp"
     android:layout_height="wrap_content"
     tools:showIn="@layout/user_profile_header_view">
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Following"
 
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/followingCountTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+
         android:gravity="center"
         android:text="@string/dummy_followers_count"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/fourteen_sp"
+        android:textSize="@dimen/twenty_four_sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Following"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/eighteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
 </LinearLayout>

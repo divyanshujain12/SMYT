@@ -12,8 +12,8 @@
 
     <com.example.divyanshu.smyt.CustomViews.RoundedImageView
         android:id="@+id/profileImage"
-        android:layout_width="@dimen/eighty_dp"
-        android:layout_height="@dimen/eighty_dp"
+        android:layout_width="@dimen/one_hundred_dp"
+        android:layout_height="@dimen/one_hundred_dp"
         android:scaleType="centerCrop"
         android:src="@drawable/noimage" />
 
@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:padding="@dimen/five_dp"
         android:text="My Name"
         android:textColor="@android:color/white"
         android:textSize="@dimen/fourteen_sp"

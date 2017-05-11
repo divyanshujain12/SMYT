@@ -29,6 +29,7 @@ public class MyFollowingFollowersActivity extends BaseActivity {
     CustomTabLayout tabs;
     @InjectView(R.id.viewPager)
     ViewPager viewPager;
+    String customerID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +43,14 @@ public class MyFollowingFollowersActivity extends BaseActivity {
     private void initViews() {
         Utils.configureToolbarWithBackButton(this, toolbarView, getString(R.string.following_followers));
         ConfigViewPager();
+        customerID = getIntent().getStringExtra(Constants.CUSTOMER_ID);
+        if (customerID.equals(""))
+            customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
     }
 
 
     private void ConfigViewPager() {
-        String customerID = MySharedPereference.getInstance().getString(this, Constants.CUSTOMER_ID);
+
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(UserFollowingFragment.getInstance(customerID), getString(R.string.following));
         viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(customerID), getString(R.string.followers));

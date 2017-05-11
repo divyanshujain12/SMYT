@@ -31,13 +31,12 @@ import com.example.divyanshu.smyt.R;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserFavoriteFeeds;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserMusicFeeds;
 import com.example.divyanshu.smyt.UserProfileFragments.FeedsFragments.UserVideosFragment;
-import com.example.divyanshu.smyt.UserProfileFragments.UserFollowersFragment;
-import com.example.divyanshu.smyt.UserProfileFragments.UserFollowingFragment;
 import com.example.divyanshu.smyt.Utils.CallWebService;
 import com.example.divyanshu.smyt.Utils.CommonFunctions;
 import com.example.divyanshu.smyt.Utils.ImageLoading;
 import com.example.divyanshu.smyt.Utils.MySharedPereference;
 import com.example.divyanshu.smyt.Utils.Utils;
+import com.example.divyanshu.smyt.myProfileActivities.MyFollowingFollowersActivity;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import org.json.JSONException;
@@ -65,12 +64,10 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     Toolbar toolbar;
     @InjectView(R.id.followersCountTV)
     TextView followersCountTV;
-    @InjectView(R.id.followersLL)
-    LinearLayout followersLL;
+
     @InjectView(R.id.followingCountTV)
     TextView followingCountTV;
-    @InjectView(R.id.followingLL)
-    LinearLayout followingLL;
+
     @InjectView(R.id.profileImage)
     RoundedImageView profileImage;
     @InjectView(R.id.nameInImgTV)
@@ -85,6 +82,10 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     AppBarLayout appbar;
     @InjectView(R.id.main_content)
     CoordinatorLayout mainContent;
+    @InjectView(R.id.followersLL)
+    LinearLayout followersLL;
+    @InjectView(R.id.followingLL)
+    LinearLayout followingLL;
     private int viewPagerPos = 0;
     private ImageLoading imageLoading;
     private ViewPagerAdapter viewPagerAdapter;
@@ -116,8 +117,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         viewPagerAdapter.addFragment(UserVideosFragment.getInstance(otherCustomerID), getString(R.string.videos));
         viewPagerAdapter.addFragment(UserMusicFeeds.getInstance(otherCustomerID), getString(R.string.music));
         viewPagerAdapter.addFragment(UserFavoriteFeeds.getInstance(otherCustomerID), getString(R.string.favorites));
-        viewPagerAdapter.addFragment(UserFollowingFragment.getInstance(otherCustomerID), getString(R.string.following));
-        viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(otherCustomerID), getString(R.string.followers));
+        //viewPagerAdapter.addFragment(UserFollowingFragment.getInstance(otherCustomerID), getString(R.string.following));
+        //viewPagerAdapter.addFragment(UserFollowersFragment.getInstance(otherCustomerID), getString(R.string.followers));
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(4);
@@ -322,6 +323,19 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         JCVideoPlayerStandard.releaseAllVideos();
         JCVideoPlayerStandardTwo.releaseAllVideos();
         //MediaPlayerHelper.getInstance().releaseAllVideos();
+    }
+
+    @OnClick({R.id.followersLL, R.id.followingLL})
+    public void onClick(View view) {
+        Intent intent = new Intent(OtherUserProfileActivity.this, MyFollowingFollowersActivity.class);
+        intent.putExtra(Constants.CUSTOMER_ID,otherCustomerID);
+        startActivity(intent);
+        switch (view.getId()) {
+            case R.id.followersLL:
+                break;
+            case R.id.followingLL:
+                break;
+        }
     }
 }
 

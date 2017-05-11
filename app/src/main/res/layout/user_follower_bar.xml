@@ -6,19 +6,12 @@
     android:layout_weight="1"
     android:padding="@dimen/five_dp"
     android:orientation="vertical"
-
+android:gravity="center"
+    android:layout_marginEnd="@dimen/fifteen_dp"
     android:layout_height="wrap_content"
     android:visibility="visible">
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
 
-        android:text="Followers"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/fourteen_sp"
-        pixlui:typeface="Roboto-Regular.ttf" />
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/followersCountTV"
@@ -28,6 +21,15 @@
         android:gravity="center"
         android:text="@string/dummy_followers_count"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/fourteen_sp"
+        android:textSize="@dimen/twenty_four_sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Followers"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/eighteen_sp"
         pixlui:typeface="Roboto-Regular.ttf" />
 </LinearLayout>
