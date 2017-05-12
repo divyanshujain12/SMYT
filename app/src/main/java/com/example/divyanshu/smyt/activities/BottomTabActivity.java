@@ -61,6 +61,7 @@ public class BottomTabActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_tab);
+
         ButterKnife.inject(this);
         initViews();
         //checkCategorySelected();
