@@ -53,7 +53,6 @@ import fm.jiecao.jcvideoplayer_lib.PlayerTwo.JCVideoPlayerStandardTwo;
  */
 public class OtherUserProfileActivity extends BaseActivity implements ViewPager.OnPageChangeListener, Animation.AnimationListener {
 
-
     @InjectView(R.id.viewPager)
     ViewPager viewPager;
     @InjectView(R.id.fab)
@@ -64,10 +63,8 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
     Toolbar toolbar;
     @InjectView(R.id.followersCountTV)
     TextView followersCountTV;
-
     @InjectView(R.id.followingCountTV)
     TextView followingCountTV;
-
     @InjectView(R.id.profileImage)
     RoundedImageView profileImage;
     @InjectView(R.id.nameInImgTV)
@@ -330,12 +327,12 @@ public class OtherUserProfileActivity extends BaseActivity implements ViewPager.
         Intent intent = new Intent(OtherUserProfileActivity.this, MyFollowingFollowersActivity.class);
         intent.putExtra(Constants.CUSTOMER_ID,otherCustomerID);
         startActivity(intent);
-        switch (view.getId()) {
+       /* switch (view.getId()) {
             case R.id.followersLL:
                 break;
             case R.id.followingLL:
                 break;
-        }
+        }*/
     }
 }
 
